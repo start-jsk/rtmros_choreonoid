@@ -1,0 +1,44 @@
+<package>
+  <name>jvrc_ros_bridge</name>
+  <version>0.0.0</version>
+  <description>JVRC programs for hrpsys ros bridge
+  </description>
+
+  <license>EPL</license>
+  <maintainer email="youhei@jsk.imi.i.u-tokyo.ac.jp">Yohei Kakiuchi</maintainer>
+
+  <!--url type="website">http://ros.org/wiki/hrpsys</url>
+  <url type="repository">https://code.google.com/p/rtm-ros-robotics</url>
+  <url type="bugtracker">https://code.google.com/p/rtm-ros-robotics/issues/list</url-->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend version_gte="1.2.12">hrpsys_ros_bridge</build_depend>
+  <build_depend>hrpsys</build_depend>
+  <build_depend version_gte="3.1.8">openhrp3</build_depend>
+  <build_depend>euscollada</build_depend>
+  <build_depend>rostest</build_depend>
+  <build_depend>euslisp</build_depend>
+  <build_depend>roseus</build_depend>
+  <build_depend>pr2eus</build_depend>
+  <build_depend>roseus_msgs</build_depend>
+  <build_depend>xacro</build_depend>
+  <build_depend>control_msgs</build_depend>
+  <build_depend>jvrc_models</build_depend>
+  <build_depend>hrpsys_ros_bridge_tutorials</build_depend>
+
+  <run_depend>hrpsys_ros_bridge</run_depend>
+  <run_depend>hrpsys</run_depend>
+  <run_depend>openhrp3</run_depend>
+  <run_depend>euscollada</run_depend>
+  <run_depend>euslisp</run_depend>
+  <run_depend>roseus</run_depend>
+  <run_depend>pr2eus</run_depend>
+  <run_depend>roseus_msgs</run_depend>
+  <run_depend>xacro</run_depend>
+  <run_depend>control_msgs</run_depend>
+  <run_depend>jvrc_models</run_depend>
+
+  <export>
+  </export>
+</package>

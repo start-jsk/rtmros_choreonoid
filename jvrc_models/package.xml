@@ -1,0 +1,20 @@
+<package>
+
+  <name>jvrc_models</name>
+  <description>
+    package for jvrc robot/environment models
+  </description>
+  <version>0.0.0</version>
+  <author>Team NEDO-JSK</author>
+  <maintainer email="yohei@jsk.imi.i.u-tokyo.ac.jp">Yohei Kakiuchi</maintainer>
+  <license>EPL</license>
+  <!--url>http://ros.org/wiki/jsk_models</url-->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+
+</package>
+
+
