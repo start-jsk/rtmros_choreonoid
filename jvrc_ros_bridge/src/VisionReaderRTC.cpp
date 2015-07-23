@@ -39,8 +39,8 @@ VisionReaderRTC::VisionReaderRTC(RTC::Manager* manager)
       //m_rfsensorIn("rfsensor", m_rfsensor),
       m_lcameraIn("lcamera", m_lcamera),
       m_rcameraIn("rcamera", m_rcamera),
-      m_lcameraIn("lcamera", m_lhcamera),
-      m_rcameraIn("rcamera", m_rhcamera),
+      m_lhcameraIn("lhcamera", m_lhcamera),
+      m_rhcameraIn("rhcamera", m_rhcamera),
       m_rangerIn("ranger", m_ranger)
 {
 
