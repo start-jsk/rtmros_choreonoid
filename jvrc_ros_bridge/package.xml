@@ -40,6 +40,7 @@
   <run_depend>xacro</run_depend>
   <run_depend>control_msgs</run_depend>
   <run_depend>jvrc_models</run_depend>
+  <run_depend>roscpp</run_depend>
 
   <export>
   </export>
