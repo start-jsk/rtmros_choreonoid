@@ -57,20 +57,16 @@ namespace cnoid
     void PublishJointState();
     bool RosParameterInitializaion();
 
-#if 0
     struct force_sensor_info {
-      physics::JointPtr joint;
+      ForceSensorPtr fsensor;
       std::string frame_id;
-      PosePtr pose;
+    };
+    struct imu_sensor_info {
+      // gyro
+      // acc
+      std::string frame_id;
     };
 
-    struct imu_sensor_info {
-      physics::LinkPtr link;
-      ImuSensorPtr sensor;
-      std::string sensor_name;
-      std::string frame_id;
-    };
-#endif
     typedef boost::shared_ptr< cnoid::Link > LinkPtr;
     BodyPtr body;
     std::vector<std::string> jointNames;
@@ -104,19 +100,12 @@ namespace cnoid
     //std::vector<double> jointDampingMax;
     //std::vector<double> jointDampingMin;
 
-    //typedef std::map< std::string, struct force_sensor_info > forceSensorMap;
-    //typedef std::map< std::string, struct imu_sensor_info > imuSensorMap;
+    typedef std::map< std::string, struct force_sensor_info > forceSensorMap;
+    typedef std::map< std::string, struct imu_sensor_info > imuSensorMap;
     std::vector<std::string> forceSensorNames;
     std::vector<std::string> imuSensorNames;
-    //forceSensorMap forceSensors;
-    DeviceList<ForceSensor> forceSensors;
-    //imuSensorMap imuSensors;
-    DeviceList<RateGyroSensor> rateSensors;
-    DeviceList<AccelSensor> accelSensors;
-
-    DeviceList<Camera> cameras;
-    DeviceList<RangeSensor> rangeSensors;
-    DeviceList<RangeCamera> rcameras;
+    forceSensorMap forceSensors;
+    imuSensorMap imuSensors;
 
     std::vector<double> initial_angle;
     std::vector<double> effortLimit;

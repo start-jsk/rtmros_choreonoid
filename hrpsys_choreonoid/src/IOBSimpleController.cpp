@@ -3,9 +3,6 @@
 */
 
 #include <algorithm> // min/max
-//#include <cnoid/BodyMotion>
-//#include <cnoid/ExecutablePath>
-//#include <cnoid/FileUtil>
 
 #include "IOBSimpleController.h"
 
@@ -54,61 +51,6 @@ bool cnoid::IOBSimpleController::initialize() {
   std::cerr << "numLinks: " << body->numLinks() << std::endl;
   std::cerr << "numDevies: " << body->numDevices() << std::endl;
 
-  forceSensors = body->devices();
-  //forceSensors.size();
-  for(DeviceList<ForceSensor> ::iterator it = forceSensors.begin();
-      it != forceSensors.end();
-      it++) {
-    std::cerr << "idx: " << (*it)->index() << std::endl;
-    std::cerr << "id: " << (*it)->id() << std::endl;
-    std::cerr << "name: " << (*it)->name() << std::endl;
-    /// it->sigStateChanged().connect(
-  }
-  rateSensors = body->devices();
-  for(DeviceList<RateGyroSensor> ::iterator it = rateSensors.begin();
-      it != rateSensors.end();
-      it++) {
-    std::cerr << "idx: " << (*it)->index() << std::endl;
-    std::cerr << "id: " << (*it)->id() << std::endl;
-    std::cerr << "name: " << (*it)->name() << std::endl;
-    /// it->sigStateChanged().connect(
-  }
-  DeviceList<AccelSensor> accelSensors = body->devices();
-  for(DeviceList<AccelSensor> ::iterator it = accelSensors.begin();
-      it != accelSensors.end();
-      it++) {
-    std::cerr << "idx: " << (*it)->index() << std::endl;
-    std::cerr << "id: " << (*it)->id() << std::endl;
-    std::cerr << "name: " << (*it)->name() << std::endl;
-    /// it->sigStateChanged().connect(
-  }
-  DeviceList<Camera> cameras = body->devices();
-  for(DeviceList<Camera> ::iterator it = cameras.begin();
-      it != cameras.end();
-      it++) {
-    std::cerr << "idx: " << (*it)->index() << std::endl;
-    std::cerr << "id: " << (*it)->id() << std::endl;
-    std::cerr << "name: " << (*it)->name() << std::endl;
-    /// it->sigStateChanged().connect(
-  }
-  DeviceList<RangeSensor> rangeSensors = body->devices();
-  for(DeviceList<RangeSensor> ::iterator it = rangeSensors.begin();
-      it != rangeSensors.end();
-      it++) {
-    std::cerr << "idx: " << (*it)->index() << std::endl;
-    std::cerr << "id: " << (*it)->id() << std::endl;
-    std::cerr << "name: " << (*it)->name() << std::endl;
-    /// it->sigStateChanged().connect(
-  }
-  DeviceList<RangeCamera> rcameras = body->devices();
-  for(DeviceList<RangeCamera> ::iterator it = rcameras.begin();
-      it != rcameras.end();
-      it++) {
-    std::cerr << "idx: " << (*it)->index() << std::endl;
-    std::cerr << "id: " << (*it)->id() << std::endl;
-    std::cerr << "name: " << (*it)->name() << std::endl;
-    /// it->sigStateChanged().connect(
-  }
   //ros::isInitialized()
   if(!RosParameterInitializaion()) {
     return false;
@@ -212,56 +154,43 @@ bool cnoid::IOBSimpleController::RosParameterInitializaion() {
         ROS_WARN("Controlled Joints: no setting exists");
       }
       if (init_ang.getType() == XmlRpc::XmlRpcValue::TypeArray) {
-	initial_angle.resize(init_ang.size());
-	ROS_INFO("read initial %d", init_ang.size());
+        initial_angle.resize(init_ang.size());
+        ROS_INFO("read initial %d", init_ang.size());
         for(int s = 0; s < init_ang.size(); s++) {
-	  double ang = init_ang[s];
-	  initial_angle[s] = ang;
+          double ang = init_ang[s];
+          initial_angle[s] = ang;
         }
       } else {
         ROS_WARN("Type mismatch: initial_angle");
       }
-#if 0
+
       // Force sensor setting
       if (fsensors.getType() == XmlRpc::XmlRpcValue::TypeArray &&
           fsensors_config.getType() == XmlRpc::XmlRpcValue::TypeStruct) {
         for(int s = 0; s < fsensors.size(); s++) {
           forceSensorNames.push_back(fsensors[s]);
         }
-        for(XmlRpc::XmlRpcValue::iterator f = fsensors_config.begin(); f != fsensors_config.end(); f++) {
+        for(XmlRpc::XmlRpcValue::iterator f = fsensors_config.begin();
+            f != fsensors_config.end(); f++) {
           std::string sensor_name = f->first;
           if (f->second.getType() == XmlRpc::XmlRpcValue::TypeStruct) {
-            std::string jn = f->second["joint_name"];
-            std::string fi = f->second["frame_id"];
-            ROS_INFO("force: %s, %s %s", sensor_name.c_str(), jn.c_str(), fi.c_str());
-
             struct force_sensor_info fsi;
-            fsi.joint = model->GetJoint(jn);
-            if(!fsi.joint) {
-              gzerr << "force torque joint (" << jn << ") not found\n";
-            } else {
-              fsi.frame_id = fi;
-              XmlRpc::XmlRpcValue trs = f->second["translation"];
-              XmlRpc::XmlRpcValue rot = f->second["rotation"];
-              fsi.pose.reset();
-              if ((trs.getType() == XmlRpc::XmlRpcValue::TypeArray) ||
-                  (rot.getType() == XmlRpc::XmlRpcValue::TypeArray)) {
-                math::Vector3 vtr;
-                math::Quaternion qt;
-                if (trs.getType() == XmlRpc::XmlRpcValue::TypeArray) {
-                  vtr.x = xmlrpc_value_as_double(trs[0]);
-                  vtr.y = xmlrpc_value_as_double(trs[1]);
-                  vtr.z = xmlrpc_value_as_double(trs[2]);
-                }
-                if (rot.getType() == XmlRpc::XmlRpcValue::TypeArray) {
-                  qt.w = xmlrpc_value_as_double(rot[0]);
-                  qt.x = xmlrpc_value_as_double(rot[1]);
-                  qt.y = xmlrpc_value_as_double(rot[2]);
-                  qt.z = xmlrpc_value_as_double(rot[3]);
-                }
-                fsi.pose = PosePtr(new math::Pose (vtr, qt));
-                forceSensors[sensor_name] = fsi;
+            std::string fi = f->second["frame_id"];
+            fsi.frame_id = fi;
+            DeviceList<ForceSensor> fs_lst = body->devices();
+            for(DeviceList<ForceSensor> ::iterator it = fs_lst.begin();
+                it != fs_lst.end();  it++) {
+              // std::cerr << "name: " << (*it)->name() << std::endl;
+              if((*it)->name() == sensor_name) {
+                fsi.fsensor = *it;
+                break;
               }
+            }
+            if(!!fsi.fsensor){
+              forceSensors[sensor_name] = fsi;
+            } else {
+              ROS_ERROR("Force-Torque sensor: %s not found", sensor_name.c_str());
+              continue;
             }
           } else {
             ROS_ERROR("Force-Torque sensor: %s has invalid configuration", sensor_name.c_str());
@@ -278,7 +207,7 @@ bool cnoid::IOBSimpleController::RosParameterInitializaion() {
       } else {
         ROS_WARN("Force-Torque sensor: no setting exists");
       } // Force sensor setting
-#endif
+
 #if 0
       // IMU sensor setting
       if (imusensors.getType() == XmlRpc::XmlRpcValue::TypeArray &&
@@ -670,7 +599,6 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
   }
   effort_average_cnt = (effort_average_cnt+1) % effort_average_window_size;
 
-#if 0
   // enqueue force sensor values
   robotState.sensors.resize(forceSensorNames.size());
   for (unsigned int i = 0; i < forceSensorNames.size(); i++) {
@@ -678,35 +606,17 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
     boost::shared_ptr<std::vector<boost::shared_ptr<geometry_msgs::WrenchStamped> > > forceValQueue = forceValQueueMap.find(forceSensorNames[i])->second;
     boost::shared_ptr<geometry_msgs::WrenchStamped> forceVal = forceValQueue->at(force_sensor_average_cnt);
     if(it != forceSensors.end()) {
-      physics::JointPtr jt = it->second.joint;
-      if (!!jt) {
-        physics::JointWrench wrench = jt->GetForceTorque(0u);
-        robotState.sensors[i].name = forceSensorNames[i];
-        robotState.sensors[i].frame_id = it->second.frame_id;
-        if (!!it->second.pose) {
-          // convert force
-          math::Vector3 force_trans = it->second.pose->rot * wrench.body2Force;
-          math::Vector3 torque_trans = it->second.pose->rot * wrench.body2Torque;
-          // rotate force
-          forceVal->wrench.force.x = force_trans.x;
-          forceVal->wrench.force.y = force_trans.y;
-          forceVal->wrench.force.z = force_trans.z;
-          // rotate torque + additional torque
-          torque_trans += it->second.pose->pos.Cross(force_trans);
-          forceVal->wrench.torque.x = torque_trans.x;
-          forceVal->wrench.torque.y = torque_trans.y;
-          forceVal->wrench.torque.z = torque_trans.z;
-        } else {
-          forceVal->wrench.force.x = wrench.body2Force.x;
-          forceVal->wrench.force.y = wrench.body2Force.y;
-          forceVal->wrench.force.z = wrench.body2Force.z;
-          forceVal->wrench.torque.x = wrench.body2Torque.x;
-          forceVal->wrench.torque.y = wrench.body2Torque.y;
-          forceVal->wrench.torque.z = wrench.body2Torque.z;
-        }
-      } else {
-        ROS_WARN("[ForceSensorPlugin] joint not found for %s", forceSensorNames[i].c_str());
-      }
+      robotState.sensors[i].name = forceSensorNames[i];
+      robotState.sensors[i].frame_id = it->second.frame_id;
+      cnoid::Vector6 wrench = it->second.fsensor->F();
+      forceVal->wrench.force.x = wrench[0];
+      forceVal->wrench.force.y = wrench[1];
+      forceVal->wrench.force.z = wrench[2];
+      forceVal->wrench.torque.x = wrench[3];
+      forceVal->wrench.torque.y = wrench[4];
+      forceVal->wrench.torque.z = wrench[5];
+    } else {
+      ROS_ERROR("");
     }
     robotState.sensors[i].force.x = 0;
     robotState.sensors[i].force.y = 0;
@@ -735,7 +645,6 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
     }
   }
   force_sensor_average_cnt = (force_sensor_average_cnt+1) % force_sensor_average_window_size;
-#endif
 
 #if 0
   // imu sensors
@@ -767,11 +676,11 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
     for (unsigned int i = 0; i < joints.size(); ++i) {
       robotState.ref_position[i] = jointCommand.position[i];
       robotState.ref_velocity[i] = jointCommand.velocity[i];
-#if 1 //DEBUG
+#if 0 //DEBUG
       ROS_INFO("%d %f %f %f %f %f %f",
-	       i, robotState.position[i], robotState.velocity[i],
-	       joints[i]->q(), joints[i]->dq(),
-	       robotState.ref_position[i], robotState.ref_velocity[i]);
+               i, robotState.position[i], robotState.velocity[i],
+               joints[i]->q(), joints[i]->dq(),
+               robotState.ref_position[i], robotState.ref_velocity[i]);
 #endif
     }
   }
@@ -833,9 +742,9 @@ void cnoid::IOBSimpleController::UpdatePIDControl(double _dt) {
 
     // apply force to joint
     joints[i]->u() = forceClamped;
-#if 1 //DEBUG
+#if 0 //DEBUG
     ROS_INFO("%d u: %f %f %f %f / %f %f %f ",i, forceClamped, errorTerms[i].q_p, errorTerms[i].d_q_p_dt, errorTerms[i].qd_p,
-	     positionTarget, joints[i]->q(), joints[i]->dq());
+             positionTarget, joints[i]->q(), joints[i]->dq());
 #endif
     // fill in jointState efforts
     //robotState.effort[i] = forceClamped;
