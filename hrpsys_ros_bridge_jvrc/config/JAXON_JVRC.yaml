@@ -7,6 +7,10 @@ hrpsys_gazebo_configuration:
   robotname: JAXON_JVRC
 # joint_id (order) conversion from gazebo to hrpsys, joint_id_list[gazebo_id] := hrpsys_id
   joint_id_list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  initial_angle: [ 0.000053894, -0.003093245, -0.262418842,  0.681091074, -0.418672232,  0.003093245,  0.000053894, -0.003093245, -0.262400527,  0.681084445, 
+  -0.418683919,  0.003093245,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.523598776, -0.349065850, 
+  -0.087266463, -1.396263402,  0.000000000,  0.000000000, -0.349065850,  0.000000000,  0.523598776,  0.349065850,  0.087266463, -1.396263402, 
+   0.000000000,  0.000000000, -0.349065850, 0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
 # joints list used in gazebo, sizeof(joint_id_list) == sizeof(joints)
   joints:
     - RLEG_JOINT0
@@ -85,7 +89,7 @@ hrpsys_gazebo_configuration:
     LARM_F_JOINT1: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
     RARM_F_JOINT0: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
     RARM_F_JOINT1: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
-    RANGE_JOINT:   {p:  0, d:    2, i: 0.0, i_clamp: 0.0}
+    RANGE_JOINT:   {p:  20, d:   0.2, i: 0.0, i_clamp: 0.0}
   force_torque_sensors:
     - rfsensor
     - lfsensor

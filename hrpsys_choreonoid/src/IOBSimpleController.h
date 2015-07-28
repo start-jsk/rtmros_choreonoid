@@ -118,6 +118,7 @@ namespace cnoid
     DeviceList<RangeSensor> rangeSensors;
     DeviceList<RangeCamera> rcameras;
 
+    std::vector<double> initial_angle;
     std::vector<double> effortLimit;
 
     class ErrorTerms {

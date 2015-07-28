@@ -180,7 +180,7 @@ DEF JAXON_JVRC Humanoid {
     DEF WAIST Joint {
       jointType "free"
       jointAxis 0 0 0
-      translation 0 0 1.0189
+      translation 0 0 1.0225
       children [
         DEF BODY Segment {
           #mass 13.417

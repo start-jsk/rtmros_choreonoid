@@ -189,6 +189,7 @@ bool cnoid::IOBSimpleController::RosParameterInitializaion() {
     if (param_val.getType() ==  XmlRpc::XmlRpcValue::TypeStruct) {
       std::string rname = param_val["robotname"];
       XmlRpc::XmlRpcValue joint_lst = param_val["joints"];
+      XmlRpc::XmlRpcValue init_ang = param_val["initial_angle"];
       XmlRpc::XmlRpcValue fsensors = param_val["force_torque_sensors"];
       XmlRpc::XmlRpcValue fsensors_config = param_val["force_torque_sensors_config"];
       XmlRpc::XmlRpcValue imusensors = param_val["imu_sensors"];
@@ -209,6 +210,16 @@ bool cnoid::IOBSimpleController::RosParameterInitializaion() {
         }
       } else {
         ROS_WARN("Controlled Joints: no setting exists");
+      }
+      if (init_ang.getType() == XmlRpc::XmlRpcValue::TypeArray) {
+	initial_angle.resize(init_ang.size());
+	ROS_INFO("read initial %d", init_ang.size());
+        for(int s = 0; s < init_ang.size(); s++) {
+	  double ang = init_ang[s];
+	  initial_angle[s] = ang;
+        }
+      } else {
+        ROS_WARN("Type mismatch: initial_angle");
       }
 #if 0
       // Force sensor setting
@@ -431,6 +442,12 @@ void cnoid::IOBSimpleController::ZeroJointCommand() {
     robotState.i_effort_min[i] = 0;
     robotState.i_effort_max[i] = 0;
   }
+  ROS_INFO("init ang %d %d", jointCommand.position.size(), initial_angle.size());
+  if (jointCommand.position.size() == initial_angle.size()) {
+    for (unsigned i = 0; i < jointNames.size(); ++i) {
+      jointCommand.position[i] = initial_angle[i];
+    }
+  }
   jointCommand.desired_controller_period_ms = 0;
 }
 
@@ -591,10 +608,8 @@ void cnoid::IOBSimpleController::UpdateStates() {
 
   if (curTime > lastControllerUpdateTime) {
     // gather robot state data
-    //std::cerr << "a" << std::endl;
     GetRobotStates(curTime);
 
-    //std::cerr << "b" << std::endl;
     publish_count++;
     if(publish_count % publish_step == 0) {
       // publish robot states
@@ -602,7 +617,6 @@ void cnoid::IOBSimpleController::UpdateStates() {
       if (publish_joint_state) PublishJointState();
     }
 
-    //std::cerr << "c" << std::endl;
     if (use_loose_synchronized) { // loose synchronization
       ros::Time rnow = curTime;
       int counter = 0;
@@ -620,7 +634,7 @@ void cnoid::IOBSimpleController::UpdateStates() {
       //  ROS_WARN("%f recover %f", rnow.toSec(), jointCommand.header.stamp.toSec());
       //}
     }
-    //std::cerr << "d" << std::endl;
+
     {
       boost::mutex::scoped_lock lock(mutex);
       UpdatePIDControl((curTime - lastControllerUpdateTime).toSec());
@@ -753,10 +767,12 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
     for (unsigned int i = 0; i < joints.size(); ++i) {
       robotState.ref_position[i] = jointCommand.position[i];
       robotState.ref_velocity[i] = jointCommand.velocity[i];
-      //ROS_INFO("%d %f %f %f %f %f %f",
-      //i, robotState.position[i], robotState.velocity[i],
-      //joints[i]->q(), joints[i]->dq(),
-      //robotState.ref_position[i], robotState.ref_velocity[i]);
+#if 1 //DEBUG
+      ROS_INFO("%d %f %f %f %f %f %f",
+	       i, robotState.position[i], robotState.velocity[i],
+	       joints[i]->q(), joints[i]->dq(),
+	       robotState.ref_position[i], robotState.ref_velocity[i]);
+#endif
     }
   }
 }
@@ -817,8 +833,10 @@ void cnoid::IOBSimpleController::UpdatePIDControl(double _dt) {
 
     // apply force to joint
     joints[i]->u() = forceClamped;
-    //ROS_INFO("%d u: %f %f %f %f / %f %f %f ",i, forceClamped, errorTerms[i].q_p, errorTerms[i].d_q_p_dt, errorTerms[i].qd_p,
-    //positionTarget, joints[i]->q(), joints[i]->dq());
+#if 1 //DEBUG
+    ROS_INFO("%d u: %f %f %f %f / %f %f %f ",i, forceClamped, errorTerms[i].q_p, errorTerms[i].d_q_p_dt, errorTerms[i].qd_p,
+	     positionTarget, joints[i]->q(), joints[i]->dq());
+#endif
     // fill in jointState efforts
     //robotState.effort[i] = forceClamped;
   }
