@@ -6,7 +6,7 @@ hrpsys_gazebo_configuration:
 # name of robot (using for namespace)
   robotname: JAXON_JVRC
 # joint_id (order) conversion from gazebo to hrpsys, joint_id_list[gazebo_id] := hrpsys_id
-  joint_id_list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  joint_id_list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
   initial_angle: [ 0.000053894, -0.003093245, -0.262418842,  0.681091074, -0.418672232,  0.003093245,  0.000053894, -0.003093245, -0.262400527,  0.681084445, 
   -0.418683919,  0.003093245,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.523598776, -0.349065850, 
   -0.087266463, -1.396263402,  0.000000000,  0.000000000, -0.349065850,  0.000000000,  0.523598776,  0.349065850,  0.087266463, -1.396263402, 
@@ -52,43 +52,43 @@ hrpsys_gazebo_configuration:
     - RARM_F_JOINT1
     - RANGE_JOINT
   gains:
-    CHEST_JOINT0: {p: 2000, d:  20.0, i: 0.0, i_clamp: 0.0}
-    CHEST_JOINT1: {p: 2000, d:  20.0, i: 0.0, i_clamp: 0.0}
-    CHEST_JOINT2: {p: 2000, d:  20.0, i: 0.0, i_clamp: 0.0}
-    HEAD_JOINT0:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    HEAD_JOINT1:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT0:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT1:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT2:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT3:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT4:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT5:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT6:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RARM_JOINT7:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT0:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT1:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT2:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT3:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT4:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT5:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT6:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_JOINT7:  {p:  200, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RLEG_JOINT0:  {p: 1500, d:   0.7, i: 0.0, i_clamp: 0.0}
-    RLEG_JOINT1:  {p: 2000, d:   2.0, i: 0.0, i_clamp: 0.0}
-    RLEG_JOINT2:  {p: 3800, d:   4.0, i: 0.0, i_clamp: 0.0}
-    RLEG_JOINT3:  {p: 3400, d:   3.0, i: 0.0, i_clamp: 0.0}
-    RLEG_JOINT4:  {p: 2800, d:   3.0, i: 0.0, i_clamp: 0.0}
-    RLEG_JOINT5:  {p: 2000, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LLEG_JOINT0:  {p: 1500, d:   0.7, i: 0.0, i_clamp: 0.0}
-    LLEG_JOINT1:  {p: 2000, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LLEG_JOINT2:  {p: 3800, d:   4.0, i: 0.0, i_clamp: 0.0}
-    LLEG_JOINT3:  {p: 3400, d:   3.0, i: 0.0, i_clamp: 0.0}
-    LLEG_JOINT4:  {p: 2800, d:   3.0, i: 0.0, i_clamp: 0.0}
-    LLEG_JOINT5:  {p: 2000, d:   2.0, i: 0.0, i_clamp: 0.0}
-    LARM_F_JOINT0: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
-    LARM_F_JOINT1: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
-    RARM_F_JOINT0: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
-    RARM_F_JOINT1: {p:  40, d:   0.2, i: 0.0, i_clamp: 0.0}
+    CHEST_JOINT0: {p: 8000, d: 100.0, i: 0.0, i_clamp: 0.0}
+    CHEST_JOINT1: {p: 8000, d: 100.0, i: 0.0, i_clamp: 0.0}
+    CHEST_JOINT2: {p: 8000, d: 100.0, i: 0.0, i_clamp: 0.0}
+    HEAD_JOINT0:  {p: 1000, d:  30.0, i: 0.0, i_clamp: 0.0}
+    HEAD_JOINT1:  {p: 1000, d:  30.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT0:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT1:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT2:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT3:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT4:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT5:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT6:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RARM_JOINT7:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT0:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT1:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT2:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT3:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT4:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT5:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT6:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    LARM_JOINT7:  {p: 2000, d:  42.0, i: 0.0, i_clamp: 0.0}
+    RLEG_JOINT0:  {p: 3000, d:  20.0, i: 0.0, i_clamp: 0.0}
+    RLEG_JOINT1:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    RLEG_JOINT2:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    RLEG_JOINT3:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    RLEG_JOINT4:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    RLEG_JOINT5:  {p: 4000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    LLEG_JOINT0:  {p: 3000, d:  20.0, i: 0.0, i_clamp: 0.0}
+    LLEG_JOINT1:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    LLEG_JOINT2:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    LLEG_JOINT3:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    LLEG_JOINT4:  {p: 6000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    LLEG_JOINT5:  {p: 4000, d:  60.0, i: 0.0, i_clamp: 0.0}
+    LARM_F_JOINT0: {p:  40, d:   1.0, i: 0.0, i_clamp: 0.0}
+    LARM_F_JOINT1: {p:  40, d:   1.0, i: 0.0, i_clamp: 0.0}
+    RARM_F_JOINT0: {p:  40, d:   1.0, i: 0.0, i_clamp: 0.0}
+    RARM_F_JOINT1: {p:  40, d:   1.0, i: 0.0, i_clamp: 0.0}
     RANGE_JOINT:   {p:  20, d:   0.2, i: 0.0, i_clamp: 0.0}
   force_torque_sensors:
     - rfsensor
