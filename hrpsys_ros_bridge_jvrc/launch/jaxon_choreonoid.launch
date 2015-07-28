@@ -1,0 +1,7 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+  <rosparam command="load" ns="JAXON_JVRC"
+	    file="$(find hrpsys_ros_bridge_jvrc)/config/JAXON_JVRC.yaml" />
+  <node pkg="hrpsys_choreonoid" type="run_choreonoid.sh" name="choreonoid"
+	output="screen" args="$(find hrpsys_ros_bridge_jvrc)/config/jaxon.cnoid"/>
+</launch>
