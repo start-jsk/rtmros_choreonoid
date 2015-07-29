@@ -1,3 +1,4 @@
 #!/bin/bash
 
-choreonoid $@
+## echo "$ choreonoid $@" 1>&2
+choreonoid $1

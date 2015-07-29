@@ -29,4 +29,14 @@ if(${cnoid-plugin_FOUND})
   add_library(IOBSimpleController src/IOBSimpleController.cpp)
   target_link_libraries(IOBSimpleController ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES} hrpsysBaseStub)
   set_target_properties(IOBSimpleController PROPERTIES COMPILE_FLAG "-fPIC" PREFIX "" SUFFIX ".so" LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
+
+  add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/simplecontroller/IOBSimpleController.so
+    COMMAND sudo cp ${PROJECT_SOURCE_DIR}/IOBSimpleController.so /usr/lib/choreonoid-1.5/simplecontroller/
+    DEPENDS IOBSimpleController)
+  add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/rtc/VisionReaderRTC.so
+    COMMAND sudo cp ${PROJECT_SOURCE_DIR}/VisionReaderRTC.so /usr/lib/choreonoid-1.5/rtc/
+    DEPENDS VisionReaderRTC)
+
+  add_custom_target(copy_to_lib ALL DEPENDS /usr/lib/choreonoid-1.5/simplecontroller/IOBSimpleController.so /usr/lib/choreonoid-1.5/rtc/VisionReaderRTC.so)
+
 endif()

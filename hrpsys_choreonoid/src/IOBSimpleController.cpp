@@ -371,7 +371,7 @@ void cnoid::IOBSimpleController::ZeroJointCommand() {
     robotState.i_effort_min[i] = 0;
     robotState.i_effort_max[i] = 0;
   }
-  ROS_INFO("init ang %d %d", jointCommand.position.size(), initial_angle.size());
+  //ROS_INFO("init ang %d %d", jointCommand.position.size(), initial_angle.size());
   if (jointCommand.position.size() == initial_angle.size()) {
     for (unsigned i = 0; i < jointNames.size(); ++i) {
       jointCommand.position[i] = initial_angle[i];
@@ -616,7 +616,7 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
       forceVal->wrench.torque.y = wrench[4];
       forceVal->wrench.torque.z = wrench[5];
     } else {
-      ROS_ERROR("");
+      ROS_ERROR("force sensor error");
     }
     robotState.sensors[i].force.x = 0;
     robotState.sensors[i].force.y = 0;
