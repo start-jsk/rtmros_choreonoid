@@ -208,6 +208,32 @@ bool cnoid::IOBSimpleController::RosParameterInitializaion() {
         ROS_WARN("Force-Torque sensor: no setting exists");
       } // Force sensor setting
 
+      try { // just using first gyro/accel sensor for IMU
+        struct imu_sensor_info msi;
+        {
+          DeviceList<RateGyroSensor> slst = body->devices();
+          if (slst.size() == 0) {
+            ROS_ERROR("rate sensor not found!");
+            throw;
+          }
+          msi.rateSensor = slst[0];
+          ROS_INFO("Use RateGyroSensor / id:%d name:%s", slst[0]->id(), slst[0]->name().c_str());
+        }
+        {
+          DeviceList<AccelSensor> slst = body->devices();
+          if (slst.size() == 0) {
+            ROS_ERROR("accel sensor not found!");
+            throw;
+          }
+          msi.accelSensor = slst[0];
+          ROS_INFO("Use AccelSensor / id:%d name:%s", slst[0]->id(), slst[0]->name().c_str());
+        }
+        std::string sensor_name = "imusensor";
+        imuSensorNames.push_back(sensor_name);
+        imuSensors[sensor_name] = msi;
+      } catch (...) {
+
+      }
 #if 0
       // IMU sensor setting
       if (imusensors.getType() == XmlRpc::XmlRpcValue::TypeArray &&
@@ -646,31 +672,31 @@ void cnoid::IOBSimpleController::GetRobotStates(const ros::Time &_curTime){
   }
   force_sensor_average_cnt = (force_sensor_average_cnt+1) % force_sensor_average_window_size;
 
-#if 0
   // imu sensors
   robotState.Imus.resize(imuSensorNames.size());
   for (unsigned int i = 0; i < imuSensorNames.size(); i++) {
     imuSensorMap::iterator it = imuSensors.find(imuSensorNames[i]);
-    ImuSensorPtr sp = it->second.sensor;
-    if(!!sp) {
+    if(it != imuSensors.end() &&
+       !!it->second.accelSensor &&
+       !!it->second.rateSensor) {
       robotState.Imus[i].name = imuSensorNames[i];
       robotState.Imus[i].frame_id = it->second.frame_id;
-      math::Vector3 wLocal = sp->GetAngularVelocity();
-      math::Vector3 accel = sp->GetLinearAcceleration();
-      math::Quaternion imuRot = sp->GetOrientation();
-      robotState.Imus[i].angular_velocity.x = wLocal.x;
-      robotState.Imus[i].angular_velocity.y = wLocal.y;
-      robotState.Imus[i].angular_velocity.z = wLocal.z;
-      robotState.Imus[i].linear_acceleration.x = accel.x;
-      robotState.Imus[i].linear_acceleration.y = accel.y;
-      robotState.Imus[i].linear_acceleration.z = accel.z;
-      robotState.Imus[i].orientation.x = imuRot.x;
-      robotState.Imus[i].orientation.y = imuRot.y;
-      robotState.Imus[i].orientation.z = imuRot.z;
-      robotState.Imus[i].orientation.w = imuRot.w;
+
+      cnoid::Vector3 acc = it->second.accelSensor->dv();
+      cnoid::Vector3 rate = it->second.rateSensor->w();
+      robotState.Imus[i].angular_velocity.x = rate[0];
+      robotState.Imus[i].angular_velocity.y = rate[1];
+      robotState.Imus[i].angular_velocity.z = rate[2];
+      robotState.Imus[i].linear_acceleration.x = acc[0];
+      robotState.Imus[i].linear_acceleration.y = acc[1];
+      robotState.Imus[i].linear_acceleration.z = acc[2];
+      //robotState.Imus[i].orientation.x = imuRot.x;
+      //robotState.Imus[i].orientation.y = imuRot.y;
+      //robotState.Imus[i].orientation.z = imuRot.z;
+      //robotState.Imus[i].orientation.w = imuRot.w;
     }
   }
-#endif
+
   {
     boost::mutex::scoped_lock lock(mutex);
     for (unsigned int i = 0; i < joints.size(); ++i) {
