@@ -62,9 +62,10 @@ namespace cnoid
       std::string frame_id;
     };
     struct imu_sensor_info {
-      // gyro
-      // acc
+      RateGyroSensorPtr rateSensor;
+      AccelSensorPtr accelSensor;
       std::string frame_id;
+      std::string name;
     };
 
     typedef boost::shared_ptr< cnoid::Link > LinkPtr;
