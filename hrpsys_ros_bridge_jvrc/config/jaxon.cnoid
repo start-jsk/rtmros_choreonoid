@@ -21,26 +21,26 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 0, 0, 0.977 ]
+            rootPosition: [ -0.0107771796, 0.000142625924, 0.974898792 ]
             rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+              0.999652347, -0.000195960995, -0.0263656269, 
+              0.000197321547, 0.999999979, 4.90015642e-05, 
+              0.0263656168, -5.4187035e-05, 0.999652365 ]
             jointPositions: [ 
- 0.000053894, -0.003093245, -0.262418842,  0.681091074, -0.418672232,  0.003093245,  0.000053894, -0.003093245, -0.262400527,  0.681084445, 
--0.418683919,  0.003093245,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.523598776, -0.349065850, 
--0.087266463, -1.396263402,  0.000000000,  0.000000000, -0.349065850,  0.000000000,  0.523598776,  0.349065850,  0.087266463, -1.396263402, 
- 0.000000000,  0.000000000, -0.349065850, 0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+               0.000520, -0.003147, -0.254972,  0.698226, -0.416976,  0.002721, -0.000399, -0.003274, -0.255063,  0.698434, 
+              -0.417245,  0.003842, -0.000068, -0.007751, -0.000001,  0.000006,  0.002000, -0.000395,  0.524947, -0.344415, 
+              -0.084533, -1.390073,  0.000164,  0.000677, -0.347735,  0.000395,  0.524947,  0.344418,  0.084535, -1.390073, 
+              -0.000163, -0.000677, -0.347735,  0.000798,  0.001595,  0.000799,  0.001596,  0.000000 ]
             initialRootPosition: [ 0, 0, 0.977 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
             initialJointPositions: [ 
- 0.000053894, -0.003093245, -0.262418842,  0.681091074, -0.418672232,  0.003093245,  0.000053894, -0.003093245, -0.262400527,  0.681084445, 
--0.418683919,  0.003093245,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.000000000,  0.523598776, -0.349065850, 
--0.087266463, -1.396263402,  0.000000000,  0.000000000, -0.349065850,  0.000000000,  0.523598776,  0.349065850,  0.087266463, -1.396263402, 
- 0.000000000,  0.000000000, -0.349065850, 0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 0.000000]
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
@@ -56,8 +56,21 @@ items:
                 controller: "IOBSimpleController"
                 reloading: true
                 inputLinkPositions: false
+            - 
+              id: 4
+              name: "BodyRTC"
+              plugin: OpenRTM
+              class: BodyRTCItem
+              data: 
+                isImmediateMode: true
+                moduleName: ""
+                confFileName: "SensorReaderRTC.conf"
+                configurationMode: Use Configuration File
+                AutoConnect: false
+                InstanceName: JAXON_JVRC
+                bodyPeriodicRate: 0
         - 
-          id: 4
+          id: 5
           name: "Floor"
           plugin: Body
           class: BodyItem
@@ -80,7 +93,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 5
+          id: 6
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -107,6 +120,87 @@ items:
             contactCorrectionVelocityRatio: 1
             kinematicWalking: false
             2Dmode: false
+          children: 
+            - 
+              id: 7
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ HEAD_LEFT_CAMERA ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+            - 
+              id: 8
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ CHEST_CAMERA ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+            - 
+              id: 9
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ HEAD_RANGE ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+            - 
+              id: 10
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ LARM_CAMERA ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
 views: 
   - 
     id: 0
@@ -119,9 +213,9 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 3 ]
-      checked: [ 2, 3, 4, 5 ]
-      expanded: [ 1, 2 ]
+      selected: [ 1 ]
+      checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+      expanded: [ 1, 2, 3, 6, 7 ]
   - 
     id: 2
     plugin: Base
@@ -201,7 +295,7 @@ views:
       spinBox: true
       slider: true
       labelOnLeft: true
-      currentBodyItem: 2
+      currentBodyItem: 5
   - 
     id: 6
     plugin: Body
@@ -209,7 +303,7 @@ views:
     mounted: true
     state: 
       listingMode: "Link List"
-      currentBodyItem: 2
+      currentBodyItem: 5
   - 
     id: 7
     plugin: Python
@@ -218,11 +312,11 @@ views:
 toolbars: 
   "TimeBar": 
     minTime: 0
-    maxTime: 30
+    maxTime: 324.346
     frameRate: 1000
     playbackFrameRate: 50
     idleLoopDrivenMode: false
-    currentTime: 0
+    currentTime: 324.346
     speedScale: 1
     syncToOngoingUpdates: true
     autoExpansion: true
@@ -235,7 +329,7 @@ toolbars:
     penetrationBlockDepth: 0.0005
     lazyCollisionDetectionMode: true
   "BodyBar": 
-    current: 2
+    current: 5
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
@@ -281,7 +375,7 @@ Body:
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 4
+        bodyItem: 5
         showCenterOfMass: false
         showPpcom: false
         showZmp: false

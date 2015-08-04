@@ -1,0 +1,24 @@
+<launch>
+  <arg name="OUTPUT" default="screen"/>
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport" default="2809" />
+  <arg name="periodic_rate" default="2000" />
+
+  <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
+
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+
+  <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
+        type="rtmlaunch.py"
+        args="$(find hrpsys_ros_bridge_jvrc)/launch/vision_connect.launch"
+        output="$(arg OUTPUT)"/>
+
+  <node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <rtconnect from="JAXON_JVRC.rtc:CHEST_CAMERA"
+               to="CameraImageViewer0.rtc:imageIn" />
+    <rtactivate component="CameraImageViewer0.rtc" />
+  </node>
+</launch>
