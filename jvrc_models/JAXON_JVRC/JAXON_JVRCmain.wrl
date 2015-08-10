@@ -226,7 +226,7 @@ DEF JAXON_JVRC Humanoid {
           climit [100.0]
           gearRatio   384
           torqueConst 0.0205
-          rotorInertia 3.5e-6
+          rotorInertia 7.0e-6
           children [
             DEF CHEST_LINK0 Segment {
               mass 0.866
@@ -259,7 +259,7 @@ DEF JAXON_JVRC Humanoid {
               climit [100.0]
               gearRatio   384
               torqueConst 0.0205
-              rotorInertia 3.5e-6
+              rotorInertia 7.0e-6
               children [
                 DEF CHEST_LINK1 Segment {
                   #mass 18.768
@@ -295,7 +295,7 @@ DEF JAXON_JVRC Humanoid {
                   climit [50.0]
                   gearRatio   384
                   torqueConst 0.0205
-                  rotorInertia 3.5e-6
+                  rotorInertia 7.0e-6
                   children [
                     DEF CHEST_LINK2 Segment {
                       #mass 33.649
@@ -342,7 +342,7 @@ DEF JAXON_JVRC Humanoid {
                       climit [50.0]
                       gearRatio   460.8
                       torqueConst 0.0205
-                      rotorInertia 3.5e-6
+                      rotorInertia 7.0e-6
                       children [
                         DEF HEAD_LINK0 Segment {
                           mass 1.086
@@ -371,7 +371,7 @@ DEF JAXON_JVRC Humanoid {
                           climit [50.0]
                           gearRatio   460.8
                           torqueConst 0.0205
-                          rotorInertia 3.5e-6
+                          rotorInertia 7.0e-6
                           children [
                             DEF HEAD_LINK1 Segment {
                               #mass 0.5
@@ -418,7 +418,7 @@ DEF JAXON_JVRC Humanoid {
                               lvlimit -4
                               climit [50.0]
                               gearRatio 1
-                              rotorInertia 0.2
+                              rotorInertia 0.8
                               children [
                                 DEF RANGE_LINK Segment {
                                   mass 0.4
@@ -462,7 +462,7 @@ DEF JAXON_JVRC Humanoid {
                       climit [50.0]
                       gearRatio   460.8
                       torqueConst 0.0205
-                      rotorInertia 3.5e-6
+                      rotorInertia 7.0e-6
                       children [
                         DEF LARM_LINK0 Segment {
                           mass 1.048
@@ -484,7 +484,7 @@ DEF JAXON_JVRC Humanoid {
                           climit [50.0]
                           gearRatio   460.8
                           torqueConst 0.0205
-                          rotorInertia 3.5e-6
+                          rotorInertia 7.0e-6
                           children [
                             DEF LARM_LINK1 Segment {
                               mass 0.298
@@ -513,7 +513,7 @@ DEF JAXON_JVRC Humanoid {
                               climit [50.0]
                               gearRatio   460.8
                               torqueConst 0.0205
-                              rotorInertia 3.5e-6
+                              rotorInertia 7.0e-6
                               children [
                                 DEF LARM_LINK2 Segment {
                                   mass 2.168
@@ -535,7 +535,7 @@ DEF JAXON_JVRC Humanoid {
                                   climit [50.0]
                                   gearRatio   460.8
                                   torqueConst 0.0205
-                                  rotorInertia 3.5e-6
+                                  rotorInertia 7.0e-6
                                   children [
                                     DEF LARM_LINK3 Segment {
                                       mass 1.315
@@ -564,7 +564,7 @@ DEF JAXON_JVRC Humanoid {
                                       climit [50.0]
                                       gearRatio   460.8
                                       torqueConst 0.0205
-                                      rotorInertia 3.5e-6
+                                      rotorInertia 7.0e-6
                                       children [
                                         DEF LARM_LINK4 Segment {
                                           mass 1.641
@@ -586,7 +586,7 @@ DEF JAXON_JVRC Humanoid {
                                           climit [50.0]
                                           gearRatio   460.8
                                           torqueConst 0.0205
-                                          rotorInertia 3.5e-6
+                                          rotorInertia 7.0e-6
                                           children [
                                             DEF LARM_LINK5 Segment {
                                               mass 1.305
@@ -615,7 +615,7 @@ DEF JAXON_JVRC Humanoid {
                                               climit [50.0]
                                               gearRatio   460.8
                                               torqueConst 0.0205
-                                              rotorInertia 3.5e-6
+                                              rotorInertia 7.0e-6
                                               children [
                                                 DEF LARM_LINK6 Segment {
                                                   mass 0.505
@@ -647,7 +647,7 @@ DEF JAXON_JVRC Humanoid {
                                                   climit [50.0]
                                                   gearRatio   463.68
                                                   torqueConst 0.0205
-                                                  rotorInertia 3.5e-6
+                                                  rotorInertia 7.0e-6
                                                   children [
                                                     DEF LARM_LINK7 Segment {
                                                       #mass 0.5
@@ -689,7 +689,7 @@ DEF JAXON_JVRC Humanoid {
                                                       lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
-                                                      rotorInertia 0.2
+                                                      rotorInertia 0.4
                                                       children [
                                                         DEF LARM_FINGER0 Segment {
                                                           mass 0.15
@@ -714,7 +714,7 @@ DEF JAXON_JVRC Humanoid {
                                                       lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
-                                                      rotorInertia 0.2
+                                                      rotorInertia 0.4
                                                       children [
                                                         DEF LARM_FINGER1 Segment {
                                                           mass 0.3
@@ -761,7 +761,7 @@ DEF JAXON_JVRC Humanoid {
                       climit [50.0]
                       gearRatio   460.8
                       torqueConst 0.0205
-                      rotorInertia 3.5e-6
+                      rotorInertia 7.0e-6
                       children [
                         DEF RARM_LINK0 Segment {
                           mass 1.048
@@ -783,7 +783,7 @@ DEF JAXON_JVRC Humanoid {
                           climit [50.0]
                           gearRatio   460.8
                           torqueConst 0.0205
-                          rotorInertia 3.5e-6
+                          rotorInertia 7.0e-6
                           children [
                             DEF RARM_LINK1 Segment {
                               mass 0.298
@@ -812,7 +812,7 @@ DEF JAXON_JVRC Humanoid {
                               climit [50.0]
                               gearRatio   460.8
                               torqueConst 0.0205
-                              rotorInertia 3.5e-6
+                              rotorInertia 7.0e-6
                               children [
                                 DEF RARM_LINK2 Segment {
                                   mass 2.168
@@ -834,7 +834,7 @@ DEF JAXON_JVRC Humanoid {
                                   climit [50.0]
                                   gearRatio   460.8
                                   torqueConst 0.0205
-                                  rotorInertia 3.5e-6
+                                  rotorInertia 7.0e-6
                                   children [
                                     DEF RARM_LINK3 Segment {
                                       mass 1.315
@@ -863,7 +863,7 @@ DEF JAXON_JVRC Humanoid {
                                       climit [50.0]
                                       gearRatio   460.8
                                       torqueConst 0.0205
-                                      rotorInertia 3.5e-6
+                                      rotorInertia 7.0e-6
                                       children [
                                         DEF RARM_LINK4 Segment {
                                           mass 1.641
@@ -885,7 +885,7 @@ DEF JAXON_JVRC Humanoid {
                                           climit [50.0]
                                           gearRatio   460.8
                                           torqueConst 0.0205
-                                          rotorInertia 3.5e-6
+                                          rotorInertia 7.0e-6
                                           children [
                                             DEF RARM_LINK5 Segment {
                                               mass 1.305
@@ -914,7 +914,7 @@ DEF JAXON_JVRC Humanoid {
                                               climit [50.0]
                                               gearRatio   460.8
                                               torqueConst 0.0205
-                                              rotorInertia 3.5e-6
+                                              rotorInertia 7.0e-6
                                               children [
                                                 DEF RARM_LINK6 Segment {
                                                   mass 0.505
@@ -946,7 +946,7 @@ DEF JAXON_JVRC Humanoid {
                                                   climit [50.0]
                                                   gearRatio   463.68
                                                   torqueConst 0.0205
-                                                  rotorInertia 3.5e-6
+                                                  rotorInertia 7.0e-6
                                                   children [
                                                     DEF RARM_LINK7 Segment {
                                                       #mass 0.5
@@ -988,7 +988,7 @@ DEF JAXON_JVRC Humanoid {
                                                       lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
-                                                      rotorInertia 0.2
+                                                      rotorInertia 0.4
                                                       children [
                                                         DEF RARM_FINGER0 Segment {
                                                           mass 0.15
@@ -1013,7 +1013,7 @@ DEF JAXON_JVRC Humanoid {
                                                       lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
-                                                      rotorInertia 0.2
+                                                      rotorInertia 0.4
                                                       children [
                                                         DEF RARM_FINGER1 Segment {
                                                           mass 0.3
@@ -1066,7 +1066,7 @@ DEF JAXON_JVRC Humanoid {
           climit [50.0]
           gearRatio   240
           torqueConst 0.0205
-          rotorInertia 3.5e-6
+          rotorInertia 7.0e-6
           children [
             DEF LLEG_LINK0 Segment {
               mass 2.915
@@ -1095,7 +1095,7 @@ DEF JAXON_JVRC Humanoid {
               climit [50.0]
               gearRatio   384
               torqueConst 0.0205
-              rotorInertia 3.5e-6
+              rotorInertia 7.0e-6
               children [
                 DEF LLEG_LINK1 Segment {
                   mass 1.199
@@ -1124,7 +1124,7 @@ DEF JAXON_JVRC Humanoid {
                   climit [100.0]
                   gearRatio   240
                   torqueConst 0.0205
-                  rotorInertia 3.5e-6
+                  rotorInertia 7.0e-6
                   children [
                     DEF LLEG_LINK2 Segment {
                       mass 5.783
@@ -1153,7 +1153,7 @@ DEF JAXON_JVRC Humanoid {
                       climit [100.0]
                       gearRatio   240
                       torqueConst 0.0205
-                      rotorInertia 3.5e-6
+                      rotorInertia 7.0e-6
                       children [
                         DEF LLEG_LINK3 Segment {
                           mass 3.156
@@ -1182,7 +1182,7 @@ DEF JAXON_JVRC Humanoid {
                           climit [50.0]
                           gearRatio   288
                           torqueConst 0.0205
-                          rotorInertia 3.5e-6
+                          rotorInertia 7.0e-6
                           children [
                             DEF LLEG_LINK4 Segment {
                               mass 0.836
@@ -1211,7 +1211,7 @@ DEF JAXON_JVRC Humanoid {
                               climit [50.0]
                               gearRatio   241.5
                               torqueConst 0.0205
-                              rotorInertia 3.5e-6
+                              rotorInertia 7.0e-6
                               children [
                                 DEF LLEG_LINK5 Segment {
                                   mass 1.552
@@ -1257,7 +1257,7 @@ DEF JAXON_JVRC Humanoid {
           climit [50.0]
           gearRatio   240
           torqueConst 0.0205
-          rotorInertia 3.5e-6
+          rotorInertia 7.0e-6
           children [
             DEF RLEG_LINK0 Segment {
               mass 2.915
@@ -1286,7 +1286,7 @@ DEF JAXON_JVRC Humanoid {
               climit [50.0]
               gearRatio   384
               torqueConst 0.0205
-              rotorInertia 3.5e-6
+              rotorInertia 7.0e-6
               children [
                 DEF RLEG_LINK1 Segment {
                   mass 1.199
@@ -1315,7 +1315,7 @@ DEF JAXON_JVRC Humanoid {
                   climit [100.0]
                   gearRatio   240
                   torqueConst 0.0205
-                  rotorInertia 3.5e-6
+                  rotorInertia 7.0e-6
                   children [
                     DEF RLEG_LINK2 Segment {
                       mass 5.783
@@ -1344,7 +1344,7 @@ DEF JAXON_JVRC Humanoid {
                       climit [100.0]
                       gearRatio   240
                       torqueConst 0.0205
-                      rotorInertia 3.5e-6
+                      rotorInertia 7.0e-6
                       children [
                         DEF RLEG_LINK3 Segment {
                           mass 3.156
@@ -1373,7 +1373,7 @@ DEF JAXON_JVRC Humanoid {
                           climit [50.0]
                           gearRatio   288
                           torqueConst 0.0205
-                          rotorInertia 3.5e-6
+                          rotorInertia 7.0e-6
                           children [
                             DEF RLEG_LINK4 Segment {
                               mass 0.836
@@ -1402,7 +1402,7 @@ DEF JAXON_JVRC Humanoid {
                               climit [50.0]
                               gearRatio   241.5
                               torqueConst 0.0205
-                              rotorInertia 3.5e-6
+                              rotorInertia 7.0e-6
                               children [
                                 DEF RLEG_LINK5 Segment {
                                   mass 1.552
