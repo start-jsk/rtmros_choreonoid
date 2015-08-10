@@ -388,7 +388,7 @@ DEF JAXON_JVRC Humanoid {
                             DEF HEAD_LEFT_CAMERA VisionSensor {
                               name "LEFT_CAMERA"
                               translation 0.1005 0.035 0.05425
-                              rotation 0.57735 -0.57735 -0.57735 2.0944
+                              rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                               type "COLOR_DEPTH"
                               frontClipDistance 0.05
                               width 640
@@ -399,7 +399,7 @@ DEF JAXON_JVRC Humanoid {
                             DEF HEAD_RIGHT_CAMERA VisionSensor {
                               name "RIGHT_CAMERA"
                               translation 0.1005 -0.035 0.05425
-                              rotation 0.57735 -0.57735 -0.57735 2.0944
+                              rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                               type "COLOR"
                               frontClipDistance 0.1
                               width 640
@@ -430,6 +430,7 @@ DEF JAXON_JVRC Humanoid {
                                 } #Segment RANGE_LINK
                                 DEF HEAD_RANGE RangeSensor {
                                   translation 0.03 0 0.015
+                                  rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                                   sensorId 0
                                   scanAngle 2.3561944901923439 ## 135 deg
                                   scanStep 0.0046019423636569 ## 512 line
