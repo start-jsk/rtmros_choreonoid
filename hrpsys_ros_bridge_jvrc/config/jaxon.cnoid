@@ -21,20 +21,20 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ -0.0107771796, 0.000142625924, 0.974898792 ]
+            rootPosition: [ 3.5, 0.5, 1.332 ]
             rootAttitude: [ 
-              0.999652347, -0.000195960995, -0.0263656269, 
-              0.000197321547, 0.999999979, 4.90015642e-05, 
-              0.0263656168, -5.4187035e-05, 0.999652365 ]
+              -0.5, -0.866025, 0, 
+              0.866025, -0.5, 0, 
+              0, 0, 1 ]
             jointPositions: [ 
                0.000520, -0.003147, -0.254972,  0.698226, -0.416976,  0.002721, -0.000399, -0.003274, -0.255063,  0.698434, 
               -0.417245,  0.003842, -0.000068, -0.007751, -0.000001,  0.000006,  0.002000, -0.000395,  0.524947, -0.344415, 
               -0.084533, -1.390073,  0.000164,  0.000677, -0.347735,  0.000395,  0.524947,  0.344418,  0.084535, -1.390073, 
               -0.000163, -0.000677, -0.347735,  0.000798,  0.001595,  0.000799,  0.001596,  0.000000 ]
-            initialRootPosition: [ 0, 0, 0.977 ]
+            initialRootPosition: [ 3.5, 0.5, 1.332 ]
             initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
+              -0.5, -0.866025, 0, 
+              0.866025, -0.5, 0, 
               0, 0, 1 ]
             initialJointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
@@ -201,6 +201,141 @@ items:
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
+            - 
+              id: 11
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ RARM_CAMERA ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+        - 
+          id: 12
+          name: "flag"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/O1/flag.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 13
+          name: "pipe_base"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/O1/pipe_base.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 14
+          name: "pipe_tunnel"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/O1/pipe_tunnel.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 15
+          name: "surface"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/O1/surface.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 16
+          name: "wall"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/O1/wall.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
 views: 
   - 
     id: 0
@@ -213,9 +348,8 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 1 ]
-      checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-      expanded: [ 1, 2, 3, 6, 7 ]
+      checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
+      expanded: [ 1, 2, 3, 6, 7, 9, 10 ]
   - 
     id: 2
     plugin: Base
@@ -227,7 +361,7 @@ views:
     class: SceneView
     mounted: true
     state: 
-      editMode: false
+      editMode: true
       viewpointControlMode: thirdPerson
       collisionLines: false
       polygonMode: fill
@@ -262,9 +396,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 4, 2, 1.5 ]
-          direction: [ -0.888888889, -0.444444444, -0.111111111 ]
-          up: [ -0.0993807989, -0.0496903995, 0.99380799 ]
+          eye: [ 8.17404926, -6.5419709, 0.535028018 ]
+          direction: [ -0.818504707, 0.567635625, 0.0885428775 ]
+          up: [ 0.0727585309, -0.0504582732, 0.996072366 ]
         - 
           camera: Orthographic
           orthoHeight: 20
@@ -295,7 +429,7 @@ views:
       spinBox: true
       slider: true
       labelOnLeft: true
-      currentBodyItem: 5
+      currentBodyItem: 16
   - 
     id: 6
     plugin: Body
@@ -303,7 +437,7 @@ views:
     mounted: true
     state: 
       listingMode: "Link List"
-      currentBodyItem: 5
+      currentBodyItem: 16
   - 
     id: 7
     plugin: Python
@@ -329,7 +463,7 @@ toolbars:
     penetrationBlockDepth: 0.0005
     lazyCollisionDetectionMode: true
   "BodyBar": 
-    current: 5
+    current: 16
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
@@ -376,6 +510,31 @@ Body:
         showZmp: false
       - 
         bodyItem: 5
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      - 
+        bodyItem: 12
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      - 
+        bodyItem: 13
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      - 
+        bodyItem: 14
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      - 
+        bodyItem: 15
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      - 
+        bodyItem: 16
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
