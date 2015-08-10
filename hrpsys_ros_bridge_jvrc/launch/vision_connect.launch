@@ -15,10 +15,65 @@
         args="$(find hrpsys_ros_bridge_jvrc)/launch/vision_connect.launch"
         output="$(arg OUTPUT)"/>
 
-  <node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
+  <!--node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
     <rtconnect from="JAXON_JVRC.rtc:CHEST_CAMERA"
                to="CameraImageViewer0.rtc:imageIn" />
     <rtactivate component="CameraImageViewer0.rtc" />
+  </node-->
+
+  <node pkg="hrpsys_ros_bridge" name="CHESTCAMERA"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="chest_camera">
+    <param name="frame_id" value="CHEST_CAMERA" />
+    <rtconnect from="JAXON_JVRC.rtc:CHEST_CAMERA"
+               to="CHESTCAMERA.rtc:timedImage" />
+    <rtactivate component="CHESTCAMERA.rtc" />
   </node>
+  <node pkg="hrpsys_ros_bridge" name="LARMCAMERA"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="larm_camera">
+    <param name="frame_id" value="LARM_CAMERA" />
+    <rtconnect from="JAXON_JVRC.rtc:LARM_CAMERA"
+               to="LARMCAMERA.rtc:timedImage" />
+    <rtactivate component="LARMCAMERA.rtc" />
+  </node>
+  <node pkg="hrpsys_ros_bridge" name="RARMCAMERA"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="rarm_camera">
+    <param name="frame_id" value="RARM_CAMERA" />
+    <rtconnect from="JAXON_JVRC.rtc:RARM_CAMERA"
+               to="RARMCAMERA.rtc:timedImage" />
+    <rtactivate component="RARMCAMERA.rtc" />
+  </node>
+  <node pkg="hrpsys_ros_bridge" name="HEADLEFT"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense/left">
+    <param name="frame_id" value="HEAD_LEFT_CAMERA" />
+    <rtconnect from="JAXON_JVRC.rtc:HEAD_LEFT_CAMERA"
+               to="HEADLEFT.rtc:timedImage" />
+    <rtactivate component="HEADLEFT.rtc" />
+  </node>
+
+  <node pkg="hrpsys_ros_bridge" name="range_bridge"
+        type="RangeSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
+    <param name="frame_id" value="HEAD_RANGE" />
+    <remap from="range" to="lidir_scan" />
+    <rtconnect from="JAXON_JVRC.rtc:HEAD_RANGE"
+               to="RangeSensorROSBridge0.rtc:range" />
+    <rtactivate component="RangeSensorROSBridge0.rtc" />
+  </node>
+
+  <node pkg="hrpsys_ros_bridge" name="pointcloud_bridge"
+        type="PointCloudROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
+    <param name="frame_id" value="HEAD_LEFT_CAMERA" />
+    <param name="publish_depth" value="true" />
+    <remap from="points" to="organized_point2_color" />
+    <rtconnect from="JAXON_JVRC.rtc:HEAD_LEFT_DEPTH"
+               to="PointCloudROSBridge0.rtc:points" />
+    <rtactivate component="PointCloudROSBridge0.rtc" />
+  </node>
+
 </launch>
