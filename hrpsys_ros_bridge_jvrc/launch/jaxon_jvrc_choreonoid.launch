@@ -4,7 +4,7 @@
   <arg name="REALTIME" default="true" />
   <arg name="RUN_RVIZ" default="true" />
   <arg name="GUI" default="true" />
-  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC_nosim.xml" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/jaxon_hg.cnoid" />
   <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
   <arg name="corbaport" default="2809" />
   <arg name="hrpsys_precreate_rtc" default=""/>
@@ -22,5 +22,9 @@
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="RUN_RVIZ" default="$(arg RUN_RVIZ)" />
     <arg name="corbaport" default="$(arg corbaport)" />
+  </include>
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/vision_connect.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
   </include>
 </launch>

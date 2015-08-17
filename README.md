@@ -6,8 +6,8 @@
 
 - roscd hrpsys_ros_bridge_jvrc; sudo cp config/SensorReaderRTC.conf /usr/lib/choreonoid-1.5/rtc
 
-- roslaunch hrpsys_ros_ros_bridge_jvrc jaxon_choreonoid.launch
+- sudo cp ~/ros/indigo_parent/devel/lib/HGcontroller.so /usr/lib/choreonoid-1.5/rtc
+
+- roslaunch hrpsys_ros_ros_bridge_jvrc jaxon_jvrc_choreonoid.launch
 
 - start simulation in choreonoid
-
-- roslaunch hrpsys_ros_bridge_jvrc vision_connect.launch
