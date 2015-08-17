@@ -1,0 +1,25 @@
+<launch>
+  <arg name="PROJECT_FILE" default=""/>
+  <arg name="RTC_ARGS"     default="
+-o corba.nameservers:127.0.0.1
+-o naming.formats:%n.rtc
+-o logger.enable:YES
+-o logger.log_level:NORMAL
+-o logger.file_name:stdout
+-o manager.shutdown_onrtcs:NO
+-o manager.is_master:YES
+-o manager.modules.load_path:$(find hrpsys)/lib"
+       />
+  <arg name="RESPAWN_SIMULATOR" default="false"/>
+  <arg name="OUTPUT" default="log"/>
+
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport"  default="2809" />
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+
+  <node pkg="hrpsys_choreonoid" type="run_choreonoid.sh" name="choreonoid"
+        output="screen"
+        args="$(arg PROJECT_FILE) $(arg RTC_ARGS)" />
+</launch>
