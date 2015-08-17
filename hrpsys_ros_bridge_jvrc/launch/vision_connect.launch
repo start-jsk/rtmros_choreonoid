@@ -1,4 +1,5 @@
 <launch>
+  <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
   <arg name="OUTPUT" default="screen"/>
   <arg name="nameserver" default="localhost" />
   <arg name="corbaport" default="2809" />
