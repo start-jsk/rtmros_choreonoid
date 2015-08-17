@@ -93,7 +93,7 @@ macro (generate_default_launch_eusinterface_files_for_jsk_closed_rbrain_robots R
   # remove arguments of this macro
   list(REMOVE_AT _arg_list 0 1)
   if(EXISTS ${jvrc_models_MODEL_DIR}/${ROBOT_DIR}/${ROBOT_NAME}main.wrl)
-    generate_default_launch_eusinterface_files("${jvrc_models_MODEL_DIR}/${ROBOT_DIR}/${ROBOT_NAME}main.wrl" hrpsys_ros_bridge_tutorials ${ROBOT_NAME} ${_arg_list})
+    generate_default_launch_eusinterface_files("${jvrc_models_MODEL_DIR}/${ROBOT_DIR}/${ROBOT_NAME}main.wrl" hrpsys_ros_bridge_jvrc ${ROBOT_NAME} ${_arg_list})
   endif()
 endmacro ()
 
@@ -113,6 +113,6 @@ install(CODE
    file(GLOB _conf_files \"\$ENV{DISTDIR}/${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/model/*/*.conf\")
    foreach(_conf_file \${_conf_files})
      execute_process(COMMAND sed -i s@${CATKIN_DEVEL_PREFIX}@${CMAKE_INSTALL_PREFIX}@g \${_conf_file})
-     execute_process(COMMAND sed -i s@${hrpsys_ros_bridge_tutorials_SOURCE_DIR}@${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}@g \${_conf_file})
+     execute_process(COMMAND sed -i s@${hrpsys_ros_bridge_jvrc_SOURCE_DIR}@${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}@g \${_conf_file})
   endforeach()
 ")

@@ -1,0 +1,74 @@
+##
+## auto generated file
+##
+##controller_configuration:
+##  - group_name: <joint group name>
+##    controller_name: <name of joint trajectory topic name>
+##    joint_list: ## list of using joints
+##      - <joint_name>
+controller_configuration:
+  - group_name: larm
+    controller_name: /larm_controller
+    joint_list:
+      - LARM_JOINT0
+      - LARM_JOINT1
+      - LARM_JOINT2
+      - LARM_JOINT3
+      - LARM_JOINT4
+      - LARM_JOINT5
+      - LARM_JOINT6
+      - LARM_JOINT7
+  - group_name: rarm
+    controller_name: /rarm_controller
+    joint_list:
+      - RARM_JOINT0
+      - RARM_JOINT1
+      - RARM_JOINT2
+      - RARM_JOINT3
+      - RARM_JOINT4
+      - RARM_JOINT5
+      - RARM_JOINT6
+      - RARM_JOINT7
+  - group_name: lleg
+    controller_name: /lleg_controller
+    joint_list:
+      - LLEG_JOINT0
+      - LLEG_JOINT1
+      - LLEG_JOINT2
+      - LLEG_JOINT3
+      - LLEG_JOINT4
+      - LLEG_JOINT5
+  - group_name: rleg
+    controller_name: /rleg_controller
+    joint_list:
+      - RLEG_JOINT0
+      - RLEG_JOINT1
+      - RLEG_JOINT2
+      - RLEG_JOINT3
+      - RLEG_JOINT4
+      - RLEG_JOINT5
+  - group_name: torso
+    controller_name: /torso_controller
+    joint_list:
+      - CHEST_JOINT0
+      - CHEST_JOINT1
+      - CHEST_JOINT2
+  - group_name: head
+    controller_name: /head_controller
+    joint_list:
+      - HEAD_JOINT0
+      - HEAD_JOINT1
+  - group_name: rhand
+    controller_name: /rhand_controller
+    joint_list:
+      - RARM_F_JOINT0
+      - RARM_F_JOINT1
+  - group_name: lhand
+    controller_name: /lhand_controller
+    joint_list:
+      - LARM_F_JOINT0
+      - LARM_F_JOINT1
+#  - group_name: range
+#    controller_name: /range_controller
+#    joint_list:
+#      - RANGE_JOINT

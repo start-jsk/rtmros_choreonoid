@@ -1,0 +1,25 @@
+<launch>
+  <arg name="KILL_SERVERS" default="false" />
+  <arg name="GUI" default="true" />
+  <arg name="NOSIM" default="false" />
+  <arg name="REALTIME" default="true" />
+  <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/jaxon_hg.cnoid" />
+  <arg name="corbaport" default="2809" />
+  <arg name="hrpsys_precreate_rtc" default=""/>
+  <param name="use_sim_time" value="true" />
+  <include file="$(find hrpsys_tools)/launch/hrpsys.launch">
+    <arg name="USE_CHOREONOID" value="true" />
+    <arg name="PROJECT_FILE" value="$(arg PROJECT_FILE)"/>
+    <arg name="MODEL_FILE" value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain.wrl" />
+    <arg name="CONF_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC.conf" />
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="KILL_SERVERS" default="$(arg KILL_SERVERS)" />
+    <arg name="REALTIME" default="$(arg REALTIME)" />
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="GUI" default="$(arg GUI)" />
+    <arg name="hrpsys_precreate_rtc" default="$(arg hrpsys_precreate_rtc)" />
+    <arg name="HRPSYS_PY_PKG" default="hrpsys_ros_bridge_jvrc" />
+    <arg name="HRPSYS_PY_NAME" default="jaxon_jvrc_hrpsys_config.py" />
+  </include>
+</launch>
