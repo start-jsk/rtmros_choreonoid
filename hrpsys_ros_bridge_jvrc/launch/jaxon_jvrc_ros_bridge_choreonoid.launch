@@ -1,0 +1,26 @@
+<launch>
+  <arg name="RUN_RVIZ" default="true" />
+  <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
+  <rosparam command="load"
+            file="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC_controller_config.yaml" />
+
+  <arg name="corbaport" default="2809" />
+  <include file="$(find hrpsys_ros_bridge)/launch/hrpsys_ros_bridge.launch">
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="MODEL_FILE" value="/home/leus/ros/indigo/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/JAXON_JVRC/JAXON_JVRCmain.wrl" />
+    <arg name="COLLADA_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC.urdf" />
+    <arg name="CONF_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC.conf" />
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="USE_WALKING" default="true" />
+    <arg name="USE_IMPEDANCECONTROLLER" default="true" />
+    <arg name="USE_EMERGENCYSTOPPER" default="true" />
+    <arg name="BASE_LINK" default="WAIST_LINK0" />
+
+    <arg name="USE_COLLISIONCHECK" default="false" />
+  </include>
+
+  <!--group if="$(arg RUN_RVIZ)" >
+    <node name="jaxon_jvrc_rviz" pkg="rviz" type="rviz" respawn="true"
+          args="-sync -d $(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc.rviz" />
+  </group-->
+</launch>
