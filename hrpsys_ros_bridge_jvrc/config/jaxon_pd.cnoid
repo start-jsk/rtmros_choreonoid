@@ -53,8 +53,8 @@ items:
               class: BodyRTCItem
               data: 
                 isImmediateMode: true
-                moduleName: "HGcontroller"
-                confFileName: "SensorReaderRTC.HG.conf"
+                moduleName: "PDcontroller"
+                confFileName: "SensorReaderRTC.PD.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: JAXON_JVRC
@@ -74,7 +74,7 @@ items:
             deviceStateOutput: true
             controllerThreads: true
             recordCollisionData: false
-            dynamicsMode: High-gain dynamics
+            dynamicsMode: Forward dynamics
             integrationMode: Runge Kutta
             gravity: [ 0, 0, -9.80665 ]
             staticFriction: 1
@@ -323,7 +323,7 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 1 ]
+      selected: [ 3 ]
       checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
       expanded: [ 1, 2, 3, 4, 5, 7, 8, 10, 14, 15 ]
   - 

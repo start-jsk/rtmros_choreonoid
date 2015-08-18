@@ -71,6 +71,7 @@
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
     <param name="frame_id" value="HEAD_LEFT_CAMERA" />
     <param name="publish_depth" value="true" />
+    <param name="transformed_camera_frame" value="true" />
     <remap from="points" to="organized_point2_color" />
     <rtconnect from="JAXON_JVRC.rtc:HEAD_LEFT_DEPTH"
                to="PointCloudROSBridge0.rtc:points" />
