@@ -1,5 +1,7 @@
 - install choreonoid see http://jvrc.github.io/tutorials/html-ja/install.html#installation-of-choreonoid   
 
+- **install just choreonoid** ```sudo apt-get install choreonoid libcnoid-dev```
+
 - download task model file from http://www.jvrc.org/download.html / unzip under jvrc_models 
 
 - catkin build hrpsys_ros_bridge_jvrc and hrpsys_choreonoid
