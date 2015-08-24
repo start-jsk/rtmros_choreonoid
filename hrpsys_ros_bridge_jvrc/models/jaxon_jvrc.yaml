@@ -60,6 +60,7 @@ lleg-end-coords:
   parent: LLEG_LINK5
   translate : [0, 0, -0.1]
 head-end-coords:
+  parent: HEAD_LINK1
   translate : [0.1, 0.0, 0.1]
   rotate    : [0.0, 1.0, 0.0, 90.0]
 ##
@@ -107,10 +108,10 @@ angle-vector:
 ##
 ## sensors
 ##
-sensors:
+#sensors:
 ### sensor position should be confirmed
-  - {sensor_name: 'rfsensor', sensor_type: 'base_force6d', parent_link: 'RLEG_LINK5', translate: '0 0 -0.069', rotate: '0 1 0 180'}
-  - {sensor_name: 'lfsensor', sensor_type: 'base_force6d', parent_link: 'LLEG_LINK5', translate: '0 0 -0.069', rotate: '0 1 0 180'}
-  - {sensor_name: 'rhsensor', sensor_type: 'base_force6d', parent_link: 'RARM_LINK7', translate: '0 0 -0.069', rotate: '-0.382683 -0.92388 0 180'}
-  - {sensor_name: 'lhsensor', sensor_type: 'base_force6d', parent_link: 'LARM_LINK7', translate: '0 0 -0.069', rotate: '0.382683 -0.92388 0 180'}
+#  - {sensor_name: 'rfsensor', sensor_type: 'base_force6d', parent_link: 'RLEG_LINK5', translate: '0 0 -0.069', rotate: '0 1 0 180'}
+#  - {sensor_name: 'lfsensor', sensor_type: 'base_force6d', parent_link: 'LLEG_LINK5', translate: '0 0 -0.069', rotate: '0 1 0 180'}
+#  - {sensor_name: 'rhsensor', sensor_type: 'base_force6d', parent_link: 'RARM_LINK7', translate: '0 0 -0.069', rotate: '-0.382683 -0.92388 0 180'}
+#  - {sensor_name: 'lhsensor', sensor_type: 'base_force6d', parent_link: 'LARM_LINK7', translate: '0 0 -0.069', rotate: '0.382683 -0.92388 0 180'}
 #  - {sensor_name: 'fisheye', sensor_type: 'camera', parent_link: 'CHEST_LINK2', translate: '0.164 0 -0.007', rotate: '-0.6846672430748852 0.6846672430748857 -0.2499230531993218 151.9358119944814689'}

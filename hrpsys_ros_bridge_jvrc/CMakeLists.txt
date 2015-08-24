@@ -86,6 +86,33 @@ compile_rbrain_model_for_closed_robots("" JVRC-1 JVRC1
   --simulation-timestep-option "0.002"
   --robothardware-conf-file-option "pdgains.file_name: ${hrpsys_ros_bridge_tutorials_SOURCE_PREFIX}/models/PDgains.sav"
 )
+##
+find_package(euscollada)
+if (euscollada_SOURCE_PREFIX)
+  set(euscollada_PACKAGE_PATH ${euscollada_SOURCE_PREFIX})
+else ()
+  set(euscollada_PACKAGE_PATH ${euscollada_PREFIX}/share/euscollada)
+endif()
+macro (attach_sensor_and_endeffector_to_hrp2jsk_urdf
+    _robot_name _urdf_file _out_file _yaml_file)
+  set(_model_dir "${PROJECT_SOURCE_DIR}/models/")
+  set(_in_urdf_file "${_model_dir}/${_urdf_file}")
+  set(_in_yaml_file "${_model_dir}/${_yaml_file}")
+  set(_out_urdf_file "${_model_dir}/${_out_file}")
+  set(_script_file ${euscollada_PACKAGE_PATH}/scripts/add_sensor_to_collada.py)
+  add_custom_command(OUTPUT ${_out_urdf_file}
+    COMMAND ${_script_file}
+    ${_in_urdf_file} -O ${_out_urdf_file} -C ${_in_yaml_file}
+    DEPENDS ${_in_urdf_file} ${_in_yaml_file} ${_script_file})
+  add_custom_target(${_out_file}_generate DEPENDS ${_out_urdf_file})
+  list(APPEND compile_urdf_robots ${_out_file}_generate)
+endmacro()
+attach_sensor_and_endeffector_to_hrp2jsk_urdf(JAXON_JVRC JAXON_JVRC.urdf
+  JAXON_JVRC_SENSORS.urdf jaxon_jvrc.yaml)
+if (DEFINED compile_urdf_robots)
+  add_custom_target(all_urdf_model_generate ALL DEPENDS ${compile_urdf_robots})
+endif()
+##
 ################################
 ## Generate default simulation launch files and euslisp interface files
 ################################
