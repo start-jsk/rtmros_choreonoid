@@ -19,18 +19,18 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain.wrl"
+            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 3.50000115, 0.499999456, 1.33256677 ]
+            rootPosition: [ 3.5, 0.5, 1.332 ]
             rootAttitude: [ 
-              -0.499998456, -0.866025084, 1.22212317e-06, 
-              0.866025084, -0.499998456, -5.85579701e-07, 
-              1.11818804e-06, 7.65600499e-07, 1 ]
+              -0.5, -0.866025, 0, 
+              0.866025, -0.5, 0, 
+              0, 0, 1 ]
             jointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
               -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
-               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             initialRootPosition: [ 3.5, 0.5, 1.332 ]
             initialRootAttitude: [ 
               -0.5, -0.866025, 0, 
@@ -58,7 +58,7 @@ items:
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: JAXON_JVRC
-                bodyPeriodicRate: 0
+                bodyPeriodicRate: 0.002
         - 
           id: 4
           name: "AISTSimulator"
@@ -423,10 +423,10 @@ toolbars:
   "TimeBar": 
     minTime: 0
     maxTime: 324.346
-    frameRate: 500
+    frameRate: 1000
     playbackFrameRate: 50
     idleLoopDrivenMode: false
-    currentTime: 0
+    currentTime: 0.066
     speedScale: 1
     syncToOngoingUpdates: true
     autoExpansion: true

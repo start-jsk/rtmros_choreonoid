@@ -4,7 +4,7 @@
   <arg name="REALTIME" default="true" />
   <arg name="RUN_RVIZ" default="true" />
   <arg name="GUI" default="true" />
-  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/jaxon_hg.cnoid" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/jaxon_pd.cnoid" />
   <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
   <arg name="corbaport" default="2809" />
   <arg name="hrpsys_precreate_rtc" default=""/>
