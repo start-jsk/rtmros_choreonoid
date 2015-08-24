@@ -1,6 +1,3 @@
-##
-## auto generated file
-##
 ##controller_configuration:
 ##  - group_name: <joint group name>
 ##    controller_name: <name of joint trajectory topic name>
