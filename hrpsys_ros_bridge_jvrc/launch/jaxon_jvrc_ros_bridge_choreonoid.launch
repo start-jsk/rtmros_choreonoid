@@ -14,9 +14,9 @@
     <arg name="USE_WALKING" default="true" />
     <arg name="USE_IMPEDANCECONTROLLER" default="true" />
     <arg name="USE_EMERGENCYSTOPPER" default="true" />
-    <arg name="BASE_LINK" default="WAIST_LINK0" />
 
     <arg name="USE_COLLISIONCHECK" default="false" />
+    <arg name="periodic_rate" value="100" />
   </include>
 
   <!--group if="$(arg RUN_RVIZ)" >

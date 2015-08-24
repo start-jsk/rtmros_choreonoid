@@ -68,7 +68,7 @@ controller_configuration:
     joint_list:
       - LARM_F_JOINT0
       - LARM_F_JOINT1
-#  - group_name: range
-#    controller_name: /range_controller
-#    joint_list:
-#      - RANGE_JOINT
+  - group_name: range
+    controller_name: /range_controller
+    joint_list:
+      - RANGE_JOINT
