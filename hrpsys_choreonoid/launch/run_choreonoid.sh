@@ -4,6 +4,7 @@ cnoid_proj=""
 if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
 fi
+start_sim=""
 
 rtm_args=()
 latch=0
@@ -11,12 +12,15 @@ latch=0
 for arg in $@; do
 ## debug
 ##  echo $arg 1>&2;
-  if [ $latch == 1 ]; then
+  if [ $latch = 1 ]; then
       rtm_args=("${rtm_args[@]}" $arg)
       latch=0
   fi
-  if [ $arg == "-o" ]; then
+  if [ $arg = "-o" ]; then
       latch=1
+  fi
+  if [ $arg = "--start-simulation" ]; then
+      start_sim=$arg
   fi
 done
 
@@ -38,4 +42,4 @@ echo "<BEGIN: rtc.conf>"
 cat $rtc_conf 1>&2
 echo "<END: rtc.conf>"
 
-(cd /tmp; choreonoid $cnoid_proj)
+(cd /tmp; choreonoid $cnoid_proj $start_sim)
