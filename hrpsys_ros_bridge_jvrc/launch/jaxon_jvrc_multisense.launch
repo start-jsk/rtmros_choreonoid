@@ -1,0 +1,24 @@
+<launch>
+  <group>
+    <!-- Local -->
+    <group ns="/multisense/left">
+      <node pkg="image_proc" type="image_proc" name="image_proc"/>
+    </group>
+    <include file="$(find jsk_pcl_ros)/launch/multi_resolution_organized_pointcloud.launch">
+      <arg name="NAMESPACE" value="multisense"/>
+      <arg name="INPUT" value="/multisense/organized_point2_color" />
+      <arg name="INPUT_LEFT_IMAGE" value="/multisense/left/image_rect_color" />
+      <arg name="INPUT_LEFT_CAMERA_INFO" value="/multisense/left/camera_info" />
+      <arg name="INPUT_DEPTH" value="/multisense/depth" />
+    </include>
+  </group>
+  <group if="false">
+    <!-- Remote -->
+    <include file="$(find jsk_tilt_laser)/launch/multisense_remote.launch">
+      <arg name="use_compress" value="true" />
+      <arg name="run_laser_pipeline" value="false" />
+      <arg name="fixed_frame_id" value="lleg_end_coords" />
+      <arg name="not_use_sensor_tf_prefix" value="true" />
+    </include>
+  </group>
+</launch>
