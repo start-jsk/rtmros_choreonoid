@@ -8,7 +8,7 @@
   <include file="$(find hrpsys_ros_bridge)/launch/hrpsys_ros_bridge.launch">
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="MODEL_FILE" value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain.wrl" />
-    <arg name="COLLADA_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC.urdf" />
+    <arg name="COLLADA_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC_SENSORS.urdf" />
     <arg name="CONF_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC.conf" />
     <arg name="corbaport" default="$(arg corbaport)" />
     <arg name="USE_WALKING" default="true" />
