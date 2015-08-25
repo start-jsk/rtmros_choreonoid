@@ -3,7 +3,7 @@
   <arg name="OUTPUT" default="screen"/>
   <arg name="nameserver" default="localhost" />
   <arg name="corbaport" default="2809" />
-  <arg name="periodic_rate" default="2000" />
+  <arg name="periodic_rate" default="200" />
 
   <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
 
@@ -27,6 +27,8 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="chest_camera">
     <param name="frame_id" value="CHEST_CAMERA" />
+    <rosparam param="camera_param_K">[85.7444, 0, 319.5,  0, 85.7444, 319.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[85.7444, 0, 319.5, 0,  0, 85.7444, 319.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_JVRC.rtc:CHEST_CAMERA"
                to="CHESTCAMERA.rtc:timedImage" />
     <rtactivate component="CHESTCAMERA.rtc" />
@@ -35,6 +37,8 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="larm_camera">
     <param name="frame_id" value="LARM_CAMERA" />
+    <rosparam param="camera_param_K">[268.512, 0, 319.5,  0, 268.512, 319.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[268.512, 0, 319.5, 0,  0, 268.512, 319.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_JVRC.rtc:LARM_CAMERA"
                to="LARMCAMERA.rtc:timedImage" />
     <rtactivate component="LARMCAMERA.rtc" />
@@ -43,6 +47,8 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="rarm_camera">
     <param name="frame_id" value="RARM_CAMERA" />
+    <rosparam param="camera_param_K">[268.512, 0, 319.5,  0, 268.512, 319.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[268.512, 0, 319.5, 0,  0, 268.512, 319.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_JVRC.rtc:RARM_CAMERA"
                to="RARMCAMERA.rtc:timedImage" />
     <rtactivate component="RARMCAMERA.rtc" />
@@ -51,6 +57,8 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense/left">
     <param name="frame_id" value="HEAD_LEFT_CAMERA" />
+    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_JVRC.rtc:HEAD_LEFT_CAMERA"
                to="HEADLEFT.rtc:timedImage" />
     <rtactivate component="HEADLEFT.rtc" />
