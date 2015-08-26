@@ -521,7 +521,7 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.00845 0.00671 -0.0881
                                   momentsOfInertia [0.0127408 0 0 0 0.0133751 0 0 0 0.00460362 ]
                                   children [
-                                    Inline { url "LARM_LINK2_for_collision.wrl" }
+                                    Inline { url "LARM_LINK2_detail.wrl" }
                                   ]
                                 } #Segment LARM_LINK2
                                 DEF LARM_JOINT3 Joint {
@@ -820,7 +820,7 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.00845 -0.00671 -0.0881
                                   momentsOfInertia [0.0127408 0 0 0 0.0133751 0 0 0 0.00460362 ]
                                   children [
-                                    Inline { url "RARM_LINK2_for_collision.wrl" }
+                                    Inline { url "RARM_LINK2_detail.wrl" }
                                   ]
                                 } #Segment RARM_LINK2
                                 DEF RARM_JOINT3 Joint {
