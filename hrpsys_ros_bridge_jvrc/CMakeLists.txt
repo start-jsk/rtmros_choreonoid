@@ -70,7 +70,9 @@ if(NOT ENV{TRAVIS_JOB_ID})
 compile_rbrain_model_for_closed_robots(JAXON_JVRC JAXON_JVRC JAXON_JVRC
   --conf-dt-option "0.002"
   --simulation-timestep-option "0.002"
+  --robothardware-conf-file-option "model: file://${jvrc_models_MODEL_DIR}/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"
   --robothardware-conf-file-option "pdgains.file_name: ${hrpsys_ros_bridge_tutorials_SOURCE_PREFIX}/models/PDgains.sav"
+  --conf-file-option "model: file://${jvrc_models_MODEL_DIR}/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"
   --conf-file-option "pdgains_sim.file_name: ${PROJECT_SOURCE_DIR}/models/JAXON_JVRC.PDgains.dat"
   --conf-file-option "abc_leg_offset: 0.0, 0.1, 0.0"
   --conf-file-option "end_effectors: rleg,RLEG_JOINT5,WAIST,0.0,0.0,-0.1,0.0,0.0,0.0,0.0, lleg,LLEG_JOINT5,WAIST,0.0,0.0,-0.1,0.0,0.0,0.0,0.0, rarm,RARM_JOINT7,CHEST_JOINT2,0.0,0.055,-0.217,0,1.0,0.0,1.5708, larm,LARM_JOINT7,CHEST_JOINT2,0.0,-0.055,-0.217,0,1.0,0.0,1.5708,"

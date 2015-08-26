@@ -11,7 +11,7 @@
   <include file="$(find hrpsys_tools)/launch/hrpsys.launch">
     <arg name="USE_CHOREONOID" value="true" />
     <arg name="PROJECT_FILE" value="$(arg PROJECT_FILE)"/>
-    <arg name="MODEL_FILE" value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain.wrl" />
+    <arg name="MODEL_FILE" value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl" />
     <arg name="CONF_FILE" value="$(find hrpsys_ros_bridge_jvrc)/models/JAXON_JVRC.conf" />
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="KILL_SERVERS" default="$(arg KILL_SERVERS)" />
