@@ -68,4 +68,4 @@ controller_configuration:
   - group_name: range
     controller_name: /range_controller
     joint_list:
-      - RANGE_JOINT
+      - motor_joint
