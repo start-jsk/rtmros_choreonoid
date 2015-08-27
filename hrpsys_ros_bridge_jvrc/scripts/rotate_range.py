@@ -17,7 +17,7 @@ initial_position = None
 
 def callback (msg):
     global initial_position
-    idx = msg.name.index('RANGE_JOINT')
+    idx = msg.name.index('motor_joint')
     initial_position = msg.position[idx]
 
 if __name__ == '__main__':
@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     rate = rospy.Rate(1.0/(rotate_times*tm)) # 4 round
     range_goal = FollowJointTrajectoryGoal()
-    range_goal.trajectory.joint_names.append("RANGE_JOINT")
+    range_goal.trajectory.joint_names.append("motor_joint")
 
     rangeAngle = initial_position + 2*rotate_times*math.pi
     while not rospy.is_shutdown():

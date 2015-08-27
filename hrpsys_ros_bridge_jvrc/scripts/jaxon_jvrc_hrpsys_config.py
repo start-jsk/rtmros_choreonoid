@@ -35,7 +35,7 @@ class JAXON_JVRC_HrpsysConfigurator(URATAHrpsysConfigurator):
         torso_group = ['torso', ['CHEST_JOINT0', 'CHEST_JOINT1', 'CHEST_JOINT2']]
         rhand_group = ['rhand', ['RARM_F_JOINT0', 'RARM_F_JOINT1']]
         lhand_group = ['lhand', ['LARM_F_JOINT0', 'LARM_F_JOINT1']]
-        range_group = ['range', ['RANGE_JOINT']]
+        range_group = ['range', ['motor_joint']]
         self.Groups = [rarm_group, larm_group, rleg_group, lleg_group, head_group, torso_group, rhand_group, lhand_group, range_group]
 
 if __name__ == '__main__':

@@ -407,7 +407,7 @@ DEF JAXON_JVRC Humanoid {
                               fieldOfView 1.5708
                               sensorId 1
                             }
-                            DEF RANGE_JOINT Joint {
+                            DEF motor_joint Joint {
                               translation 0.0559 0 0.14425
                               jointId 37
                               jointType "rotate"
@@ -439,7 +439,7 @@ DEF JAXON_JVRC Humanoid {
                                   maxDistance 30.0
                                 }
                               ]
-                            } #Joint RANGE_JOINT
+                            } #Joint motor_joint
                           ]
                         } #Joint HEAD_JOINT1
                       ]
@@ -1550,7 +1550,7 @@ DEF JAXON_JVRC Humanoid {
     USE LARM_F_JOINT1,
     USE RARM_F_JOINT0,
     USE RARM_F_JOINT1,
-    USE RANGE_JOINT,
+    USE motor_joint,
   ]
   segments [
     USE BODY,
