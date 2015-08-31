@@ -49,6 +49,7 @@ if(${cnoid-plugin_FOUND})
   set_target_properties(JAXONCustomizer PROPERTIES COMPILE_FLAG "-fPIC" PREFIX "" SUFFIX ".so" LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
   ##
   add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/customizer/JAXONCustomizer.so
+    COMMAND sudo mkdir -p /usr/lib/choreonoid-1.5/customizer
     COMMAND sudo cp ${PROJECT_SOURCE_DIR}/JAXONCustomizer.so /usr/lib/choreonoid-1.5/customizer/
     DEPENDS JAXONCustomizer)
   ##
