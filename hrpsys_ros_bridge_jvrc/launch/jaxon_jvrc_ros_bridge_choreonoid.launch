@@ -15,9 +15,10 @@
     <arg name="USE_IMPEDANCECONTROLLER" default="true" />
     <arg name="USE_EMERGENCYSTOPPER" default="true" />
     <arg name="USE_ROBOT_POSE_EKF" value="false" />
-    
+
     <arg name="USE_COLLISIONCHECK" default="false" />
     <arg name="periodic_rate" value="100" />
+    <arg name="USE_VELOCITY_OUTPUT" default="true" />
   </include>
 
   <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch" />
