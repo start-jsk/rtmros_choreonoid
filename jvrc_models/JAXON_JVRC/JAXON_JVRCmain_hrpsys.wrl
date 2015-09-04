@@ -674,7 +674,7 @@ DEF JAXON_JVRC Humanoid {
                                                       frontClipDistance 0.04
                                                       width 640
                                                       height 640
-                                                      fieldOfView 1.74533 ## 100 deg / fisheye like
+                                                      fieldOfView 1.309 ## 75 deg / wide
                                                       sensorId 4
                                                     }
                                                     DEF LARM_F_JOINT0 Joint {
@@ -973,7 +973,7 @@ DEF JAXON_JVRC Humanoid {
                                                       frontClipDistance 0.04
                                                       width 640
                                                       height 640
-                                                      fieldOfView 1.74533 ## 100 deg / fisheye like
+                                                      fieldOfView 0.698132 ## 40 deg / narrow
                                                       sensorId 3
                                                     }
                                                     DEF RARM_F_JOINT0 Joint {
