@@ -37,8 +37,8 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="larm_camera">
     <param name="frame_id" value="LARM_CAMERA" />
-    <rosparam param="camera_param_K">[268.512, 0, 319.5,  0, 268.512, 319.5,  0, 0, 1]</rosparam>
-    <rosparam param="camera_param_P">[268.512, 0, 319.5, 0,  0, 268.512, 319.5, 0,  0, 0, 1, 0]</rosparam>
+    <rosparam param="camera_param_K">[417.031, 0, 319.5,  0, 417.031, 319.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[417.031, 0, 319.5, 0,  0, 417.031, 319.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_JVRC.rtc:LARM_CAMERA"
                to="LARMCAMERA.rtc:timedImage" />
     <rtactivate component="LARMCAMERA.rtc" />
@@ -47,8 +47,8 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="rarm_camera">
     <param name="frame_id" value="RARM_CAMERA" />
-    <rosparam param="camera_param_K">[268.512, 0, 319.5,  0, 268.512, 319.5,  0, 0, 1]</rosparam>
-    <rosparam param="camera_param_P">[268.512, 0, 319.5, 0,  0, 268.512, 319.5, 0,  0, 0, 1, 0]</rosparam>
+    <rosparam param="camera_param_K">[879.192, 0, 319.5,  0, 879.192, 319.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[879.192, 0, 319.5, 0,  0, 879.192, 319.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_JVRC.rtc:RARM_CAMERA"
                to="RARMCAMERA.rtc:timedImage" />
     <rtactivate component="RARMCAMERA.rtc" />
