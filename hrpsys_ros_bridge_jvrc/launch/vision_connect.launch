@@ -81,7 +81,7 @@
     <param name="frame_id" value="multisense/left_camera_optiocal_frame" />
     <param name="publish_depth" value="true" />
     <param name="transformed_camera_frame" value="true" />
-    <remap from="points" to="organized_point2_color" />
+    <remap from="points" to="organized_image_points2_color" />
     <rtconnect from="JAXON_JVRC.rtc:HEAD_LEFT_DEPTH"
                to="PointCloudROSBridge0.rtc:points" />
     <rtactivate component="PointCloudROSBridge0.rtc" />
