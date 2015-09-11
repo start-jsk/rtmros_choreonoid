@@ -201,22 +201,21 @@ items:
           name: "debris3"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/debris3.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0.1, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0.1, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootPosition: [ 0.1, 0.0, 0.0 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0.1, 0.0, 0.0 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -224,22 +223,21 @@ items:
           name: "debris5"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/debris5.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0.02, 0, 0.001 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0.02, 0, 0.001 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootPosition: [ 0.02, 0.0, 0.001 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0.02, 0.0, 0.001 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -247,22 +245,21 @@ items:
           name: "debris4"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/debris4.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootPosition: [ 0.0, 0.0, 0.0 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0.0, 0.0, 0.0 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -270,22 +267,21 @@ items:
           name: "surface"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/surface.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             jointPositions: [  ]
             initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -293,22 +289,21 @@ items:
           name: "debris1"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/debris1.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0, 0, 0.01 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, 0.01 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootPosition: [ 0.0, 0.0, 0.01 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0.0, 0.0, 0.01 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -316,22 +311,21 @@ items:
           name: "field"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/field.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             jointPositions: [  ]
             initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -339,22 +333,21 @@ items:
           name: "wall"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/wall.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             jointPositions: [  ]
             initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -362,22 +355,21 @@ items:
           name: "debris2"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/debris2.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0, 0, 0.01 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, 0.01 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootPosition: [ 0.0, 0.0, 0.01 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0.0, 0.0, 0.01 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
@@ -385,22 +377,21 @@ items:
           name: "flag"
           plugin: Body
           class: BodyItem
-          data: 
+          data:
             modelFile: "../../jvrc_models/model/tasks/R4/flag.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            rootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             jointPositions: [  ]
             initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+            initialRootAttitude: [
+              1.0, 0.0, 0.0,
+              0.0, 1.0, 0.0,
+              0.0, 0.0, 1.0 ]
             zmp: [ 0, 0, 0 ]
-            collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
 views: 

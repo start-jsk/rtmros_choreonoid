@@ -220,75 +220,6 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 12
-          name: "target5"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target5.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.187, 7.115, 5.702 ]
-            rootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.187, 7.115, 5.702 ]
-            initialRootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 13
-          name: "target6"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target6.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.015, 7.189, 5.612 ]
-            rootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.015, 7.189, 5.612 ]
-            initialRootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 14
-          name: "target8"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target8.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.108, 7.051, 5.663 ]
-            rootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.108, 7.051, 5.663 ]
-            initialRootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
           id: 15
           name: "target3"
           plugin: Body
@@ -381,29 +312,6 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 19
-          name: "target4"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target4.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.37, 7.23, 5.075 ]
-            rootAttitude: [ 
-              0.267498829, 0, -0.963558185, 
-              0, 1, 0, 
-              0.963558185, 0, 0.267498829 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.37, 7.23, 5.075 ]
-            initialRootAttitude: [ 
-              0.267498829, -0, -0.963558185, 
-              0, 1, -0, 
-              0.963558185, 0, 0.267498829 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
           id: 20
           name: "fin"
           plugin: Body
@@ -422,29 +330,6 @@ items:
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 21
-          name: "target7"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target7.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 2.958, 7.021, 5.58 ]
-            rootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 2.958, 7.021, 5.58 ]
-            initialRootAttitude: [ 
-              -0.856888753, 0, 0.515501372, 
-              0, 1, 0, 
-              -0.515501372, 0, -0.856888753 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
