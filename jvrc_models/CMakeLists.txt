@@ -9,7 +9,8 @@ if (EXISTS ${PROJECT_SOURCE_DIR}/model)
 #  execute_process(COMMAND git pull
 #    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/model)
   ## temporary fix version
-  execute_process(COMMAND git checkout 540ab2709d7d491a88b1a716aac085ae91e0889e
+#  execute_process(COMMAND git checkout 540ab2709d7d491a88b1a716aac085ae91e0889e
+  execute_process(COMMAND git checkout 978fea941ce938a29a1765dbb170ede41e3533aa
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/model)
 else ()
   execute_process(COMMAND git clone https://github.com/jvrc/model.git
