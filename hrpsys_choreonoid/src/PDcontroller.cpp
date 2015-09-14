@@ -159,8 +159,14 @@ RTC::ReturnCode_t PDcontroller::onExecute(RTC::UniqueId ec_id)
     qold_ref[i] = q_ref;
     m_torque.data[i] = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i];
     //double tlimit = m_robot->joint(i)->climit * m_robot->joint(i)->gearRatio * m_robot->joint(i)->torqueConst;
-    if (i == dof - 1) { // for range joint, fixed rotational rate of 2.0 [rad/sec]
-      m_torque.data[i] = -(dq - 2.0) * 1000;
+    if (i == (dof - 1)) { // for range joint, fixed rotational rate of 2.0 [rad/sec]
+      static double dq_old = 0.0;
+      double ddq = (dq - dq_old)/dt;
+      m_torque.data[i] = -(dq - 1.0) * 100 - 0.2 * ddq;
+      double tlimit = 200;
+      m_torque.data[i] = std::max(std::min(m_torque.data[i], tlimit), -tlimit);
+      //std::cerr << "tau: " << m_torque.data[i] << ", q: " << q << ", dq: " << dq << ", dq_old: " << dq_old << ", ddq: " << ddq << std::endl;
+      dq_old = dq;
     }
     double tlimit = 1400;
     m_torque.data[i] = std::max(std::min(m_torque.data[i], tlimit), -tlimit);
