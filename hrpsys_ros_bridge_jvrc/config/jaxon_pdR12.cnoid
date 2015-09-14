@@ -106,7 +106,7 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: true
+                enableHeadLight: false
                 enableAdditionalLights: true
             - 
               id: 6
@@ -126,7 +126,7 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: true
+                enableHeadLight: false
                 enableAdditionalLights: true
             - 
               id: 7
@@ -146,7 +146,7 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: true
+                enableHeadLight: false
                 enableAdditionalLights: true
             - 
               id: 8
@@ -166,7 +166,7 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: true
+                enableHeadLight: false
                 enableAdditionalLights: true
             - 
               id: 9
@@ -186,7 +186,7 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: true
+                enableHeadLight: false
                 enableAdditionalLights: true
         - 
           id: 10
@@ -521,11 +521,11 @@ views:
     class: SceneView
     mounted: true
     state: 
-      editMode: true
+      editMode: false
       viewpointControlMode: thirdPerson
       collisionLines: false
       polygonMode: fill
-      defaultHeadLight: true
+      defaultHeadLight: false
       defaultHeadLightIntensity: 0.75
       headLightLightingFromBack: false
       worldLight: true
