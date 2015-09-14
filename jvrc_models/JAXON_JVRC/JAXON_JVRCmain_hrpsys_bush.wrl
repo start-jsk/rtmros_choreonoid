@@ -175,6 +175,25 @@ PROTO AccelerationSensor [
     rotation    IS rotation
   }
 }
+
+PROTO SpotLightDevice [
+  exposedField SFVec3f attenuation       1 0 0     # [0,)
+  exposedField SFFloat beamWidth         1.570796  # (0,/2]
+  exposedField SFColor color             1 1 1     # [0,1]
+  exposedField SFFloat cutOffAngle       0.785398  # (0,/2]
+  exposedField SFVec3f direction         0 0 -1    # (-,)
+  exposedField SFFloat intensity         1         # [0,1]
+  exposedField SFBool  on                TRUE
+  exposedField SFVec3f    translation 0 0 0
+  exposedField SFRotation rotation    0 0 1 0
+]
+{
+  Transform {
+    translation      IS translation
+    rotation         IS rotation
+  }
+}
+
 DEF JAXON_JVRC Humanoid {
   humanoidBody [
     DEF WAIST Joint {
@@ -310,6 +329,20 @@ DEF JAXON_JVRC Humanoid {
                       momentsOfInertia [0.510746 0.005161 0.143334 0.005161 1.09582 0.004687 0.143334 0.004687 1.02505]
                       children [
                         Inline { url "CHEST_LINK2.wrl" }
+                        Transform {
+                          translation 0.10 0.0 0.06
+                          children [
+                            DEF JVRC-Robot-Marker Shape {
+                              geometry Sphere { radius 0.025 }
+                              appearance Appearance {
+                                material Material {
+                                  diffuseColor 1.0 0.0 0.0
+                                  emissiveColor 1.0 0.0 0.0
+                                }
+                              }
+                            }
+                          ]
+                        }
                       ]
                     } #Segment CHEST_LINK2
                     DEF CHEST_CAMERA VisionSensor {
@@ -406,6 +439,17 @@ DEF JAXON_JVRC Humanoid {
                               height 480
                               fieldOfView 1.5708
                               sensorId 1
+                            }
+                            DEF HeadMainLight SpotLightDevice {
+                              translation 0.1005 0.035 0.05425
+                              # rotation
+                              attenuation 1 0 0.01
+                              # beamWidth
+                              # color
+                              cutOffAngle 1.0
+                              direction   1 0 0
+                              # intensity
+                              # on
                             }
                             DEF motor_joint Joint {
                               translation 0.0559 0 0.14425
@@ -676,6 +720,17 @@ DEF JAXON_JVRC Humanoid {
                                                       height 640
                                                       fieldOfView 1.309 ## 75 deg / wide
                                                       sensorId 4
+                                                    }
+                                                    DEF LARM_Light SpotLightDevice {
+                                                      translation 0.05 0 -0.16
+                                                      # rotation
+                                                      attenuation 1 0 0.01
+                                                      # beamWidth
+                                                      # color
+                                                      cutOffAngle 1.0
+                                                      direction   0 0 -1
+                                                      # intensity
+                                                      # on
                                                     }
                                                     DEF LARM_F_JOINT0 Joint {
                                                       translation 0 -0.06 -0.1725
@@ -975,6 +1030,17 @@ DEF JAXON_JVRC Humanoid {
                                                       height 640
                                                       fieldOfView 0.698132 ## 40 deg / narrow
                                                       sensorId 3
+                                                    }
+                                                    DEF RARM_Light SpotLightDevice {
+                                                      translation 0.05 0 -0.16
+                                                      # rotation
+                                                      attenuation 1 0 0.01
+                                                      # beamWidth
+                                                      # color
+                                                      cutOffAngle 1.0
+                                                      direction   0 0 -1
+                                                      # intensity
+                                                      # on
                                                     }
                                                     DEF RARM_F_JOINT0 Joint {
                                                       translation 0 0.06 -0.1725
