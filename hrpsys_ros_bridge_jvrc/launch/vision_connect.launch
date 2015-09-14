@@ -67,7 +67,7 @@
   <node pkg="hrpsys_ros_bridge" name="range_bridge"
         type="RangeSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
-    <param name="frame_id" value="HEAD_RANGE" />
+    <param name="frame_id" value="head_hokuyo_frame" />
     <param name="intensity" value="1000" />
     <remap from="range" to="lidar_scan" />
     <rtconnect from="JAXON_JVRC.rtc:HEAD_RANGE"
