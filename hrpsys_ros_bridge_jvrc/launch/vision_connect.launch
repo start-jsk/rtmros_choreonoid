@@ -91,10 +91,4 @@
         type="static_transform_publisher"
         args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA multisense/left_camera_optiocal_frame 33" />
 
-  <node name="rotate_range" pkg="hrpsys_ros_bridge_jvrc"
-        type="rotate_range.py" >
-    <param name="rotate_cycle" value="4.0" /> <!-- one round per rotate_cycle [ sec ] -->
-    <param name="rotate_times" value="4" />   <!-- -->
-  </node>
-
 </launch>
