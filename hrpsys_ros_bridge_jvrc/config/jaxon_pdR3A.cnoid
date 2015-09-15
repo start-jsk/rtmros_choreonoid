@@ -188,8 +188,15 @@ items:
                 depthError: 0
                 enableHeadLight: false
                 enableAdditionalLights: true
+            - 
+              id: 10
+              name: "JVRCManager"
+              plugin: JVRC
+              class: JVRCManagerItem
+              data: 
+                info: "../../jvrc_models/model/tasks/R3A/R3A.yaml"
         - 
-          id: 10
+          id: 11
           name: "model-loader"
           plugin: Base
           class: ExtCommandItem
@@ -197,7 +204,7 @@ items:
             command: openhrp-model-loader
             executeOnLoading: true
         - 
-          id: 11
+          id: 12
           name: "wall"
           plugin: Body
           class: BodyItem
@@ -220,7 +227,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 12
+          id: 13
           name: "spreader"
           plugin: Body
           class: BodyItem
@@ -243,7 +250,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 13
+          id: 14
           name: "desk"
           plugin: Body
           class: BodyItem
@@ -266,7 +273,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 14
+          id: 15
           name: "target1"
           plugin: Body
           class: BodyItem
@@ -289,7 +296,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 15
+          id: 16
           name: "car"
           plugin: Body
           class: BodyItem
@@ -312,7 +319,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 16
+          id: 17
           name: "door"
           plugin: Body
           class: BodyItem
@@ -335,7 +342,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 17
+          id: 18
           name: "surface"
           plugin: Body
           class: BodyItem
@@ -358,7 +365,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 18
+          id: 19
           name: "flag1L"
           plugin: Body
           class: BodyItem
@@ -381,7 +388,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 19
+          id: 20
           name: "flag1R"
           plugin: Body
           class: BodyItem
@@ -404,7 +411,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 20
+          id: 21
           name: "flag2L"
           plugin: Body
           class: BodyItem
@@ -427,7 +434,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 21
+          id: 22
           name: "flag2R"
           plugin: Body
           class: BodyItem
