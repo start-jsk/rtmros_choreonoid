@@ -28,4 +28,6 @@
     <arg name="corbaport" default="$(arg corbaport)" />
     <arg name="SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
   </include>
+  <include file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch" />
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_multisense.launch" />
 </launch>
