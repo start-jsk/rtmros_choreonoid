@@ -22,7 +22,7 @@ class JAXON_JVRC_HrpsysConfigurator(URATAHrpsysConfigurator):
             # ['te', "ThermoEstimator"],
             # ['tl', "ThermoLimiter"],
             ['hes', "EmergencyStopper"],
-            ['el', "SoftErrorLimiter"],
+            # ['el', "SoftErrorLimiter"],
             ['log', "DataLogger"]
             ]
 
