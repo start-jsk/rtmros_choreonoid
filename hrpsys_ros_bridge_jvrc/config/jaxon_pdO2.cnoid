@@ -220,30 +220,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 15
-          name: "target3"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target3.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.351, 7.157, 4.986 ]
-            rootAttitude: [ 
-              0.000796326711, 0, -0.999999683, 
-              0, 1, 0, 
-              0.999999683, 0, 0.000796326711 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.351, 7.157, 4.986 ]
-            initialRootAttitude: [ 
-              0.00079632671, -0, -0.999999683, 
-              0, 1, -0, 
-              0.999999683, 0, 0.00079632671 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 16
+          id: 12
           name: "base"
           plugin: Body
           class: BodyItem
@@ -266,7 +243,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 17
+          id: 13
           name: "wall"
           plugin: Body
           class: BodyItem
@@ -289,30 +266,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 18
-          name: "target1"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target1.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.414, 7.164, 5.193 ]
-            rootAttitude: [ 
-              0.497571048, 0, -0.867423226, 
-              0, 1, 0, 
-              0.867423226, 0, 0.497571048 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.414, 7.164, 5.193 ]
-            initialRootAttitude: [ 
-              0.497571048, -0, -0.867423226, 
-              0, 1, -0, 
-              0.867423226, 0, 0.497571048 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 20
+          id: 14
           name: "fin"
           plugin: Body
           class: BodyItem
@@ -335,30 +289,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 22
-          name: "target2"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/O2/target2.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 3.37, 7.012, 5.092 ]
-            rootAttitude: [ 
-              0.267498829, 0, -0.963558185, 
-              0, 1, 0, 
-              0.963558185, 0, 0.267498829 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3.37, 7.012, 5.092 ]
-            initialRootAttitude: [ 
-              0.267498829, -0, -0.963558185, 
-              0, 1, -0, 
-              0.963558185, 0, 0.267498829 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 23
+          id: 15
           name: "flag1L"
           plugin: Body
           class: BodyItem
@@ -381,7 +312,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 24
+          id: 16
           name: "flag1R"
           plugin: Body
           class: BodyItem
@@ -404,7 +335,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 25
+          id: 17
           name: "flag2L"
           plugin: Body
           class: BodyItem
@@ -427,7 +358,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 26
+          id: 18
           name: "flag2R"
           plugin: Body
           class: BodyItem
@@ -449,6 +380,99 @@ items:
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
+        - 
+          id: 19
+          name: "target1"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/O2/target1.wrl"
+            currentBaseLink: "target1"
+            rootPosition: [ 3.414, 7.164, 5.193 ]
+            rootAttitude: [ 
+              0.497571048, 0, -0.867423226, 
+              0, 1, 0, 
+              0.867423226, 0, 0.497571048 ]
+            jointPositions: [  0.000000 ]
+            initialRootPosition: [ 3.414, 7.164, 5.193 ]
+            initialRootAttitude: [ 
+              0.497571048, -0, -0.867423226, 
+              0, 1, -0, 
+              0.867423226, 0, 0.497571048 ]
+            initialJointPositions: [  0.000000 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        - 
+          id: 20
+          name: "target2"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/O2/target2.wrl"
+            currentBaseLink: "target2"
+            rootPosition: [ 3.351, 7.157, 4.986 ]
+            rootAttitude: [ 
+              0.000796326711, 0, -0.999999683, 
+              0, 1, 0, 
+              0.999999683, 0, 0.000796326711 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 3.351, 7.157, 4.986 ]
+            initialRootAttitude: [ 
+              0.000796326711, -0, -0.999999683, 
+              0, 1, -0, 
+              0.999999683, 0, 0.000796326711 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        - 
+          id: 21
+          name: "target3"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/O2/target3.wrl"
+            currentBaseLink: "target3"
+            rootPosition: [ 2.958, 7.021, 5.58 ]
+            rootAttitude: [ 
+              -0.856888575, 1.28565983e-06, 0.515501669, 
+              2.27383078e-06, 1, 1.28565983e-06, 
+              -0.515501669, 2.27383078e-06, -0.856888575 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 2.958, 7.021, 5.58 ]
+            initialRootAttitude: [ 
+              -0.856888575, 1.28565983e-06, 0.515501669, 
+              2.27383078e-06, 1, 1.28565983e-06, 
+              -0.515501669, 2.27383078e-06, -0.856888575 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        - 
+          id: 22
+          name: "target4"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/O2/target4.wrl"
+            currentBaseLink: "target4"
+            rootPosition: [ 3.187, 7.115, 5.702 ]
+            rootAttitude: [ 
+              -0.856888575, 1.28565983e-06, 0.515501669, 
+              2.27383078e-06, 1, 1.28565983e-06, 
+              -0.515501669, 2.27383078e-06, -0.856888575 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 3.187, 7.115, 5.702 ]
+            initialRootAttitude: [ 
+              -0.856888575, 1.28565983e-06, 0.515501669, 
+              2.27383078e-06, 1, 1.28565983e-06, 
+              -0.515501669, 2.27383078e-06, -0.856888575 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
 views: 
   - 
     id: 0
