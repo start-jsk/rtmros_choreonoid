@@ -21,7 +21,7 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 6.8, 2.0, 1.332 ]
+            rootPosition: [ 4.5, 2.0, 1.332 ]
             rootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -31,7 +31,7 @@ items:
               -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 6.8, 2.0, 1.332 ]
+            initialRootPosition: [ 4.5, 2.0, 1.332 ]
             initialRootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -202,7 +202,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/surface.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/surface.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -221,11 +221,11 @@ items:
             isEditable: true
         - 
           id: 12
-          name: "wall"
+          name: "field"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/wall.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/field.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -244,11 +244,11 @@ items:
             isEditable: true
         - 
           id: 13
-          name: "field"
+          name: "wall"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/field.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/wall.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -271,7 +271,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/flag1L.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/flag1L.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -294,7 +294,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/flag1R.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/flag1R.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -317,7 +317,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/flag2L.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/flag2L.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -340,7 +340,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/flag2R.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/flag2R.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -363,7 +363,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/flag3L.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/flag3L.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -386,7 +386,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2B/flag3R.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2AB/flag3R.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -464,9 +464,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 11.0407832, -1.64768328, 5.11880993 ]
-          direction: [ -0.49407619, 0.736646945, -0.461779165 ]
-          up: [ -0.257221415, 0.383506376, 0.886994928 ]
+          eye: [ 12.215907, -2.6277283, 4.91080049 ]
+          direction: [ -0.552645599, 0.710906347, -0.434965524 ]
+          up: [ -0.266958248, 0.343406902, 0.900447107 ]
         - 
           camera: Orthographic
           orthoHeight: 20

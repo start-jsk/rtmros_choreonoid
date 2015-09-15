@@ -227,13 +227,13 @@ items:
           data: 
             modelFile: "../../jvrc_models/model/tasks/R3A/spreader.wrl"
             currentBaseLink: ""
-            rootPosition: [ -0.2, 3.5, 0 ]
+            rootPosition: [ 2.063, 5.3407, 1.24154 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
             jointPositions: [  0.000000 ]
-            initialRootPosition: [ -0.2, 3.5, 0 ]
+            initialRootPosition: [ 2.063, 5.3407, 1.24154 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
