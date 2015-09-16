@@ -6,7 +6,7 @@
     </group>
     <include file="$(find jsk_pcl_ros)/launch/multi_resolution_organized_pointcloud.launch">
       <arg name="NAMESPACE" value="multisense"/>
-      <arg name="INPUT" value="/multisense/organized_point2_color" />
+      <arg name="INPUT" value="/multisense/organized_image_points2_color" />
       <arg name="INPUT_LEFT_IMAGE" value="/multisense/left/image_rect_color" />
       <arg name="INPUT_LEFT_CAMERA_INFO" value="/multisense/left/camera_info" />
       <arg name="INPUT_DEPTH" value="/multisense/depth" />
