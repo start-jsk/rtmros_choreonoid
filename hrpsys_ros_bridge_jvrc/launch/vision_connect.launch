@@ -92,4 +92,7 @@
   <node name="head_range_frame_id" pkg="tf"
         type="static_transform_publisher"
         args="0 0 0 0 0 0 /HEAD_RANGE head_hokuyo_frame 20" />
+  <node name="head_root_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /head_root multisense/left_camera_optiocal_frame 33" />
 </launch>
