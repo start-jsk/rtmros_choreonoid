@@ -114,12 +114,16 @@
     (send *ri* :wait-interpolation))
   (send *ri* :stop-auto-balancer))
 
-(defun go-pos-quad (&key (x 0) (y 0) (th 0) (type :crawl))
+(defun go-pos-quad (&key (x 0) (y 0) (th 0) (type :crawl) (debug-view nil))
   (let* ((gp (send *robot* :go-pos-params->footstep-list x y th
                    :forward-offset-length 100 :rotate-rad 10))
          (ik-args
-          (list :min (float-vector -100 -100 -1000 -90 -90 -90)
-                :max (float-vector +100 +100 +1000 +90 +90 +90)
+          (list :min (float-vector -1e5 -1e5 -1e5 -180 -180 -180)
+                :max (float-vector +1e5 +1e5 +1e5 +180 +180 +180)
+                :absolute-p t
+                :debug-view debug-view
+                :cog-null-space nil
+                :min-loop 2
                 :additional-weight-list (list (list (send *robot* :torso :waist-y :child-link) 0.0))
                 :root-link-virtual-joint-weight (float-vector 0.5 0.5 0.5 0.0 0.0 0.0)
                 :cog-gain 5.0 :centroid-thre 50
