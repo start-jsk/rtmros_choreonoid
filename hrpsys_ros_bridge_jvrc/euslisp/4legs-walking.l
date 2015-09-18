@@ -101,8 +101,7 @@
 
 (warn "(init)~%")
 (defun init ()
-  (setup-robot :robot 'jaxon_red)
-  (jaxon_red-init)
+  (setup-robot :robot 'jaxon_red-init)
   (send *ri* :set-auto-balancer-param :transition-time 5)
   (send *ri* :start-auto-balancer)
   (send *ri* :start-grasp))
@@ -114,9 +113,51 @@
     (send *ri* :wait-interpolation))
   (send *ri* :stop-auto-balancer))
 
-(defun go-pos-quad (&key (x 0) (y 0) (th 0) (type :crawl) (debug-view nil))
-  (let* ((gp (send *robot* :go-pos-params->footstep-list x y th
-                   :forward-offset-length 100 :rotate-rad 10))
+(defun go-pos-quad-params->footstep-list (&key (x 0) (y 0) (th 0) (type :crawl))
+  (let* ((tmp-fsl (send *robot* :go-pos-params->footstep-list x y th
+                        :forward-offset-length 100 :rotate-rad 3))
+         fsl)
+    ;; calculate foot step list for quad walk
+    (dolist (fs tmp-fsl)
+      (let* ((fs-leg-name (send fs :name))
+             (offset (send (send *robot* fs-leg-name :end-coords :copy-worldcoords)
+                           :transformation fs :world))
+             (target-arm-name))
+        (case type
+              (:crawl
+               (dolist (l (list fs-leg-name (case fs-leg-name (:lleg :larm) (:rleg :rarm))))
+                 (push (list (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
+                                                        :transform offset :world)
+                                          :name l)) fsl)))
+              (:trot
+               (push (mapcar #'(lambda (l)
+                                 (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
+                                                            :transform offset :world)
+                                              :name l))
+                             (list fs-leg-name (setq target-arm-name (case fs-leg-name (:lleg :rarm) (:rleg :larm))))) fsl))
+              (:pace
+               (push (mapcar #'(lambda (l)
+                                 (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
+                                                            :transform offset :world)
+                                              :name l))
+                             (list fs-leg-name (case fs-leg-name (:lleg :larm) (:rleg :rarm)))) fsl))
+              (:gallop
+               (push (mapcar #'(lambda (l)
+                                 (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
+                                                            :transform offset :world)
+                                              :name l))
+                             (list (case fs-leg-name (:rleg :rleg) (:lleg :rarm))
+                                   (case fs-leg-name (:rleg :lleg) (:lleg :larm)))) fsl))
+              )))
+    ;; viewing
+    (dolist (fs fsl)
+      (dolist (f fs)
+        (send f :draw-on :flush t :size 200)))
+    (reverse fsl)))
+
+(defun go-pos-quad (&key (x 0) (y 0) (th 0) (type :crawl) (debug-view nil) (dt 0.1)
+                         (default-step-time 1.0) (default-step-height 50))
+  (let* ((fsl (go-pos-quad-params->footstep-list :x x :y y :th th :type type))
          (ik-args
           (list :min (float-vector -1e5 -1e5 -1e5 -180 -180 -180)
                 :max (float-vector +1e5 +1e5 +1e5 +180 +180 +180)
@@ -127,86 +168,32 @@
                 :additional-weight-list (list (list (send *robot* :torso :waist-y :child-link) 0.0))
                 :root-link-virtual-joint-weight (float-vector 0.5 0.5 0.5 0.0 0.0 0.0)
                 :cog-gain 5.0 :centroid-thre 50
-                :init nil))
-         (raec-from-rhcc (send (send *robot* :get :rhand-contact-coords)
-                               :transformation (send *robot* :rarm :end-coords)))
-         (laec-from-lhcc (send (send *robot* :get :lhand-contact-coords)
-                               :transformation (send *robot* :larm :end-coords)))
-         (first-leg (send (car gp) :name))
-         (first-arm (case first-leg (:lleg :larm) (:rleg :rarm)))
-         (second-leg (send (cadr gp) :name))
-         (second-arm (case second-leg (:lleg :larm) (:rleg :rarm)))
-         fsl)
-    (dotimes (i (/ (length gp) 2))
-      (let ((first-diff  (send (send *robot* first-leg :end-coords :copy-worldcoords)
-                               :transformation (elt gp (+ (* i 2) 0)) :world))
-            (second-diff (send (send *robot* second-leg :end-coords :copy-worldcoords)
-                               :transformation (elt gp (+ (* i 2) 1)) :world)))
-        (case type
-          (:crawl
-           (push (list (make-coords :coords (send (send *robot* first-arm :end-coords :copy-worldcoords)
-                                                  :transform first-diff :world) :name first-arm)) fsl)
-           (push (list (make-coords :coords (send (send *robot* first-leg :end-coords :copy-worldcoords)
-                                                  :transform first-diff :world) :name first-leg)) fsl)
-           (push (list (make-coords :coords (send (send *robot* second-arm :end-coords :copy-worldcoords)
-                                                  :transform second-diff :world) :name second-arm)) fsl)
-           (push (list (make-coords :coords (send (send *robot* second-leg :end-coords :copy-worldcoords)
-                                                  :transform second-diff :world) :name second-leg)) fsl)
-           )
-          (:trot
-           (push (list (make-coords :coords (send (send *robot* first-arm :end-coords :copy-worldcoords)
-                                                  :transform first-diff :world) :name first-arm)
-                       (make-coords :coords (send (send *robot* second-leg :end-coords :copy-worldcoords)
-                                                  :transform first-diff :world) :name second-leg))
-                 fsl)
-           (push (list (make-coords :coords (send (send *robot* second-arm :end-coords :copy-worldcoords)
-                                                  :transform second-diff :world) :name second-arm)
-                       (make-coords :coords (send (send *robot* first-leg :end-coords :copy-worldcoords)
-                                                  :transform second-diff :world) :name first-leg))
-                 fsl))
-          )))
-    (if (= (mod (length gp) 2) 1)
-        (let ((first-diff (send (elt gp 0) :transformation (car (last gp)) :world)))
-          (case type
-            (:crawl
-             (push (list (make-coords :coords (send (send *robot* first-arm :end-coords :copy-worldcoords)
-                                                    :transform first-diff :world) :name first-arm)) fsl)
-             (push (list (make-coords :coords (send (send *robot* first-leg :end-coords :copy-worldcoords)
-                                                    :transform first-diff :world) :name first-leg)) fsl))
-            (:trot
-             (push (list (make-coords :coords (send (send *robot* first-arm :end-coords :copy-worldcoords)
-                                                    :transform first-diff :world) :name first-arm)
-                         (make-coords :coords (send (send *robot* second-leg :end-coords :copy-worldcoords)
-                                                    :transform first-diff :world) :name second-leg)
-                         fsl))))
-          ))
-    ;; viewing
-    (dolist (fs fsl)
-      (dolist (f fs)
-        (send f :draw-on :flush t :size 200)))
-
+                :init nil)))
     (send *robot* :calc-walk-pattern-from-footstep-list
-          (reverse fsl)
+          fsl
           :debug-view :no-message
           :all-limbs '(:rleg :lleg :rarm :larm)
           :init-pose-function #'(lambda () nil)
           :solve-angle-vector-args ik-args
-          :default-step-height 20
-          :default-step-time 0.8
-          :dt 0.1
+          :default-step-height default-step-height
+          :default-step-time default-step-time
+          :dt dt
           )
     )
   )
 
-(defun go-pos-quad-real (&key (x 0) (y 0) (th 0) ((:scale scl) 1))
+(defun go-pos-quad-real (&key (x 0) (y 0) (th 0) (type :trot) (dt 0.1) ((:scale scl) 1)
+                              (default-step-height 50) (default-step-time 1.0))
   ;; (send *robot* :angle-vector (send *ri* :state :potentio-vector))
   ;; (send *robot* :fix-leg-to-coords (make-coords))
-  (let* ((fsn (go-pos-quad :x x :y y :th th :type :crawl))
-         (tms (make-list (length fsn) :initial-element (* scl 100))))
-    (send *ri* :angle-vector (cadr (memq :angle-vector (car fsn)))
+  (let* ((walk-pattern (go-pos-quad :x x :y y :th th :type type :dt dt
+                                    :default-step-height default-step-height
+                                    :default-step-time default-step-time))
+         (tms (make-list (length walk-pattern) :initial-element (* dt 1e3))))
+    (send *ri* :angle-vector (cadr (memq :angle-vector (car walk-pattern)))
           (* scl 100))
     (send *ri* :wait-interpolation)
     (send *ri* :angle-vector-sequence
-          (mapcar #'(lambda (x) (cadr (memq :angle-vector x))) fsn) tms)
+          (mapcar #'(lambda (x) (cadr (memq :angle-vector x))) walk-pattern) tms)
     (send *ri* :wait-interpolation)
     ))
