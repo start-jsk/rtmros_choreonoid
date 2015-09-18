@@ -164,7 +164,6 @@
                 :absolute-p t
                 :debug-view debug-view
                 :cog-null-space nil
-                :min-loop 2
                 :additional-weight-list (list (list (send *robot* :torso :waist-y :child-link) 0.0))
                 :root-link-virtual-joint-weight (float-vector 0.5 0.5 0.5 0.0 0.0 0.0)
                 :cog-gain 5.0 :centroid-thre 50
