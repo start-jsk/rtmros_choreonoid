@@ -182,7 +182,7 @@
     )
   )
 
-(defun go-pos-quad-real (&key (x 0) (y 0) (th 0) (type :crawl) (dt 0.1) ((:scale scl) 1)
+(defun go-pos-quad-real (&key (x 0) (y 0) (th 0) (type :trot) (dt 0.1) ((:scale scl) 1)
                               (default-step-height 50) (default-step-time 1.0))
   ;; (send *robot* :angle-vector (send *ri* :state :potentio-vector))
   ;; (send *robot* :fix-leg-to-coords (make-coords))
