@@ -448,14 +448,6 @@ items:
                 AutoConnect: false
                 InstanceName: JAXON_JVRC
                 bodyPeriodicRate: 0.002
-        - 
-          id: 22
-          name: "model-loader"
-          plugin: Base
-          class: ExtCommandItem
-          data: 
-            command: openhrp-model-loader
-            executeOnLoading: true
 views: 
   - 
     id: 0
