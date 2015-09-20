@@ -15,61 +15,154 @@ items:
       children: 
         - 
           id: 2
-          name: "JAXON_JVRC"
+          name: "wall"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
-            currentBaseLink: "WAIST"
-            rootPosition: [ 3.2, 2.0, 1.332 ]
+            modelFile: "../../jvrc_models/model/tasks/R3B/wall.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
-              0, -1, 0, 
               1, 0, 0, 
+              0, 1, 0, 
               0, 0, 1 ]
-            jointPositions: [ 
-               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
-              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
-               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 3.2, 2.0, 1.332 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
             initialRootAttitude: [ 
-              0, -1, 0, 
               1, 0, 0, 
+              0, 1, 0, 
               0, 0, 1 ]
-            initialJointPositions: [ 
-               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
-              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
-               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
-          children: 
-            - 
-              id: 3
-              name: "BodyRTC"
-              plugin: OpenRTM
-              class: BodyRTCItem
-              data: 
-                isImmediateMode: true
-                moduleName: "PDcontroller"
-                confFileName: "SensorReaderRTC.PD.conf"
-                configurationMode: Use Configuration File
-                AutoConnect: false
-                InstanceName: JAXON_JVRC
-                bodyPeriodicRate: 0.002
+        - 
+          id: 3
+          name: "surface"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/R3B/surface.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
         - 
           id: 4
+          name: "ladder"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/R3B/ladder.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 5
+          name: "car"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/R3B/car.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 6
+          name: "flag"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/R3B/flag.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 7
+          name: "target1"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/R3B/target1.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0 ]
+            rootAttitude: [ 
+	      1, 0, 0,
+	      0, 1, 0,
+	      0, 0, 1 ]
+            jointPositions: [  0.000000 ]
+            initialRootPosition: [ 0, 0, 0 ]
+            initialRootAttitude: [ 
+	      1, 0, 0,
+	      0, 1, 0,
+	      0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 8
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
           data: 
-            realtimeSync: false
-            recording: tail
-            timeRangeMode: Unlimited
+            realtimeSync: true
+            recording: full
+            timeRangeMode: TimeBar range
             onlyActiveControlPeriod: true
-            timeLength: 180
+            timeLength: 600
             allLinkPositionOutputMode: false
             deviceStateOutput: true
             controllerThreads: true
@@ -80,7 +173,7 @@ items:
             staticFriction: 1
             slipFriction: 1
             cullingThresh: 0.005
-            contactCullingDepth: 0.05
+            contactCullingDepth: 0.03
             errorCriterion: 0.001
             maxNumIterations: 1000
             contactCorrectionDepth: 0.0001
@@ -89,7 +182,14 @@ items:
             2Dmode: false
           children: 
             - 
-              id: 5
+              id: 9
+              name: "JVRCManager"
+              plugin: JVRC
+              class: JVRCManagerItem
+              data: 
+                info: "../../jvrc_models/model/tasks/R3B/R3B.yaml"
+            - 
+              id: 10
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -106,10 +206,10 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: false
+                enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 6
+              id: 11
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -126,10 +226,10 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: false
+                enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 7
+              id: 12
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -146,10 +246,10 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: false
+                enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 8
+              id: 13
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -166,10 +266,10 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: false
+                enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 9
+              id: 14
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -186,148 +286,62 @@ items:
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
-                enableHeadLight: false
+                enableHeadLight: true
                 enableAdditionalLights: true
         - 
-          id: 10
+          id: 15
+          name: "JAXON_JVRC"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            currentBaseLink: "WAIST"
+            rootPosition: [ 3.2, 2.0, 1.332 ]
+            rootAttitude: [ 
+              0, -1, 0, 
+              1, 0, 0, 
+              0, 0, 1 ]
+            jointPositions: [ 
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+            initialRootPosition: [ 3.2, 2.5, 1.332 ]
+            initialRootAttitude: [ 
+              0, -1, 0, 
+              1, 0, 0, 
+              0, 0, 1 ]
+            initialJointPositions: [ 
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+          children: 
+            - 
+              id: 16
+              name: "BodyRTC"
+              plugin: OpenRTM
+              class: BodyRTCItem
+              data: 
+                isImmediateMode: true
+                moduleName: "PDcontroller"
+                confFileName: "SensorReaderRTC.PD.conf"
+                configurationMode: Use Configuration File
+                AutoConnect: false
+                InstanceName: JAXON_JVRC
+                bodyPeriodicRate: 0.002
+        - 
+          id: 17
           name: "model-loader"
           plugin: Base
           class: ExtCommandItem
           data: 
             command: openhrp-model-loader
             executeOnLoading: true
-        - 
-          id: 11
-          name: "wall"
-          plugin: Body
-          class: BodyItem
-          data:
-            modelFile: "../../jvrc_models/model/tasks/R3B/wall.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            zmp: [ 0, 0, 0 ]
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 12
-          name: "surface"
-          plugin: Body
-          class: BodyItem
-          data:
-            modelFile: "../../jvrc_models/model/tasks/R3B/surface.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            zmp: [ 0, 0, 0 ]
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 13
-          name: "ladder"
-          plugin: Body
-          class: BodyItem
-          data:
-            modelFile: "../../jvrc_models/model/tasks/R3B/ladder.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            zmp: [ 0, 0, 0 ]
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 14
-          name: "car"
-          plugin: Body
-          class: BodyItem
-          data:
-            modelFile: "../../jvrc_models/model/tasks/R3B/car.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            zmp: [ 0, 0, 0 ]
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 15
-          name: "flag"
-          plugin: Body
-          class: BodyItem
-          data:
-            modelFile: "../../jvrc_models/model/tasks/R3B/flag.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 1.0, 0.0,
-              0.0, 0.0, 1.0 ]
-            zmp: [ 0, 0, 0 ]
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 16
-          name: "target1"
-          plugin: Body
-          class: BodyItem
-          data:
-            modelFile: "../../jvrc_models/model/tasks/R3B/target1.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 4.213, 16.15, 1.01 ]
-            rootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 0.000796326710733, 0.999999682932,
-              0.0, -0.999999682932, 0.000796326710733 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 4.213, 16.15, 1.01 ]
-            initialRootAttitude: [
-              1.0, 0.0, 0.0,
-              0.0, 0.000796326710733, 0.999999682932,
-              0.0, -0.999999682932, 0.000796326710733 ]
-            zmp: [ 0, 0, 0 ]
-            selfCollisionDetection: false
-            isEditable: true
 views: 
   - 
     id: 0
@@ -341,8 +355,8 @@ views:
     mounted: true
     state: 
       selected: [ 1 ]
-      checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
-      expanded: [ 1, 2, 3, 4, 5, 7, 8, 10 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,  ]
+      expanded: [ 1, 8 ]
   - 
     id: 2
     plugin: Base
@@ -384,16 +398,16 @@ views:
       useBufferForPicking: true
       cameras: 
         - 
-          camera: Perspective
+          camera: [ System, Perspective ]
           isCurrent: true
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 12.215907, -2.6277283, 4.91080049 ]
-          direction: [ -0.552645599, 0.710906347, -0.434965524 ]
-          up: [ -0.266958248, 0.343406902, 0.900447107 ]
+          eye: [ 15.1522865, -6.40798549, 9.37584793 ]
+          direction: [ -0.661392478, 0.57583136, -0.48060195 ]
+          up: [ -0.362472835, 0.315581493, 0.876938861 ]
         - 
-          camera: Orthographic
+          camera: [ System, Orthographic ]
           orthoHeight: 20
           near: 0.01
           far: 100
@@ -431,13 +445,19 @@ views:
       listingMode: "Link List"
   - 
     id: 7
+    name: "JVRC Score"
+    plugin: JVRC
+    class: JVRCScoreView
+    mounted: true
+  - 
+    id: 8
     plugin: Python
     class: PythonConsoleView
     mounted: true
 toolbars: 
   "TimeBar": 
     minTime: 0
-    maxTime: 324.346
+    maxTime: 600
     frameRate: 1000
     playbackFrameRate: 50
     idleLoopDrivenMode: false
@@ -456,6 +476,7 @@ toolbars:
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
+    autoGenerationForNewBody: true
     balancer: false
     autoGeneration: false
     timeScaleRatio: 1
@@ -498,35 +519,31 @@ Body:
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 11
+        bodyItem: 3
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 12
+        bodyItem: 4
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 13
+        bodyItem: 5
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 14
+        bodyItem: 6
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 15
+        bodyItem: 7
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
-      - 
-        bodyItem: 16
-        showCenterOfMass: false
-        showPpcom: false
-        showZmp: false
+    staticModelEditing: true
   "KinematicFaultChecker": 
     checkJointPositions: true
     angleMargin: 0
@@ -538,3 +555,54 @@ Body:
     onlyTimeBarRange: false
 OpenRTM: 
   "deleteUnmanagedRTCsOnStartingSimulation": false
+viewAreas: 
+  - 
+    type: embedded
+    tabs: true
+    contents: 
+      type: splitter
+      orientation: horizontal
+      sizes: [ 326, 1588 ]
+      children: 
+        - 
+          type: splitter
+          orientation: vertical
+          sizes: [ 497, 496 ]
+          children: 
+            - 
+              type: pane
+              views: [ 1 ]
+              current: 1
+            - 
+              type: pane
+              views: [ 0, 6, 7 ]
+              current: 7
+        - 
+          type: splitter
+          orientation: vertical
+          sizes: [ 993, 0 ]
+          children: 
+            - 
+              type: splitter
+              orientation: horizontal
+              sizes: [ 0, 1582 ]
+              children: 
+                - 
+                  type: pane
+                  views: [ 4, 5 ]
+                  current: 4
+                - 
+                  type: pane
+                  views: [ 3 ]
+                  current: 3
+            - 
+              type: pane
+              views: [ 2, 8 ]
+              current: 2
+layoutOfToolBars: 
+  rows: 
+    - 
+      - { name: "FileBar", x: 0, priority: 0 }
+      - { name: "TimeBar", x: 47, priority: 1 }
+      - { name: "SceneBar", x: 1568, priority: 2 }
+      - { name: "SimulationBar", x: 1725, priority: 3 }
