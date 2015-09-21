@@ -276,7 +276,7 @@ items:
             recording: full
             timeRangeMode: TimeBar range
             onlyActiveControlPeriod: true
-            timeLength: 600
+            timeLength: 12000
             allLinkPositionOutputMode: false
             deviceStateOutput: true
             controllerThreads: true
@@ -420,7 +420,7 @@ items:
               -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 3.2, 2.5, 1.332 ]
+            initialRootPosition: [ 3.2, 1.5, 1.332 ]
             initialRootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -586,7 +586,7 @@ views:
 toolbars: 
   "TimeBar": 
     minTime: 0
-    maxTime: 600
+    maxTime: 12000
     frameRate: 1000
     playbackFrameRate: 50
     idleLoopDrivenMode: false

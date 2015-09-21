@@ -26,6 +26,9 @@ echo ${poslst}
 sed -i -e "s@checked: .*@checked: [ ${poslst} ]@" ${CNOID_FILE}
 done
 
+sed -i -e "s@maxTime: 600@maxTime: 12000@" ${CNOID_FILE}
+sed -i -e "s@timeLength: 600@timeLength: 12000@" ${CNOID_FILE}
+
 # jaxon_pdO1.cnoid-            rootPosition: [ 3.2, 2.5, 1.332 ]
 # jaxon_pdO2.cnoid-            rootPosition: [ 3.0, 1.5, 4.632 ]
 # jaxon_pdR11L.cnoid-            rootPosition: [ 3.2, 1.5, 1.332 ]
