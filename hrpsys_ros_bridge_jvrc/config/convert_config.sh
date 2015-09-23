@@ -40,3 +40,5 @@ sed -i -e "s@timeLength: 600@timeLength: 12000@" ${CNOID_FILE}
 # jaxon_pdR3B.cnoid-            rootPosition: [ 3.2, 2.0, 1.332 ]
 # jaxon_pdR4.cnoid-            rootPosition: [ 4.6, 2, 1.332 ]
 # jaxon_pdR5.cnoid-            rootPosition: [ 3.2, 2.6, 1.332 ]
+
+sed -i -e "s@jvrc_models/JAXON_JVRC@jvrc_models/JAXON_JVRC_choreonoid@" ${CNOID_FILE}
