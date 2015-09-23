@@ -1,0 +1,1673 @@
+#VRML V2.0 utf8
+
+PROTO Joint [
+  exposedField     SFVec3f      center              0 0 0
+  exposedField     MFNode       children            []
+  exposedField     MFFloat      llimit              []
+  exposedField     MFFloat      lvlimit             []
+  exposedField     SFRotation   limitOrientation    0 0 1 0
+  exposedField     SFString     name                ""
+  exposedField     SFRotation   rotation            0 0 1 0
+  exposedField     SFVec3f      scale               1 1 1
+  exposedField     SFRotation   scaleOrientation    0 0 1 0
+  exposedField     MFFloat      stiffness           [ 0 0 0 ]
+  exposedField     SFVec3f      translation         0 0 0
+  exposedField     MFFloat      ulimit              []
+  exposedField     MFFloat      uvlimit             []
+  exposedField     MFFloat      climit              []
+  exposedField     SFString     jointType           ""
+  exposedField     SFInt32      jointId             -1
+  exposedField     SFVec3f      jointAxis           0 0 1
+
+  exposedField     SFFloat      gearRatio           1
+  exposedField     SFFloat      rotorInertia        0
+  exposedField     SFFloat      rotorResistor       0
+  exposedField     SFFloat      torqueConst         1
+  exposedField     SFFloat      encoderPulse        1
+]
+{
+  Transform {
+    center           IS center
+    children         IS children
+    rotation         IS rotation
+    scale            IS scale
+    scaleOrientation IS scaleOrientation
+    translation      IS translation
+  }
+}
+
+PROTO Segment [
+  field           SFVec3f     bboxCenter        0 0 0
+  field           SFVec3f     bboxSize          -1 -1 -1
+  exposedField    SFVec3f     centerOfMass      0 0 0
+  exposedField    MFNode      children          [ ]
+  exposedField    SFNode      coord             NULL
+  exposedField    MFNode      displacers        [ ]
+  exposedField    SFFloat     mass              0 
+  exposedField    MFFloat     momentsOfInertia  [ 0 0 0 0 0 0 0 0 0 ]
+  exposedField    SFString    name              ""
+  eventIn         MFNode      addChildren
+  eventIn         MFNode      removeChildren
+]
+{
+  Group {
+    addChildren    IS addChildren
+    bboxCenter     IS bboxCenter
+    bboxSize       IS bboxSize
+    children       IS children
+    removeChildren IS removeChildren
+  }
+}
+
+PROTO Humanoid [
+  field           SFVec3f    bboxCenter            0 0 0
+  field           SFVec3f    bboxSize              -1 -1 -1
+  exposedField    SFVec3f    center                0 0 0
+  exposedField    MFNode     humanoidBody          [ ]
+  exposedField    MFString   info                  [ ]
+  exposedField    MFNode     joints                [ ]
+  exposedField    SFString   name                  ""
+  exposedField    SFRotation rotation              0 0 1 0
+  exposedField    SFVec3f    scale                 1 1 1
+  exposedField    SFRotation scaleOrientation      0 0 1 0
+  exposedField    MFNode     segments              [ ]
+  exposedField    MFNode     sites                 [ ]
+  exposedField    SFVec3f    translation           0 0 0
+  exposedField    SFString   version               "1.1"
+  exposedField    MFNode     viewpoints            [ ]
+]
+{
+  Transform {
+    bboxCenter       IS bboxCenter
+    bboxSize         IS bboxSize
+    center           IS center
+    rotation         IS rotation
+    scale            IS scale
+    scaleOrientation IS scaleOrientation
+    translation      IS translation
+    children [
+      Group {
+        children IS viewpoints
+      }
+      Group {
+        children IS humanoidBody 
+      }
+    ]
+  }
+}
+
+PROTO VisionSensor [
+  exposedField SFVec3f    translation       0 0 0
+  exposedField SFRotation rotation          0 0 1 0
+  exposedField MFNode     children          [ ]
+  exposedField SFFloat    fieldOfView       0.785398
+  exposedField SFString   name              ""
+  exposedField SFFloat    frontClipDistance 0.01
+  exposedField SFFloat    backClipDistance  10.0
+  exposedField SFString   type              "NONE"
+  exposedField SFInt32    sensorId          -1
+  exposedField SFInt32    width             320
+  exposedField SFInt32    height            240
+  exposedField SFFloat    frameRate         30
+]
+{
+  Transform {
+    rotation         IS rotation
+    translation      IS translation
+    children         IS children
+  }
+}
+PROTO RangeSensor [
+  exposedField SFVec3f    translation       0 0 0
+  exposedField SFRotation rotation          0 0 1 0
+  exposedField MFNode     children          [ ]
+  exposedField SFInt32    sensorId          -1
+  exposedField SFFloat    scanAngle         3.14159 #[rad]
+  exposedField SFFloat    scanStep          0.1     #[rad]
+  exposedField SFFloat    scanRate          10      #[Hz]
+  exposedField SFFloat    minDistance        0.01
+  exposedField SFFloat    maxDistance        10
+]
+{
+  Transform {
+    rotation         IS rotation
+    translation      IS translation
+    children         IS children
+  }
+}
+
+PROTO ForceSensor [  
+  exposedField SFVec3f    maxForce    -1 -1 -1
+  exposedField SFVec3f    maxTorque   -1 -1 -1
+  exposedField SFVec3f    translation 0 0 0
+  exposedField SFRotation rotation    0 0 1 0
+  exposedField SFInt32    sensorId    -1
+]
+{
+  Transform {
+    translation IS translation
+    rotation    IS rotation
+  }
+}
+
+PROTO Gyro [
+  exposedField SFVec3f    maxAngularVelocity -1 -1 -1
+  exposedField SFVec3f    translation        0 0 0
+  exposedField SFRotation rotation           0 0 1 0
+  exposedField SFInt32    sensorId           -1
+]
+{
+  Transform {
+    translation IS translation
+    rotation    IS rotation
+  }
+}
+
+PROTO AccelerationSensor [
+  exposedField SFVec3f    maxAcceleration -1 -1 -1
+  exposedField SFVec3f    translation     0 0 0
+  exposedField SFRotation rotation        0 0 1 0
+  exposedField SFInt32    sensorId        -1
+]
+{
+  Transform {
+    translation IS translation
+    rotation    IS rotation
+  }
+}
+
+PROTO SpotLightDevice [
+  exposedField SFVec3f attenuation       1 0 0     # [0,)
+  exposedField SFFloat beamWidth         1.570796  # (0,/2]
+  exposedField SFColor color             1 1 1     # [0,1]
+  exposedField SFFloat cutOffAngle       0.785398  # (0,/2]
+  exposedField SFVec3f direction         0 0 -1    # (-,)
+  exposedField SFFloat intensity         1         # [0,1]
+  exposedField SFBool  on                TRUE
+  exposedField SFVec3f    translation 0 0 0
+  exposedField SFRotation rotation    0 0 1 0
+]
+{
+  Transform {
+    translation      IS translation
+    rotation         IS rotation
+  }
+}
+
+DEF JAXON_JVRC Humanoid {
+  humanoidBody [
+    DEF WAIST Joint {
+      jointType "free"
+      jointAxis 0 0 0
+      translation 0 0 1.0225
+      children [
+        DEF BODY Segment {
+          #mass 13.417
+          #centerOfMass -0.07476 -0.00162 0.01632
+          #momentsOfInertia [0.105595 -0.013907 -0.00090839 -0.013907 0.13452 0.00169817 -0.00090839 0.00169817 0.179963 ]
+          ## mass refine 2015.4.25
+          #mass 18.7
+          #centerOfMass -0.1159 -0.00067 -0.023
+          ## fix by hand 2015.4.26
+          mass 22.7
+          centerOfMass -0.1059 -0.00067 -0.023
+          momentsOfInertia [0.229835 0.00171 0.135708 0.00171 0.535336 0.000616 0.135708 0.000616 0.549159]
+          children [
+            Inline { url "BODY.wrl" }
+            DEF gsensor AccelerationSensor{
+              translation 0 0 0
+              rotation 1 0 0 0.006331688007092509
+              sensorId 0
+            } #Sensor
+            DEF gyrometer Gyro{
+              translation 0 0 0
+              rotation 1 0 0 0.006331688007092509
+              sensorId 0
+            } #Sensor
+          ]
+        } #Segment BODY
+        DEF CHEST_JOINT0 Joint {
+          translation 0.006 0 0.128
+          jointId 12
+          jointType "rotate"
+          jointAxis 1 0 0
+          ## with margin
+          ulimit 0.198551
+          llimit -0.198551
+          ## actual measure
+          # ulimit 0.228551
+          # llimit -0.309578
+          ## from CAD
+          # ulimit 0.436332
+          # llimit -0.436332
+          uvlimit 4
+          lvlimit -4
+          climit [100.0]
+          gearRatio   384
+          torqueConst 0.0205
+          rotorInertia 7.0e-6
+          children [
+            DEF CHEST_LINK0 Segment {
+              mass 0.866
+              centerOfMass -0.0084 0.00137 0.01359
+              momentsOfInertia [0.00125384 0 0 0 0.00123407 0 0 0 0.000677392 ]
+              children [
+                Inline { url "CHEST_LINK0.wrl" }
+              ]
+            } #Segment CHEST_LINK0
+            DEF CHEST_JOINT1 Joint {
+              translation 0 0 0.025
+              jointId 13
+              jointType "rotate"
+              jointAxis 0 1 0
+              ## for min-max
+              ulimit +0.6108652381980153  # +35deg
+              # llimit -0.05235987755982989 # -3deg
+              llimit -0.034906585040 # -2deg
+              ## with margin
+              # ulimit 1.37639
+              # llimit 0
+              ## actual measure
+              # ulimit 0.6108652381980153   # +35.0[deg]
+              # llimit -0.04363323129985824 # -2.5[deg]
+              ## from CAD
+              # ulimit 1.39626
+              # llimit 0
+              uvlimit 4
+              lvlimit -4
+              climit [100.0]
+              gearRatio   384
+              torqueConst 0.0205
+              rotorInertia 7.0e-6
+              children [
+                DEF CHEST_LINK1 Segment {
+                  #mass 18.768
+                  #centerOfMass -0.07913 0.00529 0.04387
+                  #momentsOfInertia [0.232458 -0.00962265 0.00541821 -0.00962265 0.271384 -0.0229267 0.00541821 -0.0229267 0.426617 ]
+                  ## mass refine 2015.4.25
+                  #mass 15.23
+                  #centerOfMass -0.11697 0.00390 0.03652
+                  ## fix by hand 2015.4.26
+                  mass 18.23
+                  centerOfMass -0.111697 0.00390 0.03652
+                  momentsOfInertia [0.186526 0.003889 -0.039414 0.003889 0.418012 0.001281 -0.039414 0.001281 0.477668]
+                  children [
+                    Inline { url "CHEST_LINK1.wrl" }
+                  ]
+                } #Segment CHEST_LINK1
+                DEF CHEST_JOINT2 Joint {
+                  translation 0 0 0.3085
+                  jointId 14
+                  jointType "rotate"
+                  jointAxis 0 0 1
+                  # with margin
+                  ulimit 1.0566
+                  llimit -1.0566
+                  # actual measure
+                  # ulimit 1.0866
+                  # llimit -1.30716
+                  # from CAD
+                  # ulimit 1.5708
+                  # llimit -1.5708
+                  uvlimit 4
+                  lvlimit -4
+                  climit [50.0]
+                  gearRatio   384
+                  torqueConst 0.0205
+                  rotorInertia 7.0e-6
+                  children [
+                    DEF CHEST_LINK2 Segment {
+                      #mass 33.649
+                      #centerOfMass -0.12477 -0.02127 -0.0874
+                      #momentsOfInertia [0.416269 -0.0305686 0.0316549 -0.0305686 0.365396 0.0727096 0.0316549 0.0727096 0.36815 ]
+                      ## mass refine 2015.4.25
+                      #mass 25.33
+                      #centerOfMass  -0.13693 -0.00113 -0.03796
+                      ## fix by hand 2015.4.26
+                      mass 31.33
+                      centerOfMass  -0.13693 -0.00113 -0.05796
+                      momentsOfInertia [0.510746 0.005161 0.143334 0.005161 1.09582 0.004687 0.143334 0.004687 1.02505]
+                      children [
+                        Inline { url "CHEST_LINK2.wrl" }
+                        Transform {
+                          translation 0.10 0.0 0.06
+                          children [
+                            DEF JVRC-Robot-Marker Shape {
+                              geometry Sphere { radius 0.025 }
+                              appearance Appearance {
+                                material Material {
+                                  diffuseColor 1.0 0.0 0.0
+                                  emissiveColor 1.0 0.0 0.0
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    } #Segment CHEST_LINK2
+                    DEF CHEST_CAMERA VisionSensor {
+                       name "fisheye"
+                       translation 0.164 0 -0.007
+                       rotation 0.3243587440432960 -0.3243587440432962 -0.8885847232117547 1.6886478500368325
+                       type "COLOR"
+                       frontClipDistance 0.1
+                       width 640
+                       height 640
+                       fieldOfView 2.61799 ## 150 deg / fisheye like
+                       sensorId 2
+                    }
+                    DEF HEAD_JOINT0 Joint {
+                      translation -0.015 0 0.0835
+                      jointId 15
+                      jointType "rotate"
+                      jointAxis 0 0 1
+                      # with margin
+                      ulimit 0.5410520681182421 # +31[deg] for min-max table. please fix model shape
+                      llimit -0.5759586531581288 # -33[deg] for min-max table. please fix model shape
+                      # actual measure
+                      # ulimit 0.739147
+                      # llimit -0.846485
+                      # from CAD
+                      # ulimit 3.14159
+                      # llimit -3.14159
+                      uvlimit 4
+                      lvlimit -4
+                      climit [50.0]
+                      gearRatio   460.8
+                      torqueConst 0.0205
+                      rotorInertia 7.0e-6
+                      children [
+                        DEF HEAD_LINK0 Segment {
+                          mass 1.086
+                          centerOfMass -0.01227 3e-05 0.03231
+                          momentsOfInertia [0.0031 0 0 0 0.0035 0 0 0 0.00119 ]
+                          children [
+                            Inline { url "HEAD_LINK0.wrl" }
+                          ]
+                        } #Segment HEAD_LINK0
+                        DEF HEAD_JOINT1 Joint {
+                          translation 0 0 0.102
+                          jointId 16
+                          jointType "rotate"
+                          jointAxis 0 1 0
+                          # with margin
+                          ulimit 0.698132
+                          llimit -0.5759586531581288 # -33[deg] for min-max table. please fix model shape
+                          # actual measure
+                          # ulimit 0.855211
+                          # llimit -0.783979
+                          # from CAD
+                          # ulimit 0.698132
+                          # llimit -0.785398
+                          uvlimit 4
+                          lvlimit -4
+                          climit [50.0]
+                          gearRatio   460.8
+                          torqueConst 0.0205
+                          rotorInertia 7.0e-6
+                          children [
+                            DEF HEAD_LINK1 Segment {
+                              #mass 0.5
+                              #centerOfMass 0 0 0.02
+                              #momentsOfInertia [0.01 0 0 0 0.01 0 0 0 0.005 ]
+                              ### add camera mass
+                              mass 4.274
+                              centerOfMass 0.042 0.004 0.058
+                              momentsOfInertia [0.035683 0.000877 -0.003172 0.000877 0.040037 0.000652 -0.003172 0.000652 0.035345]
+                              children [
+                                Inline { url "HEAD_LINK1_JVRC.wrl" }
+                              ]
+                            } #Segment HEAD_LINK1
+                            DEF HEAD_LEFT_CAMERA VisionSensor {
+                              name "LEFT_CAMERA"
+                              translation 0.1005 0.035 0.05425
+                              rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
+                              type "COLOR_DEPTH"
+                              frontClipDistance 0.05
+                              width 640
+                              height 480
+                              fieldOfView 1.5708
+                              sensorId 0
+                            }
+                            DEF HEAD_RIGHT_CAMERA VisionSensor {
+                              name "RIGHT_CAMERA"
+                              translation 0.1005 -0.035 0.05425
+                              rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
+                              type "COLOR"
+                              frontClipDistance 0.1
+                              width 640
+                              height 480
+                              fieldOfView 1.5708
+                              sensorId 1
+                            }
+                            DEF HeadMainLight SpotLightDevice {
+                              translation 0.1005 0.035 0.05425
+                              # rotation
+                              attenuation 1 0 0.01
+                              beamWidth 0.7
+                              # color
+                              cutOffAngle 0.75
+                              direction   1 0 0
+                              # intensity
+                              # on
+                            }
+                            DEF motor_joint Joint {
+                              translation 0.0559 0 0.14425
+                              jointId 37
+                              jointType "rotate"
+                              jointAxis 1 0 0
+                              #ulimit 0.144751
+                              #llimit -1.4208
+                              uvlimit 4
+                              lvlimit -4
+                              climit [50.0]
+                              gearRatio 1
+                              rotorInertia 0.8
+                              children [
+                                DEF RANGE_LINK Segment {
+                                  mass 0.4
+                                  centerOfMass 0.03 0 0
+                                  momentsOfInertia [0.00024 0 0 0 0.00024 0 0 0 0.00024 ]
+                                  children [
+                                     Inline { url "RANGE_SENSOR.wrl" }
+                                  ]
+                                } #Segment RANGE_LINK
+                                DEF HEAD_RANGE RangeSensor {
+                                  translation 0.03 0 0.015
+                                  rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
+                                  sensorId 0
+                                  scanAngle 2.3561944901923439 ## 135 deg
+                                  scanStep 0.0046019423636569 ## 512 line
+                                  scanRate 100
+                                  minDistance 0.2
+                                  maxDistance 30.0
+                                }
+                              ]
+                            } #Joint motor_joint
+                          ]
+                        } #Joint HEAD_JOINT1
+                      ]
+                    } #Joint HEAD_JOINT0
+                    DEF LARM_JOINT0 Joint {
+                      translation 0 0.0875 0
+                      jointId 25
+                      jointType "rotate"
+                      jointAxis 0 0 1
+                      # with margin
+                      ulimit 0.144751
+                      llimit -1.4208
+                      # actual measure
+                      # ulimit 0.174751
+                      # llimit -1.4508
+                      # from CAD
+                      # ulimit 0.349066
+                      # llimit -1.5708
+                      uvlimit 4
+                      lvlimit -4
+                      climit [50.0]
+                      gearRatio   460.8
+                      torqueConst 0.0205
+                      rotorInertia 7.0e-6
+                      children [
+                        DEF LARM_LINK0 Segment {
+                          mass 1.048
+                          centerOfMass -0.01745 0.00887 -0.00015
+                          momentsOfInertia [0.0029762 0 0 0 0.00235085 0 0 0 0.00355486 ]
+                          children [
+                            Inline { url "LARM_LINK0.wrl" }
+                          ]
+                        } #Segment LARM_LINK0
+                        DEF LARM_JOINT1 Joint {
+                          translation 0 0.07275 0
+                          jointId 26
+                          jointType "rotate"
+                          jointAxis 0 1 0
+                          ulimit 3.14159
+                          llimit -3.14159
+                          uvlimit 4
+                          lvlimit -4
+                          climit [50.0]
+                          gearRatio   460.8
+                          torqueConst 0.0205
+                          rotorInertia 7.0e-6
+                          children [
+                            DEF LARM_LINK1 Segment {
+                              mass 0.298
+                              centerOfMass 0.00011 0.01799 0.00288
+                              momentsOfInertia [0.000412035 0 0 0 0.000251611 0 0 0 0.000376771 ]
+                              children [
+                                Inline { url "LARM_LINK1.wrl" }
+                              ]
+                            } #Segment LARM_LINK1
+                            DEF LARM_JOINT2 Joint {
+                              translation 0 0.057 0
+                              jointId 27
+                              jointType "rotate"
+                              jointAxis 1 0 0
+                              # with margin
+                              ulimit 3.14159
+                              llimit 0.2762
+                              # actual measure
+                              # ulimit 3.27031
+                              # llimit 0.2462
+                              # from CAD
+                              # ulimit 3.14159
+                              # llimit 0
+                              uvlimit 4
+                              lvlimit -4
+                              climit [50.0]
+                              gearRatio   460.8
+                              torqueConst 0.0205
+                              rotorInertia 7.0e-6
+                              children [
+                                DEF LARM_LINK2 Segment {
+                                  mass 2.168
+                                  centerOfMass 0.00845 0.00671 -0.0881
+                                  momentsOfInertia [0.0127408 0 0 0 0.0133751 0 0 0 0.00460362 ]
+                                  children [
+                                    Inline { url "LARM_LINK2_detail.wrl" }
+                                  ]
+                                } #Segment LARM_LINK2
+                                DEF LARM_JOINT3 Joint {
+                                  translation 0 0 -0.1965
+                                  jointId 28
+                                  jointType "rotate"
+                                  jointAxis 0 0 1
+                                  ulimit 3.14159
+                                  llimit -3.14159
+                                  uvlimit 4
+                                  lvlimit -4
+                                  climit [50.0]
+                                  gearRatio   460.8
+                                  torqueConst 0.0205
+                                  rotorInertia 7.0e-6
+                                  children [
+                                    DEF LARM_LINK3 Segment {
+                                      mass 1.315
+                                      centerOfMass 0.01393 4e-05 -0.07574
+                                      momentsOfInertia [0.00451716 0 0 0 0.0055237 0 0 0 0.00217053 ]
+                                      children [
+                                        Inline { url "LARM_LINK3.wrl" }
+                                      ]
+                                    } #Segment LARM_LINK3
+                                    DEF LARM_JOINT4 Joint {
+                                      translation 0 0 -0.126
+                                      jointId 29
+                                      jointType "rotate"
+                                      jointAxis 0 1 0
+                                      # with margin
+                                      ulimit 1.0472
+                                      llimit -2.19006
+                                      # actual measure
+                                      # ulimit 1.0821
+                                      # llimit -2.22006
+                                      # from CAD
+                                      # ulimit 1.0472
+                                      # llimit -2.35619
+                                      uvlimit 4
+                                      lvlimit -4
+                                      climit [50.0]
+                                      gearRatio   460.8
+                                      torqueConst 0.0205
+                                      rotorInertia 7.0e-6
+                                      children [
+                                        DEF LARM_LINK4 Segment {
+                                          mass 1.641
+                                          centerOfMass 3e-05 0.00551 -0.0426
+                                          momentsOfInertia [0.00665559 0 0 0 0.00598857 0 0 0 0.00288237 ]
+                                          children [
+                                            Inline { url "LARM_LINK4.wrl" }
+                                          ]
+                                        } #Segment LARM_LINK4
+                                        DEF LARM_JOINT5 Joint {
+                                          translation 0 0 -0.1275
+                                          jointId 30
+                                          jointType "rotate"
+                                          jointAxis 0 0 1
+                                          ulimit 3.14159
+                                          llimit -3.14159
+                                          uvlimit 4
+                                          lvlimit -4
+                                          climit [50.0]
+                                          gearRatio   460.8
+                                          torqueConst 0.0205
+                                          rotorInertia 7.0e-6
+                                          children [
+                                            DEF LARM_LINK5 Segment {
+                                              mass 1.305
+                                              centerOfMass 0.01271 2e-05 -0.08415
+                                              momentsOfInertia [0.00533939 0 0 0 0.00624028 0 0 0 0.00205604 ]
+                                              children [
+                                                Inline { url "LARM_LINK5.wrl" }
+                                              ]
+                                            } #Segment LARM_LINK5
+                                            DEF LARM_JOINT6 Joint {
+                                              translation 0 0 -0.146
+                                              jointId 31
+                                              jointType "rotate"
+                                              jointAxis 1 0 0
+                                              ## with margin
+                                              ulimit 1.5708   # +90
+                                              llimit -1.54494 # -88.5
+                                              ## actual measure
+                                              # ulimit 1.7643
+                                              # llimit -1.57494
+                                              ## from CAD
+                                              # ulimit 1.5708
+                                              # llimit -1.5708
+                                              uvlimit 4
+                                              lvlimit -4
+                                              climit [50.0]
+                                              gearRatio   460.8
+                                              torqueConst 0.0205
+                                              rotorInertia 7.0e-6
+                                              children [
+                                                DEF LARM_LINK6 Segment {
+                                                  mass 0.505
+                                                  centerOfMass 0.00013 0.01427 0.00188
+                                                  momentsOfInertia [0.000901789 0 0 0 0.000626727 0 0 0 0.000593753 ]
+                                                  children [
+                                                    Inline { url "LARM_LINK6.wrl" }
+                                                  ]
+                                                } #Segment LARM_LINK6
+                                                DEF LARM_JOINT7 Joint {
+                                                  translation 0 0 -0.04
+                                                  jointId 32
+                                                  jointType "rotate"
+                                                  jointAxis 0 1 0
+                                                  ## for min-max
+                                                  ulimit 1.0471975511965976  # +60.0
+                                                  llimit -1.413716694115407  # -90.0
+                                                  ## with margin
+                                                  # ulimit 1.06977 # +61.3
+                                                  # llimit -1.5708 # -90.0
+                                                  ## actual measure
+                                                  # ulimit 1.09977
+                                                  # llimit -1.66359
+                                                  ## from CAD
+                                                  # ulimit 1.13446
+                                                  # llimit -1.5708
+                                                  uvlimit 4
+                                                  lvlimit -4
+                                                  climit [50.0]
+                                                  gearRatio   463.68
+                                                  torqueConst 0.0205
+                                                  rotorInertia 7.0e-6
+                                                  children [
+                                                    DEF LARM_LINK7 Segment {
+                                                      #mass 0.5
+                                                      #centerOfMass 0 0 -0.03
+                                                      #momentsOfInertia [0.02 0 0 0 0.02 0 0 0 0.01 ]
+                                                      ## add hand mass
+                                                      mass 2.257
+                                                      centerOfMass 0 0 -0.085
+                                                      momentsOfInertia [0.020752 -1.298590e-06 8.029880e-06 -1.298590e-06 0.0198 0.000501 8.029880e-06 0.000501 0.013089]
+                                                      children [
+                                                        Inline { url "LARM_LINK7_JVRC.wrl" }
+                                                        DEF lhsensor ForceSensor{
+                                                          translation 0 0 -0.069
+                                                          rotation 0.382683 -0.92388 -0 3.14159
+                                                          sensorId 3
+                                                        } #Sensor
+                                                      ]
+                                                    } #Segment LARM_LINK7
+                                                    DEF LARM_CAMERA VisionSensor {
+                                                      translation 0.05 0 -0.16
+                                                      rotation 0 0 1 -1.5707963267948966
+                                                      type "COLOR"
+                                                      frontClipDistance 0.04
+                                                      width 640
+                                                      height 640
+                                                      fieldOfView 1.309 ## 75 deg / wide
+                                                      sensorId 4
+                                                    }
+                                                    DEF LARM_Light SpotLightDevice {
+                                                      translation 0.05 0 -0.16
+                                                      # rotation
+                                                      attenuation 1 0 2
+                                                      beamWidth   0.6
+                                                      # color
+                                                      cutOffAngle 0.67
+                                                      direction   0 0 -1
+                                                      # intensity
+                                                      # on
+                                                    }
+                                                    DEF LARM_F_JOINT0 Joint {
+                                                      translation 0 -0.06 -0.1725
+                                                      rotation -0.7071067811865475 0 0.7071067811865475 3.1415926535897931
+                                                      jointId 33
+                                                      jointType "rotate"
+                                                      jointAxis 0 0 1
+                                                      ## for min-max
+                                                      ulimit  0.6108652381980151  # +35.0
+                                                      llimit -1.3962634015954629  # -80.0
+                                                      uvlimit 4
+                                                      lvlimit -4
+                                                      climit [20.0]
+                                                      gearRatio 1
+                                                      rotorInertia 0.4
+                                                      children [
+                                                        DEF LARM_FINGER0 Segment {
+                                                          mass 0.15
+                                                          centerOfMass 0.077 0.0138 0
+                                                          momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
+                                                          children [
+                                                            Inline { url "FINGER_LINK0.wrl" }
+                                                          ]
+                                                        } #Segment LARM_FINGER0
+                                                      ]
+                                                    } #Joint LARM_F_JOINT0
+                                                    DEF LARM_F_JOINT1 Joint {
+                                                      translation 0 0.06 -0.1725
+                                                      rotation -0.7071067811865475 0 0.7071067811865475 3.1415926535897931
+                                                      jointId 34
+                                                      jointType "rotate"
+                                                      jointAxis 0 0 1
+                                                      ## for min-max
+                                                      ulimit  1.3962634015954629  # +80.0
+                                                      llimit -0.6108652381980151  # -35.0
+                                                      uvlimit 4
+                                                      lvlimit -4
+                                                      climit [20.0]
+                                                      gearRatio 1
+                                                      rotorInertia 0.4
+                                                      children [
+                                                        DEF LARM_FINGER1 Segment {
+                                                          mass 0.3
+                                                          centerOfMass 0.077 0.0138 0
+                                                          momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
+                                                          children [
+                                                            Inline { url "FINGER_LINK1.wrl" }
+                                                          ]
+                                                        } #Segment LARM_FINGER1
+                                                      ]
+                                                    } #Joint LARM_F_JOINT1
+                                                  ]
+                                                } #Joint LARM_JOINT7
+                                              ]
+                                            } #Joint LARM_JOINT6
+                                          ]
+                                        } #Joint LARM_JOINT5
+                                      ]
+                                    } #Joint LARM_JOINT4
+                                  ]
+                                } #Joint LARM_JOINT3
+                              ]
+                            } #Joint LARM_JOINT2
+                          ]
+                        } #Joint LARM_JOINT1
+                      ]
+                    } #Joint LARM_JOINT0
+                    DEF RARM_JOINT0 Joint {
+                      translation 0 -0.0875 0
+                      jointId 17
+                      jointType "rotate"
+                      jointAxis 0 0 1
+                      # actual measure with margin
+                      ulimit 1.4208
+                      llimit -0.144751
+                      # actual measure
+                      # ulimit 1.4508
+                      # llimit -0.174751
+                      # from CAD
+                      # ulimit 1.5708
+                      # llimit -0.349066
+                      uvlimit 4
+                      lvlimit -4
+                      climit [50.0]
+                      gearRatio   460.8
+                      torqueConst 0.0205
+                      rotorInertia 7.0e-6
+                      children [
+                        DEF RARM_LINK0 Segment {
+                          mass 1.048
+                          centerOfMass -0.01745 -0.00887 -0.00015
+                          momentsOfInertia [0.0029762 0 0 0 0.00235085 0 0 0 0.00355486 ]
+                          children [
+                            Inline { url "RARM_LINK0.wrl" }
+                          ]
+                        } #Segment RARM_LINK0
+                        DEF RARM_JOINT1 Joint {
+                          translation 0 -0.07275 0
+                          jointId 18
+                          jointType "rotate"
+                          jointAxis 0 1 0
+                          ulimit 3.14159
+                          llimit -3.14159
+                          uvlimit 4
+                          lvlimit -4
+                          climit [50.0]
+                          gearRatio   460.8
+                          torqueConst 0.0205
+                          rotorInertia 7.0e-6
+                          children [
+                            DEF RARM_LINK1 Segment {
+                              mass 0.298
+                              centerOfMass 0.00011 -0.01799 0.00288
+                              momentsOfInertia [0.000412035 0 0 0 0.000251611 0 0 0 0.000376771 ]
+                              children [
+                                Inline { url "RARM_LINK1.wrl" }
+                              ]
+                            } #Segment RARM_LINK1
+                            DEF RARM_JOINT2 Joint {
+                              translation 0 -0.057 0
+                              jointId 19
+                              jointType "rotate"
+                              jointAxis 1 0 0
+                              # with margin
+                              ulimit -0.2762
+                              llimit -3.14159
+                              # actual measure
+                              # ulimit -0.2462
+                              # llimit -3.27031
+                              # from CAD
+                              # ulimit 0
+                              # llimit -3.14159
+                              uvlimit 4
+                              lvlimit -4
+                              climit [50.0]
+                              gearRatio   460.8
+                              torqueConst 0.0205
+                              rotorInertia 7.0e-6
+                              children [
+                                DEF RARM_LINK2 Segment {
+                                  mass 2.168
+                                  centerOfMass 0.00845 -0.00671 -0.0881
+                                  momentsOfInertia [0.0127408 0 0 0 0.0133751 0 0 0 0.00460362 ]
+                                  children [
+                                    Inline { url "RARM_LINK2_detail.wrl" }
+                                  ]
+                                } #Segment RARM_LINK2
+                                DEF RARM_JOINT3 Joint {
+                                  translation 0 0 -0.1965
+                                  jointId 20
+                                  jointType "rotate"
+                                  jointAxis 0 0 1
+                                  ulimit 3.14159
+                                  llimit -3.14159
+                                  uvlimit 4
+                                  lvlimit -4
+                                  climit [50.0]
+                                  gearRatio   460.8
+                                  torqueConst 0.0205
+                                  rotorInertia 7.0e-6
+                                  children [
+                                    DEF RARM_LINK3 Segment {
+                                      mass 1.315
+                                      centerOfMass 0.01393 -4e-05 -0.07574
+                                      momentsOfInertia [0.00451716 0 0 0 0.0055237 0 0 0 0.00217053 ]
+                                      children [
+                                        Inline { url "RARM_LINK3.wrl" }
+                                      ]
+                                    } #Segment RARM_LINK3
+                                    DEF RARM_JOINT4 Joint {
+                                      translation 0 0 -0.126
+                                      jointId 21
+                                      jointType "rotate"
+                                      jointAxis 0 1 0
+                                      # with margin
+                                      ulimit 1.0472
+                                      llimit -2.19006
+                                      # actual measure
+                                      # ulimit 1.0821
+                                      # llimit -2.22006
+                                      # from CAD
+                                      # ulimit 1.0472
+                                      # llimit -2.35619
+                                      uvlimit 4
+                                      lvlimit -4
+                                      climit [50.0]
+                                      gearRatio   460.8
+                                      torqueConst 0.0205
+                                      rotorInertia 7.0e-6
+                                      children [
+                                        DEF RARM_LINK4 Segment {
+                                          mass 1.641
+                                          centerOfMass 3e-05 -0.00551 -0.0426
+                                          momentsOfInertia [0.00665559 0 0 0 0.00598857 0 0 0 0.00288237 ]
+                                          children [
+                                            Inline { url "RARM_LINK4.wrl" }
+                                          ]
+                                        } #Segment RARM_LINK4
+                                        DEF RARM_JOINT5 Joint {
+                                          translation 0 0 -0.1275
+                                          jointId 22
+                                          jointType "rotate"
+                                          jointAxis 0 0 1
+                                          ulimit 3.14159
+                                          llimit -3.14159
+                                          uvlimit 4
+                                          lvlimit -4
+                                          climit [50.0]
+                                          gearRatio   460.8
+                                          torqueConst 0.0205
+                                          rotorInertia 7.0e-6
+                                          children [
+                                            DEF RARM_LINK5 Segment {
+                                              mass 1.305
+                                              centerOfMass 0.01271 -2e-05 -0.08415
+                                              momentsOfInertia [0.00533939 0 0 0 0.00624028 0 0 0 0.00205604 ]
+                                              children [
+                                                Inline { url "RARM_LINK5.wrl" }
+                                              ]
+                                            } #Segment RARM_LINK5
+                                            DEF RARM_JOINT6 Joint {
+                                              translation 0 0 -0.146
+                                              jointId 23
+                                              jointType "rotate"
+                                              jointAxis 1 0 0
+                                              ## with margin
+                                              ulimit 1.54494   # +88.5
+                                              llimit -1.5708   # -90
+                                              ## actual measure
+                                              # ulimit 1.57494
+                                              # llimit -1.7643
+                                              ## from CAD
+                                              # ulimit 1.5708
+                                              # llimit -1.5708
+                                              uvlimit 4
+                                              lvlimit -4
+                                              climit [50.0]
+                                              gearRatio   460.8
+                                              torqueConst 0.0205
+                                              rotorInertia 7.0e-6
+                                              children [
+                                                DEF RARM_LINK6 Segment {
+                                                  mass 0.505
+                                                  centerOfMass 0.00013 -0.01427 0.00188
+                                                  momentsOfInertia [0.000901789 0 0 0 0.000626727 0 0 0 0.000593753 ]
+                                                  children [
+                                                    Inline { url "RARM_LINK6.wrl" }
+                                                  ]
+                                                } #Segment RARM_LINK6
+                                                DEF RARM_JOINT7 Joint {
+                                                  translation 0 0 -0.04
+                                                  jointId 24
+                                                  jointType "rotate"
+                                                  jointAxis 0 1 0
+                                                  ## for min-max
+                                                  ulimit 1.0471975511965976  # +60.0
+                                                  llimit -1.413716694115407  # -90.0
+                                                  ## with margin
+                                                  # ulimit 1.06977 # +61.3
+                                                  # llimit -1.5708 # -90.0
+                                                  ## actual measure
+                                                  # ulimit 1.09977
+                                                  # llimit -1.66359
+                                                  ## from CAD
+                                                  # ulimit 1.13446
+                                                  # llimit -1.5708
+                                                  uvlimit 4
+                                                  lvlimit -4
+                                                  climit [50.0]
+                                                  gearRatio   463.68
+                                                  torqueConst 0.0205
+                                                  rotorInertia 7.0e-6
+                                                  children [
+                                                    DEF RARM_LINK7 Segment {
+                                                      #mass 0.5
+                                                      #centerOfMass 0 0 -0.03
+                                                      #momentsOfInertia [0.02 0 0 0 0.02 0 0 0 0.01 ]
+                                                      ## add hand mass
+                                                      mass 2.257
+                                                      centerOfMass 0 0 -0.085
+                                                      momentsOfInertia [0.020752 1.298590e-06 -8.029880e-06 1.298590e-06 0.0198 -0.000501 -8.029880e-06 -0.000501 0.013089]
+                                                      children [
+                                                        Inline { url "RARM_LINK7_JVRC.wrl" }
+                                                        DEF rhsensor ForceSensor{
+                                                          translation 0 0 -0.069
+                                                          rotation -0.382683 -0.92388 -0 3.14159
+                                                          sensorId 2
+                                                        } #Sensor
+                                                      ]
+                                                    } #Segment RARM_LINK7
+                                                    DEF RARM_CAMERA VisionSensor {
+                                                      translation 0.05 0 -0.16
+                                                      rotation 0 0 1 -1.5707963267948966
+                                                      type "COLOR"
+                                                      frontClipDistance 0.04
+                                                      width 640
+                                                      height 640
+                                                      fieldOfView 0.698132 ## 40 deg / narrow
+                                                      sensorId 3
+                                                    }
+                                                    DEF RARM_Light SpotLightDevice {
+                                                      translation 0.05 0 -0.16
+                                                      # rotation
+                                                      attenuation 1 0 2
+                                                      beamWidth   0.3
+                                                      # color
+                                                      cutOffAngle 0.36
+                                                      direction   0 0 -1
+                                                      # intensity
+                                                      # on
+                                                    }
+                                                    DEF RARM_F_JOINT0 Joint {
+                                                      translation 0 0.06 -0.1725
+                                                      rotation 0 1 0 1.5707963267948966
+                                                      jointId 35
+                                                      jointType "rotate"
+                                                      jointAxis 0 0 1
+                                                      ## for min-max
+                                                      ulimit  0.6108652381980151  # +35.0
+                                                      llimit -1.3962634015954629  # -80.0
+                                                      uvlimit 4
+                                                      lvlimit -4
+                                                      climit [20.0]
+                                                      gearRatio 1
+                                                      rotorInertia 0.4
+                                                      children [
+                                                        DEF RARM_FINGER0 Segment {
+                                                          mass 0.15
+                                                          centerOfMass 0.077 0.0138 0
+                                                          momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
+                                                          children [
+                                                            Inline { url "FINGER_LINK0.wrl" }
+                                                          ]
+                                                        } #Segment RARM_FINGER0
+                                                      ]
+                                                    } #Joint RARM_F_JOINT0
+                                                    DEF RARM_F_JOINT1 Joint {
+                                                      translation 0 -0.06 -0.1725
+                                                      rotation 0 1 0 1.5707963267948966
+                                                      jointId 36
+                                                      jointType "rotate"
+                                                      jointAxis 0 0 1
+                                                      ## for min-max
+                                                      ulimit  1.3962634015954629  # +80.0
+                                                      llimit -0.6108652381980151  # -35.0
+                                                      uvlimit 4
+                                                      lvlimit -4
+                                                      climit [20.0]
+                                                      gearRatio 1
+                                                      rotorInertia 0.4
+                                                      children [
+                                                        DEF RARM_FINGER1 Segment {
+                                                          mass 0.3
+                                                          centerOfMass 0.077 0.0138 0
+                                                          momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
+                                                          children [
+                                                            Inline { url "FINGER_LINK1.wrl" }
+                                                          ]
+                                                        } #Segment RARM_FINGER1
+                                                      ]
+                                                    } #Joint RARM_F_JOINT1
+                                                  ]
+                                                } #Joint RARM_JOINT7
+                                              ]
+                                            } #Joint RARM_JOINT6
+                                          ]
+                                        } #Joint RARM_JOINT5
+                                      ]
+                                    } #Joint RARM_JOINT4
+                                  ]
+                                } #Joint RARM_JOINT3
+                              ]
+                            } #Joint RARM_JOINT2
+                          ]
+                        } #Joint RARM_JOINT1
+                      ]
+                    } #Joint RARM_JOINT0
+                  ]
+                } #Joint CHEST_JOINT2
+              ]
+            } #Joint CHEST_JOINT1
+          ]
+        } #Joint CHEST_JOINT0
+        DEF LLEG_JOINT0 Joint {
+          translation 0 0.1 0.0095
+          jointId 6
+          jointType "rotate"
+          jointAxis 0 0 1
+          # with margin
+          ulimit 1.02662
+          llimit -1.0972
+          # actual measure
+          # ulimit 1.05662
+          # llimit -1.1272
+          # from CAD
+          # ulimit 1.5708
+          # llimit -1.5708
+          uvlimit 17
+          lvlimit -17
+          climit [50.0]
+          gearRatio   240
+          torqueConst 0.0205
+          rotorInertia 7.0e-6
+          children [
+            DEF LLEG_LINK0 Segment {
+              mass 2.915
+              centerOfMass -0.02299 -0.00588 -0.07031
+              momentsOfInertia [0.00999808 -1.99354e-06 7.22147e-07 -1.99354e-06 0.00999559 3.13302e-06 7.22147e-07 3.13302e-06 0.00999172 ]
+              children [
+                Inline { url "LLEG_LINK0.wrl" }
+              ]
+            } #Segment LLEG_LINK0
+            DEF LLEG_JOINT1 Joint {
+              translation 0 0 -0.122
+              jointId 7
+              jointType "rotate"
+              jointAxis 1 0 0
+              # with margin
+              ulimit 0.725029
+              llimit -0.523599
+              # actual measure
+              # ulimit 0.755029
+              # llimit -0.600463
+              # from CAD
+              # ulimit 0.785398
+              # llimit -0.523599
+              uvlimit 17
+              lvlimit -17
+              climit [50.0]
+              gearRatio   384
+              torqueConst 0.0205
+              rotorInertia 7.0e-6
+              children [
+                DEF LLEG_LINK1 Segment {
+                  mass 1.199
+                  centerOfMass -0.00441 0.00696 -0.00694
+                  momentsOfInertia [0.00299879 0 0 0 0.00179963 0 0 0 0.00343603 ]
+                  children [
+                    Inline { url "LLEG_LINK1.wrl" }
+                  ]
+                } #Segment LLEG_LINK1
+                DEF LLEG_JOINT2 Joint {
+                  translation 0 0 -0.01
+                  jointId 8
+                  jointType "rotate"
+                  jointAxis 0 1 0
+                  # with margin
+                  ulimit 0.785398
+                  llimit -2.11843
+                  # actual measure
+                  # ulimit 0.929074
+                  # llimit -2.14843
+                  # from CAD
+                  # ulimit 0.785398
+                  # llimit -2.18166
+                  uvlimit 17
+                  lvlimit -17
+                  climit [100.0]
+                  gearRatio   240
+                  torqueConst 0.0205
+                  rotorInertia 7.0e-6
+                  children [
+                    DEF LLEG_LINK2 Segment {
+                      mass 5.783
+                      centerOfMass 0.00658 0.03431 -0.18864
+                      momentsOfInertia [0.109779 0.0002015 0.00500356 0.0002015 0.109973 -0.00331032 0.00500356 -0.00331032 0.0103577 ]
+                      children [
+                        Inline { url "LLEG_LINK2.wrl" }
+                      ]
+                    } #Segment LLEG_LINK2
+                    DEF LLEG_JOINT3 Joint {
+                      translation 0 0 -0.38
+                      jointId 9
+                      jointType "rotate"
+                      jointAxis 0 1 0
+                      # with margin
+                      ulimit 2.77419
+                      llimit 0
+                      # actual measure
+                      # ulimit 2.80419
+                      # llimit -0.215094
+                      # from CAD
+                      # ulimit 2.79253
+                      # llimit 0
+                      uvlimit 17
+                      lvlimit -17
+                      climit [100.0]
+                      gearRatio   240
+                      torqueConst 0.0205
+                      rotorInertia 7.0e-6
+                      children [
+                        DEF LLEG_LINK3 Segment {
+                          mass 3.156
+                          centerOfMass 0.0176 0.01611 -0.17992
+                          momentsOfInertia [0.0592962 0 0 0 0.0592638 0 0 0 0.00799027 ]
+                          children [
+                            Inline { url "LLEG_LINK3.wrl" }
+                          ]
+                        } #Segment LLEG_LINK3
+                        DEF LLEG_JOINT4 Joint {
+                          translation 0 0 -0.38
+                          jointId 10
+                          jointType "rotate"
+                          jointAxis 0 1 0
+                          # with margin
+                          ulimit 1.47343
+                          llimit -1.38564
+                          # actual measure
+                          # ulimit 1.50343
+                          # llimit -1.41564
+                          # from CAD
+                          # ulimit 1.5708
+                          # llimit -1.5708
+                          uvlimit 17
+                          lvlimit -17
+                          climit [50.0]
+                          gearRatio   288
+                          torqueConst 0.0205
+                          rotorInertia 7.0e-6
+                          children [
+                            DEF LLEG_LINK4 Segment {
+                              mass 0.836
+                              centerOfMass -0.00769 0.00203 -0.00714
+                              momentsOfInertia [0.0014428 0 0 0 0.001606 0 0 0 0.00150135 ]
+                              children [
+                                Inline { url "LLEG_LINK4.wrl" }
+                              ]
+                            } #Segment LLEG_LINK4
+                            DEF LLEG_JOINT5 Joint {
+                              translation 0 0 -0.04
+                              jointId 11
+                              jointType "rotate"
+                              jointAxis 1 0 0
+                              # with margin
+                              ulimit 1.0472
+                              llimit -1.0472
+                              # actual measure
+                              # ulimit 1.0807
+                              # llimit -1.2136
+                              # from CAD
+                              # ulimit 1.0472
+                              # llimit -1.0472
+                              uvlimit 17
+                              lvlimit -17
+                              climit [50.0]
+                              gearRatio   241.5
+                              torqueConst 0.0205
+                              rotorInertia 7.0e-6
+                              children [
+                                DEF LLEG_LINK5_UPPER Segment {
+                                  mass 1.552
+                                  centerOfMass 0.00064 0.00264 -0.05633
+                                  momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
+                                  #children [
+                                  #  Inline { url "LLEG_LINK5_U.wrl" }
+                                  #]
+                                } #Segment LLEG_LINK5_UPPER
+                                DEF LLEG_BUSH_Z Joint {
+                                  jointType "slide"
+                                  jointAxis 0 0 1
+                                  translation 0 0 -0.077 # bush center
+                                  llimit [-1.0]
+                                  ulimit [ 1.0]
+                                  rotorInertia 0.1
+                                  children [
+                                    DEF lfsensor ForceSensor {
+                                      # translation 0 0 -0.069
+                                      translation 0 0 0.008
+                                      rotation 0 1 0 3.14159
+                                      sensorId 1
+                                    }
+                                    DEF LLEG_BUSH_ROLL Joint {
+                                      jointType "rotate"
+                                      jointAxis 1 0 0
+                                      llimit [-3.14]
+                                      ulimit [ 3.14]
+                                      rotorInertia 0.014
+                                      children [
+                                        DEF LLEG_BUSH_PITCH Joint {
+                                          jointType "rotate"
+                                          jointAxis 0 1 0
+                                          llimit [-3.14]
+                                          ulimit [ 3.14]
+                                          rotorInertia 0.014
+                                          children [
+                                            DEF LLEG_LINK5_LOWER Segment {
+                                              centerOfMass 0 0 0
+                                              mass 0.7
+                                              momentsOfInertia [0.1 0 0 0 0.1 0 0 0 0.1]
+                                              children [
+                                                Inline {
+                                                  url "LLEG_LINK5_L.wrl"
+                                                }
+                                              ]
+                                            } # End of LLEG_LINK5_LOWER
+                                          ]
+                                        } # End of LLEG_BUSH_PITCH
+                                      ]
+                                    } # End of LLEG_BUSH_ROLL
+                                  ]
+                                } # End of LLEG_BUSH_Z
+                              ]
+                            } #Joint LLEG_JOINT5
+                          ]
+                        } #Joint LLEG_JOINT4
+                      ]
+                    } #Joint LLEG_JOINT3
+                  ]
+                } #Joint LLEG_JOINT2
+              ]
+            } #Joint LLEG_JOINT1
+          ]
+        } #Joint LLEG_JOINT0
+        DEF RLEG_JOINT0 Joint {
+          translation 0 -0.1 0.0095
+          jointId 0
+          jointType "rotate"
+          jointAxis 0 0 1
+          # with margin
+          ulimit 1.0972
+          llimit -1.02662
+          # actual measure
+          # ulimit 1.1272
+          # llimit -1.05662
+          # from CAD
+          # ulimit 1.5708
+          # llimit -1.5708
+          uvlimit 17
+          lvlimit -17
+          climit [50.0]
+          gearRatio   240
+          torqueConst 0.0205
+          rotorInertia 7.0e-6
+          children [
+            DEF RLEG_LINK0 Segment {
+              mass 2.915
+              centerOfMass -0.02299 0.00588 -0.07031
+              momentsOfInertia [0.00999808 -1.99354e-06 -7.22147e-07 -1.99354e-06 0.00999559 -3.13302e-06 -7.22147e-07 -3.13302e-06 0.00999172 ]
+              children [
+                Inline { url "RLEG_LINK0.wrl" }
+              ]
+            } #Segment RLEG_LINK0
+            DEF RLEG_JOINT1 Joint {
+              translation 0 0 -0.122
+              jointId 1
+              jointType "rotate"
+              jointAxis 1 0 0
+              # with margin
+              ulimit 0.523599
+              llimit -0.725029
+              # actual measure
+              # ulimit 0.600463
+              # llimit -0.755029
+              # from CAD
+              # ulimit 0.523599
+              # llimit -0.785398
+              uvlimit 17
+              lvlimit -17
+              climit [50.0]
+              gearRatio   384
+              torqueConst 0.0205
+              rotorInertia 7.0e-6
+              children [
+                DEF RLEG_LINK1 Segment {
+                  mass 1.199
+                  centerOfMass -0.00441 -0.00696 -0.00694
+                  momentsOfInertia [0.00299879 0 0 0 0.00179963 0 0 0 0.00343603 ]
+                  children [
+                    Inline { url "RLEG_LINK1.wrl" }
+                  ]
+                } #Segment RLEG_LINK1
+                DEF RLEG_JOINT2 Joint {
+                  translation 0 0 -0.01
+                  jointId 2
+                  jointType "rotate"
+                  jointAxis 0 1 0
+                  # with margin
+                  ulimit 0.785398
+                  llimit -2.11843
+                  # actual measure
+                  # ulimit 0.929074
+                  # llimit -2.14843
+                  # from CAD
+                  # ulimit 0.785398
+                  # llimit -2.18166
+                  uvlimit 17
+                  lvlimit -17
+                  climit [100.0]
+                  gearRatio   240
+                  torqueConst 0.0205
+                  rotorInertia 7.0e-6
+                  children [
+                    DEF RLEG_LINK2 Segment {
+                      mass 5.783
+                      centerOfMass 0.00658 -0.03431 -0.18864
+                      momentsOfInertia [0.109779 -0.0002015 0.00500356 -0.0002015 0.109973 0.00331032 0.00500356 0.00331032 0.0103577 ]
+                      children [
+                        Inline { url "RLEG_LINK2.wrl" }
+                      ]
+                    } #Segment RLEG_LINK2
+                    DEF RLEG_JOINT3 Joint {
+                      translation 0 0 -0.38
+                      jointId 3
+                      jointType "rotate"
+                      jointAxis 0 1 0
+                      # with margin
+                      ulimit 2.77419
+                      llimit 0
+                      # actual measure
+                      # ulimit 2.80419
+                      # llimit -0.215094
+                      # from CAD
+                      # ulimit 2.79253
+                      # llimit 0
+                      uvlimit 17
+                      lvlimit -17
+                      climit [100.0]
+                      gearRatio   240
+                      torqueConst 0.0205
+                      rotorInertia 7.0e-6
+                      children [
+                        DEF RLEG_LINK3 Segment {
+                          mass 3.156
+                          centerOfMass 0.0176 -0.01611 -0.17992
+                          momentsOfInertia [0.0592962 0 0 0 0.0592638 0 0 0 0.00799027 ]
+                          children [
+                            Inline { url "RLEG_LINK3.wrl" }
+                          ]
+                        } #Segment RLEG_LINK3
+                        DEF RLEG_JOINT4 Joint {
+                          translation 0 0 -0.38
+                          jointId 4
+                          jointType "rotate"
+                          jointAxis 0 1 0
+                          # with margin
+                          ulimit 1.47343
+                          llimit -1.38564
+                          # actual measure
+                          # ulimit 1.50343
+                          # llimit -1.41564
+                          # from CAD
+                          # ulimit 1.5708
+                          # llimit -1.5708
+                          uvlimit 17
+                          lvlimit -17
+                          climit [50.0]
+                          gearRatio   288
+                          torqueConst 0.0205
+                          rotorInertia 7.0e-6
+                          children [
+                            DEF RLEG_LINK4 Segment {
+                              mass 0.836
+                              centerOfMass -0.00769 -0.00203 -0.00714
+                              momentsOfInertia [0.0014428 0 0 0 0.001606 0 0 0 0.00150135 ]
+                              children [
+                                Inline { url "RLEG_LINK4.wrl" }
+                              ]
+                            } #Segment RLEG_LINK4
+                            DEF RLEG_JOINT5 Joint {
+                              translation 0 0 -0.04
+                              jointId 5
+                              jointType "rotate"
+                              jointAxis 1 0 0
+                              # with margin
+                              ulimit 1.0472
+                              llimit -1.0472
+                              # actual measure
+                              # ulimit 1.2136
+                              # llimit -1.0807
+                              # from CAD
+                              # ulimit 1.0472
+                              # llimit -1.0472
+                              uvlimit 17
+                              lvlimit -17
+                              climit [50.0]
+                              gearRatio   241.5
+                              torqueConst 0.0205
+                              rotorInertia 7.0e-6
+                              children [
+                                DEF RLEG_LINK5_UPPER Segment {
+                                  mass 1.552
+                                  centerOfMass 0.00064 -0.00264 -0.05633
+                                  momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
+                                  #children [
+                                  #  Inline { url "RLEG_LINK5_U.wrl" }
+                                  #]
+                                } #Segment RLEG_LINK5_UPPER
+                                DEF RLEG_BUSH_Z Joint {
+                                  jointType "slide"
+                                  jointAxis 0 0 1
+                                  translation 0 0 -0.077 # bush center
+                                  llimit [-1.0]
+                                  ulimit [ 1.0]
+                                  rotorInertia 0.1
+                                  children [
+                                    DEF rfsensor ForceSensor {
+                                      # translation 0 0 -0.069
+                                      translation 0 0 0.008
+                                      rotation 0 1 0 3.14159
+                                      sensorId 0
+                                    } #Sensor
+                                    DEF RLEG_BUSH_ROLL Joint {
+                                      jointType "rotate"
+                                      jointAxis 1 0 0
+                                      llimit [-3.14]
+                                      ulimit [ 3.14]
+                                      rotorInertia 0.014
+                                      children [
+                                        DEF RLEG_BUSH_PITCH Joint {
+                                          jointType "rotate"
+                                          jointAxis 0 1 0
+                                          llimit [-3.14]
+                                          ulimit [ 3.14]
+                                          rotorInertia 0.014
+                                          children [
+                                            DEF RLEG_LINK5_LOWER Segment {
+                                              centerOfMass 0 0 0
+                                              mass 0.7
+                                              momentsOfInertia [0.1 0 0 0 0.1 0 0 0 0.1]
+                                              children [
+                                                Inline {
+                                                  url "RLEG_LINK5_L.wrl"
+                                                }
+                                              ]
+                                            } # End of RLEG_LINK5_LOWER
+                                          ]
+                                        } # End of RLEG_BUSH_PITCH
+                                      ]
+                                    } # End of RLEG_BUSH_ROLL
+                                  ]
+                                } # End of RLEG_BUSH_Z
+                              ]
+                            } #Joint RLEG_JOINT5
+                          ]
+                        } #Joint RLEG_JOINT4
+                      ]
+                    } #Joint RLEG_JOINT3
+                  ]
+                } #Joint RLEG_JOINT2
+              ]
+            } #Joint RLEG_JOINT1
+          ]
+        } #Joint RLEG_JOINT0
+      ]
+    } #Joint BODY
+  ]
+  joints [
+    USE BODY,
+    USE CHEST_JOINT0,
+    USE CHEST_JOINT1,
+    USE CHEST_JOINT2,
+    USE HEAD_JOINT0,
+    USE HEAD_JOINT1,
+    USE LARM_JOINT0,
+    USE LARM_JOINT1,
+    USE LARM_JOINT2,
+    USE LARM_JOINT3,
+    USE LARM_JOINT4,
+    USE LARM_JOINT5,
+    USE LARM_JOINT6,
+    USE LARM_JOINT7,
+    USE RARM_JOINT0,
+    USE RARM_JOINT1,
+    USE RARM_JOINT2,
+    USE RARM_JOINT3,
+    USE RARM_JOINT4,
+    USE RARM_JOINT5,
+    USE RARM_JOINT6,
+    USE RARM_JOINT7,
+    USE LLEG_JOINT0,
+    USE LLEG_JOINT1,
+    USE LLEG_JOINT2,
+    USE LLEG_JOINT3,
+    USE LLEG_JOINT4,
+    USE LLEG_JOINT5,
+    USE RLEG_JOINT0,
+    USE RLEG_JOINT1,
+    USE RLEG_JOINT2,
+    USE RLEG_JOINT3,
+    USE RLEG_JOINT4,
+    USE RLEG_JOINT5,
+    USE LARM_F_JOINT0,
+    USE LARM_F_JOINT1,
+    USE RARM_F_JOINT0,
+    USE RARM_F_JOINT1,
+    USE motor_joint,
+  ]
+  segments [
+    USE BODY,
+    USE CHEST_LINK0,
+    USE CHEST_LINK1,
+    USE CHEST_LINK2,
+    USE HEAD_LINK0,
+    USE HEAD_LINK1,
+    USE LARM_LINK0,
+    USE LARM_LINK1,
+    USE LARM_LINK2,
+    USE LARM_LINK3,
+    USE LARM_LINK4,
+    USE LARM_LINK5,
+    USE LARM_LINK6,
+    USE LARM_LINK7,
+    USE RARM_LINK0,
+    USE RARM_LINK1,
+    USE RARM_LINK2,
+    USE RARM_LINK3,
+    USE RARM_LINK4,
+    USE RARM_LINK5,
+    USE RARM_LINK6,
+    USE RARM_LINK7,
+    USE LLEG_LINK0,
+    USE LLEG_LINK1,
+    USE LLEG_LINK2,
+    USE LLEG_LINK3,
+    USE LLEG_LINK4,
+    USE LLEG_LINK5_UPPER,
+    USE LLEG_LINK5_LOWER,
+    USE RLEG_LINK0,
+    USE RLEG_LINK1,
+    USE RLEG_LINK2,
+    USE RLEG_LINK3,
+    USE RLEG_LINK4,
+    USE RLEG_LINK5_UPPER,
+    USE RLEG_LINK5_LOWER,
+    USE LARM_FINGER0,
+    USE LARM_FINGER1,
+    USE RARM_FINGER0,
+    USE RARM_FINGER1,
+    USE RANGE_LINK,
+  ]
+  name "JAXON_JVRC"
+  info [
+  ]
+}
+# LLEG_BUSH_Z
+# LLEG_BUSH_ROLL
+# LLEG_BUSH_PITCH
+# RLEG_BUSH_Z
+# RLEG_BUSH_ROLL
+# RLEG_BUSH_PITCH
