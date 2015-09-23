@@ -168,7 +168,17 @@ RTC::ReturnCode_t PDcontroller::onExecute(RTC::UniqueId ec_id)
       //std::cerr << "tau: " << m_torque.data[i] << ", q: " << q << ", dq: " << dq << ", dq_old: " << dq_old << ", ddq: " << ddq << std::endl;
       dq_old = dq;
     }
-    double tlimit = 1400;
+    double tlimit;
+    if (i < 15) {
+      // torso/leg
+      tlimit = 1200;
+    } else if (i < 33) {
+      // arm/head
+      tlimit = 600;
+    } else {
+      // hand
+      tlimit = 140;
+    }
     m_torque.data[i] = std::max(std::min(m_torque.data[i], tlimit), -tlimit);
 #if 0
     if (loop % 100 == 0 && m_debugLevel == 1) {
