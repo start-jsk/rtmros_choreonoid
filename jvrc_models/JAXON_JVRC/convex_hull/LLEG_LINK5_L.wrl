@@ -1,0 +1,17 @@
+### sole plate
+Transform {
+#  translation 0.0155 0.01 -0.096
+  translation 0.0155 -0.01 -0.004
+  children [
+    Shape {
+      geometry Box {
+        size 0.23 0.13 0.038
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform

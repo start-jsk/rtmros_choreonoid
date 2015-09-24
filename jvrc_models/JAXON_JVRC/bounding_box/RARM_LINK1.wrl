@@ -1,0 +1,16 @@
+Transform {
+  translation 0.0000000 -0.0372500 0.0055000
+  # rotation    0 1 0 0
+  children [
+    Shape {
+      geometry Box {
+        size 0.0680340 0.0807720 0.0904240
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
