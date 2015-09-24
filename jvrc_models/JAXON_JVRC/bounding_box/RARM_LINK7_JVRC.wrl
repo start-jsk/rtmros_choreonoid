@@ -1,0 +1,66 @@
+## LINK7
+Transform {
+  translation 0.0 0.0033 -0.023
+  children [
+    Shape {
+      geometry Box {
+        size 0.081 0.1046 0.119
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
+# P0
+Transform {
+  translation 0 0 -0.135
+  children [
+    Shape {
+      geometry Box {
+        size 0.060 0.090 0.105
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
+# P1
+Transform {
+  translation 0 0.043 -0.176
+  rotation 1 0 0 0.88
+  children [
+    Shape {
+      geometry Box {
+        size 0.060 0.030 0.060
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
+# P2
+Transform {
+  translation 0 -0.043 -0.176
+  rotation 1 0 0 -0.88
+  children [
+    Shape {
+      geometry Box {
+        size 0.060 0.030 0.060
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform

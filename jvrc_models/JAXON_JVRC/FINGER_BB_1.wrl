@@ -1,0 +1,66 @@
+# F0
+Transform {
+  translation 0.075 -0.020 0
+  children [
+    Shape {
+      geometry Box {
+        size 0.09 0.015 0.070
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
+# F1
+Transform {
+  translation 0.155 -0.003 0
+  children [
+    Shape {
+      geometry Box {
+        size 0.024 0.015 0.070
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
+# F2
+Transform {
+  translation 0.130348 -0.011923 0
+  rotation 0 0 1 0.523598776
+  children [
+    Shape {
+      geometry Box {
+        size 0.040 0.015 0.070
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform
+# F3
+Transform {
+  translation 0.017321 -0.010 0
+  rotation 0 0 1 -0.523598776
+  children [
+    Shape {
+      geometry Box {
+        size 0.040 0.015 0.070
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.15 0.15 0.15
+        }
+      }
+    } #Shape
+  ] #children
+} #Transform

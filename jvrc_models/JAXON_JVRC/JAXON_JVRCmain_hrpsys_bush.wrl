@@ -194,6 +194,24 @@ PROTO SpotLightDevice [
   }
 }
 
+PROTO Surface [
+ field   SFVec3f bboxCenter 0 0 0
+ field   SFVec3f bboxSize   -1 -1 -1
+ field   MFNode  visual     [ ]
+ field   MFNode  collision  [ ]
+ eventIn MFNode  addChildren
+ eventIn MFNode  removeChildren
+]
+{
+  Group {
+    addChildren    IS addChildren
+    bboxCenter     IS bboxCenter
+    bboxSize       IS bboxSize
+    children       IS visual
+    removeChildren IS removeChildren
+  }
+}
+
 DEF JAXON_JVRC Humanoid {
   humanoidBody [
     DEF WAIST Joint {
@@ -213,7 +231,10 @@ DEF JAXON_JVRC Humanoid {
           centerOfMass -0.1059 -0.00067 -0.023
           momentsOfInertia [0.229835 0.00171 0.135708 0.00171 0.535336 0.000616 0.135708 0.000616 0.549159]
           children [
-            Inline { url "BODY.wrl" }
+            Surface {
+              visual [ Inline { url "BODY.wrl" } ] # visual
+              collision [ Inline { url "collision_directory/BODY.wrl" } ] # collision
+            } # surface
             DEF gsensor AccelerationSensor{
               translation 0 0 0
               rotation 1 0 0 0.006331688007092509
@@ -252,7 +273,10 @@ DEF JAXON_JVRC Humanoid {
               centerOfMass -0.0084 0.00137 0.01359
               momentsOfInertia [0.00125384 0 0 0 0.00123407 0 0 0 0.000677392 ]
               children [
-                Inline { url "CHEST_LINK0.wrl" }
+                Surface {
+                  visual [ Inline { url "CHEST_LINK0.wrl" } ] # visual
+                  collision [ Inline { url "collision_directory/CHEST_LINK0.wrl" } ] # collision
+                } # surface
               ]
             } #Segment CHEST_LINK0
             DEF CHEST_JOINT1 Joint {
@@ -292,7 +316,10 @@ DEF JAXON_JVRC Humanoid {
                   centerOfMass -0.111697 0.00390 0.03652
                   momentsOfInertia [0.186526 0.003889 -0.039414 0.003889 0.418012 0.001281 -0.039414 0.001281 0.477668]
                   children [
-                    Inline { url "CHEST_LINK1.wrl" }
+                    Surface {
+                      visual [ Inline { url "CHEST_LINK1.wrl" } ] # visual
+                      collision [ Inline { url "collision_directory/CHEST_LINK1.wrl" } ] # collision
+                    } # surface
                   ]
                 } #Segment CHEST_LINK1
                 DEF CHEST_JOINT2 Joint {
@@ -328,7 +355,10 @@ DEF JAXON_JVRC Humanoid {
                       centerOfMass  -0.13693 -0.00113 -0.05796
                       momentsOfInertia [0.510746 0.005161 0.143334 0.005161 1.09582 0.004687 0.143334 0.004687 1.02505]
                       children [
-                        Inline { url "CHEST_LINK2.wrl" }
+                        Surface {
+                          visual [ Inline { url "CHEST_LINK2.wrl" } ] # visual
+                          collision [ Inline { url "collision_directory/CHEST_LINK2.wrl" } ] # collision
+                        } # surface
                         Transform {
                           translation 0.10 0.0 0.06
                           children [
@@ -382,7 +412,10 @@ DEF JAXON_JVRC Humanoid {
                           centerOfMass -0.01227 3e-05 0.03231
                           momentsOfInertia [0.0031 0 0 0 0.0035 0 0 0 0.00119 ]
                           children [
-                            Inline { url "HEAD_LINK0.wrl" }
+                            Surface {
+                              visual [ Inline { url "HEAD_LINK0.wrl" } ] # visual
+                              collision [ Inline { url "collision_directory/HEAD_LINK0.wrl" } ] # collision
+                            } # surface
                           ]
                         } #Segment HEAD_LINK0
                         DEF HEAD_JOINT1 Joint {
@@ -415,7 +448,10 @@ DEF JAXON_JVRC Humanoid {
                               centerOfMass 0.042 0.004 0.058
                               momentsOfInertia [0.035683 0.000877 -0.003172 0.000877 0.040037 0.000652 -0.003172 0.000652 0.035345]
                               children [
-                                Inline { url "HEAD_LINK1_JVRC.wrl" }
+                                Surface {
+                                  visual [ Inline { url "HEAD_LINK1_JVRC.wrl" } ] # visual
+                                  collision [ Inline { url "collision_directory/HEAD_LINK1_JVRC.wrl" } ] # collision
+                                } # surface
                               ]
                             } #Segment HEAD_LINK1
                             DEF HEAD_LEFT_CAMERA VisionSensor {
@@ -469,7 +505,10 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.03 0 0
                                   momentsOfInertia [0.00024 0 0 0 0.00024 0 0 0 0.00024 ]
                                   children [
-                                     Inline { url "RANGE_SENSOR.wrl" }
+                                    Surface {
+                                      visual [ Inline { url "RANGE_SENSOR.wrl" } ] # visual
+                                      collision [ Inline { url "collision_directory/RANGE_SENSOR.wrl" } ] # collision
+                                    } # surface
                                   ]
                                 } #Segment RANGE_LINK
                                 DEF HEAD_RANGE RangeSensor {
@@ -514,7 +553,10 @@ DEF JAXON_JVRC Humanoid {
                           centerOfMass -0.01745 0.00887 -0.00015
                           momentsOfInertia [0.0029762 0 0 0 0.00235085 0 0 0 0.00355486 ]
                           children [
-                            Inline { url "LARM_LINK0.wrl" }
+                            Surface {
+                              visual [ Inline { url "LARM_LINK0.wrl" } ] # visual
+                              collision [ Inline { url "collision_directory/LARM_LINK0.wrl" } ] # collision
+                            } # surface
                           ]
                         } #Segment LARM_LINK0
                         DEF LARM_JOINT1 Joint {
@@ -536,7 +578,10 @@ DEF JAXON_JVRC Humanoid {
                               centerOfMass 0.00011 0.01799 0.00288
                               momentsOfInertia [0.000412035 0 0 0 0.000251611 0 0 0 0.000376771 ]
                               children [
-                                Inline { url "LARM_LINK1.wrl" }
+                                Surface {
+                                  visual [ Inline { url "LARM_LINK1.wrl" } ] # visual
+                                  collision [ Inline { url "collision_directory/LARM_LINK1.wrl" } ] # collision
+                                } # surface
                               ]
                             } #Segment LARM_LINK1
                             DEF LARM_JOINT2 Joint {
@@ -565,7 +610,10 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.00845 0.00671 -0.0881
                                   momentsOfInertia [0.0127408 0 0 0 0.0133751 0 0 0 0.00460362 ]
                                   children [
-                                    Inline { url "LARM_LINK2_detail.wrl" }
+                                    Surface {
+                                      visual [ Inline { url "LARM_LINK2_detail.wrl" } ] # visual
+                                      collision [ Inline { url "collision_directory/LARM_LINK2_detail.wrl" } ] # collision
+                                    } # surface
                                   ]
                                 } #Segment LARM_LINK2
                                 DEF LARM_JOINT3 Joint {
@@ -587,7 +635,10 @@ DEF JAXON_JVRC Humanoid {
                                       centerOfMass 0.01393 4e-05 -0.07574
                                       momentsOfInertia [0.00451716 0 0 0 0.0055237 0 0 0 0.00217053 ]
                                       children [
-                                        Inline { url "LARM_LINK3.wrl" }
+                                        Surface {
+                                          visual [ Inline { url "LARM_LINK3.wrl" } ] # visual
+                                          collision [ Inline { url "collision_directory/LARM_LINK3.wrl" } ] # collision
+                                        } # surface
                                       ]
                                     } #Segment LARM_LINK3
                                     DEF LARM_JOINT4 Joint {
@@ -616,7 +667,10 @@ DEF JAXON_JVRC Humanoid {
                                           centerOfMass 3e-05 0.00551 -0.0426
                                           momentsOfInertia [0.00665559 0 0 0 0.00598857 0 0 0 0.00288237 ]
                                           children [
-                                            Inline { url "LARM_LINK4.wrl" }
+                                            Surface {
+                                              visual [ Inline { url "LARM_LINK4.wrl" } ] # visual
+                                              collision [ Inline { url "collision_directory/LARM_LINK4.wrl" } ] # collision
+                                            } # surface
                                           ]
                                         } #Segment LARM_LINK4
                                         DEF LARM_JOINT5 Joint {
@@ -638,7 +692,10 @@ DEF JAXON_JVRC Humanoid {
                                               centerOfMass 0.01271 2e-05 -0.08415
                                               momentsOfInertia [0.00533939 0 0 0 0.00624028 0 0 0 0.00205604 ]
                                               children [
-                                                Inline { url "LARM_LINK5.wrl" }
+                                                Surface {
+                                                  visual [ Inline { url "LARM_LINK5.wrl" } ] # visual
+                                                  collision [ Inline { url "collision_directory/LARM_LINK5.wrl" } ] # collision
+                                                } # surface
                                               ]
                                             } #Segment LARM_LINK5
                                             DEF LARM_JOINT6 Joint {
@@ -667,7 +724,10 @@ DEF JAXON_JVRC Humanoid {
                                                   centerOfMass 0.00013 0.01427 0.00188
                                                   momentsOfInertia [0.000901789 0 0 0 0.000626727 0 0 0 0.000593753 ]
                                                   children [
-                                                    Inline { url "LARM_LINK6.wrl" }
+                                                    Surface {
+                                                      visual [ Inline { url "LARM_LINK6.wrl" } ] # visual
+                                                      collision [ Inline { url "collision_directory/LARM_LINK6.wrl" } ] # collision
+                                                    } # surface
                                                   ]
                                                 } #Segment LARM_LINK6
                                                 DEF LARM_JOINT7 Joint {
@@ -703,7 +763,10 @@ DEF JAXON_JVRC Humanoid {
                                                       centerOfMass 0 0 -0.085
                                                       momentsOfInertia [0.020752 -1.298590e-06 8.029880e-06 -1.298590e-06 0.0198 0.000501 8.029880e-06 0.000501 0.013089]
                                                       children [
-                                                        Inline { url "LARM_LINK7_JVRC.wrl" }
+                                                        Surface {
+                                                          visual [ Inline { url "LARM_LINK7_JVRC.wrl" } ] # visual
+                                                          collision [ Inline { url "collision_directory/LARM_LINK7_JVRC.wrl" } ] # collision
+                                                        } # surface
                                                         DEF lhsensor ForceSensor{
                                                           translation 0 0 -0.069
                                                           rotation 0.382683 -0.92388 -0 3.14159
@@ -752,7 +815,10 @@ DEF JAXON_JVRC Humanoid {
                                                           centerOfMass 0.077 0.0138 0
                                                           momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
                                                           children [
-                                                            Inline { url "FINGER_LINK0.wrl" }
+                                                            Surface {
+                                                              visual [ Inline { url "FINGER_LINK0.wrl" } ] # visual
+                                                              collision [ Inline { url "FINGER_BB_0.wrl" } ] # collision
+                                                            } # surface
                                                           ]
                                                         } #Segment LARM_FINGER0
                                                       ]
@@ -777,7 +843,10 @@ DEF JAXON_JVRC Humanoid {
                                                           centerOfMass 0.077 0.0138 0
                                                           momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
                                                           children [
-                                                            Inline { url "FINGER_LINK1.wrl" }
+                                                            Surface {
+                                                              visual [ Inline { url "FINGER_LINK1.wrl" } ] # visual
+                                                              collision [ Inline { url "FINGER_BB_1.wrl" } ] # collision
+                                                            } # surface
                                                           ]
                                                         } #Segment LARM_FINGER1
                                                       ]
@@ -824,7 +893,10 @@ DEF JAXON_JVRC Humanoid {
                           centerOfMass -0.01745 -0.00887 -0.00015
                           momentsOfInertia [0.0029762 0 0 0 0.00235085 0 0 0 0.00355486 ]
                           children [
-                            Inline { url "RARM_LINK0.wrl" }
+                            Surface {
+                              visual [ Inline { url "RARM_LINK0.wrl" } ] # visual
+                              collision [ Inline { url "collision_directory/RARM_LINK0.wrl" } ] # collision
+                            } # surface
                           ]
                         } #Segment RARM_LINK0
                         DEF RARM_JOINT1 Joint {
@@ -846,7 +918,10 @@ DEF JAXON_JVRC Humanoid {
                               centerOfMass 0.00011 -0.01799 0.00288
                               momentsOfInertia [0.000412035 0 0 0 0.000251611 0 0 0 0.000376771 ]
                               children [
-                                Inline { url "RARM_LINK1.wrl" }
+                                Surface {
+                                  visual [ Inline { url "RARM_LINK1.wrl" } ] # visual
+                                  collision [ Inline { url "collision_directory/RARM_LINK1.wrl" } ] # collision
+                                } # surface
                               ]
                             } #Segment RARM_LINK1
                             DEF RARM_JOINT2 Joint {
@@ -875,7 +950,10 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.00845 -0.00671 -0.0881
                                   momentsOfInertia [0.0127408 0 0 0 0.0133751 0 0 0 0.00460362 ]
                                   children [
-                                    Inline { url "RARM_LINK2_detail.wrl" }
+                                    Surface {
+                                      visual [ Inline { url "RARM_LINK2_detail.wrl" } ] # visual
+                                      collision [ Inline { url "collision_directory/RARM_LINK2_detail.wrl" } ] # collision
+                                    } # surface
                                   ]
                                 } #Segment RARM_LINK2
                                 DEF RARM_JOINT3 Joint {
@@ -897,7 +975,10 @@ DEF JAXON_JVRC Humanoid {
                                       centerOfMass 0.01393 -4e-05 -0.07574
                                       momentsOfInertia [0.00451716 0 0 0 0.0055237 0 0 0 0.00217053 ]
                                       children [
-                                        Inline { url "RARM_LINK3.wrl" }
+                                        Surface {
+                                          visual [ Inline { url "RARM_LINK3.wrl" } ] # visual
+                                          collision [ Inline { url "collision_directory/RARM_LINK3.wrl" } ] # collision
+                                        } # surface
                                       ]
                                     } #Segment RARM_LINK3
                                     DEF RARM_JOINT4 Joint {
@@ -926,7 +1007,10 @@ DEF JAXON_JVRC Humanoid {
                                           centerOfMass 3e-05 -0.00551 -0.0426
                                           momentsOfInertia [0.00665559 0 0 0 0.00598857 0 0 0 0.00288237 ]
                                           children [
-                                            Inline { url "RARM_LINK4.wrl" }
+                                            Surface {
+                                              visual [ Inline { url "RARM_LINK4.wrl" } ] # visual
+                                              collision [ Inline { url "collision_directory/RARM_LINK4.wrl" } ] # collision
+                                            } # surface
                                           ]
                                         } #Segment RARM_LINK4
                                         DEF RARM_JOINT5 Joint {
@@ -948,7 +1032,10 @@ DEF JAXON_JVRC Humanoid {
                                               centerOfMass 0.01271 -2e-05 -0.08415
                                               momentsOfInertia [0.00533939 0 0 0 0.00624028 0 0 0 0.00205604 ]
                                               children [
-                                                Inline { url "RARM_LINK5.wrl" }
+                                                Surface {
+                                                  visual [ Inline { url "RARM_LINK5.wrl" } ] # visual
+                                                  collision [ Inline { url "collision_directory/RARM_LINK5.wrl" } ] # collision
+                                                } # surface
                                               ]
                                             } #Segment RARM_LINK5
                                             DEF RARM_JOINT6 Joint {
@@ -977,7 +1064,10 @@ DEF JAXON_JVRC Humanoid {
                                                   centerOfMass 0.00013 -0.01427 0.00188
                                                   momentsOfInertia [0.000901789 0 0 0 0.000626727 0 0 0 0.000593753 ]
                                                   children [
-                                                    Inline { url "RARM_LINK6.wrl" }
+                                                    Surface {
+                                                      visual [ Inline { url "RARM_LINK6.wrl" } ] # visual
+                                                      collision [ Inline { url "collision_directory/RARM_LINK6.wrl" } ] # collision
+                                                    } # surface
                                                   ]
                                                 } #Segment RARM_LINK6
                                                 DEF RARM_JOINT7 Joint {
@@ -1013,7 +1103,10 @@ DEF JAXON_JVRC Humanoid {
                                                       centerOfMass 0 0 -0.085
                                                       momentsOfInertia [0.020752 1.298590e-06 -8.029880e-06 1.298590e-06 0.0198 -0.000501 -8.029880e-06 -0.000501 0.013089]
                                                       children [
-                                                        Inline { url "RARM_LINK7_JVRC.wrl" }
+                                                        Surface {
+                                                          visual [ Inline { url "RARM_LINK7_JVRC.wrl" } ] # visual
+                                                          collision [ Inline { url "collision_directory/RARM_LINK7_JVRC.wrl" } ] # collision
+                                                        } # surface
                                                         DEF rhsensor ForceSensor{
                                                           translation 0 0 -0.069
                                                           rotation -0.382683 -0.92388 -0 3.14159
@@ -1062,7 +1155,10 @@ DEF JAXON_JVRC Humanoid {
                                                           centerOfMass 0.077 0.0138 0
                                                           momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
                                                           children [
-                                                            Inline { url "FINGER_LINK0.wrl" }
+                                                            Surface {
+                                                              visual [ Inline { url "FINGER_LINK0.wrl" } ] # visual
+                                                              collision [ Inline { url "FINGER_BB_0.wrl" } ] # collision
+                                                            } # surface
                                                           ]
                                                         } #Segment RARM_FINGER0
                                                       ]
@@ -1087,7 +1183,10 @@ DEF JAXON_JVRC Humanoid {
                                                           centerOfMass 0.077 0.0138 0
                                                           momentsOfInertia [4.450495e-05 0.000156 0.0 0.000156 0.001245 0.0 0.0 0.0 0.00128]
                                                           children [
-                                                            Inline { url "FINGER_LINK1.wrl" }
+                                                            Surface {
+                                                              visual [ Inline { url "FINGER_LINK1.wrl" } ] # visual
+                                                              collision [ Inline { url "FINGER_BB_1.wrl" } ] # collision
+                                                            } # surface
                                                           ]
                                                         } #Segment RARM_FINGER1
                                                       ]
@@ -1140,7 +1239,10 @@ DEF JAXON_JVRC Humanoid {
               centerOfMass -0.02299 -0.00588 -0.07031
               momentsOfInertia [0.00999808 -1.99354e-06 7.22147e-07 -1.99354e-06 0.00999559 3.13302e-06 7.22147e-07 3.13302e-06 0.00999172 ]
               children [
-                Inline { url "LLEG_LINK0.wrl" }
+                Surface {
+                  visual [ Inline { url "LLEG_LINK0.wrl" } ] # visual
+                  collision [ Inline { url "collision_directory/LLEG_LINK0.wrl" } ] # collision
+                } # surface
               ]
             } #Segment LLEG_LINK0
             DEF LLEG_JOINT1 Joint {
@@ -1169,7 +1271,10 @@ DEF JAXON_JVRC Humanoid {
                   centerOfMass -0.00441 0.00696 -0.00694
                   momentsOfInertia [0.00299879 0 0 0 0.00179963 0 0 0 0.00343603 ]
                   children [
-                    Inline { url "LLEG_LINK1.wrl" }
+                    Surface {
+                      visual [ Inline { url "LLEG_LINK1.wrl" } ] # visual
+                      collision [ Inline { url "collision_directory/LLEG_LINK1.wrl" } ] # collision
+                    } # surface
                   ]
                 } #Segment LLEG_LINK1
                 DEF LLEG_JOINT2 Joint {
@@ -1198,7 +1303,10 @@ DEF JAXON_JVRC Humanoid {
                       centerOfMass 0.00658 0.03431 -0.18864
                       momentsOfInertia [0.109779 0.0002015 0.00500356 0.0002015 0.109973 -0.00331032 0.00500356 -0.00331032 0.0103577 ]
                       children [
-                        Inline { url "LLEG_LINK2.wrl" }
+                        Surface {
+                          visual [ Inline { url "LLEG_LINK2.wrl" } ] # visual
+                          collision [ Inline { url "collision_directory/LLEG_LINK2.wrl" } ] # collision
+                        } # surface
                       ]
                     } #Segment LLEG_LINK2
                     DEF LLEG_JOINT3 Joint {
@@ -1227,7 +1335,10 @@ DEF JAXON_JVRC Humanoid {
                           centerOfMass 0.0176 0.01611 -0.17992
                           momentsOfInertia [0.0592962 0 0 0 0.0592638 0 0 0 0.00799027 ]
                           children [
-                            Inline { url "LLEG_LINK3.wrl" }
+                            Surface {
+                              visual [ Inline { url "LLEG_LINK3.wrl" } ] # visual
+                              collision [ Inline { url "collision_directory/LLEG_LINK3.wrl" } ] # collision
+                            } # surface
                           ]
                         } #Segment LLEG_LINK3
                         DEF LLEG_JOINT4 Joint {
@@ -1256,7 +1367,10 @@ DEF JAXON_JVRC Humanoid {
                               centerOfMass -0.00769 0.00203 -0.00714
                               momentsOfInertia [0.0014428 0 0 0 0.001606 0 0 0 0.00150135 ]
                               children [
-                                Inline { url "LLEG_LINK4.wrl" }
+                                Surface {
+                                  visual [ Inline { url "LLEG_LINK4.wrl" } ] # visual
+                                  collision [ Inline { url "collision_directory/LLEG_LINK4.wrl" } ] # collision
+                                } # surface
                               ]
                             } #Segment LLEG_LINK4
                             DEF LLEG_JOINT5 Joint {
@@ -1285,7 +1399,10 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.00064 0.00264 -0.05633
                                   momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
                                   children [
-                                    Inline { url "LLEG_LINK5_U.wrl" }
+                                    Surface {
+                                      visual [ Inline { url "LLEG_LINK5_U.wrl" } ] # visual
+                                      # collision [ Inline { url "collision_directory/LLEG_LINK5_U.wrl" } ] # collision
+                                    } # surface
                                   ]
                                 } #Segment LLEG_LINK5_UPPER
                                 DEF LLEG_BUSH_Z Joint {
@@ -1321,9 +1438,10 @@ DEF JAXON_JVRC Humanoid {
                                               mass 0.7
                                               momentsOfInertia [0.1 0 0 0 0.1 0 0 0 0.1]
                                               children [
-                                                Inline {
-                                                  url "LLEG_LINK5_L.wrl"
-                                                }
+                                                Surface {
+                                                  visual [ Inline { url "LLEG_LINK5_L.wrl" } ] # visual
+                                                  collision [ Inline { url "collision_directory/LLEG_LINK5_L.wrl" } ] # collision
+                                                } # surface
                                               ]
                                             } # End of LLEG_LINK5_LOWER
                                           ]
@@ -1370,7 +1488,10 @@ DEF JAXON_JVRC Humanoid {
               centerOfMass -0.02299 0.00588 -0.07031
               momentsOfInertia [0.00999808 -1.99354e-06 -7.22147e-07 -1.99354e-06 0.00999559 -3.13302e-06 -7.22147e-07 -3.13302e-06 0.00999172 ]
               children [
-                Inline { url "RLEG_LINK0.wrl" }
+                Surface {
+                  visual [ Inline { url "RLEG_LINK0.wrl" } ] # visual
+                  collision [ Inline { url "collision_directory/RLEG_LINK0.wrl" } ] # collision
+                } # surface
               ]
             } #Segment RLEG_LINK0
             DEF RLEG_JOINT1 Joint {
@@ -1399,7 +1520,10 @@ DEF JAXON_JVRC Humanoid {
                   centerOfMass -0.00441 -0.00696 -0.00694
                   momentsOfInertia [0.00299879 0 0 0 0.00179963 0 0 0 0.00343603 ]
                   children [
-                    Inline { url "RLEG_LINK1.wrl" }
+                    Surface {
+                      visual [ Inline { url "RLEG_LINK1.wrl" } ] # visual
+                      collision [ Inline { url "collision_directory/RLEG_LINK1.wrl" } ] # collision
+                    } # surface
                   ]
                 } #Segment RLEG_LINK1
                 DEF RLEG_JOINT2 Joint {
@@ -1428,7 +1552,10 @@ DEF JAXON_JVRC Humanoid {
                       centerOfMass 0.00658 -0.03431 -0.18864
                       momentsOfInertia [0.109779 -0.0002015 0.00500356 -0.0002015 0.109973 0.00331032 0.00500356 0.00331032 0.0103577 ]
                       children [
-                        Inline { url "RLEG_LINK2.wrl" }
+                        Surface {
+                          visual [ Inline { url "RLEG_LINK2.wrl" } ] # visual
+                          collision [ Inline { url "collision_directory/RLEG_LINK2.wrl" } ] # collision
+                        } # surface
                       ]
                     } #Segment RLEG_LINK2
                     DEF RLEG_JOINT3 Joint {
@@ -1457,7 +1584,10 @@ DEF JAXON_JVRC Humanoid {
                           centerOfMass 0.0176 -0.01611 -0.17992
                           momentsOfInertia [0.0592962 0 0 0 0.0592638 0 0 0 0.00799027 ]
                           children [
-                            Inline { url "RLEG_LINK3.wrl" }
+                            Surface {
+                              visual [ Inline { url "RLEG_LINK3.wrl" } ] # visual
+                              collision [ Inline { url "collision_directory/RLEG_LINK3.wrl" } ] # collision
+                            } # surface
                           ]
                         } #Segment RLEG_LINK3
                         DEF RLEG_JOINT4 Joint {
@@ -1486,7 +1616,10 @@ DEF JAXON_JVRC Humanoid {
                               centerOfMass -0.00769 -0.00203 -0.00714
                               momentsOfInertia [0.0014428 0 0 0 0.001606 0 0 0 0.00150135 ]
                               children [
-                                Inline { url "RLEG_LINK4.wrl" }
+                                Surface {
+                                  visual [ Inline { url "RLEG_LINK4.wrl" } ] # visual
+                                  collision [ Inline { url "collision_directory/RLEG_LINK4.wrl" } ] # collision
+                                } # surface
                               ]
                             } #Segment RLEG_LINK4
                             DEF RLEG_JOINT5 Joint {
@@ -1515,7 +1648,10 @@ DEF JAXON_JVRC Humanoid {
                                   centerOfMass 0.00064 -0.00264 -0.05633
                                   momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
                                   children [
-                                    Inline { url "RLEG_LINK5_U.wrl" }
+                                    Surface {
+                                      visual [ Inline { url "RLEG_LINK5_U.wrl" } ] # visual
+                                      # collision [ Inline { url "collision_directory/RLEG_LINK5_U.wrl" } ] # collision
+                                    } # surface
                                   ]
                                 } #Segment RLEG_LINK5_UPPER
                                 DEF RLEG_BUSH_Z Joint {
@@ -1551,9 +1687,10 @@ DEF JAXON_JVRC Humanoid {
                                               mass 0.7
                                               momentsOfInertia [0.1 0 0 0 0.1 0 0 0 0.1]
                                               children [
-                                                Inline {
-                                                  url "RLEG_LINK5_L.wrl"
-                                                }
+                                                Surface {
+                                                  visual [ Inline { url "RLEG_LINK5_L.wrl" } ] # visual
+                                                  collision [ Inline { url "collision_directory/RLEG_LINK5_L.wrl" } ] # collision
+                                                } # surface
                                               ]
                                             } # End of RLEG_LINK5_LOWER
                                           ]
