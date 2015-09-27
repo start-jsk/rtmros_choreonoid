@@ -1,7 +1,7 @@
 ### sole plate
 Transform {
 #  translation 0.0155 0.01 -0.096
-  translation 0.0155 -0.01 -0.004
+  translation 0.0155 0.01 -0.004
   children [
     Shape {
       geometry Box {
