@@ -1,6 +1,6 @@
-(require :jaxon_red "package://hrpsys_ros_bridge_tutorials/euslisp/jaxon_red-interface.l")
+(require :jaxon_jvrc "package://hrpsys_ros_bridge_jvrc/euslisp/jaxon_jvrc-interface.l")
 
-(defun setup-robot (&key (robot 'jaxon_red) (view t))
+(defun setup-robot (&key (robot 'jaxon_jvrc) (view t))
   ;; generate robot and object models
   (unless (boundp '*robot*)
     (progn
@@ -101,7 +101,7 @@
 
 (warn "(init)~%")
 (defun init ()
-  (setup-robot :robot 'jaxon_red-init)
+  (setup-robot :robot 'jaxon_jvrc-init)
   (send *ri* :set-auto-balancer-param :transition-time 5)
   (send *ri* :start-auto-balancer)
   (send *ri* :start-grasp))
