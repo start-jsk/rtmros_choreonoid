@@ -1,5 +1,8 @@
 #!/bin/bash
 
+### comment out here, if you want to use roslaunch hrpsys_ros_bridge_jvrc jaxon_jvrc_choreonoid.launch
+exit 0
+
 cnoid_proj=""
 if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
