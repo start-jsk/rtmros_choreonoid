@@ -9,8 +9,8 @@
   <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
   <arg name="corbaport" default="2809" />
   <arg name="hrpsys_precreate_rtc" default=""/>
-  <arg name="launch_multisense_local" default="true" />
-  <arg name="launch_multisense_remote" default="true" />
+  <arg name="launch_multisense_local" default="false" />
+  <arg name="launch_multisense_remote" default="false" />
   <include file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_startup_choreonoid.launch" >
     <arg name="KILL_SERVERS" default="$(arg KILL_SERVERS)" />
     <arg name="NOSIM" value="$(arg NOSIM)" />
