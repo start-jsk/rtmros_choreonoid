@@ -1,6 +1,6 @@
-(require :jaxon_red "package://hrpsys_ros_bridge_tutorials/euslisp/jaxon_red-interface.l")
+(require :jaxon_jvrc "package://hrpsys_ros_bridge_jvrc/euslisp/jaxon_jvrc-interface.l")
 
-(defun setup-robot (&key (robot 'jaxon_red) (view t))
+(defun setup-robot (&key (robot 'jaxon_jvrc) (view t))
   ;; generate robot and object models
   (unless (boundp '*robot*)
     (progn
@@ -101,17 +101,34 @@
 
 (warn "(init)~%")
 (defun init ()
-  (setup-robot :robot 'jaxon_red-init)
+  (setup-robot :robot 'jaxon_jvrc-init)
   (send *ri* :set-auto-balancer-param :transition-time 5)
   (send *ri* :start-auto-balancer)
   (send *ri* :start-grasp))
 
-(warn "(move-to-init-pose)~%")
-(defun move-to-init-pose ()
-  (dolist (avs (reset-pose-to-touch-down))
-    (send *ri* :angle-vector (cadr (memq :angle-vector avs)))
-    (send *ri* :wait-interpolation))
-  (send *ri* :stop-auto-balancer))
+(warn "(move-to-init-pose :type :biped)~%")
+(defun move-to-init-pose (&key (type :biped))
+  (case type
+    (:biped
+     (let ((avs (reset-pose-to-touch-down)))
+       (send *ri* :angle-vector (cadr (memq :angle-vector (elt avs 0))))
+       (send *ri* :wait-interpolation)
+       (send *ri* :angle-vector (cadr (memq :angle-vector (elt avs 1))))
+       (send *ri* :wait-interpolation))
+     (send *ri* :start-st)
+     (send *robot* :angle-vector (send *ri* :state :potentio-vector))
+     (send *robot* :fix-leg-to-coords (make-coords))
+     (send *robot* :rarm :angle-vector #f(+80.0 0.0 -90.0 -90.0 -120.0 -90.0 0.0 -80.0))
+     (send *robot* :larm :angle-vector #f(-80.0 0.0 +90.0 +90.0 -120.0 +90.0 0.0 -80.0))
+     (send *robot* :move-centroid-on-foot :both '(:rleg :lleg))
+     (send *ri* :angle-vector (send *robot* :angle-vector) 500)
+     (send *ri* :wait-interpolation))
+    (:quadruped
+     (dolist (avs (reset-pose-to-touch-down))
+       (send *ri* :angle-vector (cadr (memq :angle-vector avs)))
+       (send *ri* :wait-interpolation))
+     (send *ri* :stop-auto-balancer))
+    ))
 
 (defun go-pos-quad-params->footstep-list (&key (x 0) (y 0) (th 0) (type :crawl))
   (let* ((tmp-fsl (send *robot* :go-pos-params->footstep-list x y th
