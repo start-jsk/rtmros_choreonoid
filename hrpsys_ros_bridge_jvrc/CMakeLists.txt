@@ -148,7 +148,7 @@ install(CODE
   endforeach()
 ")
 
-add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/rtc/SensorReaderRTC.PD.conf
-  COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/config/SensorReaderRTC.PD.conf /usr/lib/choreonoid-1.5/rtc/
-  )
-add_custom_target(copy_bodyrtc ALL DEPENDS /usr/lib/choreonoid-1.5/rtc/SensorReaderRTC.PD.conf)
+#add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/rtc/SensorReaderRTC.PD.conf
+#  COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/config/SensorReaderRTC.PD.conf /usr/lib/choreonoid-1.5/rtc/
+#  )
+#add_custom_target(copy_bodyrtc ALL DEPENDS /usr/lib/choreonoid-1.5/rtc/SensorReaderRTC.PD.conf)

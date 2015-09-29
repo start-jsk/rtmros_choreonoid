@@ -26,10 +26,10 @@ if(${cnoid-plugin_FOUND})
   target_link_libraries(PDcontroller ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
   set_target_properties(PDcontroller PROPERTIES COMPILE_FLAG "-fPIC" PREFIX "" SUFFIX ".so" LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
   ##
-  add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/rtc/PDcontroller.so
-    COMMAND sudo -n mkdir -p /usr/lib/choreonoid-1.5/rtc
-    COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/PDcontroller.so /usr/lib/choreonoid-1.5/rtc/
-    DEPENDS PDcontroller)
+#  add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/rtc/PDcontroller.so
+#    COMMAND sudo -n mkdir -p /usr/lib/choreonoid-1.5/rtc
+#    COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/PDcontroller.so /usr/lib/choreonoid-1.5/rtc/
+#    DEPENDS PDcontroller)
   ##
   add_custom_target(copy_to_rtc ALL DEPENDS /usr/lib/choreonoid-1.5/rtc/PDcontroller.so)
 ###
@@ -39,10 +39,10 @@ if(${cnoid-plugin_FOUND})
   target_link_libraries(JAXONCustomizer ${cnoid-plugin_LIBRARIES})
   set_target_properties(JAXONCustomizer PROPERTIES COMPILE_FLAG "-fPIC" PREFIX "" SUFFIX ".so" LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
   ##
-  add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/customizer/JAXONCustomizer.so
-    COMMAND sudo -n mkdir -p /usr/lib/choreonoid-1.5/customizer
-    COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/JAXONCustomizer.so /usr/lib/choreonoid-1.5/customizer/
-    DEPENDS JAXONCustomizer)
+#  add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/customizer/JAXONCustomizer.so
+#    COMMAND sudo -n mkdir -p /usr/lib/choreonoid-1.5/customizer
+#    COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/JAXONCustomizer.so /usr/lib/choreonoid-1.5/customizer/
+#    DEPENDS JAXONCustomizer)
   ##
   add_custom_target(copy_to_customizer ALL DEPENDS /usr/lib/choreonoid-1.5/customizer/JAXONCustomizer.so)
 endif()
