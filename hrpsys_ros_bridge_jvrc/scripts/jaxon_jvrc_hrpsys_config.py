@@ -38,11 +38,19 @@ class JAXON_JVRC_HrpsysConfigurator(URATAHrpsysConfigurator):
         range_group = ['range', ['motor_joint']]
         self.Groups = [rarm_group, larm_group, rleg_group, lleg_group, head_group, torso_group, rhand_group, lhand_group, range_group]
 
+    def startABSTIMP (self):
+        self.startAutoBalancer()
+        self.ic_svc.startImpedanceController("larm")
+        self.ic_svc.startImpedanceController("rarm")
+        self.startStabilizer()
+
 if __name__ == '__main__':
     hcf = JAXON_JVRC_HrpsysConfigurator("JAXON_RED")
     if len(sys.argv) > 2 :
         hcf.init(sys.argv[1], sys.argv[2])
+        hcf.startABSTIMP()
     elif len(sys.argv) > 1 :
         hcf.init(sys.argv[1])
+        hcf.startABSTIMP()
     else :
         hcf.init()
