@@ -476,8 +476,48 @@ items:
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
+            - 
+              id: 23
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ LARM_CAMERA_N ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+            - 
+              id: 24
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ RARM_CAMERA_N ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
         - 
-          id: 23
+          id: 25
           name: "roslaunch"
           plugin: Base
           class: ExtCommandItem
@@ -504,7 +544,7 @@ views:
     mounted: true
     state: 
       selected: [ 1 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,  ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,  ]
       expanded: [ 1, 14 ]
   - 
     id: 3
