@@ -715,11 +715,11 @@ DEF JAXON_JVRC Humanoid {
                                                       translation 0.05 0 -0.16
                                                       rotation 0 0 1 -1.5707963267948966
                                                       type "COLOR"
-                                                      frontClipDistance 0.04
+                                                      frontClipDistance 0.03
                                                       width 640
                                                       height 640
                                                       fieldOfView 1.309 ## 75 deg / wide
-                                                      sensorId 4
+                                                      sensorId 5
                                                     }
                                                     DEF LARM_Light SpotLightDevice {
                                                       translation 0.05 0 -0.16
@@ -729,6 +729,27 @@ DEF JAXON_JVRC Humanoid {
                                                       # color
                                                       cutOffAngle 0.67
                                                       direction   0 0 -1
+                                                      # intensity
+                                                      # on
+                                                    }
+                                                    DEF LARM_CAMERA_N VisionSensor {
+                                                      translation -0.05 0 -0.16
+                                                      rotation 0 1 0 1.5707963267948966
+                                                      type "COLOR"
+                                                      frontClipDistance 0.03
+                                                      width 640
+                                                      height 640
+                                                      fieldOfView 1.309 ## 75 deg / wide
+                                                      sensorId 6
+                                                    }
+                                                    DEF LARM_Light_N SpotLightDevice {
+                                                      translation -0.05 0 -0.16
+                                                      # rotation
+                                                      attenuation 1 0 2
+                                                      beamWidth   0.6
+                                                      # color
+                                                      cutOffAngle 0.67
+                                                      direction   -1 0 0
                                                       # intensity
                                                       # on
                                                     }
@@ -1025,7 +1046,7 @@ DEF JAXON_JVRC Humanoid {
                                                       translation 0.05 0 -0.16
                                                       rotation 0 0 1 -1.5707963267948966
                                                       type "COLOR"
-                                                      frontClipDistance 0.04
+                                                      frontClipDistance 0.03
                                                       width 640
                                                       height 640
                                                       fieldOfView 0.698132 ## 40 deg / narrow
@@ -1039,6 +1060,27 @@ DEF JAXON_JVRC Humanoid {
                                                       # color
                                                       cutOffAngle 0.36
                                                       direction   0 0 -1
+                                                      # intensity
+                                                      # on
+                                                    }
+                                                    DEF RARM_CAMERA_N VisionSensor {
+                                                      translation -0.05 0 -0.16
+                                                      rotation 0 1 0 1.5707963267948966
+                                                      type "COLOR"
+                                                      frontClipDistance 0.03
+                                                      width 640
+                                                      height 640
+                                                      fieldOfView 0.698132 ## 40 deg / narrow
+                                                      sensorId 4
+                                                    }
+                                                    DEF RARM_Light_N SpotLightDevice {
+                                                      translation -0.05 0 -0.16
+                                                      # rotation
+                                                      attenuation 1 0 2
+                                                      beamWidth   0.3
+                                                      # color
+                                                      cutOffAngle 0.36
+                                                      direction   -1 0 0
                                                       # intensity
                                                       # on
                                                     }
