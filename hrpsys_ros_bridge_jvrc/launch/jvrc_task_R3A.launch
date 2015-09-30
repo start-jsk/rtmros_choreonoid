@@ -1,0 +1,30 @@
+<launch>
+  <include file="$(find jsk_pcl_ros)/launch/hsi_color_filter.launch" >
+    <arg name="INPUT" value="/multisense/organized_image_points2_color" />
+    <arg name="OUTPUT" value="/multisense/hsi_filtered/organized_image_points2_color" />
+    <arg name="h_max" default="70" />
+    <arg name="h_min" default="30" />
+    <arg name="s_max" default="255" />
+    <arg name="s_min" default="180" />
+    <arg name="i_max" default="255" />
+    <arg name="i_min" default="40" />
+  </include>
+  <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet"
+        name="spreader_normal_estimation" respawn="true" output="log">
+    <rosparam subst_value="true">
+nodelets:
+  - name: normal_estimation
+    type: jsk_pcl/NormalEstimationOMP
+    remappings:
+      - from: ~input
+        to: /multisense/hsi_filtered/organized_image_points2_color
+  - name: normal_concat
+    type: jsk_pcl/NormalConcatenater
+    remappings:
+      - from: ~input
+        to: /multisense/hsi_filtered/organized_image_points2_color
+      - from: ~normal
+        to: normal_estimation/output
+    </rosparam>
+  </node>
+</launch>
