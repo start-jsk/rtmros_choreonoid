@@ -27,4 +27,8 @@ nodelets:
         to: normal_estimation/output
     </rosparam>
   </node>
+  <node pkg="zbar_ros" type="barcode_reader_node"
+        name="task_R3A_QRcode_reader" respawn="true" output="log">
+    <remap from="image" to="/rarm_camera/image_raw" />
+  </node>
 </launch>
