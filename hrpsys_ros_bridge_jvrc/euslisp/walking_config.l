@@ -29,6 +29,8 @@
 
 (defun kick-mode ()
   (start-walking)
+  (send *ri* :set-gait-generator-param :default-step-time 0.6)
+  (send *ri* :set-gait-generator-param :stride-parameter (float-vector 0.25 0.1 15.0 0.1))
   (walking-pose *robot* :root-link-pitch-offset 25)
   (send *ri* :angle-vector (send *robot* :angle-vector))
   (send *ri* :wait-interpolation)
@@ -88,6 +90,6 @@
     )
   )
 
-(warning-message 2 "speedup-mode")
-(warning-message 2 "default-mode")
-(warning-message 2 "kick-mode")
+(warning-message 2 "(speedup-mode)~%")
+(warning-message 2 "(default-mode)~%")
+(warning-message 2 "(kick-mode)~%")
