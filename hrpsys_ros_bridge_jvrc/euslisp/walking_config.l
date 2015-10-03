@@ -26,11 +26,57 @@
   (send *ri* :wait-interpolation)
   )
 
+(defun kick-mode ()
+  (start-walking)
+  (walking-pose *robot* :root-link-pitch-offset 25)
+  (send *ri* :angle-vector (send *robot* :angle-vector))
+  (send *ri* :wait-interpolation)
+  )
+
 (defun go-pos-time (x y r)
   (setq start-time (send (ros::time-now) :to-sec))
   (send *ri* :go-pos x y r)
   (format t "total time: ~A" (- (send (ros::time-now) :to-sec) start-time))
   )
 
+(defun walking-pose
+  (robot
+   &key (root-link-height-offset 0)
+        (root-link-pitch-offset 0)
+        (head-link-pitch-offset 0)
+        (root-link-roll-offset 0)
+        (chest-link-pitch-offset 0)
+        (chest-link-roll-offset 0)
+        (fix-coords (make-coords))
+        (default-pose-method :reset-manip-pose))
+  "Generate and set walking pose.
+   default-pose-method is initial pose, reset-manip-pose by default.
+   Generated pose is near from default-pose-method pose.
+   root-link-height-offset is root height offset [mm] from default-pose-method.
+   root-link-pitch-offset and root-link-roll-offset are root pitch and roll offset [deg] from default-pose-method."
+  (send robot default-pose-method)
+  (send robot :fix-leg-to-coords fix-coords)
+  (let ((lc (mapcar #'(lambda (l)
+                        (send robot l :end-coords :copy-worldcoords))
+                    '(:rleg :lleg))))
+    (send robot :move-coords
+          (send
+           (send
+            (send (send (car (send robot :links)) :copy-worldcoords)
+                  :translate (float-vector 0 0 root-link-height-offset))
+            :rotate (deg2rad root-link-pitch-offset) :y)
+           :rotate (deg2rad root-link-roll-offset) :x)
+          (car (send robot :links)))
+    (if (find-method robot :torso-waist-p) (send robot :torso-waist-p :joint-angle chest-link-pitch-offset))
+    (if (find-method robot :torso-waist-r) (send robot :torso-waist-r :joint-angle chest-link-roll-offset))
+    (mapcar #'(lambda (l c)
+                (send robot l :inverse-kinematics c))
+            '(:rleg :lleg) lc)
+    (send robot :move-centroid-on-foot :both '(:rleg :lleg))
+    (if (find-method robot :head-neck-p) (send robot :head-neck-p :joint-angle head-link-pitch-offset))
+    (send robot :angle-vector)
+    ))
+
 (warning-message 2 "speedup-mode")
 (warning-message 2 "default-mode")
+(warning-message 2 "kick-mode")
