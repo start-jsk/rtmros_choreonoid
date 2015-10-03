@@ -2,6 +2,7 @@
 (jaxon_jvrc-init)
 (setq *robot* *jaxon_jvrc*)
 
+(send *ri* :set-gait-generator-param :optional-go-pos-finalize-footstep-num 0) ;; warn, for simulator only!
 (defun start-walking ()
   (send *ri* :start-auto-balancer)
   (send *ri* :start-st)
@@ -76,6 +77,16 @@
     (if (find-method robot :head-neck-p) (send robot :head-neck-p :joint-angle head-link-pitch-offset))
     (send robot :angle-vector)
     ))
+
+(defun main-loop ()
+  (ros::advertise-service "/speedup_mode" std_srvs::Empty #'(lambda (req) (speedup-mode) (send req :response)))
+  (ros::advertise-service "/default_mode" std_srvs::Empty #'(lambda (req) (default-mode) (send req :response)))
+  (ros::rate 10)
+  (while t
+    (ros::sleep)
+    (ros::spin-once)
+    )
+  )
 
 (warning-message 2 "speedup-mode")
 (warning-message 2 "default-mode")
