@@ -130,51 +130,9 @@
      (send *ri* :stop-auto-balancer))
     ))
 
-(defun go-pos-quad-params->footstep-list (&key (x 0) (y 0) (th 0) (type :crawl))
-  (let* ((tmp-fsl (send *robot* :go-pos-params->footstep-list x y th
-                        :forward-offset-length 100 :rotate-rad 3))
-         fsl)
-    ;; calculate foot step list for quad walk
-    (dolist (fs tmp-fsl)
-      (let* ((fs-leg-name (send fs :name))
-             (offset (send (send *robot* fs-leg-name :end-coords :copy-worldcoords)
-                           :transformation fs :world))
-             (target-arm-name))
-        (case type
-              (:crawl
-               (dolist (l (list fs-leg-name (case fs-leg-name (:lleg :larm) (:rleg :rarm))))
-                 (push (list (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
-                                                        :transform offset :world)
-                                          :name l)) fsl)))
-              (:trot
-               (push (mapcar #'(lambda (l)
-                                 (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
-                                                            :transform offset :world)
-                                              :name l))
-                             (list fs-leg-name (setq target-arm-name (case fs-leg-name (:lleg :rarm) (:rleg :larm))))) fsl))
-              (:pace
-               (push (mapcar #'(lambda (l)
-                                 (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
-                                                            :transform offset :world)
-                                              :name l))
-                             (list fs-leg-name (case fs-leg-name (:lleg :larm) (:rleg :rarm)))) fsl))
-              (:gallop
-               (push (mapcar #'(lambda (l)
-                                 (make-coords :coords (send (send *robot* l :end-coords :copy-worldcoords)
-                                                            :transform offset :world)
-                                              :name l))
-                             (list (case fs-leg-name (:rleg :rleg) (:lleg :rarm))
-                                   (case fs-leg-name (:rleg :lleg) (:lleg :larm)))) fsl))
-              )))
-    ;; viewing
-    (dolist (fs fsl)
-      (dolist (f fs)
-        (send f :draw-on :flush t :size 200)))
-    (reverse fsl)))
-
 (defun go-pos-quad (&key (x 0) (y 0) (th 0) (type :crawl) (debug-view nil) (dt 0.1)
                          (default-step-time 1.0) (default-step-height 50))
-  (let* ((fsl (go-pos-quad-params->footstep-list :x x :y y :th th :type type))
+  (let* ((fsl (send *robot* :go-pos-quadruped-params->footstep-list x y th :type type))
          (ik-args
           (list :min (float-vector -1e5 -1e5 -1e5 -180 -180 -180)
                 :max (float-vector +1e5 +1e5 +1e5 +180 +180 +180)
