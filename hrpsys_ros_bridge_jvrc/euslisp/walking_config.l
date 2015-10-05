@@ -2,6 +2,7 @@
 (jaxon_jvrc-init)
 (setq *robot* *jaxon_jvrc*)
 
+(send *ri* :set-gait-generator-param :optional-go-pos-finalize-footstep-num 0) ;; warn, for simulator only!
 (defun start-walking ()
   (send *ri* :start-auto-balancer)
   (send *ri* :start-st)
@@ -28,6 +29,8 @@
 
 (defun kick-mode ()
   (start-walking)
+  (send *ri* :set-gait-generator-param :default-step-time 0.6)
+  (send *ri* :set-gait-generator-param :stride-parameter (float-vector 0.25 0.1 15.0 0.1))
   (walking-pose *robot* :root-link-pitch-offset 25)
   (send *ri* :angle-vector (send *robot* :angle-vector))
   (send *ri* :wait-interpolation)
@@ -77,6 +80,16 @@
     (send robot :angle-vector)
     ))
 
-(warning-message 2 "speedup-mode")
-(warning-message 2 "default-mode")
-(warning-message 2 "kick-mode")
+(defun main-loop ()
+  (ros::advertise-service "/speedup_mode" std_srvs::Empty #'(lambda (req) (speedup-mode) (send req :response)))
+  (ros::advertise-service "/default_mode" std_srvs::Empty #'(lambda (req) (default-mode) (send req :response)))
+  (ros::rate 10)
+  (while t
+    (ros::sleep)
+    (ros::spin-once)
+    )
+  )
+
+(warning-message 2 "(speedup-mode)~%")
+(warning-message 2 "(default-mode)~%")
+(warning-message 2 "(kick-mode)~%")
