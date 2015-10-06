@@ -6,7 +6,7 @@
 
 - roscd jvrc_models; bash setup_jvrc.sh
 
-- choreonoid $(rospack find jvrc_models)/model/O1.cnoid
+- cd /home/${USER}; choreonoid $(rospack find jvrc_models)/model/O1.cnoid
 
 - ~~roslaunch hrpsys_ros_bridge_jvrc jaxon_jvrc_choreonoid.launch~~
 
