@@ -17,6 +17,7 @@ export ORBgiopMaxMsgSize=2147483648
 export CNOID_CUSTOMIZER_PATH=\$(rospack find hrpsys_choreonoid)
 ##### >>> JVRC setting #####
 EOF
+fi
 
 cat <<EOF > /home/${USER}/rtc.conf.choreonoid
 manager.is_master:YES
