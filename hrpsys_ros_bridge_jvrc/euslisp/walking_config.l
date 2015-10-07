@@ -29,8 +29,8 @@
 
 (defun kick-mode ()
   (start-walking)
-  (send *ri* :set-gait-generator-param :default-step-time 0.6)
-  (send *ri* :set-gait-generator-param :stride-parameter (float-vector 0.25 0.1 15.0 0.1))
+  (send *ri* :set-gait-generator-param :default-step-time 1.2)
+  (send *ri* :set-gait-generator-param :stride-parameter (float-vector 0.15 0.05 10.0 0.05))
   (walking-pose *robot* :root-link-pitch-offset 25)
   (send *ri* :angle-vector (send *robot* :angle-vector))
   (send *ri* :wait-interpolation)
