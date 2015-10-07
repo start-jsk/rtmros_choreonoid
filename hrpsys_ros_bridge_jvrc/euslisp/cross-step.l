@@ -4,10 +4,8 @@
   (jaxon_jvrc-init)
   (setq *robot* *jaxon_jvrc*)
   )
-(unless (equal (send *ri* :get-auto-balancer-controller-mode) :mode_abc)
-  (send *ri* :start-auto-balancer))
-(unless (equal (send *ri* :get-st-controller-mode) :mode_st)
-  (send *ri* :start-st))
+(send *ri* :start-auto-balancer)
+(send *ri* :start-st)
 
 (send *ri* :set-gait-generator-param
       :optional-go-pos-finalize-footstep-num 0
