@@ -6,6 +6,7 @@
 (load "package://hrpsys_ros_bridge_jvrc/euslisp/4legs-walking.l")
 (setup-robot :robot 'jaxon_jvrc-init)
 
+(warn "(send *ri* :autobalancerservice_releaseEmergencyStop)~%")
 
 ;; for hcf
 
