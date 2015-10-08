@@ -26,11 +26,12 @@
 (defun start-cross ()
   (send *ri* :set-gait-generator-param
         :default-orbit-type :cross
-        :default-step-time 1.4
+        :default-step-time 1.8
         :default-step-height 0.08)
   (send *ri* :set-foot-steps
         (list (make-coords :pos (float-vector 0 0 0) :name :lleg)
               (make-coords :pos (float-vector (- (car *cross-step-stride*)) *width-offset* 0) :name :rleg)))
+  (send *ri* :set-gait-generator-param :default-step-time 1.4)
   )
 
 (defun stop-cross ()
