@@ -1,3 +1,5 @@
+#!/usr/bin/env roseus
+
 (load "package://hrpsys_ros_bridge_jvrc/euslisp/walking_config.l")
 
 (defun a-pose
