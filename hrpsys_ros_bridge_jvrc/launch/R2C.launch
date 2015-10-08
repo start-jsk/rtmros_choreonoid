@@ -1,11 +1,4 @@
 <launch>
-  <include file="$(find drc_task_common)/launch/fc/fc_executive.launch">
-    <arg name="fc" value="false" />
-  </include>
-  <include file="$(find drc_task_common)/launch/ocs/ocs_executive.launch">
-    <arg name="ocs" value="false" />
-  </include>
-
   <arg name="ocs" default="false" />
   <remap from="/tf" to="/ocs/tf" if="$(arg ocs)"/>
   <remap from="/joint_states" to="/ocs/joint_states" if="$(arg ocs)"/>
@@ -24,18 +17,11 @@
 
   <include file="$(find drc_task_common)/launch/ocs/models/$(env ROBOT).launch" />
 
-  <node pkg="drc_task_common" type="rviz_status.py" name="rviz_status">
+  <node pkg="drc_task_common" type="rviz_status.py" name="rviz_status" />
+
+  <node pkg="drc_task_common" type="walk-to-object.l" name="walk_to_object" output="screen" >
+    <param name="use_robot_interface" value="true" unless="$(arg ocs)" />
   </node>
-  <node pkg="jsk_pcl_ros" type="hinted_handle_estimator" name="hinted_handle_estimator" if="false">
-    <remap from="~cloud" to="$(arg INPUT_CLOUD)" />
-    <remap from="~point" to="/clicked_point" />
-  </node>
-  <!-- robot motion -->
-  <include file="$(find drc_task_common)/launch/robot_motion.launch" >
-    <arg name="default_frame_id" default="$(arg default_frame_id)" />
-    <arg name="ik_server_launch" default="$(arg ik_server_launch)" />
-    <arg name="ocs" default="$(arg ocs)" />
-  </include>
 
   <!-- object model -->
   <include file="$(find drc_task_common)/launch/transformable_model.launch" >
@@ -48,55 +34,35 @@
     <arg name="robot_model_config" default="$(arg robot_model_config)" />
   </include>
 
-  <node pkg="drc_task_common" type="joint-states-storage.l" name="joint_states_storage"
-        />
   <!-- teleop device -->
-  <include file="$(find drc_task_common)/launch/teleop_device.launch" >
-    <arg name="default_frame_id" default="$(arg default_frame_id)" />
-    <arg name="enable_trackball_head" default="false" />
-  </include>
+  <node pkg="drc_task_common" type="b_control_client.py" name="b_control_client"
+        output="screen">
+    <remap from="input_joy" to="/b_control/joy"/>
+    <remap from="selected_box" to="/passed_selected_box" />
+    <remap from="t_marker_info" to="/t_marker_information" />
+    <!-- range of marker dimensions -->
+    <param name="transformable_interactive_server_nodename" value="transformable_interactive_server"/>
+    <param name="default_frame_id" value="$(arg default_frame_id)"/>
+    <param name="x_max" value="1.5"/>
+    <param name="y_max" value="1.5"/>
+    <param name="z_max" value="1.5"/>
+    <param name="r_max" value="1.0"/>
+    <param name="sr_max" value="0.2"/>
+    <param name="x_min" value="0.01"/>
+    <param name="y_min" value="0.01"/>
+    <param name="z_min" value="0.01"/>
+    <param name="r_min" value="0.01"/>
+    <param name="sr_min" value="0.001"/>
+  </node>
+
+  <!-- <include file="$(find drc_task_common)/launch/teleop_device.launch" > -->
+  <!--   <arg name="default_frame_id" default="$(arg default_frame_id)" /> -->
+  <!--   <arg name="enable_trackball_head" default="false" /> -->
+  <!-- </include> -->
 
   <!-- teleop interface -->
   <include file="$(find drc_task_common)/launch/teleop_interface.launch" />
 
-  <!-- stair marker -->
-  <node pkg="drc_task_common" type="stair_marker.py" name="stair_marker" />
-  <!-- marker -->
-  <node pkg="jsk_interactive_marker"
-        type="footstep_marker"
-        name="footstep_marker"
-        output="screen"
-        if="false"
-        >
-    <remap from="/lookaround_ground" to="terrain_lookground" />
-    <remap from="~projected_pose" to="projected_footstep_ocs" />
-    <!-- <remap from="~grid_arrays" to="/locomotion/env_server/output" /> -->
-    <!-- <remap from="~planes_coefficients" to="/locomotion/plane_concatenator/output/coefficients" /> -->
-    <!-- <remap from="move_marker" to="$(arg POSE_REMAP)" /> -->
-    <!-- <param name="wait_snapit_server" value="false" /> -->
-    <rosparam command="load" file="$(find jsk_footstep_controller)/config/jaxon.yaml" />
-    <remap from="project_footprint" to="~project_footprint" />
-    <remap from="footstep_planner" to="ocs_footstep_planner" />
-    <remap from="footstep_controller" to="ocs_footstep_controller" />
-    <rosparam>
-      use_plane_snap: true
-      use_projection_service: false
-      use_projection_topic: true
-      use_footstep_planner: true
-      use_footstep_controller: true
-      use_initial_footstep_tf: true
-      initial_reference_frame: '/ground'
-      # HRP2JSK
-      foot_size_x: 0.235
-      lfoot_offset: [0.02, 0.01, -0.105, 0, 0, 0, 1]
-      rfoot_offset: [0.02, -0.01, -0.105, 0, 0, 0, 1]
-      foot_size_z: 0.01
-    </rosparam>
-    <param name="frame_id" value="/ground" />
-  </node>
-  <node pkg="jsk_footstep_controller" type="footstep-overlay-text.l"
-        name="footstep_overlay_text">
-  </node>
   <!-- rviz -->
   <node pkg="rviz" type="rviz" name="operator_rviz" args="-d $(find hrpsys_ros_bridge_jvrc)/config/R2C.rviz"
         respawn="true">
