@@ -51,7 +51,7 @@ def h():
 def m():
     print "funcs, d()=default_mode, s()=speedup_mode, g(x, y, r)=go_pos"
 def dor():
-    doa():
+    doa()
 # copy from hrpsys/lib/python2.7/dist-packages/hrpsys_config.py
 import argparse, code
 if __name__ == '__main__':
