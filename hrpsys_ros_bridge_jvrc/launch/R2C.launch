@@ -1,0 +1,73 @@
+<launch>
+  <arg name="ocs" default="false" />
+  <remap from="/tf" to="/ocs/tf" if="$(arg ocs)"/>
+  <remap from="/joint_states" to="/ocs/joint_states" if="$(arg ocs)"/>
+  <remap from="/tf" to="/ocs/tf" if="$(arg ocs)"/>
+  <remap from="/set_dynamic_tf" to="/ocs/set_dynamic_tf" if="$(arg ocs)"/>
+  <remap from="/assoc_tf" to="/ocs/assoc_tf" if="$(arg ocs)"/>
+  <remap from="/publish_tf" to="/ocs/publish_tf" if="$(arg ocs)"/>
+  <remap from="/dissoc_tf" to="/ocs/dissoc_tf" if="$(arg ocs)"/>
+  <remap from="/delete_tf" to="/ocs/delete_tf" if="$(arg ocs)"/>
+  <remap from="/robot_description" to="/ocs/robot_description" />
+  <arg name="INPUT_CLOUD" default="/ocs/communication/point_cloud" if="$(arg ocs)"/>
+  <arg name="INPUT_CLOUD" default="/multisense/organized_image_points2_color" unless="$(arg ocs)"/>
+  <arg name="default_frame_id" default="odom_on_ground" />
+  <arg name="ik_server_launch" default="jaxon_red-ik-server.launch" />
+  <arg name="robot_model_config" default="$(find drc_task_common)/config/robot_interactive_marker.yaml" />
+
+  <include file="$(find drc_task_common)/launch/ocs/models/$(env ROBOT).launch" />
+
+  <node pkg="drc_task_common" type="rviz_status.py" name="rviz_status" />
+
+  <node pkg="drc_task_common" type="walk-to-object.l" name="walk_to_object" output="screen" >
+    <param name="use_robot_interface" value="true" unless="$(arg ocs)" />
+  </node>
+
+  <!-- object model -->
+  <include file="$(find drc_task_common)/launch/transformable_model.launch" >
+    <arg name="default_frame_id" default="$(arg default_frame_id)" />
+  </include>
+
+  <!-- robot model -->
+  <include file="$(find drc_task_common)/launch/robot_model.launch" >
+    <arg name="default_frame_id" default="$(arg default_frame_id)" />
+    <arg name="robot_model_config" default="$(arg robot_model_config)" />
+  </include>
+
+  <!-- teleop device -->
+  <node pkg="drc_task_common" type="b_control_client.py" name="b_control_client"
+        output="screen">
+    <remap from="input_joy" to="/b_control/joy"/>
+    <remap from="selected_box" to="/passed_selected_box" />
+    <remap from="t_marker_info" to="/t_marker_information" />
+    <!-- range of marker dimensions -->
+    <param name="transformable_interactive_server_nodename" value="transformable_interactive_server"/>
+    <param name="default_frame_id" value="$(arg default_frame_id)"/>
+    <param name="x_max" value="1.5"/>
+    <param name="y_max" value="1.5"/>
+    <param name="z_max" value="1.5"/>
+    <param name="r_max" value="1.0"/>
+    <param name="sr_max" value="0.2"/>
+    <param name="x_min" value="0.01"/>
+    <param name="y_min" value="0.01"/>
+    <param name="z_min" value="0.01"/>
+    <param name="r_min" value="0.01"/>
+    <param name="sr_min" value="0.001"/>
+  </node>
+
+  <!-- <include file="$(find drc_task_common)/launch/teleop_device.launch" > -->
+  <!--   <arg name="default_frame_id" default="$(arg default_frame_id)" /> -->
+  <!--   <arg name="enable_trackball_head" default="false" /> -->
+  <!-- </include> -->
+
+  <!-- teleop interface -->
+  <include file="$(find drc_task_common)/launch/teleop_interface.launch" />
+
+  <!-- rviz -->
+  <node pkg="rviz" type="rviz" name="operator_rviz" args="-d $(find hrpsys_ros_bridge_jvrc)/config/R2C.rviz"
+        respawn="true">
+    <rosparam command="load" file="$(find drc_task_common)/config/ocs_rviz_buttons.yaml" />
+  </node>
+
+  <include file="$(find drc_task_common)/launch/ocs/b_control_ui.launch" />
+</launch>
