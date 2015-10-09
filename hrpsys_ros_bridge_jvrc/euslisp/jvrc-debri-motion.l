@@ -8,11 +8,13 @@
 (require "package://hrpsys_ros_bridge_jvrc/euslisp/jaxon_jvrc-interface.l")
 (require "package://hrpsys_ros_bridge_jvrc/euslisp/jvrc-hand-interface.l")
 (ros::advertise "/urdf_control_marker/set_pose" geometry_msgs::PoseStamped 1)
- 
+
 (defun robot-init
   ()
   (jaxon_jvrc-init)
-  (send *ri* :start-impedance :arms :d-p 600 :d-r 200)
+  ;;(send *ri* :start-auto-balancer)
+  ;;(send *ri* :start-st)
+  ;;(send *ri* :start-impedance :arms :d-p 600 :d-r 200)
   (setq *hand* (instance jvrc-hand-controller :init))
   (send *hand* :move-gripper :rarm 0)
   (send *hand* :move-gripper :larm 0)
@@ -22,7 +24,7 @@
   (send *ri* :set-ref-force (float-vector 0 0 (* -3.0 9.8)) 2000 :larm)
   (setq *tf* *tfl*)
   )
-  
+
 (defun insert-debris3-marker
   ()
   (insert-primitive-marker :shape-type 3 :name "debris3" :resource "package://jvrc_models/models/debris3-test.dae")
@@ -81,6 +83,11 @@
   (read-line)
 
   (send *ri* :angle-vector #f(-0.39924 1.95589 -25.4272 40.7542 -19.649 -1.3167 -0.392909 1.95964 -26.0552 41.6809 -19.9329 -1.31646 -1.95276 2.08222 10.4144 -10.9277 40.0 57.1703 55.7116 -55.1346 -15.9284 -86.3631 -48.0269 27.3547 -2.9623 -1.07198 45.3986 23.486 4.23864 -82.9572 28.2367 3.56674 -56.8438) 3000)
+
+  (warning-message 3 "pose9")
+  (read-line)
+
+  (send *hand* :move-gripper :larm 0)
   )
 
 (defun remove-debris5
@@ -128,6 +135,11 @@
   (read-line)
 
   (send *ri* :angle-vector #f(1.53283 4.90125 -26.7191 41.7163 -19.6562 -1.21719 1.45786 5.537 -24.7761 38.7354 -17.8815 -6.43836 3.09426 5.2468 -0.623484 30.9974 26.0469 1.16772 44.9097 -23.5287 -4.78767 -82.2673 -28.133 -2.78749 -56.7407 -26.2404 34.8817 58.7542 54.1795 -43.0583 5.04497 31.9651 -12.2456) 3000)
+
+  (warning-message 3 "pose9")
+  (read-line)
+
+  (send *hand* :move-gripper :larm 0)
   )
 
 (defun move-robot-model-for-debris3
@@ -153,3 +165,36 @@
     (send msg :pose (ros::coords->tf-pose coords))
     (ros::publish "/urdf_control_marker/set_pose" msg)
     ))
+
+(defun main ()
+  (robot-init)
+  (warn ";; (insert-debris5-marker) * 2~%")
+  (read-line)
+  (insert-debris5-marker)
+  (unix::sleep 2)
+  (insert-debris5-marker)
+
+  (warn ";; Set rviz marker and Enter~%")
+  (read-line)
+
+  (warn ";; (move-robot-model-for-debris5)~%")
+  (read-line)
+  (move-robot-model-for-debris5)
+
+  (warn ";; Push Enter after go-pos !!!~%")
+  (read-line)
+
+  (warn ";; Set rviz marker and Enter~%")
+  (read-line)
+
+  (warn ";; (move-robot-model-for-debris5)~%")
+  (read-line)
+  (move-robot-model-for-debris5)
+
+  (warn ";; Push Enter after go-pos !!!~%")
+  (read-line)
+
+  (warn ";; (remove-debris5)~%")
+  (read-line)
+  (remove-debris5)
+  )
