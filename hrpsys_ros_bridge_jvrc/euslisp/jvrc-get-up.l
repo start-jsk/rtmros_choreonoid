@@ -1,7 +1,6 @@
 #!/usr/bin/env roseus
 
 (require "package://hrpsys_ros_bridge_jvrc/euslisp/jaxon_jvrc-interface.l")
-(require "package://hrpsys_ros_bridge_jvrc/euslisp/wake_up.l")
 (load "package://drc_task_common/euslisp/robot-util.l")
 (when (not (boundp '*jaxon_jvrc*))
   (jaxon_jvrc-init)
