@@ -1,5 +1,25 @@
 ## JVRC2015
 
+#### R2-AB
+
+- launch footstep controller and multisense
+
+```bash
+rosrun drc_task_common jvrc_fc.sh
+```
+
+- launch footstep planner and rviz
+
+```bash
+rosrun drc_task_common jvrc_ocs.sh
+```
+
+- load euslisp
+
+```bash
+roseus `rospack find hrpsys_ros_bridge_jvrc`/euslisp/cross-step.l
+```
+
 #### R2-C
 
 - run simulator
