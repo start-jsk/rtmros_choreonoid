@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_ros_bridge_jvrc)
 
 find_package(catkin REQUIRED COMPONENTS hrpsys_ros_bridge euscollada rostest
-  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models)
+  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid)
 
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)
@@ -147,3 +147,18 @@ install(CODE
      execute_process(COMMAND sed -i s@${PROJECT_SOURCE_DIR}@${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}@g \${_conf_file})
   endforeach()
 ")
+
+set(JVRC_RTC_DIRECTORY ${hrpsys_choreonoid_PACKAGE_PATH})
+set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
+
+configure_file(config/JVRC_O1.cnoid.in config/JVRC_O1.cnoid)
+configure_file(config/JVRC_O2.cnoid.in config/JVRC_O2.cnoid)
+configure_file(config/JVRC_R11M.cnoid.in config/JVRC_R11M.cnoid)
+configure_file(config/JVRC_R11L.cnoid.in config/JVRC_R11L.cnoid)
+configure_file(config/JVRC_R12.cnoid.in config/JVRC_R12.cnoid)
+configure_file(config/JVRC_R2AB.cnoid.in config/JVRC_R2AB.cnoid)
+configure_file(config/JVRC_R2C.cnoid.in config/JVRC_R2C.cnoid)
+configure_file(config/JVRC_R3A.cnoid.in config/JVRC_R3A.cnoid)
+configure_file(config/JVRC_R3B.cnoid.in config/JVRC_R3B.cnoid)
+configure_file(config/JVRC_R4.cnoid.in config/JVRC_R4.cnoid)
+configure_file(config/JVRC_R5.cnoid.in config/JVRC_R5.cnoid)
