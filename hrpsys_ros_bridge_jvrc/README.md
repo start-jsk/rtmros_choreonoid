@@ -20,7 +20,9 @@ rosrun drc_task_common jvrc_ocs.sh
 roseus `rospack find hrpsys_ros_bridge_jvrc`/euslisp/cross-step.l
 ```
 
-#### R2-C
+#### R2-C : narrow space field
+
+time limit : 5 minutes
 
 - run simulator
 
@@ -32,13 +34,17 @@ choreonoid $(rospack find hrpsys_ros_bridge_jvrc)/config/JVRCR2C.cnoid --start-s
 
 ![](images/task_R2-C.png)
 
-- close hand as quickly as possible and then generate ``*ri*``
+###### How to complete this task
+
+Open 3 terminals and execute the following commands. JAXON will start moving before rviz is displayed and keep walking until he collides the surrounding walls and stops walking automatically. After that, move JAXON with the interactive marker.
+
+1. close hand as quickly as possible and then generate ``*ri*``
 
 ```bash
 roseus `rospack find hrpsys_ros_bridge_jvrc`/euslisp/fast-hand-close-and-generate-ri.l
 ```
 
-- start walking as quickly as possible with ``hcf``
+2. start walking as quickly as possible with ``hcf``
 
 ```python
 xsel -b < `rospack find hrpsys_ros_bridge_jvrc`/config/R2C-path.py
@@ -46,7 +52,7 @@ ipython -i `rospack find hrpsys_tools`/scripts/hrpsys_tools_config.py -- --use-u
 %paste
 ```
 
-- launch rviz and b-controller
+3. launch rviz and b-controller
 
 ```bash
 roslaunch hrpsys_ros_bridge_jvrc R2C.launch
