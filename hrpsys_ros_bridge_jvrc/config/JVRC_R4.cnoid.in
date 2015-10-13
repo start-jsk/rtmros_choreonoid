@@ -21,7 +21,7 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 6.8, 2.3, 1.332 ]
+            rootPosition: [ 4.6, 2.7, 1.332 ]
             rootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -31,7 +31,7 @@ items:
               -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 6.8, 2.3, 1.332 ]
+            initialRootPosition: [ 4.6, 2.7, 1.332 ]
             initialRootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -53,65 +53,67 @@ items:
               class: BodyRTCItem
               data: 
                 isImmediateMode: true
-                moduleName: "PDcontroller"
-                confFileName: "SensorReaderRTC.PD.conf"
+                moduleName: "${JVRC_RTC_DIRECTORY}/PDcontroller"
+                confFileName: "${JVRC_CONF_DIRECTORY}/SensorReaderRTC.PD.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: JAXON_JVRC
                 bodyPeriodicRate: 0.002
         - 
           id: 4
-          name: "surface"
+          name: "debris3"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/surface.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R4/debris3.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
+            rootPosition: [ 0.1, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
+            jointPositions: [  0.000000 ]
+            initialRootPosition: [ 0.1, 0, 0 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 5
-          name: "wall"
+          name: "debris5"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/wall.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R4/debris5.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
+            rootPosition: [ 0.02, 0, 0.001 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
+            jointPositions: [  0.000000 ]
+            initialRootPosition: [ 0.02, 0, 0.001 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 6
-          name: "field"
+          name: "debris4"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/field.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R4/debris4.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -124,18 +126,19 @@ items:
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 7
-          name: "flag1L"
+          name: "surface"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/flag1L.wrl"
-            currentBaseLink: "Root"
+            modelFile: "../../jvrc_models/model/tasks/R4/surface.wrl"
+            currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
@@ -153,35 +156,36 @@ items:
             isEditable: true
         - 
           id: 8
-          name: "flag1R"
+          name: "debris1"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/flag1R.wrl"
-            currentBaseLink: "Root"
-            rootPosition: [ 0, 0, 0 ]
+            modelFile: "../../jvrc_models/model/tasks/R4/debris1.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0.01 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
             jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
+            initialRootPosition: [ 0, 0, 0.01 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 9
-          name: "flag2L"
+          name: "field"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/flag2L.wrl"
-            currentBaseLink: "Root"
+            modelFile: "../../jvrc_models/model/tasks/R4/field.wrl"
+            currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
@@ -199,12 +203,12 @@ items:
             isEditable: true
         - 
           id: 10
-          name: "flag2R"
+          name: "wall"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/flag2R.wrl"
-            currentBaseLink: "Root"
+            modelFile: "../../jvrc_models/model/tasks/R4/wall.wrl"
+            currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
@@ -222,35 +226,36 @@ items:
             isEditable: true
         - 
           id: 11
-          name: "flag3L"
+          name: "debris2"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/flag3L.wrl"
-            currentBaseLink: "Root"
-            rootPosition: [ 0, 0, 0 ]
+            modelFile: "../../jvrc_models/model/tasks/R4/debris2.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 0, 0, 0.01 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
             jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
+            initialRootPosition: [ 0, 0, 0.01 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 12
-          name: "flag3R"
+          name: "flag"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2C/flag3R.wrl"
-            currentBaseLink: "Root"
+            modelFile: "../../jvrc_models/model/tasks/R4/flag.wrl"
+            currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
@@ -301,7 +306,7 @@ items:
               plugin: JVRC
               class: JVRCManagerItem
               data: 
-                info: "../../jvrc_models/model/tasks/R2C/R2C.yaml"
+                info: "../../jvrc_models/model/tasks/R4/R4.yaml"
             - 
               id: 15
               name: "GLVisionSimulator"
@@ -442,48 +447,34 @@ items:
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
-        - 
-          id: 22
-          name: "roslaunch"
-          plugin: Base
-          class: ExtCommandItem
-          data: 
-            command: /home/leus/ros/indigo/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_ros_bridge_jvrc/scripts/roslaunch.sh
-            executeOnLoading: true
 
 views: 
   - 
     id: 0
-    name: "CameraImage"
-    plugin: Base
-    class: ImageView
-    mounted: true
-  - 
-    id: 1
     plugin: Base
     class: ItemPropertyView
     mounted: true
   - 
-    id: 2
+    id: 1
     plugin: Base
     class: ItemTreeView
     mounted: true
     state: 
       selected: [ 1 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,  ]
-      expanded: [ 1, 2, 11 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,  ]
+      expanded: [ 1, 11 ]
   - 
-    id: 3
+    id: 2
     plugin: Base
     class: MessageView
     mounted: true
   - 
-    id: 4
+    id: 3
     plugin: Base
     class: SceneView
     mounted: true
     state: 
-      editMode: true
+      editMode: false
       viewpointControlMode: thirdPerson
       collisionLines: false
       polygonMode: fill
@@ -518,9 +509,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 18.9853662, -3.40061547, 12.4854627 ]
-          direction: [ -0.730010612, 0.395355961, -0.557474817 ]
-          up: [ -0.490201815, 0.265481359, 0.83019385 ]
+          eye: [ 19.0790366, -4.04247863, 11.9320232 ]
+          direction: [ -0.705239716, 0.448415605, -0.549145143 ]
+          up: [ -0.463403679, 0.294647956, 0.835726996 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -532,22 +523,14 @@ views:
       yzgridColor: [ 0.899999976, 0.899999976, 0.899999976, 1 ]
       dedicatedItemTreeViewChecks: false
   - 
-    id: 5
-    name: "Task"
-    plugin: Base
-    class: TaskView
-    state: 
-      layoutMode: horizontal
-      isAutoMode: false
-  - 
-    id: 6
+    id: 4
     plugin: Body
     class: BodyLinkView
     mounted: true
     state: 
       showRotationMatrix: false
   - 
-    id: 7
+    id: 5
     plugin: Body
     class: JointSliderView
     mounted: true
@@ -559,23 +542,21 @@ views:
       spinBox: true
       slider: true
       labelOnLeft: true
-      currentBodyItem: 2
   - 
-    id: 8
+    id: 6
     plugin: Body
     class: LinkSelectionView
     mounted: true
     state: 
       listingMode: "Link List"
-      currentBodyItem: 2
   - 
-    id: 9
+    id: 7
     name: "JVRC Score"
     plugin: JVRC
     class: JVRCScoreView
     mounted: true
   - 
-    id: 10
+    id: 8
     plugin: Python
     class: PythonConsoleView
     mounted: true
@@ -598,8 +579,6 @@ toolbars:
     snapDistance: 0.025
     penetrationBlockDepth: 0.0005
     lazyCollisionDetectionMode: true
-  "BodyBar": 
-    current: 2
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
@@ -685,7 +664,7 @@ Body:
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
-    staticModelEditing: false
+    staticModelEditing: true
   "KinematicFaultChecker": 
     checkJointPositions: true
     angleMargin: 0
@@ -713,12 +692,12 @@ viewAreas:
           children: 
             - 
               type: pane
-              views: [ 2 ]
-              current: 2
+              views: [ 1 ]
+              current: 1
             - 
               type: pane
-              views: [ 1, 8, 9 ]
-              current: 9
+              views: [ 0, 6, 7 ]
+              current: 7
         - 
           type: splitter
           orientation: vertical
@@ -731,20 +710,20 @@ viewAreas:
               children: 
                 - 
                   type: pane
-                  views: [ 6, 7, 0 ]
-                  current: 6
+                  views: [ 4, 5 ]
+                  current: 4
                 - 
                   type: pane
-                  views: [ 4 ]
-                  current: 4
+                  views: [ 3 ]
+                  current: 3
             - 
               type: pane
-              views: [ 3, 10 ]
-              current: 3
+              views: [ 2, 8 ]
+              current: 2
 layoutOfToolBars: 
   rows: 
     - 
-      - { name: "FileBar", x: 0, priority: 0 }
-      - { name: "TimeBar", x: 47, priority: 1 }
-      - { name: "SceneBar", x: 1464, priority: 2 }
-      - { name: "SimulationBar", x: 1464, priority: 0 }
+      - { name: "FileBar", x: 1, priority: 1 }
+      - { name: "TimeBar", x: 20, priority: 0 }
+      - { name: "SceneBar", x: 1491, priority: 2 }
+      - { name: "SimulationBar", x: 1725, priority: 3 }

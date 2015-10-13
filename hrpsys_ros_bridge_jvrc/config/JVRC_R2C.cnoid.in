@@ -21,7 +21,7 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 4.5, 2.7, 1.332 ]
+            rootPosition: [ 6.8, 2.3, 1.332 ]
             rootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -31,7 +31,7 @@ items:
               -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 4.5, 2.7, 1.332 ]
+            initialRootPosition: [ 6.8, 2.3, 1.332 ]
             initialRootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
@@ -53,8 +53,8 @@ items:
               class: BodyRTCItem
               data: 
                 isImmediateMode: true
-                moduleName: "PDcontroller"
-                confFileName: "SensorReaderRTC.PD.conf"
+                moduleName: "${JVRC_RTC_DIRECTORY}/PDcontroller"
+                confFileName: "${JVRC_CONF_DIRECTORY}/SensorReaderRTC.PD.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: JAXON_JVRC
@@ -65,7 +65,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/surface.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/surface.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -84,11 +84,11 @@ items:
             isEditable: true
         - 
           id: 5
-          name: "field"
+          name: "wall"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/field.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/wall.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -107,11 +107,11 @@ items:
             isEditable: true
         - 
           id: 6
-          name: "wall"
+          name: "field"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/wall.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/field.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -134,7 +134,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/flag1L.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/flag1L.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -157,7 +157,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/flag1R.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/flag1R.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -180,7 +180,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/flag2L.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/flag2L.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -203,7 +203,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/flag2R.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/flag2R.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -226,7 +226,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/flag3L.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/flag3L.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -249,7 +249,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R2AB/flag3R.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R2C/flag3R.wrl"
             currentBaseLink: "Root"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -301,7 +301,7 @@ items:
               plugin: JVRC
               class: JVRCManagerItem
               data: 
-                info: "../../jvrc_models/model/tasks/R2AB/R2AB.yaml"
+                info: "../../jvrc_models/model/tasks/R2C/R2C.yaml"
             - 
               id: 15
               name: "GLVisionSimulator"
@@ -442,14 +442,6 @@ items:
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
-        - 
-          id: 22
-          name: "roslaunch"
-          plugin: Base
-          class: ExtCommandItem
-          data: 
-            command: /home/leus/ros/indigo/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_ros_bridge_jvrc/scripts/roslaunch.sh
-            executeOnLoading: true
 
 views: 
   - 
@@ -470,8 +462,8 @@ views:
     mounted: true
     state: 
       selected: [ 1 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,  ]
-      expanded: [ 1, 11 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,  ]
+      expanded: [ 1, 2, 11 ]
   - 
     id: 3
     plugin: Base
@@ -518,9 +510,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 18.3660461, -7.5507346, 6.9755097 ]
-          direction: [ -0.774842455, 0.572522931, -0.268023623 ]
-          up: [ -0.215563029, 0.159277252, 0.96341234 ]
+          eye: [ 18.9853662, -3.40061547, 12.4854627 ]
+          direction: [ -0.730010612, 0.395355961, -0.557474817 ]
+          up: [ -0.490201815, 0.265481359, 0.83019385 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -559,6 +551,7 @@ views:
       spinBox: true
       slider: true
       labelOnLeft: true
+      currentBodyItem: 2
   - 
     id: 8
     plugin: Body
@@ -566,6 +559,7 @@ views:
     mounted: true
     state: 
       listingMode: "Link List"
+      currentBodyItem: 2
   - 
     id: 9
     name: "JVRC Score"
@@ -596,6 +590,8 @@ toolbars:
     snapDistance: 0.025
     penetrationBlockDepth: 0.0005
     lazyCollisionDetectionMode: true
+  "BodyBar": 
+    current: 2
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
@@ -740,7 +736,7 @@ viewAreas:
 layoutOfToolBars: 
   rows: 
     - 
-      - { name: "FileBar", x: 5, priority: 1 }
-      - { name: "TimeBar", x: 20, priority: 0 }
-      - { name: "SceneBar", x: 1534, priority: 2 }
-      - { name: "SimulationBar", x: 1721, priority: 3 }
+      - { name: "FileBar", x: 0, priority: 0 }
+      - { name: "TimeBar", x: 47, priority: 1 }
+      - { name: "SceneBar", x: 1464, priority: 2 }
+      - { name: "SimulationBar", x: 1464, priority: 0 }

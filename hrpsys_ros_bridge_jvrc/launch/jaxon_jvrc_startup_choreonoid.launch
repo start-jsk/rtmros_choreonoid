@@ -4,7 +4,7 @@
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
   <arg name="SIMULATOR_NAME" default="JAXON_JVRC" />
-  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/jaxon_pd.cnoid" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/JVRC_O1.cnoid" />
   <arg name="corbaport" default="2809" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <param name="use_sim_time" value="true" />
