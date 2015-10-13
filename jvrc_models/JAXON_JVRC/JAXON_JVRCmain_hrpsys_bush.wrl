@@ -383,7 +383,7 @@ DEF JAXON_JVRC Humanoid {
                        frontClipDistance 0.1
                        width 640
                        height 640
-                       frameRate 15
+                       frameRate 5
                        fieldOfView 2.61799 ## 150 deg / fisheye like
                        sensorId 2
                     }
@@ -463,6 +463,7 @@ DEF JAXON_JVRC Humanoid {
                               frontClipDistance 0.05
                               width 640
                               height 480
+                              frameRate 15
                               fieldOfView 1.5708
                               sensorId 0
                             }
@@ -474,6 +475,7 @@ DEF JAXON_JVRC Humanoid {
                               frontClipDistance 0.1
                               width 640
                               height 480
+                              frameRate 15
                               fieldOfView 1.5708
                               sensorId 1
                             }
@@ -782,7 +784,7 @@ DEF JAXON_JVRC Humanoid {
                                                       frontClipDistance 0.03
                                                       width 640
                                                       height 640
-                                                      frameRate 15
+                                                      frameRate 10
                                                       fieldOfView 1.309 ## 75 deg / wide
                                                       sensorId 5
                                                     }
@@ -804,7 +806,7 @@ DEF JAXON_JVRC Humanoid {
                                                       frontClipDistance 0.03
                                                       width 640
                                                       height 640
-                                                      frameRate 15
+                                                      frameRate 10
                                                       fieldOfView 1.309 ## 75 deg / wide
                                                       sensorId 6
                                                     }
@@ -1145,7 +1147,7 @@ DEF JAXON_JVRC Humanoid {
                                                       frontClipDistance 0.03
                                                       width 640
                                                       height 640
-                                                      frameRate 15
+                                                      frameRate 10
                                                       fieldOfView 0.698132 ## 40 deg / narrow
                                                       sensorId 3
                                                     }
@@ -1167,7 +1169,7 @@ DEF JAXON_JVRC Humanoid {
                                                       frontClipDistance 0.03
                                                       width 640
                                                       height 640
-                                                      frameRate 15
+                                                      frameRate 10
                                                       fieldOfView 0.698132 ## 40 deg / narrow
                                                       sensorId 4
                                                     }
