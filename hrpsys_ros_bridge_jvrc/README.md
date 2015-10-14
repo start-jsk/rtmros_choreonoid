@@ -1,24 +1,51 @@
 ## JVRC2015
 
-#### R2-AB
+#### R2-AB : rubble
 
-- launch footstep controller and multisense
+- run simulator
+
+```bash
+sudo service omniorb4-nameserver restart
+pkill -9 choreonoid
+choreonoid $(rospack find hrpsys_ros_bridge_jvrc)/config/JVRCR2AB.cnoid --start-simulation
+```
+
+![](images/task_R2-AB.png)
+
+###### How to complete this task
+
+Open 4 terminals and execute the following commands.
+
+(1) launch footstep controller and multisense
 
 ```bash
 rosrun drc_task_common jvrc_fc.sh
 ```
 
-- launch footstep planner and rviz
+(2) launch footstep planner and rviz
 
 ```bash
 rosrun drc_task_common jvrc_ocs.sh
 ```
 
-- load euslisp
+(3) launch b-controller
+
+```bash
+roslaunch drc_task_common b_control_ui.launch
+```
+
+(4) load euslisp
 
 ```bash
 roseus `rospack find hrpsys_ros_bridge_jvrc`/euslisp/cross-step.l
 ```
+
+Move JAXON on even ground with the b_controller or on uneven ground with the interactive marker. 
+In order to walk across a balance beam, execute ```(start-cross)``` and then ```(cross-step x y th)``` in the 4th terminal. After walking across the balance beam, execute ```(stop-cross)```.
+
+- cross-step mode
+
+![](images/cross-step.png)
 
 #### R2-C : narrow space field
 
