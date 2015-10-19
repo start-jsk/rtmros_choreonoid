@@ -1,8 +1,5 @@
 #!/bin/bash
 
-### comment out here, if you want to use roslaunch hrpsys_ros_bridge_jvrc jaxon_jvrc_choreonoid.launch
-exit 0
-
 cnoid_proj=""
 if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
@@ -44,5 +41,10 @@ echo "with rtc.conf file on $rtc_conf" 1>&2
 echo "<BEGIN: rtc.conf>"
 cat $rtc_conf 1>&2
 echo "<END: rtc.conf>"
+
+export RTCTREE_NAMESERVERS=localhost:2809
+export ROBOT=JAXON_RED
+export ORBgiopMaxMsgSize=2147483648
+export CNOID_CUSTOMIZER_PATH=$(rospack find hrpsys_choreonoid)
 
 (cd /tmp; choreonoid $cnoid_proj $start_sim)
