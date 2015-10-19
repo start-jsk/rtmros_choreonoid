@@ -15,94 +15,93 @@ items:
       children: 
         - 
           id: 2
-          name: "wall"
+          name: "JAXON_JVRC"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/wall.wrl"
+            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            currentBaseLink: "WAIST"
+            rootPosition: [ 3.2, 3.1, 1.332 ]
+            rootAttitude: [ 
+              0, -1, 0, 
+              1, 0, 0, 
+              0, 0, 1 ]
+            jointPositions: [ 
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+            initialRootPosition: [ 3.2, 3.1, 1.332 ]
+            initialRootAttitude: [ 
+              0, -1, 0, 
+              1, 0, 0, 
+              0, 0, 1 ]
+            initialJointPositions: [ 
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+          children: 
+            - 
+              id: 3
+              name: "BodyRTC"
+              plugin: OpenRTM
+              class: BodyRTCItem
+              data: 
+                isImmediateMode: true
+                moduleName: "${JVRC_RTC_DIRECTORY}/PDcontroller"
+                confFileName: "${JVRC_CONF_DIRECTORY}/SensorReaderRTC.PD.conf"
+                configurationMode: Use Configuration File
+                AutoConnect: false
+                InstanceName: JAXON_JVRC
+                bodyPeriodicRate: 0.002
+        - 
+          id: 4
+          name: "box"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../jvrc_models/model/tasks/R5/box.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
-	      1, 0, 0,
-	      0, 1, 0,
-	      0, 0, 1 ]
-            jointPositions: [  ]
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  0.000000,  0.000000,  0.000000 ]
             initialRootPosition: [ 0, 0, 0 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 3
-          name: "spreader"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/spreader.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 2.063, 5.3407, 1.24154 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 2.063, 5.3407, 1.24154 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 4
-          name: "desk"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/desk.wrl"
-            currentBaseLink: ""
-            rootPosition: [ -0.2, 3.5, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ -0.2, 3.5, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
+            initialJointPositions: [  0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 5
-          name: "target1"
+          name: "nozzle"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/target1.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R5/nozzle.wrl"
             currentBaseLink: ""
-            rootPosition: [ 0, 0, 0 ]
+            rootPosition: [ 0.03, 0, -0.74 ]
             rootAttitude: [ 
-	      1, 0, 0,
-	      0, 1, 0,
-	      0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, 0 ]
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 0.03, 0, -0.74 ]
             initialRootAttitude: [ 
-	      1, 0, 0,
-	      0, 1, 0,
-	      0, 0, 1 ]
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
             initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
@@ -110,11 +109,11 @@ items:
             isEditable: true
         - 
           id: 6
-          name: "car"
+          name: "surface"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/car.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R5/surface.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -133,35 +132,34 @@ items:
             isEditable: true
         - 
           id: 7
-          name: "door"
+          name: "wall"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/door.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R5/wall.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            jointPositions: [  0.000000 ]
+            jointPositions: [  ]
             initialRootPosition: [ 0, 0, 0 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 8
-          name: "surface"
+          name: "flag"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/surface.wrl"
+            modelFile: "../../jvrc_models/model/tasks/R5/flag.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
@@ -180,98 +178,42 @@ items:
             isEditable: true
         - 
           id: 9
-          name: "flag1L"
+          name: "hose"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/flag1L.wrl"
-            currentBaseLink: "Root"
+            modelFile: "../../jvrc_models/model/tasks/R5/hose.wrl"
+            currentBaseLink: "box"
             rootPosition: [ 0, 0, 0 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            jointPositions: [  ]
+            jointPositions: [ 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000 ]
             initialRootPosition: [ 0, 0, 0 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [ 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000, 
+               0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 10
-          name: "flag1R"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/flag1R.wrl"
-            currentBaseLink: "Root"
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 11
-          name: "flag2L"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/flag2L.wrl"
-            currentBaseLink: "Root"
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 12
-          name: "flag2R"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/model/tasks/R3A/flag2R.wrl"
-            currentBaseLink: "Root"
-            rootPosition: [ 0, 0, 0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 0, 0, 0 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 13
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -300,14 +242,14 @@ items:
             2Dmode: false
           children: 
             - 
-              id: 14
+              id: 11
               name: "JVRCManager"
               plugin: JVRC
               class: JVRCManagerItem
               data: 
-                info: "../../jvrc_models/model/tasks/R3A/R3A.yaml"
+                info: "../../jvrc_models/model/tasks/R5/R5.yaml"
             - 
-              id: 15
+              id: 12
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -327,7 +269,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 16
+              id: 13
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -347,7 +289,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 17
+              id: 14
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -367,7 +309,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 18
+              id: 15
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -387,7 +329,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 19
+              id: 16
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -406,52 +348,47 @@ items:
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
-        - 
-          id: 20
-          name: "JAXON_JVRC"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
-            currentBaseLink: "WAIST"
-            rootPosition: [ 3.2, 2.0, 1.332 ]
-            rootAttitude: [ 
-              0, -1, 0, 
-              1, 0, 0, 
-              0, 0, 1 ]
-            jointPositions: [ 
-               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
-              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
-               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 3.2, 2.0, 1.332 ]
-            initialRootAttitude: [ 
-              0, -1, 0, 
-              1, 0, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [ 
-               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
-              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
-               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-          children: 
             - 
-              id: 21
-              name: "BodyRTC"
-              plugin: OpenRTM
-              class: BodyRTCItem
+              id: 17
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
               data: 
-                isImmediateMode: true
-                moduleName: "PDcontroller"
-                confFileName: "SensorReaderRTC.PD.conf"
-                configurationMode: Use Configuration File
-                AutoConnect: false
-                InstanceName: JAXON_JVRC
-                bodyPeriodicRate: 0.002
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ LARM_CAMERA_N ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+            - 
+              id: 18
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data: 
+                enabled: true
+                targetBodies: [ JAXON_JVRC ]
+                targetSensors: [ RARM_CAMERA_N ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                useThread: true
+                useThreadsForSensors: true
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: true
+
 views: 
   - 
     id: 0
@@ -471,8 +408,8 @@ views:
     mounted: true
     state: 
       selected: [ 1 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,  ]
-      expanded: [ 1, 13 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,  ]
+      expanded: [ 1, 8 ]
   - 
     id: 3
     plugin: Base
@@ -519,9 +456,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 15.499176, -7.83953514, 10.4706885 ]
-          direction: [ -0.662655574, 0.588683287, -0.462968225 ]
-          up: [ -0.346115942, 0.307478995, 0.886374877 ]
+          eye: [ 12.2691488, -6.08560474, 7.28671416 ]
+          direction: [ -0.687840643, 0.586869757, -0.42715236 ]
+          up: [ -0.324949527, 0.277248883, 0.904179662 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -560,7 +497,6 @@ views:
       spinBox: true
       slider: true
       labelOnLeft: true
-      currentBodyItem: 4
   - 
     id: 8
     plugin: Body
@@ -568,7 +504,6 @@ views:
     mounted: true
     state: 
       listingMode: "Link List"
-      currentBodyItem: 4
   - 
     id: 9
     name: "JVRC Score"
@@ -591,18 +526,6 @@ toolbars:
     speedScale: 1
     syncToOngoingUpdates: true
     autoExpansion: true
-  "KinematicsBar": 
-    mode: AUTO
-    enablePositionDragger: true
-    penetrationBlock: false
-    collisionLinkHighlight: false
-    snapDistance: 0.025
-    penetrationBlockDepth: 0.0005
-    lazyCollisionDetectionMode: true
-  "BodyBar": 
-    current: 4
-  "LeggedBodyBar": 
-    stanceWidth: 0.15
   "BodyMotionGenerationBar": 
     autoGenerationForNewBody: true
     balancer: false
@@ -636,6 +559,16 @@ toolbars:
     waistHeightRelaxation: false
     gravity: 9.8
     dynamicsTimeRatio: 1
+  "KinematicsBar": 
+    mode: AUTO
+    enablePositionDragger: true
+    penetrationBlock: false
+    collisionLinkHighlight: false
+    snapDistance: 0.025
+    penetrationBlockDepth: 0.0005
+    lazyCollisionDetectionMode: true
+  "LeggedBodyBar": 
+    stanceWidth: 0.15
 Body: 
   "BodyMotionEngine": 
     updateJointVelocities: false
@@ -668,31 +601,6 @@ Body:
         showZmp: false
       - 
         bodyItem: 7
-        showCenterOfMass: false
-        showPpcom: false
-        showZmp: false
-      - 
-        bodyItem: 8
-        showCenterOfMass: false
-        showPpcom: false
-        showZmp: false
-      - 
-        bodyItem: 9
-        showCenterOfMass: false
-        showPpcom: false
-        showZmp: false
-      - 
-        bodyItem: 10
-        showCenterOfMass: false
-        showPpcom: false
-        showZmp: false
-      - 
-        bodyItem: 11
-        showCenterOfMass: false
-        showPpcom: false
-        showZmp: false
-      - 
-        bodyItem: 12
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
@@ -757,5 +665,5 @@ layoutOfToolBars:
     - 
       - { name: "FileBar", x: 0, priority: 0 }
       - { name: "TimeBar", x: 47, priority: 1 }
-      - { name: "SceneBar", x: 1457, priority: 2 }
-      - { name: "SimulationBar", x: 1464, priority: 0 }
+      - { name: "SceneBar", x: 1661, priority: 2 }
+      - { name: "SimulationBar", x: 1726, priority: 3 }

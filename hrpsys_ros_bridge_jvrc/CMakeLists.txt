@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_ros_bridge_jvrc)
 
 find_package(catkin REQUIRED COMPONENTS hrpsys_ros_bridge euscollada rostest
-  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models)
+  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid)
 
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)
@@ -148,7 +148,17 @@ install(CODE
   endforeach()
 ")
 
-#add_custom_command(OUTPUT /usr/lib/choreonoid-1.5/rtc/SensorReaderRTC.PD.conf
-#  COMMAND sudo -n cp ${PROJECT_SOURCE_DIR}/config/SensorReaderRTC.PD.conf /usr/lib/choreonoid-1.5/rtc/
-#  )
-#add_custom_target(copy_bodyrtc ALL DEPENDS /usr/lib/choreonoid-1.5/rtc/SensorReaderRTC.PD.conf)
+set(JVRC_RTC_DIRECTORY ${hrpsys_choreonoid_SOURCE_PREFIX})
+set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
+
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_O1.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_O1.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_O2.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_O2.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R11M.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R11M.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R11L.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R11L.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R12.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R12.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R2AB.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R2AB.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R2C.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R2C.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R3A.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R3A.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R3B.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R3B.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R4.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R4.cnoid)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R5.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R5.cnoid)
