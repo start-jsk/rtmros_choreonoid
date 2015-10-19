@@ -1,5 +1,40 @@
 ## JVRC2015
 
+#### O1, O2, R1, R2
+
+##### LAUNCH PROGRAMS
+
+- launch fc programs(almost taking over DRC programs)
+
+```bash
+rosrun drc_task_common jvrc_fc.sh
+```
+
+- launch ocs programs(rviz, furutaractive, controller-device)
+
+```bash
+rosrun drc_task_common jvrc_ocs.sh
+```
+
+##### EXECUTE TASK
+
+- match transformable marker to cloud
+- two choices
+-- select the cylinder on plane
+-- insert primitive with botton and match it manually
+
+- solve ik
+-- change params
+--- height of waist[0cm, 15cm lower, 30cm lower]
+--- ik mode[grasp, peep1(for hand-cam1), peep2(for hand-cam2)]
+-- change robot stand-pos
+-- solve-ik with button
+
+- send to robot
+-- walk to object
+-- send angle to robot
+ 
+
 #### R2-AB
 
 - launch footstep controller and multisense
