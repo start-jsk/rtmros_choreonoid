@@ -20,19 +20,27 @@ rosrun drc_task_common jvrc_ocs.sh
 
 - match transformable marker to cloud
 - two choices
--- select the cylinder on plane
--- insert primitive with botton and match it manually
+
+  - select the cylinder on plane
+![](images/task_O1-UI.png)
+
+  - insert primitive with botton and match it manually
+
+- before solve ik
+  - change params 
+    - height of waist[0cm, 15cm lower, 30cm lower]
+    - ik mode[grasp, peep1(for hand-cam1), peep2(for hand-cam2)]
+    ![](images/jvrc_ui.png)
+
+- gopos
+  - change robot stand-pos
+  - walk to object
+  ![](images/task_O1-gopos.png)
 
 - solve ik
--- change params
---- height of waist[0cm, 15cm lower, 30cm lower]
---- ik mode[grasp, peep1(for hand-cam1), peep2(for hand-cam2)]
--- change robot stand-pos
--- solve-ik with button
-
-- send to robot
--- walk to object
--- send angle to robot
+  - solve-ik with button
+  - send angle to robot
+  ![](images/task_O1-send.png)
  
 #### R2-AB : rubble
 
