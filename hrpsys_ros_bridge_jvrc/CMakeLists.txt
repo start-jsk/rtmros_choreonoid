@@ -152,6 +152,7 @@ set(JVRC_RTC_DIRECTORY ${hrpsys_choreonoid_SOURCE_PREFIX})
 set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
 
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_VALVE.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_VALVE.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_O1.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_O1.cnoid)
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_O2.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_O2.cnoid)
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R11M.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R11M.cnoid)
