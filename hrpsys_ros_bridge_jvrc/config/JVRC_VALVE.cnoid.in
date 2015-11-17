@@ -53,8 +53,8 @@ items:
               class: BodyRTCItem
               data: 
                 isImmediateMode: true
-                moduleName: "${JVRC_RTC_DIRECTORY}/PDcontroller"
-                confFileName: "${JVRC_CONF_DIRECTORY}/SensorReaderRTC.PD.conf"
+                moduleName: "@JVRC_RTC_DIRECTORY@/PDcontroller"
+                confFileName: "@JVRC_CONF_DIRECTORY@/SensorReaderRTC.PD.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: JAXON_JVRC
