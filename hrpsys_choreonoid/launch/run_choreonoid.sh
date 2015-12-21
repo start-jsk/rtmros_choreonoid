@@ -48,3 +48,5 @@ export ORBgiopMaxMsgSize=2147483648
 export CNOID_CUSTOMIZER_PATH=$(rospack find hrpsys_choreonoid)
 
 (cd /tmp; choreonoid $cnoid_proj $start_sim)
+## for using gdb
+#(cd /tmp; gdb -ex run --args choreonoid $cnoid_proj $start_sim)
