@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_ros_bridge_jvrc)
 
 find_package(catkin REQUIRED COMPONENTS hrpsys_ros_bridge euscollada rostest
-  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid)
+  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid message_generation)
 
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)
@@ -10,6 +10,16 @@ set(OPENHRP_SAMPLE_DIR ${openhrp3_PREFIX}/share/OpenHRP-3.1/sample)
 pkg_check_modules(hrpsys hrpsys-base REQUIRED)
 
 ##catkin_python_setup()
+
+add_service_files(
+  DIRECTORY srv
+  FILES StringRequest.srv
+  )
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  )
 
 catkin_package(
     DEPENDS

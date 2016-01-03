@@ -30,7 +30,9 @@
   <build_depend>jaxon_ros_bridge</build_depend>
   <build_depend>jsk_hrp2_ros_bridge</build_depend>
   <build_depend>jsk_robot_startup</build_depend>
+  <build_depend>message_generation</build_depend>
 
+  <run_depend>message_runtime</run_depend>
   <run_depend>hrpsys_ros_bridge</run_depend>
   <run_depend>hrpsys</run_depend>
   <run_depend>openhrp3</run_depend>
