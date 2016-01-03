@@ -155,7 +155,10 @@
    (type)
    (speak-en "release inner force" :timeout 1)
    (cond ((eq type 'biped) (send *ri* :go-pos 0 0 0))
-         ((eq type 'quadruped) (send *ri* :set-foot-steps (send self :cc-converter (send self :get-xy-footstep 0 0 :type :crawl))))
+         ((eq type 'quadruped)
+          (send *robot* :angle-vector (send *ri* :state :potentio-vector))
+          (send *robot* :fix-leg-to-coords (make-coords))
+          (send *ri* :set-foot-steps (send self :cc-converter (send self :get-xy-footstep 0 0 :type :crawl))))
          ))
   ;; (objects (list *robot* (get-bounding-box-of-links (send *robot* :links))))
   (:get-bounding-box-of-links
