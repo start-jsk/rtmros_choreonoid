@@ -1,0 +1,50 @@
+<launch>
+  <arg name="RUN_RVIZ" default="true" />
+  <arg name="OUTPUT" default="log" />
+  <arg name="refarence_frame" default="ground" />
+  <arg name="marker_frame" default="robot_marker_root" />
+  <arg name="default_frame_id" default="odom_on_ground" />
+
+  <group>
+    <!--buttons-->
+    <node pkg="rqt_gui" type="rqt_gui" name="rqt_image_view_button"
+          args="--perspective-file $(find drc_task_common)/config/rqt_b_button.perspective">
+      <rosparam>
+        b_control_layout_file_remapped: "package://drc_task_common/scripts/rqt_layout_for_multi_gait.yaml"
+      </rosparam>
+    </node>
+    <node pkg="drc_task_common" type="b_control_dummy_server.py" name="b_control_dummy_server">
+      <remap from="~output" to="/b_control/joy" />
+    </node>
+    <!-- client node for button -->
+    <node pkg="hrpsys_ros_bridge_jvrc" type="b_control_client_node.py" name="b_control_client" output="$(arg OUTPUT)">
+      <remap from="input_joy" to="/b_control/joy"/>
+    </node>
+    <!-- visualize in rviz -->
+    <node pkg="drc_task_common" type="rviz-menu-server.l" name="rviz_menu_server" output="$(arg OUTPUT)" />
+  </group>
+
+  <!-- main program -->
+  <node pkg="hrpsys_ros_bridge_jvrc" type="robot_controller_node.l" name="robot_controller" output="$(arg OUTPUT)">
+    <!-- fix-leg-to-coords to -->
+    <param name="reference_frame_id" value="$(arg refarence_frame)" />
+  </node>
+
+  <group>
+    <include file="$(find jsk_interactive_marker)/launch/out_of_body_marker.launch">
+      <arg name="default_frame_id" value="$(arg default_frame_id)" />
+      <arg name="robot_marker_frame_id" value="$(arg marker_frame)" />
+    </include>
+    <node pkg="hrpsys_ros_bridge_jvrc" type="simple_walk_node.py" name="simple_walk" output="$(arg OUTPUT)">
+      <!-- go-pos from -->
+      <param name="reference_frame_id" value="$(arg refarence_frame)" />
+      <!-- go-pos to -->
+      <param name="target_frame_id" value="$(arg marker_frame)" />
+    </node>
+    <node pkg="hrpsys_ros_bridge_jvrc" type="gait_state_manager_node.py" name="gait_state_manager" output="$(arg OUTPUT)" />
+  </group>
+
+  <group if="$(arg RUN_RVIZ)">
+    <node pkg="rviz" type="rviz" name="multi_gait_rviz" args="-d $(find hrpsys_ros_bridge_jvrc)/config/multi_gait.rviz" respawn="true"/>
+  </group>
+</launch>

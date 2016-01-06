@@ -4,9 +4,10 @@
   (:init-ending
    (&rest args)
    (prog1
-    (send-super* :init-ending args)
-    (send self :add-thk-contact-coords)
-    ))
+       (send-super* :init-ending args)
+     (send self :add-thk-contact-coords)
+     (send self :add-hip-contact-coords)
+     ))
   (:add-thk-contact-coords
    (&key (offset (float-vector (- 15 12.765) 0 0)))
    (let* ((limb (list :rarm :larm))
@@ -25,4 +26,21 @@
                  (send self :put n tmpcec)
                  (send (send self l :end-coords :parent) :assoc (send self :get n)))
              limb name (list +1 -1))))
+  (:add-hip-contact-coords
+   (&key (offset (float-vector -252 0 -175))) ; calculated from CAD data
+   (let* ((name :hip-contact-coords)
+          tmpcec)
+     (setq tmpcec
+           (make-cascoords
+            :init :link-list :parent (car (send self :links))
+            :coords
+            (send
+             (make-coords
+              :pos (send (send (car (send self :links)) :copy-worldcoords) :worldpos)
+              :rot (send (send (car (send self :links)) :copy-worldcoords) :worldrot))
+             :translate offset :local)
+            :name name))
+     (send self :put name tmpcec)
+     (send (car (send self :links)) :assoc (send self :get name))
+     ))
   )
