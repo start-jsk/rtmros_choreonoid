@@ -10,7 +10,7 @@
     <node pkg="rqt_gui" type="rqt_gui" name="rqt_image_view_button"
           args="--perspective-file $(find drc_task_common)/config/rqt_b_button.perspective">
       <rosparam>
-        b_control_layout_file_remapped: "package://drc_task_common/scripts/rqt_layout_for_multi_gait.yaml"
+        b_control_layout_file_remapped: "package://hrpsys_ros_bridge_jvrc/config/rqt_layout_for_multi_gait.yaml"
       </rosparam>
     </node>
     <node pkg="drc_task_common" type="b_control_dummy_server.py" name="b_control_dummy_server">
