@@ -3,7 +3,7 @@
   <arg name="OUTPUT" default="log" />
   <arg name="refarence_frame" default="ground" />
   <arg name="marker_frame" default="robot_marker_root" />
-  <arg name="default_frame_id" default="odom_on_ground" />
+  <arg name="default_frame_id" default="odom" />
 
   <group>
     <!--buttons-->
