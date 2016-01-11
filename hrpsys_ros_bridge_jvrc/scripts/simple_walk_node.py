@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy, tf
-import std_msgs.msg, jsk_footstep_msgs.msg, visualization_msgs.msg, geometry_msgs.msg
+import std_msgs.msg, jsk_footstep_msgs.msg, visualization_msgs.msg, geometry_msgs.msg, jsk_recognition_msgs.msg
 import hrpsys_ros_bridge.srv, drc_task_common.srv, hrpsys_ros_bridge_jvrc.srv
 
 class MultiWalkingClass(object):
@@ -12,6 +12,7 @@ class MultiWalkingClass(object):
         self.target_frame_id = rospy.get_param("~target_frame_id", "robot_marker_root")
         # Publisher
         self.go_pos_footsteps_pub = rospy.Publisher('/go_pos_footsteps', jsk_footstep_msgs.msg.FootstepArray, queue_size=1)
+        self.go_pos_footsteps_bb_pub = rospy.Publisher('/go_pos_footsteps_boundingbox', jsk_recognition_msgs.msg.BoundingBoxArray, queue_size=1)
         # subscriber
         rospy.Subscriber("/go_pos_command", std_msgs.msg.Empty, self.go_pos_callback)
         rospy.Subscriber("/urdf_control_marker/feedback", visualization_msgs.msg.InteractiveMarkerFeedback, self.marker_callback)
@@ -30,6 +31,10 @@ class MultiWalkingClass(object):
         self.tfl = tf.TransformListener()
         # for marker_callback
         self.prev_event_type = 0
+        # get vertices
+        rospy.wait_for_service("/StabilizerServiceROSBridge/getParameter")
+        self.st_param = rospy.ServiceProxy("/StabilizerServiceROSBridge/getParameter", hrpsys_ros_bridge.srv.OpenHRP_StabilizerService_getParameter)()
+        # st_param.i_param.eefm_support_polygon_vertices_sequence[0].vertices[0].pos -> (0.182, 0.07112)
 
     def go_pos_callback(self, msg):
         ts = rospy.Time.now()
@@ -80,35 +85,54 @@ class MultiWalkingClass(object):
             req = hrpsys_ros_bridge.srv.OpenHRP_AutoBalancerService_getGoPosFootstepsSequenceRequest(x=x, y=y, th=yaw)
             res = self.get_go_pos_footsteps(req)
             if res.operation_return == True:
-                fsll_msg = jsk_footstep_msgs.msg.FootstepArray()
-                fsll_msg.header.stamp = msg.header.stamp
-                fsll_msg.header.frame_id = "odom"
-                fsll = res.o_footstep
-                for i in range(len(fsll)):
-                    fsl = fsll[i]
-                    for j in range(len(fsl.fs)):
-                        fsl_msg = jsk_footstep_msgs.msg.Footstep()
-                        if fsl.fs[j].leg == "rleg":
-                            fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.RLEG
-                        elif fsl.fs[j].leg == "lleg":
-                            fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.LLEG
-                        elif fsl.fs[j].leg == "rarm":
-                            fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.RARM
-                        elif fsl.fs[j].leg == "larm":
-                            fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.LARM
-                        pose_msg = geometry_msgs.msg.Pose()
-                        pose_msg.position.x = fsl.fs[j].pos[0]
-                        pose_msg.position.y = fsl.fs[j].pos[1]
-                        pose_msg.position.z = fsl.fs[j].pos[2]
-                        pose_msg.orientation.w = fsl.fs[j].rot[0]
-                        pose_msg.orientation.x = fsl.fs[j].rot[1]
-                        pose_msg.orientation.y = fsl.fs[j].rot[2]
-                        pose_msg.orientation.z = fsl.fs[j].rot[3]
-                        fsl_msg.pose = pose_msg
-                        fsll_msg.footsteps.append(fsl_msg)
+                fsll_msg = self._hrpsys_footsteps_to_jsk_footstep_msgs(res.o_footstep, msg.header.stamp)
                 self.go_pos_footsteps_pub.publish(fsll_msg)
+                bb_msg = self._jsk_footstep_msgs_to_bounding_box_array(fsll_msg)
+                self.go_pos_footsteps_bb_pub.publish(bb_msg)
         self.prev_event_type = cur_event_type
 
+    def _hrpsys_footsteps_to_jsk_footstep_msgs(self, hrpsys_footsteps, ts):
+        fsll_msg = jsk_footstep_msgs.msg.FootstepArray()
+        fsll_msg.header.stamp = ts
+        fsll_msg.header.frame_id = "odom"
+        for fsl in hrpsys_footsteps:
+            for fs in fsl.fs:
+                fsl_msg = jsk_footstep_msgs.msg.Footstep()
+                if fs.leg == "rleg":
+                    fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.RLEG
+                elif fs.leg == "lleg":
+                    fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.LLEG
+                elif fs.leg == "rarm":
+                    fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.RARM
+                elif fs.leg == "larm":
+                    fsl_msg.leg = jsk_footstep_msgs.msg.Footstep.LARM
+                fsl_msg.pose = geometry_msgs.msg.Pose(position=geometry_msgs.msg.Point(x=fs.pos[0], y=fs.pos[1], z=fs.pos[2]),
+                                                      orientation=geometry_msgs.msg.Quaternion(w=fs.rot[0], x=fs.rot[1], y=fs.rot[2], z=fs.rot[3]))
+                i_param = self.st_param.i_param
+                fsl_msg.dimensions.x = i_param.eefm_leg_front_margin + i_param.eefm_leg_rear_margin
+                fsl_msg.dimensions.y = i_param.eefm_leg_inside_margin + i_param.eefm_leg_outside_margin
+                fsl_msg.dimensions.z = 0.05
+                fsll_msg.footsteps.append(fsl_msg)
+        return fsll_msg
+
+    def _jsk_footstep_msgs_to_bounding_box_array(self, fsl):
+        box_array = jsk_recognition_msgs.msg.BoundingBoxArray()
+        box_array.header = fsl.header
+        for fs in fsl.footsteps:
+            box = jsk_recognition_msgs.msg.BoundingBox()
+            box.header = fsl.header
+            box.pose = fs.pose
+            box.dimensions  = fs.dimensions
+            # expand region
+            box.dimensions.x += 0.2
+            box.dimensions.y += 0.2
+            box.dimensions.z += 0.5
+            # fix position because bounding box origin is the center of bounding box and x / y /z is edge length
+            i_param = self.st_param.i_param
+            box.pose.position.x += (i_param.eefm_leg_front_margin - i_param.eefm_leg_rear_margin) / 2.0
+            box.pose.position.y += (i_param.eefm_leg_inside_margin - i_param.eefm_leg_outside_margin) / 2.0
+            box_array.boxes.append(box)
+        return box_array
 
     def main(self):
         # wait for service
