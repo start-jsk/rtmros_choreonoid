@@ -12,7 +12,6 @@ class MultiWalkingClass(object):
         self.target_frame_id = rospy.get_param("~target_frame_id", "robot_marker_root")
         # Publisher
         self.go_pos_footsteps_pub = rospy.Publisher('/go_pos_footsteps', jsk_footstep_msgs.msg.FootstepArray, queue_size=1)
-        self.go_pos_footsteps_bb_pub = rospy.Publisher('/go_pos_footsteps_boundingbox', jsk_recognition_msgs.msg.BoundingBoxArray, queue_size=1)
         # subscriber
         rospy.Subscriber("/go_pos_command", std_msgs.msg.Empty, self.go_pos_callback)
         rospy.Subscriber("/urdf_control_marker/feedback", visualization_msgs.msg.InteractiveMarkerFeedback, self.marker_callback)
@@ -87,8 +86,6 @@ class MultiWalkingClass(object):
             if res.operation_return == True:
                 fsll_msg = self._hrpsys_footsteps_to_jsk_footstep_msgs(res.o_footstep, msg.header.stamp)
                 self.go_pos_footsteps_pub.publish(fsll_msg)
-                bb_msg = self._jsk_footstep_msgs_to_bounding_box_array(fsll_msg)
-                self.go_pos_footsteps_bb_pub.publish(bb_msg)
         self.prev_event_type = cur_event_type
 
     def _hrpsys_footsteps_to_jsk_footstep_msgs(self, hrpsys_footsteps, ts):
@@ -114,25 +111,6 @@ class MultiWalkingClass(object):
                 fsl_msg.dimensions.z = 0.05
                 fsll_msg.footsteps.append(fsl_msg)
         return fsll_msg
-
-    def _jsk_footstep_msgs_to_bounding_box_array(self, fsl):
-        box_array = jsk_recognition_msgs.msg.BoundingBoxArray()
-        box_array.header = fsl.header
-        for fs in fsl.footsteps:
-            box = jsk_recognition_msgs.msg.BoundingBox()
-            box.header = fsl.header
-            box.pose = fs.pose
-            box.dimensions  = fs.dimensions
-            # expand region
-            box.dimensions.x += 0.2
-            box.dimensions.y += 0.2
-            box.dimensions.z += 0.5
-            # fix position because bounding box origin is the center of bounding box and x / y /z is edge length
-            i_param = self.st_param.i_param
-            box.pose.position.x += (i_param.eefm_leg_front_margin - i_param.eefm_leg_rear_margin) / 2.0
-            box.pose.position.y += (i_param.eefm_leg_inside_margin - i_param.eefm_leg_outside_margin) / 2.0
-            box_array.boxes.append(box)
-        return box_array
 
     def main(self):
         # wait for service
