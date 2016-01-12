@@ -11,6 +11,11 @@ pkg_check_modules(hrpsys hrpsys-base REQUIRED)
 
 ##catkin_python_setup()
 
+add_message_files(
+  DIRECTORY msg
+  FILES MultiGaitGoPos.msg
+  )
+
 add_service_files(
   DIRECTORY srv
   FILES StringRequest.srv
