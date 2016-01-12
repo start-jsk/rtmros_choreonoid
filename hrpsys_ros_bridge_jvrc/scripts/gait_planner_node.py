@@ -61,8 +61,8 @@ class GaitPlannerClass(object):
                 footstep_mask_image = numpy.zeros((y_pix, x_pix, 1), numpy.uint8)
                 cv2.fillConvexPoly(footstep_mask_image, numpy.int32(numpy.array([vs[0], vs[1], vs[2], vs[3]])), 255)
                 mask_image = cv2.bitwise_and(occlusion_mask_image, occlusion_mask_image, mask=footstep_mask_image)
-                rospy.logwarn("minMaxLoc : %s", cv2.minMaxLoc(self.my_heightmap, mask=mask_image))
-                rospy.logwarn("meanStdDev : %s", cv2.meanStdDev(self.my_heightmap, mask=mask_image))
+                # rospy.logwarn("minMaxLoc : %s", cv2.minMaxLoc(self.my_heightmap, mask=mask_image))
+                # rospy.logwarn("meanStdDev : %s", cv2.meanStdDev(self.my_heightmap, mask=mask_image))
                 mean, stddev = cv2.meanStdDev(self.my_heightmap, mask=mask_image)
                 if stddev[0,0] > 0.3 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED:
                     mgg_msg = self._get_multi_gait_go_pos(origin, prev_origin)
@@ -98,6 +98,7 @@ class GaitPlannerClass(object):
         for fs in fsl.footsteps:
             box = jsk_recognition_msgs.msg.BoundingBox()
             box.header = fsl.header
+            box.label = int(fs.cost) # order for debug
             box.pose = fs.pose
             box.dimensions  = fs.dimensions
             # expand region
@@ -184,8 +185,8 @@ class GaitPlannerClass(object):
                                                          goal.orientation.z,
                                                          goal.orientation.w])
         yaw = tf.transformations.euler_from_matrix(numpy.dot(start_mat.transpose(), goal_mat))[2]
-        mgg_msg.x = numpy.dot(start_mat, diff_p)[0]
-        mgg_msg.y = numpy.dot(start_mat, diff_p)[1]
+        mgg_msg.x = numpy.dot(start_mat.transpose(), diff_p)[0]
+        mgg_msg.y = numpy.dot(start_mat.transpose(), diff_p)[1]
         mgg_msg.th = tf.transformations.math.degrees(yaw)
         return mgg_msg
 

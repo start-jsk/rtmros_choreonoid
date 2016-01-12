@@ -41,6 +41,35 @@
    (ros::advertise "/jsk_model_marker_interface/robot/reset_joint_states" sensor_msgs::JointState 1)
    (ros::advertise "/urdf_control_marker/set_pose" geometry_msgs::PoseStamped 1)
    (warning-message 2 (format nil "[~A] initialize robot-menu.~%" (ros::get-name)))
+   ;; server
+   (ros::advertise-service "/move_quadruped" hrpsys_ros_bridge_jvrc::StringRequest #'send self :move-quadruped)
+   (ros::advertise-service "/move_biped" hrpsys_ros_bridge_jvrc::StringRequest #'send self :move-biped)
+   )
+  (:move-quadruped
+   (req)
+   (let (fsm-res res)
+     (setq res (send req :response))
+     (setq fsm-res (ros::service-call "/call_gait_state_event" (instance hrpsys_ros_bridge_jvrc::StringRequestRequest :init :data "to quadruped")))
+     (if (send fsm-res :result)
+         (progn
+           (send mg :biped->quadruped)
+           (ros::service-call "/call_gait_state_event" (instance hrpsys_ros_bridge_jvrc::StringRequestRequest :init :data "finish quadruped"))
+           (send res :result t))
+       (send res :result nil))
+     res)
+   )
+  (:move-biped
+   (req)
+   (let (fsm-res res)
+     (setq res (send req :response))
+     (setq fsm-res (ros::service-call "/call_gait_state_event" (instance hrpsys_ros_bridge_jvrc::StringRequestRequest :init :data "to biped")))
+     (if (send fsm-res :result)
+         (progn
+           (send mg :quadruped->biped)
+           (ros::service-call "/call_gait_state_event" (instance hrpsys_ros_bridge_jvrc::StringRequestRequest :init :data "finish biped"))
+           (send res :result t))
+       (send res :result nil))
+     res)
    )
   (:joint-states-callback
    (msg)

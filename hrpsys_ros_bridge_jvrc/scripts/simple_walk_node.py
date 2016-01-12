@@ -92,7 +92,7 @@ class MultiWalkingClass(object):
         fsll_msg = jsk_footstep_msgs.msg.FootstepArray()
         fsll_msg.header.stamp = ts
         fsll_msg.header.frame_id = "odom"
-        for fsl in hrpsys_footsteps:
+        for idx, fsl in enumerate(hrpsys_footsteps):
             for fs in fsl.fs:
                 fsl_msg = jsk_footstep_msgs.msg.Footstep()
                 if fs.leg == "rleg":
@@ -109,6 +109,7 @@ class MultiWalkingClass(object):
                 fsl_msg.dimensions.x = i_param.eefm_leg_front_margin + i_param.eefm_leg_rear_margin
                 fsl_msg.dimensions.y = i_param.eefm_leg_inside_margin + i_param.eefm_leg_outside_margin
                 fsl_msg.dimensions.z = 0.05
+                fsl_msg.cost = float(idx) # order for debug
                 fsll_msg.footsteps.append(fsl_msg)
         return fsll_msg
 
