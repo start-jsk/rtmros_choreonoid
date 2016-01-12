@@ -41,7 +41,9 @@
       <!-- go-pos to -->
       <param name="target_frame_id" value="$(arg marker_frame)" />
     </node>
-    <node pkg="hrpsys_ros_bridge_jvrc" type="gait_planner_node.py" name="gait_planner" output="$(arg OUTPUT)" />
+    <node pkg="hrpsys_ros_bridge_jvrc" type="gait_planner_node.py" name="gait_planner" output="$(arg OUTPUT)">
+      <remap from="~input/heightmap" to="/latest_heightmap/output" />
+    </node>
     <node pkg="hrpsys_ros_bridge_jvrc" type="gait_state_manager_node.py" name="gait_state_manager" output="$(arg OUTPUT)" />
   </group>
 
