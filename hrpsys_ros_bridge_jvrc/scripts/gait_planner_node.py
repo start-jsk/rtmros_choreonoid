@@ -2,7 +2,7 @@
 
 import rospy, tf, cv_bridge
 import cv2, numpy
-import std_msgs.msg, jsk_footstep_msgs.msg, visualization_msgs.msg, geometry_msgs.msg, jsk_recognition_msgs.msg, sensor_msgs.msg
+import std_msgs.msg, jsk_footstep_msgs.msg, visualization_msgs.msg, geometry_msgs.msg, jsk_recognition_msgs.msg, sensor_msgs.msg, hrpsys_ros_bridge_jvrc.msg
 import hrpsys_ros_bridge.srv, drc_task_common.srv, hrpsys_ros_bridge_jvrc.srv
 
 class GaitPlannerClass(object):
@@ -11,6 +11,7 @@ class GaitPlannerClass(object):
         # Publisher
         self.go_pos_footsteps_bb_pub = rospy.Publisher('/go_pos_footsteps_boundingbox', jsk_recognition_msgs.msg.BoundingBoxArray, queue_size=1)
         self.masked_heightmap_pub = rospy.Publisher('/masked_heightmap', sensor_msgs.msg.Image, queue_size=1)
+        self.multi_go_pos_order_pub = rospy.Publisher('/multi_go_pos_order', hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPosArray, queue_size=1)
         # subscriber
         rospy.Subscriber('/go_pos_footsteps', jsk_footstep_msgs.msg.FootstepArray, self.footstep_callback)
         rospy.Subscriber('~input/heightmap', sensor_msgs.msg.Image, self.heightmap_callback)
@@ -19,6 +20,9 @@ class GaitPlannerClass(object):
         self.fsm_call_srv = rospy.ServiceProxy('/call_gait_state_event', hrpsys_ros_bridge_jvrc.srv.StringRequest)
         rospy.wait_for_service("/StabilizerServiceROSBridge/getParameter")
         self.st_param = rospy.ServiceProxy("/StabilizerServiceROSBridge/getParameter", hrpsys_ros_bridge.srv.OpenHRP_StabilizerService_getParameter)()
+        rospy.wait_for_service("/AutoBalancerServiceROSBridge/getGaitGeneratorParam")
+        self.get_gg_param = rospy.ServiceProxy("/AutoBalancerServiceROSBridge/getGaitGeneratorParam", hrpsys_ros_bridge.srv.OpenHRP_AutoBalancerService_getGaitGeneratorParam)
+        self.gg_param = None
         # tf
         self.tfl = tf.TransformListener()
         # store heightmap
@@ -47,12 +51,39 @@ class GaitPlannerClass(object):
             # generate mask image
             thre, occlusion_mask_image = cv2.threshold(self.my_heightmap, -1e+3, 255, cv2.THRESH_BINARY)
             occlusion_mask_image = numpy.uint8(occlusion_mask_image)
-            for vs in vertices_list_in_pixel:
+            # calc MultiGoPos order
+            self.gg_param = self.get_gg_param()
+            origin = self._calc_reference_pose(msg.footsteps[0])
+            prev_origin = self._calc_reference_pose(msg.footsteps[0])
+            gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED
+            mgg_array = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPosArray(header=msg.header)
+            for idx, (vs, fs) in enumerate(zip(vertices_list_in_pixel, msg.footsteps)):
                 footstep_mask_image = numpy.zeros((y_pix, x_pix, 1), numpy.uint8)
                 cv2.fillConvexPoly(footstep_mask_image, numpy.int32(numpy.array([vs[0], vs[1], vs[2], vs[3]])), 255)
                 mask_image = cv2.bitwise_and(occlusion_mask_image, occlusion_mask_image, mask=footstep_mask_image)
                 rospy.logwarn("minMaxLoc : %s", cv2.minMaxLoc(self.my_heightmap, mask=mask_image))
                 rospy.logwarn("meanStdDev : %s", cv2.meanStdDev(self.my_heightmap, mask=mask_image))
+                mean, stddev = cv2.meanStdDev(self.my_heightmap, mask=mask_image)
+                if stddev[0,0] > 0.3 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED:
+                    mgg_msg = self._get_multi_gait_go_pos(origin, prev_origin)
+                    mgg_msg.gait_type = gait_type
+                    mgg_array.orders.append(mgg_msg)
+                    origin = prev_origin
+                    gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT
+                elif stddev[0,0] < 0.3 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT:
+                    new_origin = self._calc_reference_pose(fs)
+                    mgg_msg = self._get_multi_gait_go_pos(origin, new_origin)
+                    mgg_msg.gait_type = gait_type
+                    mgg_array.orders.append(mgg_msg)
+                    origin = new_origin
+                    gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED
+                if idx == len(msg.footsteps) - 1: # final step
+                    fin_origin = self._calc_reference_pose(fs)
+                    mgg_msg = self._get_multi_gait_go_pos(origin, fin_origin)
+                    mgg_msg.gait_type = gait_type
+                    mgg_array.orders.append(mgg_msg)
+                prev_origin = self._calc_reference_pose(fs) # keep the previous foot step
+            self.multi_go_pos_order_pub.publish(mgg_array)
 
     def heightmap_callback(self, msg):
         self.my_heightmap_header = msg.header
@@ -118,6 +149,46 @@ class GaitPlannerClass(object):
                 v[0] = int((v[0] - x_min) / (x_max - x_min) * x_pix)
                 v[1] = int((v[1] - y_min) / (y_max - y_min) * y_pix)
         return vertices_list
+
+    def _calc_reference_pose(self, fs):
+        ret = geometry_msgs.msg.Pose()
+        position = fs.pose.position
+        orientation = fs.pose.orientation
+        leg = fs.leg
+        if leg == jsk_footstep_msgs.msg.Footstep.RLEG:
+            offset = self.gg_param.i_param.leg_default_translate_pos.data[0*3+1]
+        elif leg == jsk_footstep_msgs.msg.Footstep.LLEG:
+            offset = self.gg_param.i_param.leg_default_translate_pos.data[1*3+1]
+        elif leg == jsk_footstep_msgs.msg.Footstep.RARM:
+            offset = self.gg_param.i_param.leg_default_translate_pos.data[2*3+1]
+        elif leg == jsk_footstep_msgs.msg.Footstep.LARM:
+            offset = self.gg_param.i_param.leg_default_translate_pos.data[3*3+1]
+        mat = tf.transformations.quaternion_matrix([orientation.x, orientation.y, orientation.z, orientation.w])
+        new_position = numpy.dot(mat, numpy.array([0, -1 * offset, 0, 0]))[:3] + numpy.array([position.x, position.y, position.z])
+        ret.position = geometry_msgs.msg.Point(x=new_position[0], y=new_position[1], z=new_position[2])
+        ret.orientation = orientation
+        return ret
+
+    def _get_multi_gait_go_pos(self, start, goal):
+        mgg_msg = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos()
+        diff_p = numpy.array([goal.position.x - start.position.x,
+                              goal.position.y - start.position.y,
+                              goal.position.z - start.position.z,
+                              0.0]) # dummy
+        start_mat = tf.transformations.quaternion_matrix([start.orientation.x,
+                                                          start.orientation.y,
+                                                          start.orientation.z,
+                                                          start.orientation.w])
+        goal_mat = tf.transformations.quaternion_matrix([goal.orientation.x,
+                                                         goal.orientation.y,
+                                                         goal.orientation.z,
+                                                         goal.orientation.w])
+        yaw = tf.transformations.euler_from_matrix(numpy.dot(start_mat.transpose(), goal_mat))[2]
+        mgg_msg.x = numpy.dot(start_mat, diff_p)[0]
+        mgg_msg.y = numpy.dot(start_mat, diff_p)[1]
+        mgg_msg.th = tf.transformations.math.degrees(yaw)
+        return mgg_msg
+
 
     def _heat_color(self, v):
         ratio = 2 * v
