@@ -13,7 +13,7 @@ pkg_check_modules(hrpsys hrpsys-base REQUIRED)
 
 add_message_files(
   DIRECTORY msg
-  FILES MultiGaitGoPos.msg
+  FILES MultiGaitGoPos.msg MultiGaitGoPosArray.msg
   )
 
 add_service_files(
