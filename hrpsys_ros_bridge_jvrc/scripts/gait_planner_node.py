@@ -10,11 +10,12 @@ class GaitPlannerClass(object):
         rospy.init_node(node_name)
         # Publisher
         self.go_pos_footsteps_bb_pub = rospy.Publisher('/go_pos_footsteps_boundingbox', jsk_recognition_msgs.msg.BoundingBoxArray, queue_size=1)
-        self.go_pos_footsteps_bb_pub2 = rospy.Publisher('/go_pos_footsteps_boundingbox2', jsk_recognition_msgs.msg.BoundingBoxArray, queue_size=1)
         self.masked_heightmap_pub = rospy.Publisher('/masked_heightmap', sensor_msgs.msg.Image, queue_size=1)
         # subscriber
         rospy.Subscriber('/go_pos_footsteps', jsk_footstep_msgs.msg.FootstepArray, self.footstep_callback)
         rospy.Subscriber('~input/heightmap', sensor_msgs.msg.Image, self.heightmap_callback)
+        ### https://github.com/jsk-ros-pkg/jsk_visualization/pull/539
+        rospy.Subscriber('~input/contact_plane_candidate', geometry_msgs.msg.PolygonStamped, self.contact_plane_candidate_callback)
         self.fsm_call_srv = rospy.ServiceProxy('/call_gait_state_event', hrpsys_ros_bridge_jvrc.srv.StringRequest)
         rospy.wait_for_service("/StabilizerServiceROSBridge/getParameter")
         self.st_param = rospy.ServiceProxy("/StabilizerServiceROSBridge/getParameter", hrpsys_ros_bridge.srv.OpenHRP_StabilizerService_getParameter)()
@@ -24,6 +25,8 @@ class GaitPlannerClass(object):
         self.bridge = cv_bridge.CvBridge()
         self.my_heightmap_header = None
         self.my_heightmap = None
+        # store contact plane candidate
+        self.contact_plane_candidate = None
 
     def footstep_callback(self, msg):
         bb_msg = self._jsk_footstep_msgs_to_bounding_box_array(msg)
@@ -33,7 +36,6 @@ class GaitPlannerClass(object):
             return
         else:
             transformed_bb_msg = self._tf_transform_bounding_box_array(bb_msg)
-            self.go_pos_footsteps_bb_pub2.publish(transformed_bb_msg)
             vertices_list = self._vertices_of_bounding_box_array(transformed_bb_msg)
             x_min = rospy.get_param("/latest_heightmap/min_x")
             x_max = rospy.get_param("/latest_heightmap/max_x")
@@ -55,6 +57,9 @@ class GaitPlannerClass(object):
     def heightmap_callback(self, msg):
         self.my_heightmap_header = msg.header
         self.my_heightmap = self.bridge.imgmsg_to_cv2(msg) # second argument should be not specified
+
+    def contact_plane_candidate_callback(self, msg):
+        self.contact_plane_candidate = msg
 
     def _jsk_footstep_msgs_to_bounding_box_array(self, fsl):
         box_array = jsk_recognition_msgs.msg.BoundingBoxArray()
