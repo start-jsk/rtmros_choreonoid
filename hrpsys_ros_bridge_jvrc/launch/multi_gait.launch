@@ -25,6 +25,7 @@
   </group>
 
   <!-- main program -->
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/polygon_select.launch" />
   <node pkg="hrpsys_ros_bridge_jvrc" type="robot_controller_node.l" name="robot_controller" output="$(arg OUTPUT)">
     <!-- fix-leg-to-coords to -->
     <param name="reference_frame_id" value="$(arg refarence_frame)" />

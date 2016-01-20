@@ -12,7 +12,8 @@
   :slots (robot-name tfl reference-frame-id
                      use-robot-interface-flag
                      potentio-vector joint-name-list
-                     mg)
+                     mg
+                     selected-polygon-relative-to-body)
   )
 
 (defmethod robot-menu
@@ -22,7 +23,8 @@
    (setq robot-name (string-upcase (if (unix::getenv "ROBOT") (unix::getenv "ROBOT") "jaxon_jvrc"))
          tfl (instance ros::transform-listener :init)
          reference-frame-id (ros::get-param "~reference_frame_id" "/ground")
-         use-robot-interface-flag (ros::get-param "~use_robot_interface" t))
+         use-robot-interface-flag (ros::get-param "~use_robot_interface" t)
+         selected-polygon-relative-to-body nil)
    ;; generate *robot*
    (when (or (not (boundp '*robot*)) (not *robot*))
      (load (robot-file robot-name))
@@ -37,6 +39,7 @@
    (ros::subscribe "/set_robot_pose" std_msgs::empty #'send self :set-robot-pose-cb)
    (ros::subscribe "/set_robot_pose_with_av" std_msgs::empty #'send self :set-robot-pose-with-av-cb)
    (ros::subscribe "/gait_menu_command" std_msgs::empty #'send self :gait-menu-command-cb)
+   (ros::subscribe "/polygon_select_group/polygon_marker/selected_polygon" geometry_msgs::PolygonStamped #'send self :polygon-stamped-cb)
    ;; publisher
    (ros::advertise "/jsk_model_marker_interface/robot/reset_joint_states" sensor_msgs::JointState 1)
    (ros::advertise "/urdf_control_marker/set_pose" geometry_msgs::PoseStamped 1)
@@ -204,6 +207,21 @@
                     (ros::service-call "/call_gait_state_event"
                                        (instance hrpsys_ros_bridge_jvrc::StringRequestRequest :init :data (if (eq gt 'biped) "biped stop" "quadruped stop")))))))
              ))
+     ))
+  (:polygon-stamped-cb
+   (msg)
+   (send tfl :wait-for-transform "/BODY" (send msg :header :frame_id) (send msg :header :stamp) 1)
+   (let* ((target-relative-to-body
+           (send tfl :lookup-transform "/BODY"
+                 (send msg :header :frame_id)
+                 (send msg :header :stamp)))
+          (ros-points (send msg :polygon :points))
+          ;; vertices are relative to BODY
+          (vertices (mapcar #'(lambda (p)
+                                (send target-relative-to-body :transform-vector (ros::tf-point->pos p)))
+                            ros-points)))
+     (setq selected-polygon-relative-to-body (instance polygon :init :vertices vertices))
+     (warning-message 3 (format nil "[~A] selected polygon is stored.~%" (ros::get-name)))
      ))
   )
 
