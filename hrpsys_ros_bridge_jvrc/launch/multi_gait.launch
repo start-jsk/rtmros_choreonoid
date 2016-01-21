@@ -26,6 +26,7 @@
 
   <!-- main program -->
   <include file="$(find hrpsys_ros_bridge_jvrc)/launch/polygon_select.launch" />
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/heightmap.launch" />
   <node pkg="hrpsys_ros_bridge_jvrc" type="robot_controller_node.l" name="robot_controller" output="$(arg OUTPUT)">
     <!-- fix-leg-to-coords to -->
     <param name="reference_frame_id" value="$(arg refarence_frame)" />
@@ -43,7 +44,7 @@
       <param name="target_frame_id" value="$(arg marker_frame)" />
     </node>
     <node pkg="hrpsys_ros_bridge_jvrc" type="gait_planner_node.py" name="gait_planner" output="$(arg OUTPUT)">
-      <remap from="~input/heightmap" to="/latest_heightmap/output" />
+      <remap from="~input/heightmap" to="/gait_planner_group/accumulated_heightmap/output" />
     </node>
     <node pkg="hrpsys_ros_bridge_jvrc" type="multi_gait_walk_node.py" name="multi_gait_walk" output="$(arg OUTPUT)" />
     <node pkg="hrpsys_ros_bridge_jvrc" type="gait_state_manager_node.py" name="gait_state_manager" output="$(arg OUTPUT)" />

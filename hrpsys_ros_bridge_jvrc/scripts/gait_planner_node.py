@@ -8,6 +8,14 @@ import hrpsys_ros_bridge.srv, drc_task_common.srv, hrpsys_ros_bridge_jvrc.srv
 class GaitPlannerClass(object):
     def __init__(self, node_name='gait_planner_node'):
         rospy.init_node(node_name)
+        # tf
+        self.tfl = tf.TransformListener()
+        # store heightmap
+        self.bridge = cv_bridge.CvBridge()
+        self.my_heightmap_header = None
+        self.my_heightmap = None
+        # store contact plane candidate
+        self.contact_plane_candidate = None
         # Publisher
         self.go_pos_footsteps_bb_pub = rospy.Publisher('/go_pos_footsteps_boundingbox', jsk_recognition_msgs.msg.BoundingBoxArray, queue_size=1)
         self.masked_heightmap_pub = rospy.Publisher('/masked_heightmap', sensor_msgs.msg.Image, queue_size=1)
@@ -23,14 +31,6 @@ class GaitPlannerClass(object):
         rospy.wait_for_service("/AutoBalancerServiceROSBridge/getGaitGeneratorParam")
         self.get_gg_param = rospy.ServiceProxy("/AutoBalancerServiceROSBridge/getGaitGeneratorParam", hrpsys_ros_bridge.srv.OpenHRP_AutoBalancerService_getGaitGeneratorParam)
         self.gg_param = None
-        # tf
-        self.tfl = tf.TransformListener()
-        # store heightmap
-        self.bridge = cv_bridge.CvBridge()
-        self.my_heightmap_header = None
-        self.my_heightmap = None
-        # store contact plane candidate
-        self.contact_plane_candidate = None
 
     def footstep_callback(self, msg):
         bb_msg = self._jsk_footstep_msgs_to_bounding_box_array(msg)
@@ -41,12 +41,12 @@ class GaitPlannerClass(object):
         else:
             transformed_bb_msg = self._tf_transform_bounding_box_array(bb_msg)
             vertices_list = self._vertices_of_bounding_box_array(transformed_bb_msg)
-            x_min = rospy.get_param("/latest_heightmap/min_x")
-            x_max = rospy.get_param("/latest_heightmap/max_x")
-            y_min = rospy.get_param("/latest_heightmap/min_y")
-            y_max = rospy.get_param("/latest_heightmap/max_y")
-            x_pix = rospy.get_param("/latest_heightmap/resolution_x")
-            y_pix = rospy.get_param("/latest_heightmap/resolution_y")
+            x_min = rospy.get_param("/gait_planner_group/latest_heightmap/min_x")
+            x_max = rospy.get_param("/gait_planner_group/latest_heightmap/max_x")
+            y_min = rospy.get_param("/gait_planner_group/latest_heightmap/min_y")
+            y_max = rospy.get_param("/gait_planner_group/latest_heightmap/max_y")
+            x_pix = rospy.get_param("/gait_planner_group/latest_heightmap/resolution_x")
+            y_pix = rospy.get_param("/gait_planner_group/latest_heightmap/resolution_y")
             vertices_list_in_pixel = self._meter_to_pixel(vertices_list, x_min, x_max, y_min, y_max, x_pix, y_pix)
             # generate mask image
             thre, occlusion_mask_image = cv2.threshold(self.my_heightmap, -1e+3, 255, cv2.THRESH_BINARY)
@@ -61,16 +61,16 @@ class GaitPlannerClass(object):
                 footstep_mask_image = numpy.zeros((y_pix, x_pix, 1), numpy.uint8)
                 cv2.fillConvexPoly(footstep_mask_image, numpy.int32(numpy.array([vs[0], vs[1], vs[2], vs[3]])), 255)
                 mask_image = cv2.bitwise_and(occlusion_mask_image, occlusion_mask_image, mask=footstep_mask_image)
-                # rospy.logwarn("minMaxLoc : %s", cv2.minMaxLoc(self.my_heightmap, mask=mask_image))
-                # rospy.logwarn("meanStdDev : %s", cv2.meanStdDev(self.my_heightmap, mask=mask_image))
+                rospy.logwarn("minMaxLoc : %s", cv2.minMaxLoc(self.my_heightmap, mask=mask_image))
+                rospy.logwarn("meanStdDev : %s", cv2.meanStdDev(self.my_heightmap, mask=mask_image))
                 mean, stddev = cv2.meanStdDev(self.my_heightmap, mask=mask_image)
-                if stddev[0,0] > 0.3 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED:
+                if stddev[0,0] > 0.01 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED:
                     mgg_msg = self._get_multi_gait_go_pos(origin, prev_origin)
                     mgg_msg.gait_type = gait_type
                     mgg_array.orders.append(mgg_msg)
                     origin = prev_origin
                     gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT
-                elif stddev[0,0] < 0.3 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT:
+                elif stddev[0,0] < 0.01 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT:
                     new_origin = self._calc_reference_pose(fs)
                     mgg_msg = self._get_multi_gait_go_pos(origin, new_origin)
                     mgg_msg.gait_type = gait_type
