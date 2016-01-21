@@ -31,6 +31,7 @@ class GaitPlannerClass(object):
         rospy.wait_for_service("/AutoBalancerServiceROSBridge/getGaitGeneratorParam")
         self.get_gg_param = rospy.ServiceProxy("/AutoBalancerServiceROSBridge/getGaitGeneratorParam", hrpsys_ros_bridge.srv.OpenHRP_AutoBalancerService_getGaitGeneratorParam)
         self.gg_param = None
+        self.max_keep_gait_counter = 3
 
     def footstep_callback(self, msg):
         bb_msg = self._jsk_footstep_msgs_to_bounding_box_array(msg)
@@ -57,26 +58,41 @@ class GaitPlannerClass(object):
             prev_origin = self._calc_reference_pose(msg.footsteps[0])
             gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED
             mgg_array = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPosArray(header=msg.header)
+            keep_gait_counter = self.max_keep_gait_counter
             for idx, (vs, fs) in enumerate(zip(vertices_list_in_pixel, msg.footsteps)):
                 footstep_mask_image = numpy.zeros((y_pix, x_pix, 1), numpy.uint8)
                 cv2.fillConvexPoly(footstep_mask_image, numpy.int32(numpy.array([vs[0], vs[1], vs[2], vs[3]])), 255)
                 mask_image = cv2.bitwise_and(occlusion_mask_image, occlusion_mask_image, mask=footstep_mask_image)
+                rospy.logwarn("%s : %s", idx, fs.leg)
                 rospy.logwarn("minMaxLoc : %s", cv2.minMaxLoc(self.my_heightmap, mask=mask_image))
                 rospy.logwarn("meanStdDev : %s", cv2.meanStdDev(self.my_heightmap, mask=mask_image))
                 mean, stddev = cv2.meanStdDev(self.my_heightmap, mask=mask_image)
-                if stddev[0,0] > 0.01 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED:
-                    mgg_msg = self._get_multi_gait_go_pos(origin, prev_origin)
-                    mgg_msg.gait_type = gait_type
-                    mgg_array.orders.append(mgg_msg)
-                    origin = prev_origin
-                    gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT
-                elif stddev[0,0] < 0.01 and gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT:
-                    new_origin = self._calc_reference_pose(fs)
-                    mgg_msg = self._get_multi_gait_go_pos(origin, new_origin)
-                    mgg_msg.gait_type = gait_type
-                    mgg_array.orders.append(mgg_msg)
-                    origin = new_origin
-                    gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED
+                if stddev[0,0] > 0.01:
+                    if gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED:
+                        mgg_msg = self._get_multi_gait_go_pos(origin, prev_origin)
+                        mgg_msg.gait_type = gait_type
+                        mgg_array.orders.append(mgg_msg)
+                        origin = prev_origin
+                        gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT
+                    keep_gait_counter = self.max_keep_gait_counter
+                elif stddev[0,0] < 0.008:
+                    if gait_type == hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.TROT:
+                        if keep_gait_counter > 0:
+                            keep_gait_counter -= 1
+                        else:
+                            new_origin = self._calc_reference_pose(fs)
+                            mgg_msg = self._get_multi_gait_go_pos(origin, new_origin)
+                            mgg_msg.gait_type = gait_type
+                            mgg_array.orders.append(mgg_msg)
+                            origin = new_origin
+                            gait_type = hrpsys_ros_bridge_jvrc.msg.MultiGaitGoPos.BIPED
+                    else:
+                        if keep_gait_counter > 0:
+                            keep_gait_counter -= 1
+                rospy.logwarn("keep_gait_counter : %s, gait_type : %s", keep_gait_counter, gait_type)
+                # else:           # keep
+                #     if keep_gait_counter > 0:
+                #         keep_gait_counter -= 1
                 if idx == len(msg.footsteps) - 1: # final step
                     fin_origin = self._calc_reference_pose(fs)
                     mgg_msg = self._get_multi_gait_go_pos(origin, fin_origin)
