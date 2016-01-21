@@ -13,7 +13,8 @@
                      use-robot-interface-flag
                      potentio-vector joint-name-list
                      mg
-                     selected-polygon-relative-to-body)
+                     selected-polygon-relative-to-body
+                     tripedal-av)
   )
 
 (defmethod robot-menu
@@ -30,8 +31,10 @@
      (load (robot-file robot-name))
      (setq *robot* (if use-robot-interface-flag
                        (init-robot-from-name robot-name)
-                     (make-robot-model-from-name robot-name))))
-   (setq mg (instance multi-gait :init :robot robot-name :make-robot-model nil))
+                     (make-robot-model-from-name robot-name)))
+     (objects (list *robot*)))
+   (setq mg (instance multi-gait :init :robot robot-name :make-robot-model nil)
+         tripedal-av (send *robot* :reset-pose))
    ;; subscriber
    (ros::subscribe "/joint_states" sensor_msgs::JointState #'send self :joint-states-callback)
    (ros::subscribe "/send_angle_command" std_msgs::empty #'send self :send-angle-to-real-robot-one-cb)
@@ -138,6 +141,7 @@
                            ":reset-pose"
                            ":reset-manip-pose"
                            ":init-pose"
+                           ":tripedal-pose"
                            ":quadruped-pose"))
           (req (instance drc_task_common::RvizMenuCallRequest
                          :init
@@ -152,6 +156,10 @@
               (send *robot* :angle-vector potentio-vector)))
            ((find-method *robot* (read-from-string res-value))
             (eval (list 'send '*robot* '(read-from-string res-value))))
+           ((equal res-value ":tripedal-pose")
+            (if selected-polygon-relative-to-body
+                (send *robot* :angle-vector tripedal-av)
+              ))
            (t
             (send *robot* :angle-vector (mg . quadruped-pose)))
            )
@@ -222,6 +230,77 @@
                             ros-points)))
      (setq selected-polygon-relative-to-body (instance polygon :init :vertices vertices))
      (warning-message 3 (format nil "[~A] selected polygon is stored.~%" (ros::get-name)))
+     (progn                             ;for debug
+       (if use-robot-interface-flag
+           (send *robot* :angle-vector (send *ri* :state :potentio-vector))
+         (send *robot* :angle-vector potentio-vector))
+       (send *robot* :fix-leg-to-coords (make-coords)))
+     ;; generate target coords relative to current world frame
+     (let (target-coords use-arm)
+       (let* ((ez (scale -1 (send selected-polygon-relative-to-body :normal)))
+              (ex (v* (float-vector 0 1 0) ez))
+              (ey (v* ez ex))
+              (selected-polygon-pos-relative-to-world
+               (send (send (car (send *robot* :links)) :copy-worldcoords)
+                     :transform-vector (cadr (send selected-polygon-relative-to-body :centroid)))))
+         (setq target-coords (make-coords :pos selected-polygon-pos-relative-to-world
+                                          :rot (m* (send (send (car (send *robot* :links)) :copy-worldcoords) :worldrot)
+                                                   (transpose (matrix (normalize-vector ex)
+                                                                      (normalize-vector ey)
+                                                                      (normalize-vector ez)))))))
+       ;; use nearest arm
+       (setq use-arm
+             (if (> (elt (cadr (send selected-polygon-relative-to-body :centroid)) 1) 0)
+                 (list :larm :lhand-contact-coords)
+               (list :rarm :rhand-contact-coords)))
+       ;; solve ik with search
+       (let (new-tc (x-times 10) (y-times 10)
+                    (search-x 500) (search-y 500)
+                    ik-success best-pair (best-manip 0))
+         (dotimes (i x-times)
+           (dotimes (j y-times)
+             (setq new-tc (send (send target-coords :copy-worldcoords) :translate (float-vector (* search-x (/ (- i (/ x-times 2.0)) x-times))
+                                                                                                (* search-y (/ (- j (/ y-times 2.0)) y-times))
+                                                                                                0) :local))
+             (when (eq ':inside
+                       (send selected-polygon-relative-to-body :insidep
+                             (send (send (send (send (car (send *robot* :links)) :copy-worldcoords) :inverse-transformation) :transform (send new-tc :copy-worldcoords)) :worldpos)))
+               ;; solve ik
+               (setq ik-success (send *robot* :inverse-kinematics
+                                      (send new-tc :translate #f(0 0 100) :local)
+                                      :move-target (send *robot* :get (elt use-arm 1))
+                                      :link-list (send *robot* :link-list (send (send *robot* :get (elt use-arm 1)) :parent) (send *robot* (elt use-arm 0) :root-link))
+                                      :rotation-axis :z
+                                      :translation-axis t
+                                      :debug-view nil
+                                      :dump-command nil))
+               (if ik-success
+                   (let ((cur-manip (manipulability (send *robot* :calc-jacobian-from-link-list
+                                                          (send *robot* :link-list (send (send *robot* (elt use-arm 0) :end-coords) :parent))
+                                                          :move-target (send *robot* (elt use-arm 0) :end-coords)
+                                                          :translation-axis '(t)
+                                                          :rotation-axis '(t)))))
+                     (when (> cur-manip best-manip)
+                       (setq best-manip cur-manip)
+                       (setq best-pair (list i j))))))
+             ))
+         (if best-pair
+             (progn
+               (setq new-tc (send (send target-coords :copy-worldcoords) :translate (float-vector (* search-x (/ (- (elt best-pair 0) (/ x-times 2.0)) x-times))
+                                                                                                  (* search-y (/ (- (elt best-pair 1) (/ y-times 2.0)) y-times))
+                                                                                                  0) :local))
+               (send *robot* :inverse-kinematics
+                     (send new-tc :translate #f(0 0 100) :local)
+                     :move-target (send *robot* :get (elt use-arm 1))
+                     :link-list (send *robot* :link-list (send (send *robot* :get (elt use-arm 1)) :parent) (send *robot* (elt use-arm 0) :root-link))
+                     :rotation-axis :z
+                     :translation-axis t
+                     :debug-view :no-message
+                     :dump-command nil)
+               (setq tripedal-av (send *robot* :angle-vector)))
+           (warning-message 2 (format nil "[~A] failed to solve ik to the polygon.~%" (ros::get-name))))
+         )
+       )
      ))
   )
 
@@ -236,6 +315,7 @@
       (ros::wait-for-service s)))
   (instance robot-menu :init)
   (while t
+    (x::window-main-one)
     (ros::sleep)
     (ros::spin-once)
     )

@@ -43,7 +43,7 @@
     <group ns="laser_z_filter">
       <rosparam>
         filter_field_name: z
-        filter_limit_min: -1.0
+        filter_limit_min: 0.8
         filter_limit_max: 2.0
       </rosparam>
     </group>
@@ -61,7 +61,7 @@
       <remap from="~input_normal" to="normal_estimation/output_with_xyz" />
       <rosparam>
         max_area: 1.0
-        min_area: 0.1
+        min_area: 0.01
       </rosparam>
     </node>
     <!-- throttle -->
