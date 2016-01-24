@@ -1,0 +1,123 @@
+<launch>
+  <arg name="STATIC_FRAME" default="map" />
+  <arg name="ROBOT_FRAME" default="body_on_odom" /> <!--it's not good-->
+  <arg name="INPUT" default="/full_cloud2" />
+
+  <group ns="gait_planner_group">
+    <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet" name="gait_planner_nodelet" output="screen">
+      <rosparam subst_value="true">
+        nodelets:
+          - name: robot_center_pointcloud
+            type: jsk_pcl/TfTransformCloud
+            remappings:
+              - from: ~input
+                to: $(arg INPUT)
+          - name: laser_x_filter
+            type: pcl/PassThrough
+            remappings:
+              - from: ~input
+                to: robot_center_pointcloud/output
+              - from: /tf
+                to: /tf_null
+          - name: laser_y_filter
+            type: pcl/PassThrough
+            remappings:
+              - from: ~input
+                to: laser_x_filter/output
+              - from: /tf
+                to: /tf_null
+          - name: laser_z_filter
+            type: pcl/PassThrough
+            remappings:
+              - from: ~input
+                to: laser_y_filter/output
+              - from: /tf
+                to: /tf_null
+          - name: latest_heightmap
+            type: jsk_pcl/HeightmapConverter
+            remappings:
+              - from: ~input
+                to: laser_z_filter/output
+          - name: latest_complete_heightmap
+            type: jsk_pcl/HeightmapMorphologicalFiltering
+            remappings:
+              - from: ~input
+                to: latest_heightmap/output
+          - name: accumulated_heightmap
+            type: jsk_pcl/HeightmapTimeAccumulation
+            remappings:
+              - from: ~input
+                to: latest_complete_heightmap/output
+              - from: ~input/prev_pointcloud
+                to: accumulated_heightmap_pointcloud/output
+          - name: accumulated_heightmap_pointcloud
+            type: jsk_pcl/HeightmapToPointCloud
+            remappings:
+              - from: ~input
+                to: accumulated_heightmap/output
+          - name: accumulated_heightmap_pointcloud_static
+            type: jsk_pcl/TfTransformCloud
+            remappings:
+              - from: ~input
+                to: accumulated_heightmap_pointcloud/output
+      </rosparam>
+    </node>
+    <rosparam param="robot_center_pointcloud" subst_value="true">
+      target_frame_id: $(arg ROBOT_FRAME)
+    </rosparam>
+    <group ns="laser_x_filter">
+      <rosparam>
+        filter_field_name: x
+        filter_limit_min: 0.3
+        filter_limit_max: 2.3
+      </rosparam>
+    </group>
+    <group ns="laser_y_filter">
+      <rosparam>
+        filter_field_name: y
+        filter_limit_min: -1.0
+        filter_limit_max: 1.0
+      </rosparam>
+    </group>
+    <group ns="laser_z_filter">
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: -0.05
+        filter_limit_max: 0.15
+      </rosparam>
+    </group>
+    <rosparam param="latest_heightmap" subst_value="true">
+      min_x: 0.3
+      max_x: 2.3
+      min_y: -1.0
+      max_y: 1.0
+      resolution_x: 800
+      resolution_y: 800
+    </rosparam>
+    <rosparam param="accumulated_heightmap" subst_value="true">
+      center_frame_id: $(arg ROBOT_FRAME)
+      fixed_frame_id: $(arg STATIC_FRAME)
+    </rosparam>
+    <rosparam param="accumulated_heightmap_pointcloud_static" subst_value="true">
+      target_frame_id: $(arg STATIC_FRAME)
+    </rosparam>
+
+    <group ns="heightmap_visualization">
+      <group ns="latest">
+        <node pkg="jsk_perception" type="colorize_float_image" name="colorize_heightmap">
+          <remap from="~input" to="/gait_planner_group/latest_heightmap/output" />
+        </node>
+      </group>
+      <group ns="filtered">
+        <node pkg="jsk_perception" type="colorize_float_image" name="colorize_heightmap">
+          <remap from="~input" to="/gait_planner_group/latest_complete_heightmap/output" />
+        </node>
+      </group>
+      <group ns="accumulated">
+        <node pkg="jsk_perception" type="colorize_float_image" name="colorize_heightmap">
+          <remap from="~input" to="/gait_planner_group/accumulated_heightmap/output" />
+        </node>
+      </group>
+    </group>
+  </group>
+</launch>
