@@ -115,4 +115,8 @@
   <node name="head_root_frame_id" pkg="tf"
         type="static_transform_publisher"
         args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA /head_root 33" />
+  <node name="jointstates_relay" pkg="jsk_topic_tools" type="relay">
+    <remap from="~input" to="/joint_states" />
+    <remap from="~output" to="/multisense_local/joint_states" />
+  </node>
 </launch>
