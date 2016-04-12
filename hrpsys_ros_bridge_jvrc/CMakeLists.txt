@@ -174,3 +174,6 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R3A.cnoid.in ${PROJECT_SOURCE_D
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R3B.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R3B.cnoid)
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R4.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R4.cnoid)
 configure_file(${PROJECT_SOURCE_DIR}/config/JVRC_R5.cnoid.in ${PROJECT_SOURCE_DIR}/config/JVRC_R5.cnoid)
+
+###
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid @ONLY)

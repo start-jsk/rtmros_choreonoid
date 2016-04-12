@@ -1,0 +1,37 @@
+<launch>
+  <arg name="TASK" default="FLAT" />
+  <arg name="KILL_SERVERS" default="false" />
+  <arg name="NOSIM" default="false" />
+  <arg name="REALTIME" default="true" />
+  <arg name="RUN_RVIZ" default="true" />
+  <arg name="GUI" default="true" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_ros_bridge_jvrc)/config/JAXON_RED_$(arg TASK).cnoid" />
+  <arg name="SIMULATOR_NAME" default="JAXON_RED" />
+  <arg name="corbaport" default="2809" />
+  <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="launch_multisense_local" default="false" />
+  <arg name="launch_multisense_remote" default="false" />
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_startup_choreonoid.launch" >
+    <arg name="KILL_SERVERS" default="$(arg KILL_SERVERS)" />
+    <arg name="NOSIM" value="$(arg NOSIM)" />
+    <arg name="PROJECT_FILE" value="$(arg PROJECT_FILE)" />
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="REALTIME" default="$(arg REALTIME)" />
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="GUI" default="$(arg GUI)" />
+    <arg name="hrpsys_precreate_rtc" default="$(arg hrpsys_precreate_rtc)" />
+  </include>
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_ros_bridge_choreonoid.launch" >
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="RUN_RVIZ" default="$(arg RUN_RVIZ)" />
+    <arg name="corbaport" default="$(arg corbaport)" />
+  </include>
+  <include file="$(find hrpsys_ros_bridge_jvrc)/launch/vision_connect_jaxon_red.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
+  </include>
+  <include if="$(arg launch_multisense_local)"
+           file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch" />
+  <include if="$(arg launch_multisense_remote)"
+           file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_multisense.launch" />
+</launch>
