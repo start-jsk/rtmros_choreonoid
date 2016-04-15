@@ -5,7 +5,7 @@ if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
 fi
 start_sim=""
-
+enable_const=""
 rtm_args=()
 latch=0
 
@@ -21,6 +21,9 @@ for arg in $@; do
   fi
   if [ $arg = "--start-simulation" ]; then
       start_sim=$arg
+  fi
+  if [ $arg = "--enable-constraint" ]; then
+      enable_const="--python $(rospack find hrpsys_choreonoid)/launch/constraint_enable.py"
   fi
 done
 
@@ -47,6 +50,6 @@ export ROBOT=JAXON_RED
 export ORBgiopMaxMsgSize=2147483648
 export CNOID_CUSTOMIZER_PATH=$(rospack find hrpsys_choreonoid)
 
-(cd /tmp; choreonoid $cnoid_proj $start_sim)
+(cd /tmp; choreonoid $enable_const $cnoid_proj $start_sim)
 ## for using gdb
 #(cd /tmp; gdb -ex run --args choreonoid $cnoid_proj $start_sim)
