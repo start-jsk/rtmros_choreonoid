@@ -1,0 +1,32 @@
+<launch>
+  <arg name="SIMULATOR_NAME" />
+  <arg name="MODEL_FILE"   />
+  <arg name="COLLADA_FILE" />
+  <arg name="CONF_FILE"    />
+  <arg name="RUN_RVIZ" default="false" />
+
+  <arg name="corbaport" default="2809" />
+  <include file="$(find hrpsys_ros_bridge)/launch/hrpsys_ros_bridge.launch">
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="MODEL_FILE"   value="$(arg MODEL_FILE)" />
+    <arg name="COLLADA_FILE" value="$(arg COLLADA_FILE)" />
+    <arg name="CONF_FILE"    value="$(arg CONF_FILE)" />
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <!-- unstable RTC -->
+    <arg name="USE_WALKING" default="true" />
+    <arg name="USE_IMPEDANCECONTROLLER" default="true" />
+    <arg name="USE_EMERGENCYSTOPPER" default="true" />
+    <!-- for choreonoid -->
+    <arg name="USE_COLLISIONCHECK" default="false" />
+    <arg name="USE_SOFTERRORLIMIT" default="false" />
+    <arg name="periodic_rate" value="100" />
+    <arg name="USE_VELOCITY_OUTPUT" default="true" />
+    <arg name="USE_ROBOT_POSE_EKF" default="false" />
+    <!--arg name="BASE_LINK" default="" /-->
+  </include>
+
+  <!--group if="$(arg RUN_RVIZ)" >
+    <node name="choreonoid_rviz" pkg="rviz" type="rviz" respawn="true"
+          args="-sync -d $(find hrpsys_choreonoid)/launch/choreonoid.rviz" />
+  </group-->
+</launch>
