@@ -1,0 +1,78 @@
+<launch>
+  <arg name="SIMULATOR_NAME" default="JAXON_RED" />
+  <arg name="OUTPUT" default="screen"/>
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport" default="2809" />
+  <arg name="periodic_rate" default="200" />
+
+  <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
+
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+
+  <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
+        type="rtmlaunch.py"
+        args="$(find hrpsys_ros_bridge_jvrc)/launch/vision_connect_jaxon_red.launch"
+        output="$(arg OUTPUT)"/>
+
+  <!--node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <rtconnect from="JAXON_RED.rtc:CHEST_CAMERA"
+               to="CameraImageViewer0.rtc:imageIn" />
+    <rtactivate component="CameraImageViewer0.rtc" />
+  </node-->
+
+  <node pkg="hrpsys_ros_bridge" name="HEADLEFT"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense/left">
+    <param name="frame_id" value="multisense/left_camera_optiocal_frame" />
+    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <rtconnect from="JAXON_RED.rtc:HEAD_LEFT_CAMERA"
+               to="HEADLEFT.rtc:timedImage" />
+    <rtactivate component="HEADLEFT.rtc" />
+  </node>
+  <node pkg="hrpsys_ros_bridge" name="HEADRIGHT"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense/right">
+    <param name="frame_id" value="multisense/left_camera_optiocal_frame" />
+    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, -16800,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <rtconnect from="JAXON_RED.rtc:HEAD_RIGHT_CAMERA"
+               to="HEADRIGHT.rtc:timedImage" />
+    <rtactivate component="HEADRIGHT.rtc" />
+  </node>
+
+  <node pkg="hrpsys_ros_bridge" name="range_bridge"
+        type="RangeSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
+    <param name="frame_id" value="head_hokuyo_frame" />
+    <param name="intensity" value="1000" />
+    <remap from="range" to="lidar_scan" />
+    <rtconnect from="JAXON_RED.rtc:HEAD_RANGE"
+               to="RangeSensorROSBridge0.rtc:range" />
+    <rtactivate component="RangeSensorROSBridge0.rtc" />
+  </node>
+
+  <node pkg="hrpsys_ros_bridge" name="pointcloud_bridge"
+        type="PointCloudROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
+    <param name="frame_id" value="multisense/left_camera_optiocal_frame" />
+    <param name="publish_depth" value="true" />
+    <param name="transformed_camera_frame" value="true" />
+    <remap from="points" to="organized_image_points2_color" />
+    <rtconnect from="JAXON_RED.rtc:HEAD_LEFT_DEPTH"
+               to="PointCloudROSBridge0.rtc:points" />
+    <rtactivate component="PointCloudROSBridge0.rtc" />
+  </node>
+  <node name="head_left_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA multisense/left_camera_optiocal_frame 33" />
+  <node name="head_range_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /HEAD_RANGE head_hokuyo_frame 20" />
+  <node name="head_root_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA /head_root 33" />
+</launch>
