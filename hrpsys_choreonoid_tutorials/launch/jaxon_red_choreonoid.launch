@@ -13,8 +13,8 @@
   <arg name="MODEL_FILE"     value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"/>
   <arg name="COLLADA_FILE"   value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_SENSORS.urdf"/>
   <arg name="CONF_FILE"      value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC.conf"/>
-  <arg name="HRPSYS_PY_PKG"  value="hrpsys_ros_bridge_jvrc"/>
-  <arg name="HRPSYS_PY_NAME" value="jaxon_jvrc_hrpsys_config.py"/>
+  <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
+  <arg name="HRPSYS_PY_NAME" value="jaxon_red_setup.py"/>
   <arg name="CONTROLLER_CONFIG"
        value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
 
