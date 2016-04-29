@@ -1,0 +1,5 @@
+<launch>
+   <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_choreonoid.launch"/>
+   <test test-name="jaxon_red_test" pkg="roseus" type="roseus"
+         args="&quot;(load \&quot;package://hrpsys_choreonoid_tutorials/test/test-jaxon_red-hrpsysrosbridge.l\&quot;)&quot;" />
+</launch>
