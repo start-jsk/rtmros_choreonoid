@@ -13,7 +13,7 @@
 
   <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
         type="rtmlaunch.py"
-        args="$(find hrpsys_choreonoid_tutorials)/launch/vision_connect_jaxon_red.launch"
+        args="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch"
         output="$(arg OUTPUT)"/>
 
   <!--node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
