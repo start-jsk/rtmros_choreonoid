@@ -39,6 +39,13 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
         self.Groups = [rarm_group, larm_group, rleg_group, lleg_group, head_group, torso_group, rhand_group, lhand_group, range_group]
 
     def startABSTIMP (self):
+        ### not used on hrpsys
+        self.el_svc.setServoErrorLimit("motor_joint", float('inf'))
+        self.el_svc.setServoErrorLimit("RARM_F_JOINT0", float('inf'))
+        self.el_svc.setServoErrorLimit("RARM_F_JOINT1", float('inf'))
+        self.el_svc.setServoErrorLimit("LARM_F_JOINT0", float('inf'))
+        self.el_svc.setServoErrorLimit("LARM_F_JOINT1", float('inf'))
+        ###
         self.startAutoBalancer()
         self.ic_svc.startImpedanceController("larm")
         self.ic_svc.startImpedanceController("rarm")
