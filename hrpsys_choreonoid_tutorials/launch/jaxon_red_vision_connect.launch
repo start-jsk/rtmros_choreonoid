@@ -75,4 +75,16 @@
   <node name="head_root_frame_id" pkg="tf"
         type="static_transform_publisher"
         args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA /head_root 33" />
+
+  <node pkg="hrpsys_choreonoid" name="jstate_bridge"
+        type="JointStateROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <rosparam param="names">
+      ["motor_joint"]
+    </rosparam>
+    <remap from="joint_state" to="head_joint_state" />
+    <rtconnect from="JAXON_RED.rtc:headq"
+               to="JointStateROSBridge0.rtc:qRef" />
+    <rtactivate component="JointStateROSBridge0.rtc" />
+  </node>
 </launch>
