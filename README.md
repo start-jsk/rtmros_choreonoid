@@ -12,7 +12,7 @@ wstool update rtm-ros-robotics/rtmros_choreonoid
 
 - catkin build hrpsys_choreonoid_tutorials
 
-- roslaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
+- rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
 
 ---
 
