@@ -5,7 +5,7 @@
   <arg name="CONF_FILE"    />
   <arg name="RUN_RVIZ" default="false" />
 
-  <arg name="corbaport" default="2809" />
+  <arg name="corbaport" default="15005" />
   <include file="$(find hrpsys_ros_bridge)/launch/hrpsys_ros_bridge.launch">
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"   value="$(arg MODEL_FILE)" />

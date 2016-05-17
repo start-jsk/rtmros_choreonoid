@@ -9,7 +9,7 @@
   <arg name="GUI" default="true" />
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
-  <arg name="corbaport" default="2809" />
+  <arg name="corbaport" default="15005" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <param name="use_sim_time" value="true" />
   <include file="$(find hrpsys_tools)/launch/hrpsys.launch">
