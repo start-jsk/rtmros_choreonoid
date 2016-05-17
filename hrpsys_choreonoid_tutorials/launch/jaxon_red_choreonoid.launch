@@ -5,7 +5,6 @@
   <arg name="REALTIME" default="true" />
   <arg name="RUN_RVIZ" default="true" />
   <arg name="GUI" default="true" />
-  <arg name="corbaport" default="2809" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <!-- robot dependant settings -->
   <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/JAXON_RED_$(arg TASK).cnoid" />
@@ -28,7 +27,6 @@
     <arg name="HRPSYS_PY_PKG"  value="$(arg HRPSYS_PY_PKG)"/>
     <arg name="HRPSYS_PY_NAME" value="$(arg HRPSYS_PY_NAME)"/>
     <!-- -->
-    <arg name="corbaport" value="$(arg corbaport)" />
     <arg name="KILL_SERVERS" value="$(arg KILL_SERVERS)" />
     <arg name="NOSIM" value="$(arg NOSIM)" />
     <arg name="REALTIME" value="$(arg REALTIME)" />
@@ -43,8 +41,6 @@
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
     <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
     <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
-    <!-- -->
-    <arg name="corbaport"      value="$(arg corbaport)" />
   </include>
 
   <!--                     -->
@@ -57,7 +53,6 @@
   <!-- vision setting -->
   <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
-    <arg name="corbaport"      value="$(arg corbaport)" />
   </include>
 
   <!--

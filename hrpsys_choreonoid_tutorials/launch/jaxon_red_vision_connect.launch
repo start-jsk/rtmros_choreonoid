@@ -2,7 +2,7 @@
   <arg name="SIMULATOR_NAME" default="JAXON_RED" />
   <arg name="OUTPUT" default="screen"/>
   <arg name="nameserver" default="localhost" />
-  <arg name="corbaport" default="2809" />
+  <arg name="corbaport" default="15005" />
   <arg name="periodic_rate" default="200" />
 
   <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
