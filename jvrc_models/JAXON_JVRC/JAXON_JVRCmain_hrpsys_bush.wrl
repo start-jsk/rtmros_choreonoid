@@ -1452,6 +1452,11 @@ DEF JAXON_JVRC Humanoid {
                                       visual [ Inline { url "LLEG_LINK5_U.wrl" } ] # visual
                                       # collision [ Inline { url "collision_directory/LLEG_LINK5_U.wrl" } ] # collision
                                     } # surface
+                                    DEF lfsensor ForceSensor {
+                                      translation 0 0 -0.069
+                                      rotation 0 1 0 3.14159
+                                      sensorId 1
+                                    }
                                   ]
                                 } #Segment LLEG_LINK5_UPPER
                                 DEF LLEG_BUSH_Z Joint {
@@ -1462,12 +1467,6 @@ DEF JAXON_JVRC Humanoid {
                                   ulimit [ 1.0]
                                   rotorInertia 0.1
                                   children [
-                                    DEF lfsensor ForceSensor {
-                                      # translation 0 0 -0.069
-                                      translation 0 0 0.008
-                                      rotation 0 1 0 3.14159
-                                      sensorId 1
-                                    }
                                     DEF LLEG_BUSH_ROLL Joint {
                                       jointType "rotate"
                                       jointAxis 1 0 0
@@ -1701,6 +1700,11 @@ DEF JAXON_JVRC Humanoid {
                                       visual [ Inline { url "RLEG_LINK5_U.wrl" } ] # visual
                                       # collision [ Inline { url "collision_directory/RLEG_LINK5_U.wrl" } ] # collision
                                     } # surface
+                                    DEF rfsensor ForceSensor {
+                                      translation 0 0 -0.069
+                                      rotation 0 1 0 3.14159
+                                      sensorId 0
+                                    } #Sensor
                                   ]
                                 } #Segment RLEG_LINK5_UPPER
                                 DEF RLEG_BUSH_Z Joint {
@@ -1711,12 +1715,6 @@ DEF JAXON_JVRC Humanoid {
                                   ulimit [ 1.0]
                                   rotorInertia 0.1
                                   children [
-                                    DEF rfsensor ForceSensor {
-                                      # translation 0 0 -0.069
-                                      translation 0 0 0.008
-                                      rotation 0 1 0 3.14159
-                                      sensorId 0
-                                    } #Sensor
                                     DEF RLEG_BUSH_ROLL Joint {
                                       jointType "rotate"
                                       jointAxis 1 0 0
