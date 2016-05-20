@@ -461,8 +461,8 @@ DEF JAXON_JVRC Humanoid {
                               jointAxis 1 0 0
                               #ulimit 0.144751
                               #llimit -1.4208
-                              uvlimit 4
-                              lvlimit -4
+                              #uvlimit 4
+                              #lvlimit -4
                               climit [50.0]
                               gearRatio 1
                               rotorInertia 0.8
@@ -767,8 +767,8 @@ DEF JAXON_JVRC Humanoid {
                                                       ## for min-max
                                                       ulimit  0.6108652381980151  # +35.0
                                                       llimit -1.3962634015954629  # -80.0
-                                                      uvlimit 4
-                                                      lvlimit -4
+                                                      #uvlimit 4
+                                                      #lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
                                                       rotorInertia 0.4
@@ -792,8 +792,8 @@ DEF JAXON_JVRC Humanoid {
                                                       ## for min-max
                                                       ulimit  1.3962634015954629  # +80.0
                                                       llimit -0.6108652381980151  # -35.0
-                                                      uvlimit 4
-                                                      lvlimit -4
+                                                      #uvlimit 4
+                                                      #lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
                                                       rotorInertia 0.4
@@ -1100,8 +1100,8 @@ DEF JAXON_JVRC Humanoid {
                                                       ## for min-max
                                                       ulimit  0.6108652381980151  # +35.0
                                                       llimit -1.3962634015954629  # -80.0
-                                                      uvlimit 4
-                                                      lvlimit -4
+                                                      #uvlimit 4
+                                                      #lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
                                                       rotorInertia 0.4
@@ -1125,8 +1125,8 @@ DEF JAXON_JVRC Humanoid {
                                                       ## for min-max
                                                       ulimit  1.3962634015954629  # +80.0
                                                       llimit -0.6108652381980151  # -35.0
-                                                      uvlimit 4
-                                                      lvlimit -4
+                                                      #uvlimit 4
+                                                      #lvlimit -4
                                                       climit [20.0]
                                                       gearRatio 1
                                                       rotorInertia 0.4
