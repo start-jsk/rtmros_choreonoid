@@ -59,7 +59,7 @@ RTC::ReturnCode_t JointStateROSBridge::onInitialize()
   // Bind variables and configuration variable
 
   // </rtc-template>
-  jstate_pub = node.advertise<sensor_msgs::JointState>("joint_state", 1);
+  jstate_pub = node.advertise<sensor_msgs::JointState>("joint_states", 1);
 
   if(ros::param::has("~names")) {
     //std::vector<std::string> name_list;

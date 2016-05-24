@@ -1,0 +1,23 @@
+<launch>
+  <arg name="ROBOT_NAME" default="JAXON_RED" />
+
+  <arg name="RUN_DRIVER" default="false" />
+  <arg name="USE_RESIZE" default="true" />
+
+  <include file="$(find jsk_robot_startup)/launch/multisense_local.launch">
+    <arg name="ip_address" value="multisense" />
+    <arg name="mtu" value="7200" />
+    <arg name="SELF_FILTER_PARAM" value="$(find hrpsys_choreonoid_tutorials)/config/jaxon_self_filter.yaml" />
+    <arg name="ODOMETRY_PARAM"    value="$(find jsk_robot_startup)/config/$(arg ROBOT_NAME)_odometry_params.yaml" />
+    <arg name="RUN_DRIVER" value="$(arg RUN_DRIVER)" />
+    <arg name="USE_RESIZE" value="$(arg USE_RESIZE)" />
+    <arg name="HEIGHTMAP_FILTER_Z" value="1.5" />
+  </include>
+  <!--node pkg="dynamic_reconfigure" type="dynparam" name="$(anon set_multisense_resolution)"
+        args="set multisense resolution 1024x544x256" /-->
+  <include file="$(find jsk_tools)/launch/local_pc_monitor.launch">
+      <arg name="LOAD1_THRESHOLD" value="8.0" />
+      <arg name="LOAD5_THRESHOLD" value="8.0" />
+  </include>
+
+</launch>
