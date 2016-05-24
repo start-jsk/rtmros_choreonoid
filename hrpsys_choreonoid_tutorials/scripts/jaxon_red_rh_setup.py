@@ -2,7 +2,7 @@
 
 from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import *
 
-class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
+class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
     def getRTCList (self):
         ##return self.getRTCListUnstable()
         return [
