@@ -1,0 +1,39 @@
+<launch>
+  <arg name="ROBOT_NAME" default="JAXON_RED" />
+
+  <!-- relay stereo topics for jaxon_multisense_local.launch -->
+  <node name="multisense_left_image_rect_color_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/left/image_raw /multisense_local/left/image_rect_color" />
+  <node name="multisense_right_image_rect_color_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/right/image_raw /multisense_local/right/image_rect_color" />
+  <node name="multisense_left_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/left/image_raw /multisense_local/left/image_rect" />
+  <node name="multisense_right_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/right/image_raw /multisense_local/right/image_rect" />
+  <node name="multisense_left_camera_info_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/left/camera_info /multisense_local/left/camera_info" />
+  <node name="multisense_right_camera_info_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/right/camera_info /multisense_local/right/camera_info" />
+  <node name="multisense_image_points2_color_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/organized_image_points2_color /multisense_local/image_points2_color" />
+  <node name="multisense_organized_image_points2_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/organized_image_points2_color /multisense_local/organized_image_points2" />
+  <node name="multisense_organized_image_points2_color_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense/organized_image_points2_color /multisense_local/organized_image_points2_color" />
+
+  <!-- launch jaxon_multisense_local, which is same launch as real jaxon_red -->
+  <include file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch">
+    <arg name="RUN_DRIVER" value="false"/>
+    <arg name="ROBOT_NAME" value="$(arg ROBOT_NAME)"/>
+  </include>
+  
+</launch>
