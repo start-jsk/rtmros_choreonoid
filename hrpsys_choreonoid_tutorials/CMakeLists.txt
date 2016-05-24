@@ -153,4 +153,5 @@ set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
 
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid @ONLY)
