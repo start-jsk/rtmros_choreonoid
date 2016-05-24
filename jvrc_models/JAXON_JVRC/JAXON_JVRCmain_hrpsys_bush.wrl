@@ -1465,21 +1465,21 @@ DEF JAXON_JVRC Humanoid {
                                   translation 0 0 -0.077 # bush center
                                   llimit [-1.0]
                                   ulimit [ 1.0]
-                                  rotorInertia 0.1
+                                  rotorInertia 0.07
                                   children [
                                     DEF LLEG_BUSH_ROLL Joint {
                                       jointType "rotate"
                                       jointAxis 1 0 0
                                       llimit [-3.14]
                                       ulimit [ 3.14]
-                                      rotorInertia 0.014
+                                      rotorInertia 0.01
                                       children [
                                         DEF LLEG_BUSH_PITCH Joint {
                                           jointType "rotate"
                                           jointAxis 0 1 0
                                           llimit [-3.14]
                                           ulimit [ 3.14]
-                                          rotorInertia 0.014
+                                          rotorInertia 0.01
                                           children [
                                             DEF LLEG_LINK5_LOWER Segment {
                                               centerOfMass 0 0 0
@@ -1713,21 +1713,21 @@ DEF JAXON_JVRC Humanoid {
                                   translation 0 0 -0.077 # bush center
                                   llimit [-1.0]
                                   ulimit [ 1.0]
-                                  rotorInertia 0.1
+                                  rotorInertia 0.07
                                   children [
                                     DEF RLEG_BUSH_ROLL Joint {
                                       jointType "rotate"
                                       jointAxis 1 0 0
                                       llimit [-3.14]
                                       ulimit [ 3.14]
-                                      rotorInertia 0.014
+                                      rotorInertia 0.01
                                       children [
                                         DEF RLEG_BUSH_PITCH Joint {
                                           jointType "rotate"
                                           jointAxis 0 1 0
                                           llimit [-3.14]
                                           ulimit [ 3.14]
-                                          rotorInertia 0.014
+                                          rotorInertia 0.01
                                           children [
                                             DEF RLEG_LINK5_LOWER Segment {
                                               centerOfMass 0 0 0

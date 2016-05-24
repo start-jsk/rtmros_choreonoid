@@ -3,6 +3,7 @@
   <arg name="PROJECT_FILE"   />
   <arg name="MODEL_FILE"     />
   <arg name="CONF_FILE"      />
+  <arg name="RH_CONF_FILE"   />
   <arg name="HRPSYS_PY_PKG"  />
   <arg name="HRPSYS_PY_NAME" />
   <arg name="KILL_SERVERS" default="false" />
@@ -18,6 +19,8 @@
     <arg name="MODEL_FILE" value="$(arg MODEL_FILE)" />
     <arg name="CONF_FILE" value="$(arg CONF_FILE)" />
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="hrpsys_opt_rtc_config_args" default='
+-o "example.RobotHardware_choreonoid.config_file:$(arg CONF_FILE)"'/>
 
     <arg name="KILL_SERVERS" value="$(arg KILL_SERVERS)" />
     <arg name="REALTIME" value="$(arg REALTIME)" />

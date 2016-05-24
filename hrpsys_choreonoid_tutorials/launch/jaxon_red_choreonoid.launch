@@ -1,5 +1,7 @@
 <launch>
   <arg name="TASK" default="FLAT" />
+  <arg name="USE_ROBOTHARDWARE" default="false" />
+
   <arg name="KILL_SERVERS" default="false" />
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
@@ -7,13 +9,24 @@
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <!-- robot dependant settings -->
-  <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/JAXON_RED_$(arg TASK).cnoid" />
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="taskname" value="RH_$(arg TASK)" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="taskname" value="$(arg TASK)" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/JAXON_RED_$(arg taskname).cnoid" />
   <arg name="SIMULATOR_NAME" default="JAXON_RED" />
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="BRIDGE_SIMULATOR_NAME" default="RobotHardware_choreonoid0" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="BRIDGE_SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
   <arg name="MODEL_FILE"     value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"/>
   <arg name="COLLADA_FILE"   value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_SENSORS.urdf"/>
   <arg name="CONF_FILE"      value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC.conf"/>
   <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
-  <arg name="HRPSYS_PY_NAME" value="jaxon_red_setup.py"/>
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="HRPSYS_PY_NAME" value="jaxon_red_rh_setup.py" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="HRPSYS_PY_NAME" value="jaxon_red_setup.py" />
   <arg name="CONTROLLER_CONFIG"
        value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
 
@@ -37,7 +50,7 @@
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
     <!-- robot dependant settings -->
-    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
     <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
     <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />

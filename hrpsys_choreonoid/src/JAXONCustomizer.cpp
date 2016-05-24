@@ -115,8 +115,8 @@ static BodyCustomizerHandle create(BodyHandle bodyHandle, const char* modelName)
   customizer->bodyHandle = bodyHandle;
   customizer->hasVirtualBushJoints = false;
 
-  customizer->springT  = 1.0e6; // N/m
-  customizer->dampingT = 1.0e3; // N/(m/s)
+  customizer->springT  = 1.1e6; // N/m
+  customizer->dampingT = 1.1e3; // N/(m/s)
   customizer->springR  = 2.5e3; // Nm / rad
   customizer->dampingR = 2.5;   // Nm / (rad/s)
 
