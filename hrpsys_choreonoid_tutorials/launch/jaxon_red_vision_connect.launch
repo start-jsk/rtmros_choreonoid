@@ -25,24 +25,33 @@
 
   <node pkg="hrpsys_ros_bridge" name="HEADLEFT"
         type="ImageSensorROSBridge"
-        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense/left">
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/left">
     <param name="frame_id" value="left_camera_optical_frame" />
     <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
     <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_RED.rtc:HEAD_LEFT_CAMERA"
                to="HEADLEFT.rtc:timedImage" />
     <rtactivate component="HEADLEFT.rtc" />
+    <remap from="image_raw" to="image_rect_color" />
   </node>
+  <node name="multisense_left_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense_local/left/image_rect_color /multisense_local/left/image_rect" />
+
   <node pkg="hrpsys_ros_bridge" name="HEADRIGHT"
         type="ImageSensorROSBridge"
-        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense/right">
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/right">
     <param name="frame_id" value="left_camera_optical_frame" />
     <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
     <rosparam param="camera_param_P">[240, 0, 319.5, -16800,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_RED.rtc:HEAD_RIGHT_CAMERA"
                to="HEADRIGHT.rtc:timedImage" />
     <rtactivate component="HEADRIGHT.rtc" />
+    <remap from="image_raw" to="image_rect_color" />
   </node>
+  <node name="multisense_right_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="/multisense_local/right/image_rect_color /multisense_local/right/image_rect" />
 
   <node pkg="hrpsys_ros_bridge" name="range_bridge"
         type="RangeSensorROSBridge"
@@ -57,7 +66,7 @@
 
   <node pkg="hrpsys_ros_bridge" name="pointcloud_bridge"
         type="PointCloudROSBridge"
-        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local">
     <param name="frame_id" value="left_camera_optical_frame" />
     <param name="publish_depth" value="true" />
     <param name="transformed_camera_frame" value="true" />
@@ -66,6 +75,13 @@
                to="PointCloudROSBridge0.rtc:points" />
     <rtactivate component="PointCloudROSBridge0.rtc" />
   </node>
+  <node name="multisense_organized_image_points2_relay"
+        pkg="topic_tools" type="relay"
+        args="multisense_local/organized_image_points2_color multisense_local/organized_image_points2" />
+  <node name="multisense_image_points2_color_relay"
+        pkg="topic_tools" type="relay"
+        args="multisense_local/organized_image_points2_color multisense_local/image_points2_color" />
+
   <node name="head_left_frame_id" pkg="tf"
         type="static_transform_publisher"
         args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA left_camera_optical_frame 33" />
@@ -77,12 +93,11 @@
         args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA /head_root 33" />
 
   <node pkg="hrpsys_choreonoid" name="jstate_bridge"
-        type="JointStateROSBridge"
+        type="JointStateROSBridge" ns="multisense_local"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
     <rosparam param="names">
       ["motor_joint"]
     </rosparam>
-    <remap from="joint_state" to="head_joint_state" />
     <rtconnect from="JAXON_RED.rtc:headq"
                to="JointStateROSBridge0.rtc:qRef" />
     <rtactivate component="JointStateROSBridge0.rtc" />
