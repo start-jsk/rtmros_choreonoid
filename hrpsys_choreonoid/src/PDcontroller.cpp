@@ -58,6 +58,7 @@ RTC::ReturnCode_t PDcontroller::onInitialize()
   coil::stringTo(dt, prop["dt"].c_str());
 #endif
   dt = 0.001; // fixed dt depend on choreonoid's rate
+  step = nstep = 2;  // fixed dt depend on choreonoid's rate
 #if 0
   m_robot = hrp::BodyPtr(new hrp::Body());
 
@@ -148,11 +149,13 @@ RTC::ReturnCode_t PDcontroller::onExecute(RTC::UniqueId ec_id)
   }
   if(m_angleRefIn.isNew()){
     m_angleRefIn.read();
+    step = nstep;
   }
 
   for(int i=0; i<dof; i++){
     double q = m_angle.data[i];
-    double q_ref = m_angleRef.data[i];
+    //double q_ref = m_angleRef.data[i];
+    double q_ref = step > 0 ? qold_ref[i] + (m_angleRef.data[i] - qold_ref[i])/step : qold_ref[i];
     double dq = (q - qold[i]) / dt;
     double dq_ref = (q_ref - qold_ref[i]) / dt;
     qold[i] = q;
@@ -187,6 +190,7 @@ RTC::ReturnCode_t PDcontroller::onExecute(RTC::UniqueId ec_id)
     }
 #endif
   }
+  step--; 
   
   m_torqueOut.write();
   

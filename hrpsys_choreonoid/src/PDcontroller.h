@@ -138,6 +138,7 @@ class PDcontroller
   std::vector<double> qold, qold_ref, Pgain, Dgain;
   size_t dof, loop;
   unsigned int m_debugLevel;
+  int step, nstep;
 };
 
 extern "C"
