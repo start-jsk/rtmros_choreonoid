@@ -91,16 +91,16 @@ items:
           data: 
             modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/valve.wrl"
             currentBaseLink: ""
-            rootPosition: [ 2.7, 0, 1.6 ]
+            rootPosition: [ 2.5, 0.3, 1.6 ]
             rootAttitude: [ 
-	      0, 0, -1,
 	      0, 1, 0,
+	      0, 0, 1,
 	      1, 0, 0 ]
             jointPositions: [  ]
-            initialRootPosition: [ 2.7, 0, 1.6 ]
+            initialRootPosition: [ 2.5, 0.3, 1.6 ]
             initialRootAttitude: [ 
-	      0, 0, -1,
 	      0, 1, 0,
+	      0, 0, 1,
 	      1, 0, 0 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
@@ -108,19 +108,42 @@ items:
             isEditable: true
         - 
           id: 6
+          name: "handle"
+          plugin: Body
+          class: BodyItem
+          data: 
+            modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/handle.wrl"
+            currentBaseLink: ""
+            rootPosition: [ 1.97, 0.3, 1.0 ]
+            rootAttitude: [ 
+	      1, 0, 0,
+	      0, 1, 0,
+	      0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 1.97, 0.3, 1.0 ]
+            initialRootAttitude: [ 
+	      1, 0, 0,
+	      0, 1, 0,
+	      0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        - 
+          id: 7
           name: "drcbox"
           plugin: Body
           class: BodyItem
           data: 
             modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/drcbox.wrl"
             currentBaseLink: ""
-            rootPosition: [ 3, 0, 0.0 ]
+            rootPosition: [ 2.5, 0, 0.0 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
             jointPositions: [  0.000000 ]
-            initialRootPosition: [ 3, 0, 0.0 ]
+            initialRootPosition: [ 2.5, 0, 0.0 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
@@ -131,7 +154,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 7
+          id: 8
           name: "valve2"
           plugin: Body
           class: BodyItem
@@ -154,7 +177,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 8
+          id: 9
           name: "drcbox2"
           plugin: Body
           class: BodyItem
@@ -178,7 +201,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 9
+          id: 10
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -207,7 +230,7 @@ items:
             2Dmode: false
           children: 
             - 
-              id: 10
+              id: 11
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -227,7 +250,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 11
+              id: 12
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -247,7 +270,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 12
+              id: 13
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
