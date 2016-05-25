@@ -39,8 +39,12 @@ static long g_period_ns=5000000;
 Time iob_time;
 
 #define FORCE_AVERAGE 8
+#define TORQUE_AVERAGE 2
+
 static int force_counter;
 static std::vector< std::vector<std::vector<double> > > force_queue;
+static int torque_counter;
+static std::vector<std::vector<double> > torque_queue;
 
 #define CHECK_JOINT_ID(id) if ((id) < 0 || (id) >= number_of_joints()) return E_ID
 #define CHECK_FORCE_SENSOR_ID(id) if ((id) < 0 || (id) >= number_of_force_sensors()) return E_ID
@@ -86,6 +90,9 @@ std::vector<double> qold, qold_ref, Pgain, Dgain;
 std::vector<double> Pgain_orig, Dgain_orig;
 size_t dof, loop;
 unsigned int m_debugLevel;
+
+static int iob_step;
+static int iob_nstep;
 
 #if (defined __APPLE__)
 typedef int clockid_t;
@@ -160,10 +167,16 @@ int set_number_of_joints(int num)
     act_vel.resize(num);
     power.resize(num);
     servo.resize(num);
+
     for (int i=0; i<num; i++){
         command[i] = power[i] = servo[i] = 0;
     }
 
+    torque_counter = 0;
+    torque_queue.resize(TORQUE_AVERAGE);
+    for (int j = 0; j < TORQUE_AVERAGE; j++) {
+      torque_queue[j].resize(num);
+    }
     return TRUE;
 }
 
@@ -365,6 +378,7 @@ int write_command_angles(const double *angles)
     for (int i=0; i<number_of_joints(); i++){
         command[i] = angles[i];
     }
+    iob_step = iob_nstep;
     return TRUE;
 }
 
@@ -524,7 +538,10 @@ int open_iob(void)
     self_ptr->bindParameter("pdgains_sim.file_name", gain_fname, "");
     self_ptr->bindParameter("debugLevel", m_debugLevel, "0");
     //
-    dt = 0.001; // fixed number
+    dt = 0.001; // fixed number or read from param
+    iob_nstep = 2;  // fixed number or read from param
+    iob_step = 2;
+
     //* for PD controller *//
     ip_angleIn    = new InPort<TimedDoubleSeq> ("angleIn", m_angleIn);
     op_torqueOut  = new OutPort<TimedDoubleSeq> ("torqueOut", m_torqueOut);
@@ -578,7 +595,12 @@ void iob_update(void)
     if(ip_torque_sim->isNew()) {
       ip_torque_sim->read();
       for(int i = 0; i < m_torque_sim.data.length(); i++) {
-        act_torque[i] = m_torque_sim.data[i];
+        //act_torque[i] = m_torque_sim.data[i];
+        torque_queue[torque_counter][i] = m_torque_sim.data[i];
+      }
+      torque_counter++;
+      if (torque_counter >= TORQUE_AVERAGE) {
+        torque_counter = 0;
       }
     }
     //* *//
@@ -628,6 +650,19 @@ void iob_update(void)
       }
     }
 
+    for(int i = 0; i < dof; i++) {
+      act_torque[i] = 0;
+    }
+    for(int cnt = 0; cnt < TORQUE_AVERAGE; cnt++) {
+      for(int i = 0; i < dof; i++) {
+        act_torque[i] += torque_queue[cnt][i];
+      }
+    }
+    for(int i = 0; i < dof; i++) {
+      act_torque[i] /= TORQUE_AVERAGE;
+    }
+
+
     //* *//
     if(ip_gsensor_sim->isNew()) {
       ip_gsensor_sim->read();
@@ -649,7 +684,8 @@ void iob_finish(void)
     //* *//
     for(int i=0; i<dof; i++){
       double q = act_angle[i]; // current angle
-      double q_ref = command[i];
+      //double q_ref = command[i];
+      double q_ref = iob_step > 0 ? qold_ref[i] + (command[i] - qold_ref[i])/iob_step : qold_ref[i];
       double dq = (q - qold[i]) / dt;
       double dq_ref = (q_ref - qold_ref[i]) / dt;
       qold[i] = q;
@@ -657,12 +693,24 @@ void iob_finish(void)
       double tq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i];
       //double tlimit = m_robot->joint(i)->climit * m_robot->joint(i)->gearRatio * m_robot->joint(i)->torqueConst;
       double tlimit;
-      if (i < 15) {
+      if ((i == 0) || (i == 6)) {
+        tlimit = 400;
+      } else if ((i == 1) || (i == 7)) {
+        tlimit = 600;
+      } else if ((i == 2) || (i == 8)) {
+        tlimit = 800;
+      } else if ((i == 3) || (i == 9)) {
+        tlimit = 1200;
+      } else if ((i == 4) || (i == 10)) {
+        tlimit = 400;
+      } else if ((i == 5) || (i == 11)) {
+        tlimit = 400;
+      } else if (i < 15) {
         // torso/leg
         tlimit = 1200;
       } else if (i < 33) {
         // arm/head
-        tlimit = 600;
+        tlimit = 350;
       } else {
         // hand
         tlimit = 140;
@@ -680,12 +728,13 @@ void iob_finish(void)
       }
 #endif
 #if 0
-      if (loop % 100 == 0 && m_debugLevel == 1) {
-        std::cerr << "[" << m_profile.instance_name << "] joint = "
-                  << i << ", tq = " << m_torque.data[i] << ", q,qref = (" << q << ", " << q_ref << "), dq,dqref = (" << dq << ", " << dq_ref << "), pd = (" << Pgain[i] << ", " << Dgain[i] << "), tlimit = " << tlimit << std::endl;
+      if (i == 18) {
+        std::cerr << "[iob] step = " << iob_step << ", joint = "
+                  << i << ", tq = " << m_torqueOut.data[i] << ", q,qref = (" << q << ", " << q_ref << "), dq,dqref = (" << dq << ", " << dq_ref << "), pd = (" << Pgain[i] << ", " << Dgain[i] << "), tlimit = " << tlimit << std::endl;
       }
 #endif
     }
+    iob_step--;
     m_torqueOut.tm = m_angleIn.tm;
     op_torqueOut->write();
     //* *//
