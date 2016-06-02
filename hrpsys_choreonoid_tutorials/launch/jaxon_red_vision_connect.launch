@@ -43,7 +43,7 @@
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/right">
     <param name="frame_id" value="left_camera_optical_frame" />
     <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
-    <rosparam param="camera_param_P">[240, 0, 319.5, -16800,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, -16.8,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="JAXON_RED.rtc:HEAD_RIGHT_CAMERA"
                to="HEADRIGHT.rtc:timedImage" />
     <rtactivate component="HEADRIGHT.rtc" />
