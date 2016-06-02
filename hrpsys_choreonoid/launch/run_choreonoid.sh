@@ -1,5 +1,8 @@
 #!/bin/bash
 
+### choose choreonoid binary
+choreonoid_exe='choreonoid'
+
 cnoid_proj=""
 if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
@@ -39,18 +42,18 @@ for arg in "${rtm_args[@]}";
   do echo $arg >> $rtc_conf;
 done
 
-echo "$ choreonoid $cnoid_proj" 1>&2
-echo "with rtc.conf file on $rtc_conf" 1>&2
-echo "<BEGIN: rtc.conf>"
+echo "choreonoid will be executed by the command below" 1>&2
+echo "$ (cd tmp; $choreonoid_exe $cnoid_proj $enable_const $cnoid_proj $start_sim)" 1>&2
+echo "choreonoid will run with rtc.conf file of $rtc_conf" 1>&2
+echo "contents of $rtc_conf are listed below" 1>&2
+echo "<BEGIN: rtc.conf>" 1>&2
 cat $rtc_conf 1>&2
-echo "<END: rtc.conf>"
+echo "<END: rtc.conf>" 1>&2
 
 export RTCTREE_NAMESERVERS=localhost:15005
-export ROBOT=JAXON_RED
 export ORBgiopMaxMsgSize=2147483648
 export CNOID_CUSTOMIZER_PATH=$(rospack find hrpsys_choreonoid)
 
-(cd /tmp; choreonoid $enable_const $cnoid_proj $start_sim)
-#(cd /tmp; choreonoid $enable_const $cnoid_proj)
+(cd /tmp; $choreonoid_exe $enable_const $cnoid_proj $start_sim)
 ## for using gdb
-#(cd /tmp; gdb -ex run --args choreonoid $cnoid_proj $start_sim)
+#(cd /tmp; gdb -ex run --args $choreonoid_exe $cnoid_proj $start_sim)
