@@ -84,103 +84,7 @@ items:
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 4
-          name: "floor"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/visible_floor.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, -0.1 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, -0.1 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
           id: 5
-          name: "wallA"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/wallA.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 6.1, 0, 2.25 ]
-            rootAttitude: [ 
-               0, 1, 0, 
-              -1, 0, 0, 
-               0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 6.1, 0, 2.25 ]
-            initialRootAttitude: [ 
-              0, 1, 0, 
-             -1, 0, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 6
-          name: "wallB"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/wallB.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 6.1, 2.25 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 6.1, 2.25 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 7
-          name: "wallC"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/wallC.wrl"
-            currentBaseLink: ""
-            rootPosition: [ -6.1, 0, 2.25 ]
-            rootAttitude: [ 
-              0, -1, 0, 
-              1,  0, 0, 
-              0,  0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ -6.1, 0, 2.25 ]
-            initialRootAttitude: [ 
-              0, -1, 0, 
-              1,  0, 0, 
-              0,  0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 8
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -209,7 +113,7 @@ items:
             2Dmode: false
           children: 
             - 
-              id: 9
+              id: 6
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -229,7 +133,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 10
+              id: 7
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -249,7 +153,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 11
+              id: 8
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
