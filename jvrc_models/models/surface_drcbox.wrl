@@ -1,7 +1,7 @@
             Shape {
               appearance Appearance {
                 material Material {
-                  diffuseColor 0.800781 0.519531 0.246094
+                  diffuseColor 0 0 0
                 }
                 texture ImageTexture {
                   url [ "drcbox_surface.jpg" ]
