@@ -90,7 +90,7 @@
         args="0 0 0 0 0 0 /HEAD_RANGE head_hokuyo_frame 20" />
   <node name="head_root_frame_id" pkg="tf"
         type="static_transform_publisher"
-        args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA /head_root 33" />
+        args="0 0 0 0 0 0 /HEAD_LINK1 /head_root 33" />
 
   <node pkg="hrpsys_choreonoid" name="jstate_bridge"
         type="JointStateROSBridge" ns="multisense_local"
