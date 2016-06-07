@@ -14,7 +14,7 @@
   <arg unless="$(arg USE_ROBOTHARDWARE)"
        name="taskname" value="$(arg TASK)" />
   <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/JAXON_RED_$(arg taskname).cnoid" />
-  <arg name="SIMULATOR_NAME" default="JAXON_RED" />
+  <arg name="SIMULATOR_NAME" default="JAXON_RED(Robot)0" />
   <arg if="$(arg USE_ROBOTHARDWARE)"
        name="BRIDGE_SIMULATOR_NAME" default="RobotHardware_choreonoid0" />
   <arg unless="$(arg USE_ROBOTHARDWARE)"
@@ -29,6 +29,7 @@
        name="HRPSYS_PY_NAME" value="jaxon_red_setup.py" />
   <arg name="CONTROLLER_CONFIG"
        value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
+  <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
@@ -45,6 +46,7 @@
     <arg name="REALTIME" value="$(arg REALTIME)" />
     <arg name="GUI" value="$(arg GUI)" />
     <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)" />
+    <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
   </include>
   <!-- ros_bridge -->
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
