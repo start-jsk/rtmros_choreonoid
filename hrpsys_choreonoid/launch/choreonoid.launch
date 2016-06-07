@@ -17,7 +17,7 @@
   <arg name="nameserver" default="localhost" />
   <arg name="corbaport"  default="2809" />
   <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
-  <env name="LANG" value="C" />
+  <env name="LANG" value="$(env LANG)" />
   <env name="ORBgiopMaxMsgSize" value="2147483648" />
   <arg if="$(arg START_SIMULATOR)"
        name="start_sim" value="--start-simulation" />
