@@ -21,24 +21,24 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 0.0, 0.0, 1.0185 ]
+            rootPosition: [ 0.0, -1.5, 1.0185 ]
             rootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
               0, 0, 1 ]
             jointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.349066,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 0.0, 0.0, 1.0185 ]
+            initialRootPosition: [ 0.0, -1.5, 1.0185 ]
             initialRootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
               0, 0, 1 ]
             initialJointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.349066,  0.000000,  0.523599, -0.349066, 
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
@@ -65,7 +65,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "${SHARE}/model/misc/floor.wrl"
+            modelFile: "../../jvrc_models/models/visible_floor.wrl"
             currentBaseLink: ""
             rootPosition: [ 0, 0, -0.1 ]
             rootAttitude: [ 
@@ -85,69 +85,71 @@ items:
             isEditable: true
         - 
           id: 5
-          name: "valve"
+          name: "wallA"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/valve.wrl"
+            modelFile: "../../jvrc_models/models/wallA.wrl"
             currentBaseLink: ""
-            rootPosition: [ 2.5, 0.3, 1.6 ]
+            rootPosition: [ 6.1, 0, 2.25 ]
             rootAttitude: [ 
-	      0, 1, 0,
-	      0, 0, 1,
-	      1, 0, 0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 2.5, 0.3, 1.6 ]
+               0, 1, 0, 
+              -1, 0, 0, 
+               0, 0, 1 ]
+            jointPositions: [  0.000000 ]
+            initialRootPosition: [ 6.1, 0, 2.25 ]
             initialRootAttitude: [ 
-	      0, 1, 0,
-	      0, 0, 1,
-	      1, 0, 0 ]
+              0, 1, 0, 
+             -1, 0, 0, 
+              0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 6
-          name: "handle"
+          name: "wallB"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../jvrc_models/models/handle.wrl"
+            modelFile: "../../jvrc_models/models/wallB.wrl"
             currentBaseLink: ""
-            rootPosition: [ 1.97, 0.3, 1.0 ]
+            rootPosition: [ 0, 6.1, 2.25 ]
             rootAttitude: [ 
-	      1, 0, 0,
-	      0, 1, 0,
-	      0, 0, 1 ]
-            jointPositions: [  ]
-            initialRootPosition: [ 1.97, 0.3, 1.0 ]
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            jointPositions: [  0.000000 ]
+            initialRootPosition: [ 0, 6.1, 2.25 ]
             initialRootAttitude: [ 
-	      1, 0, 0,
-	      0, 1, 0,
-	      0, 0, 1 ]
+              1, 0, 0, 
+              0, 1, 0, 
+              0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
           id: 7
-          name: "drcbox"
+          name: "wallC"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/drcbox.wrl"
+            modelFile: "../../jvrc_models/models/wallC.wrl"
             currentBaseLink: ""
-            rootPosition: [ 2.5, 0, 0.0 ]
+            rootPosition: [ -6.1, 0, 2.25 ]
             rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+              0, -1, 0, 
+              1,  0, 0, 
+              0,  0, 1 ]
             jointPositions: [  0.000000 ]
-            initialRootPosition: [ 2.5, 0, 0.0 ]
+            initialRootPosition: [ -6.1, 0, 2.25 ]
             initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+              0, -1, 0, 
+              1,  0, 0, 
+              0,  0, 1 ]
             initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
@@ -155,53 +157,30 @@ items:
             isEditable: true
         - 
           id: 8
-          name: "valve2"
+          name: "drcbox"
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/valve.wrl"
+            modelFile: "../../jvrc_models/models/valve_box.wrl"
             currentBaseLink: ""
-            rootPosition: [ -0.5, 2, 1.0 ]
+            rootPosition: [ 0.75, 0.5, 0.0 ]
             rootAttitude: [ 
-	      1, 0, 0,
-	      0, 0, -1,
-	      0, 1, 0 ]
-            jointPositions: [  ]
-            initialRootPosition: [ -0.5, 2, 1.0 ]
-            initialRootAttitude: [ 
-	      1, 0, 0,
-	      0, 0, -1,
-	      0, 1, 0 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 9
-          name: "drcbox2"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../hrpsys_ros_bridge_jvrc/config/model/tasks/VALVE/drcbox.wrl"
-            currentBaseLink: ""
-            rootPosition: [ -0.5, 2.3, 0.0 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+               0,  1, 0, 
+              -1,  0, 0, 
+               0,  0, 1 ]
             jointPositions: [  0.000000 ]
-            initialRootPosition: [ -0.5, 2.3, 0.0 ]
+            initialRootPosition: [ 0.75, 0.5, 0.0 ]
             initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
+               0,  1, 0, 
+              -1,  0, 0, 
+               0,  0, 1 ]
             initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
         - 
-          id: 10
+          id: 11
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -230,7 +209,7 @@ items:
             2Dmode: false
           children: 
             - 
-              id: 11
+              id: 12
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -250,7 +229,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 12
+              id: 13
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -270,7 +249,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 13
+              id: 14
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -309,7 +288,7 @@ views:
     mounted: true
     state: 
       selected: [ 1 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, ]
       expanded: [ 1 ]
   - 
     id: 3
@@ -333,7 +312,7 @@ views:
       worldLightIntensity: 0.5
       worldLightAmbient: 0.3
       additionalLights: true
-      floorGrid: true
+      floorGrid: false
       floorGridSpan: 10
       floorGridInterval: 0.5
       xzGridSpan: 10
