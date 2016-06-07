@@ -53,11 +53,12 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
 
 if __name__ == '__main__':
     hcf = JAXON_RED_HrpsysConfigurator("JAXON_RED")
+    [sys.argv, connect_constraint_force_logger_ports] = hcf.parse_arg_for_connect_ports(sys.argv)
     if len(sys.argv) > 2 :
-        hcf.init(sys.argv[1], sys.argv[2])
+        hcf.init(sys.argv[1], sys.argv[2], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
         hcf.startABSTIMP()
     elif len(sys.argv) > 1 :
-        hcf.init(sys.argv[1])
+        hcf.init(sys.argv[1], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
         hcf.startABSTIMP()
     else :
-        hcf.init()
+        hcf.init(connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
