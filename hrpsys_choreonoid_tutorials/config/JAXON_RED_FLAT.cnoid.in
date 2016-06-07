@@ -57,7 +57,7 @@ items:
                 confFileName: "@JVRC_CONF_DIRECTORY@/SensorReaderRTC_JAXON_RED.PD.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
-                InstanceName: JAXON_RED
+                InstanceName: JAXON_RED(Robot)0
                 bodyPeriodicRate: 0.002
         - 
           id: 4
