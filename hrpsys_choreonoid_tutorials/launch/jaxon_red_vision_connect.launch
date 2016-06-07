@@ -1,5 +1,5 @@
 <launch>
-  <arg name="SIMULATOR_NAME" default="JAXON_RED" />
+  <arg name="SIMULATOR_NAME" default="JAXON_RED(Robot)0" />
   <arg name="OUTPUT" default="screen"/>
   <arg name="nameserver" default="localhost" />
   <arg name="corbaport" default="15005" />
@@ -18,7 +18,7 @@
 
   <!--node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
-    <rtconnect from="JAXON_RED.rtc:CHEST_CAMERA"
+    <rtconnect from="JAXON_RED(Robot)0.rtc:CHEST_CAMERA"
                to="CameraImageViewer0.rtc:imageIn" />
     <rtactivate component="CameraImageViewer0.rtc" />
   </node-->
@@ -29,7 +29,7 @@
     <param name="frame_id" value="left_camera_optical_frame" />
     <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
     <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
-    <rtconnect from="JAXON_RED.rtc:HEAD_LEFT_CAMERA"
+    <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_LEFT_CAMERA"
                to="HEADLEFT.rtc:timedImage" />
     <rtactivate component="HEADLEFT.rtc" />
     <remap from="image_raw" to="image_rect_color" />
@@ -44,7 +44,7 @@
     <param name="frame_id" value="left_camera_optical_frame" />
     <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
     <rosparam param="camera_param_P">[240, 0, 319.5, -16.8,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
-    <rtconnect from="JAXON_RED.rtc:HEAD_RIGHT_CAMERA"
+    <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_RIGHT_CAMERA"
                to="HEADRIGHT.rtc:timedImage" />
     <rtactivate component="HEADRIGHT.rtc" />
     <remap from="image_raw" to="image_rect_color" />
@@ -59,7 +59,7 @@
     <param name="frame_id" value="head_hokuyo_frame" />
     <param name="intensity" value="1000" />
     <remap from="range" to="lidar_scan" />
-    <rtconnect from="JAXON_RED.rtc:HEAD_RANGE"
+    <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_RANGE"
                to="RangeSensorROSBridge0.rtc:range" />
     <rtactivate component="RangeSensorROSBridge0.rtc" />
   </node>
@@ -71,7 +71,7 @@
     <param name="publish_depth" value="true" />
     <param name="transformed_camera_frame" value="true" />
     <remap from="points" to="organized_image_points2_color" />
-    <rtconnect from="JAXON_RED.rtc:HEAD_LEFT_DEPTH"
+    <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_LEFT_DEPTH"
                to="PointCloudROSBridge0.rtc:points" />
     <rtactivate component="PointCloudROSBridge0.rtc" />
   </node>
@@ -98,7 +98,7 @@
     <rosparam param="names">
       ["motor_joint"]
     </rosparam>
-    <rtconnect from="JAXON_RED.rtc:headq"
+    <rtconnect from="JAXON_RED(Robot)0.rtc:headq"
                to="JointStateROSBridge0.rtc:qRef" />
     <rtactivate component="JointStateROSBridge0.rtc" />
   </node>
