@@ -33,6 +33,24 @@ class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
         ##self.connectLoggerPort(self.abc, 'rhsensor')
         ##self.connectLoggerPort(self.abc, 'lhsensor')
 
+    def connectConstraintForceLoggerPorts(self):
+        for pn in filter (lambda x : re.match("F_", x), self.rh.ports.keys()):
+            self.connectLoggerPort(self.rh, pn)
+
+    def init (self, robotname="Robot", url="", connect_constraint_force_logger_ports = False):
+        URATAHrpsysConfigurator.init(self, robotname, url)
+        if connect_constraint_force_logger_ports:
+            self.connectConstraintForceLoggerPorts()
+
+    def parse_arg_for_connect_ports (self, arg_list):
+        # Check flag for connect ports
+        # Return arg list without connect port flag and connect port flag
+        if "--connect-constraint-force-logger-ports" in arg_list:
+            tmpidx = arg_list.index("--connect-constraint-force-logger-ports")
+            return [arg_list[:tmpidx]+arg_list[tmpidx+1:],True]
+        else:
+            return [arg_list, False]
+
 class ChoreonoidHrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
     def waitForRobotHardware(self, robotname="Robot"):
         '''!@brief
