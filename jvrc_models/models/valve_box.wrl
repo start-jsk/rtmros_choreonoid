@@ -113,9 +113,12 @@ PROTO Humanoid [
 DEF VALVE_BOX Humanoid {
    humanoidBody [
     DEF VALVE_BOX_BASE Joint {
-       jointType "fixed"
+       jointType "fixed" ### if free, not fixed on the world
        children [
           DEF VALVE_BOX_BASE_LINK Segment {
+             mass 200
+             centerOfMass 0 0 0.3
+             momentsOfInertia [1 0 0 0 1 0 0 0 1]
              children [
                 Transform {
                    translation 0 0 0.95
@@ -135,12 +138,12 @@ DEF VALVE_BOX Humanoid {
              #uvlimit 4
              #lvlimit -4
              #climit [100.0]
-             rotorInertia 0.05
+             rotorInertia 0.005
              children [
                 DEF VALVE_BOX_LINK0 Segment {
-                   mass 20
+                   mass 10
                    centerOfMass 0 0 0
-                   momentsOfInertia [1 0 0 0 1 0 0 0 1]
+                   momentsOfInertia [0.02 0 0 0 0.02 0 0 0 0.02]
                    children [
                       Transform {
                          #translation 0 0 0
