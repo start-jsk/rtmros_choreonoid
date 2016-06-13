@@ -3,6 +3,19 @@
 ### choose choreonoid binary
 choreonoid_exe='choreonoid'
 
+if [ "$(pgrep -x ${choreonoid_exe} | wc -l)" != 0 ]; then
+    pkill -9 ${choreonoid_exe}
+    echo "****************************************************" 1>&2
+    echo "*                                                  *" 1>&2
+    echo "*                                                  *" 1>&2
+    echo "*   Old choreonoid process was found.              *" 1>&2
+    echo "*   Process has been killed, please start again.   *" 1>&2
+    echo "*                                                  *" 1>&2
+    echo "*                                                  *" 1>&2
+    echo "****************************************************" 1>&2
+    exit 1
+fi
+
 cnoid_proj=""
 if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
