@@ -1,0 +1,196 @@
+#VRML V2.0 utf8
+
+PROTO Joint [
+  exposedField     SFVec3f      center              0 0 0
+  exposedField     MFNode       children            []
+  exposedField     MFFloat      llimit              []
+  exposedField     MFFloat      lvlimit             []
+  exposedField     SFRotation   limitOrientation    0 0 1 0
+  exposedField     SFString     name                ""
+  exposedField     SFRotation   rotation            0 0 1 0
+  exposedField     SFVec3f      scale               1 1 1
+  exposedField     SFRotation   scaleOrientation    0 0 1 0
+  exposedField     MFFloat      stiffness           [ 0 0 0 ]
+  exposedField     SFVec3f      translation         0 0 0
+  exposedField     MFFloat      ulimit              []
+  exposedField     MFFloat      uvlimit             []
+  exposedField     SFString     jointType           ""
+  exposedField     SFInt32      jointId             -1
+  exposedField     SFVec3f      jointAxis           0 0 1
+
+  exposedField     SFFloat      gearRatio           1
+  exposedField     SFFloat      rotorInertia        0
+  exposedField     SFFloat      rotorResistor       0
+  exposedField     SFFloat      torqueConst         1
+  exposedField     SFFloat      encoderPulse        1
+]
+{
+  Transform {
+    center           IS center
+    children         IS children
+    rotation         IS rotation
+    scale            IS scale
+    scaleOrientation IS scaleOrientation
+    translation      IS translation
+  }
+}
+
+PROTO Segment [
+  field           SFVec3f     bboxCenter        0 0 0
+  field           SFVec3f     bboxSize          -1 -1 -1
+  exposedField    SFVec3f     centerOfMass      0 0 0
+  exposedField    MFNode      children          [ ]
+  exposedField    SFNode      coord             NULL
+  exposedField    MFNode      displacers        [ ]
+  exposedField    SFFloat     mass              0
+  exposedField    MFFloat     momentsOfInertia  [ 0 0 0 0 0 0 0 0 0 ]
+  exposedField    SFString    name              ""
+  eventIn         MFNode      addChildren
+  eventIn         MFNode      removeChildren
+]
+{
+  Group {
+    addChildren    IS addChildren
+    bboxCenter     IS bboxCenter
+    bboxSize       IS bboxSize
+    children       IS children
+    removeChildren IS removeChildren
+  }
+}
+
+PROTO Surface [
+ field   SFVec3f bboxCenter 0 0 0
+ field   SFVec3f bboxSize   -1 -1 -1
+ field   MFNode  visual     [ ]
+ field   MFNode  collision  [ ]
+ eventIn MFNode  addChildren
+ eventIn MFNode  removeChildren
+]
+{
+  Group {
+    addChildren    IS addChildren
+    bboxCenter     IS bboxCenter
+    bboxSize       IS bboxSize
+    children       IS visual
+    removeChildren IS removeChildren
+  }
+}
+
+PROTO Humanoid [
+  field           SFVec3f    bboxCenter            0 0 0
+  field           SFVec3f    bboxSize              -1 -1 -1
+  exposedField    SFVec3f    center                0 0 0
+  exposedField    MFNode     humanoidBody          [ ]
+  exposedField    MFString   info                  [ ]
+  exposedField    MFNode     joints                [ ]
+  exposedField    SFString   name                  ""
+  exposedField    SFRotation rotation              0 0 1 0
+  exposedField    SFVec3f    scale                 1 1 1
+  exposedField    SFRotation scaleOrientation      0 0 1 0
+  exposedField    MFNode     segments              [ ]
+  exposedField    MFNode     sites                 [ ]
+  exposedField    SFVec3f    translation           0 0 0
+  exposedField    SFString   version               "1.1"
+  exposedField    MFNode     viewpoints            [ ]
+]
+{
+  Transform {
+    bboxCenter       IS bboxCenter
+    bboxSize         IS bboxSize
+    center           IS center
+    rotation         IS rotation
+    scale            IS scale
+    scaleOrientation IS scaleOrientation
+    translation      IS translation
+    children [
+      Group {
+        children IS viewpoints
+      }
+    ]
+  }
+}
+### left handle - pull door
+DEF DOOR_WALL Humanoid {
+   humanoidBody [
+    DEF DOOR_WALL_BASE Joint {
+       jointType "fixed"
+       children [
+          DEF DOOR_WALL_BASE_LINK Segment {
+             children [
+                Transform {
+                   translation 0 0 0
+                   children [
+                      Inline { url "door-wall.wrl" }
+                   ]
+                } ## Transform
+             ]
+          } ## Segment DOOR_WALL_BASE_LINK
+          DEF DOOR_WALL_JOINT0 Joint { ## door-hinge
+             translation -0.025 -0.45 0
+             jointAxis 0 0 1
+             jointType "rotate"
+             jointId 0
+             ulimit 3.1
+             llimit 0
+             #uvlimit 4
+             #lvlimit -4
+             #climit [100.0]
+             rotorInertia 0.05
+             children [
+                DEF DOOR_WALL_LINK0 Segment {
+                   mass 20
+                   centerOfMass 0 0.45 1.05
+                   momentsOfInertia [0.1 0 0 0 0.1 0 0 0 0.1]
+                   children [
+                      Transform {
+                         translation 0.025 0 0 ##
+                         children [
+                            Inline { url "door-door.wrl" }
+                         ]
+                      } ##
+                   ]
+                } ## Segment DOOR_WALL_LINK0
+                DEF DOOR_WALL_JOINT1 Joint { ## door-handle
+                   translation -0.05 0.85 0.95
+                   jointAxis 1 0 0
+                   jointType "rotate"
+                   jointId 1
+                   ulimit 1.6
+                   llimit 0
+                   #uvlimit 4
+                   #lvlimit -4
+                   #climit [100.0]
+                   rotorInertia 0.02
+                   children [
+                      DEF DOOR_WALL_LINK1 Segment {
+                         mass 5
+                         centerOfMass 0 0 0
+                         momentsOfInertia [0.05 0 0 0 0.05 0 0 0 0.05]
+                         children [
+                            Transform {
+                               children [
+                                  Inline { url "door-handle.wrl" }
+                               ]
+                            }
+                         ]
+                      }  ## Segment DOOR_WALL_LINK1
+                   ]
+                } ## Joint DOOR_WALL_JOINT1
+             ]
+          } ## Joint DOOR_WALL_JOINT0
+       ]
+    } ## Joint DOOR_WALL_BASE
+   ]
+   joints [
+    USE DOOR_WALL_BASE,
+    USE DOOR_WALL_JOINT0,
+    USE DOOR_WALL_JOINT1,
+   ]
+   segments [
+    USE DOOR_WALL_BASE_LINK,
+    USE DOOR_WALL_LINK0,
+    USE DOOR_WALL_LINK1,
+   ]
+   name "DOOR_WALL"
+   version "1.0"
+}
