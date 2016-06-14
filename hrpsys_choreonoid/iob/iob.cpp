@@ -57,39 +57,40 @@ using namespace RTC;
 RobotHardware_choreonoid *self_ptr;
 
 //* *//
-TimedDoubleSeq m_angleIn;
-InPort<TimedDoubleSeq> *ip_angleIn;
-TimedDoubleSeq m_torqueOut;
-OutPort<TimedDoubleSeq> *op_torqueOut;
+static TimedDoubleSeq m_angleIn;
+static InPort<TimedDoubleSeq> *ip_angleIn;
+static TimedDoubleSeq m_torqueOut;
+static OutPort<TimedDoubleSeq> *op_torqueOut;
 
 //* *//
-TimedDoubleSeq m_qvel_sim;
-TimedDoubleSeq m_torque_sim;
-TimedDoubleSeq m_rfsensor_sim;
-TimedDoubleSeq m_lfsensor_sim;
-TimedDoubleSeq m_rhsensor_sim;
-TimedDoubleSeq m_lhsensor_sim;
-TimedAcceleration3D m_gsensor_sim;
-TimedAngularVelocity3D m_gyrometer_sim;
+static TimedDoubleSeq m_qvel_sim;
+static TimedDoubleSeq m_torque_sim;
+static TimedDoubleSeq m_rfsensor_sim;
+static TimedDoubleSeq m_lfsensor_sim;
+static TimedDoubleSeq m_rhsensor_sim;
+static TimedDoubleSeq m_lhsensor_sim;
+static TimedAcceleration3D m_gsensor_sim;
+static TimedAngularVelocity3D m_gyrometer_sim;
 
-InPort<TimedDoubleSeq> *ip_qvel_sim;
-InPort<TimedDoubleSeq> *ip_torque_sim;
-InPort<TimedDoubleSeq> *ip_rfsensor_sim;
-InPort<TimedDoubleSeq> *ip_lfsensor_sim;
-InPort<TimedDoubleSeq> *ip_rhsensor_sim;
-InPort<TimedDoubleSeq> *ip_lhsensor_sim;
-InPort<TimedAcceleration3D> *ip_gsensor_sim;
-InPort<TimedAngularVelocity3D> *ip_gyrometer_sim;
+static InPort<TimedDoubleSeq> *ip_qvel_sim;
+static InPort<TimedDoubleSeq> *ip_torque_sim;
+static InPort<TimedDoubleSeq> *ip_rfsensor_sim;
+static InPort<TimedDoubleSeq> *ip_lfsensor_sim;
+static InPort<TimedDoubleSeq> *ip_rhsensor_sim;
+static InPort<TimedDoubleSeq> *ip_lhsensor_sim;
+static InPort<TimedAcceleration3D> *ip_gsensor_sim;
+static InPort<TimedAngularVelocity3D> *ip_gyrometer_sim;
 
 static void readGainFile();
 
-double dt;
-std::ifstream gain;
-std::string gain_fname;
-std::vector<double> qold, qold_ref, Pgain, Dgain;
-std::vector<double> Pgain_orig, Dgain_orig;
-size_t dof, loop;
-unsigned int m_debugLevel;
+static double dt;
+static std::ifstream gain;
+static std::string gain_fname;
+static std::vector<double> qold, qold_ref, Pgain, Dgain;
+static std::vector<double> Pgain_orig, Dgain_orig;
+static std::vector<double> tlimit;
+static size_t dof, loop;
+static unsigned int m_debugLevel;
 
 static int iob_step;
 static int iob_nstep;
@@ -679,10 +680,17 @@ void iob_update(void)
 
     //std::cerr << "tm: " << m_angleIn.tm.sec << " / " << m_angleIn.tm.nsec << std::endl; 
 }
+void iob_set_torque_limit(std::vector<double> &vec)
+{
+  tlimit.resize(vec.size());
+  for(int i = 0; i < vec.size(); i++) {
+    tlimit[i] = vec[i];
+  }
+}
 void iob_finish(void)
 {
     //* *//
-    for(int i=0; i<dof; i++){
+    for(int i=0; i<dof; i++) {
       double q = act_angle[i]; // current angle
       //double q_ref = command[i];
       double q_ref = iob_step > 0 ? qold_ref[i] + (command[i] - qold_ref[i])/iob_step : qold_ref[i];
@@ -692,41 +700,8 @@ void iob_finish(void)
       qold_ref[i] = q_ref;
       double tq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i];
       //double tlimit = m_robot->joint(i)->climit * m_robot->joint(i)->gearRatio * m_robot->joint(i)->torqueConst;
-      double tlimit;
-      if ((i == 0) || (i == 6)) {
-        tlimit = 400;
-      } else if ((i == 1) || (i == 7)) {
-        tlimit = 600;
-      } else if ((i == 2) || (i == 8)) {
-        tlimit = 800;
-      } else if ((i == 3) || (i == 9)) {
-        tlimit = 1200;
-      } else if ((i == 4) || (i == 10)) {
-        tlimit = 400;
-      } else if ((i == 5) || (i == 11)) {
-        tlimit = 400;
-      } else if (i < 15) {
-        // torso/leg
-        tlimit = 1200;
-      } else if (i < 33) {
-        // arm/head
-        tlimit = 350;
-      } else {
-        // hand
-        tlimit = 140;
-      }
-      m_torqueOut.data[i] = std::max(std::min(tq, tlimit), -tlimit);
-#if 1
-      if (i == (dof - 1)) { // for range joint, fixed rotational rate of 2.0 [rad/sec]
-        static double dq_old = 0.0;
-        double ddq = (dq - dq_old)/dt;
-        tq = -(dq - 1.0) * 100 - 0.2 * ddq;
-        double tlimit = 200;
-        m_torqueOut.data[i] = std::max(std::min(tq, tlimit), -tlimit);
-        //std::cerr << "tau: " << m_torque.data[i] << ", q: " << q << ", dq: " << dq << ", dq_old: " << dq_old << ", ddq: " << ddq << std::endl;
-        dq_old = dq;
-      }
-#endif
+
+      m_torqueOut.data[i] = std::max(std::min(tq, tlimit[i]), -tlimit[i]);
 #if 0
       if (i == 18) {
         std::cerr << "[iob] step = " << iob_step << ", joint = "
