@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_choreonoid_tutorials)
 
 find_package(catkin REQUIRED COMPONENTS hrpsys_ros_bridge euscollada rostest rospy
-  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid)
+  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jsk_models jvrc_models hrpsys_choreonoid)
 
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)
@@ -18,6 +18,8 @@ catkin_package(
     LIBRARIES # TODO
 )
 
+##
+set (JSK_MODELS_DIR ${jsk_models_SOURCE_PREFIX})
 ################################
 ## compile_openhrp_model
 ##  Generate OpenHRP3 .xml and .conf file.
@@ -152,8 +154,15 @@ set(JVRC_RTC_DIRECTORY ${hrpsys_choreonoid_SOURCE_PREFIX})
 set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
 
 ###
+#JAXON_RED conid
+###
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DRCBOX.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_DRCBOX.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid @ONLY)
+
+###
+#CHIDORI conid
+###
+configure_file(${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid @ONLY)

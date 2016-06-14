@@ -1,0 +1,80 @@
+<launch>
+  <arg name="TASK" default="FLAT" />
+  <arg name="USE_ROBOTHARDWARE" default="true" />
+
+  <arg name="KILL_SERVERS" default="false" />
+  <arg name="NOSIM" default="false" />
+  <arg name="REALTIME" default="true" />
+  <arg name="RUN_RVIZ" default="true" />
+  <arg name="GUI" default="true" />
+  <arg name="hrpsys_precreate_rtc" default=""/>
+  <!-- robot dependant settings -->
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="taskname" value="RH_$(arg TASK)" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="taskname" value="$(arg TASK)" />
+  <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/CHIDORI_$(arg taskname).cnoid" />
+  <arg name="SIMULATOR_NAME" default="CHIDORI(Robot)0" />
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="BRIDGE_SIMULATOR_NAME" default="RobotHardware_choreonoid0" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="BRIDGE_SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
+  <arg name="MODEL_FILE"     value="$(find jsk_models)/CHIDORI/CHIDORImain.wrl"/>
+  <arg name="COLLADA_FILE"   value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI.urdf"/>
+  <arg name="CONF_FILE"      value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI.conf"/>
+  <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="HRPSYS_PY_NAME" value="chidori_rh_setup.py" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="HRPSYS_PY_NAME" value="chidori_setup.py" />
+  <arg name="CONTROLLER_CONFIG"
+       value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI_controller_config.yaml" />
+  <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
+
+  <!-- hrpsys -->
+  <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <!-- robot dependant settings -->
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="PROJECT_FILE"   value="$(arg PROJECT_FILE)" />
+    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+    <arg name="CONF_FILE"      value="$(arg CONF_FILE)"/>
+    <arg name="HRPSYS_PY_PKG"  value="$(arg HRPSYS_PY_PKG)"/>
+    <arg name="HRPSYS_PY_NAME" value="$(arg HRPSYS_PY_NAME)"/>
+    <!-- -->
+    <arg name="KILL_SERVERS" value="$(arg KILL_SERVERS)" />
+    <arg name="NOSIM" value="$(arg NOSIM)" />
+    <arg name="REALTIME" value="$(arg REALTIME)" />
+    <arg name="GUI" value="$(arg GUI)" />
+    <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)" />
+    <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
+  </include>
+  <!-- ros_bridge -->
+  <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
+  <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+    <!-- robot dependant settings -->
+    <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
+    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+    <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
+    <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
+  </include>
+
+  <!--                     -->
+  <!-- additional settings -->
+  <!--                     -->
+  <!-- additional ros_bridge -->
+  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch" />
+
+  <!-- vision setting -->
+<!--  <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >-->
+<!--    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />-->
+<!--  </include>-->
+
+  <!--
+  <arg name="launch_multisense_local" default="false" />
+  <arg name="launch_multisense_remote" default="false" />
+  <include if="$(arg launch_multisense_local)"
+           file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch" />
+  <include if="$(arg launch_multisense_remote)"
+           file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_multisense.launch" />
+  -->
+</launch>
