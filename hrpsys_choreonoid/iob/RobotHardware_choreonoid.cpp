@@ -1,5 +1,9 @@
 #include "RobotHardware_choreonoid.h"
 
+#include <hrpUtil/EigenTypes.h>
+#include <hrpModel/ModelLoaderUtil.h>
+#include <hrpModel/Body.h>
+#include <hrpModel/Link.h>
 // Module specification
 // <rtc-template block="module_spec">
 static const char* robothardware_choreonoid_spec[] =
@@ -27,6 +31,7 @@ static const char* robothardware_choreonoid_spec[] =
 extern RobotHardware_choreonoid *self_ptr;
 extern void iob_update();
 extern void iob_finish();
+extern void iob_set_torque_limit(std::vector<double> &vec);
 
 RobotHardware_choreonoid::RobotHardware_choreonoid(RTC::Manager* manager)
   : RobotHardware(manager)
@@ -38,6 +43,16 @@ RTC::ReturnCode_t RobotHardware_choreonoid::onInitialize()
   //std::cerr << "[rh choreonoid]" << std::endl;
   self_ptr = this;
   RTC::ReturnCode_t ret = RobotHardware::onInitialize();
+  std::vector<double> vec;
+  {
+    robot *m_robot = this->robot_ptr();
+    vec.resize(m_robot->numJoints());
+    for(int i = 0; i < vec.size(); i++) {
+      vec[i] =
+        m_robot->joint(i)->climit * m_robot->joint(i)->gearRatio * m_robot->joint(i)->torqueConst;
+    }
+  }
+  iob_set_torque_limit(vec);
   //std::cerr << "[rh choreonoid] ret: " << ret << " / " << RTC::RTC_OK << std::endl;
   return RTC::RTC_OK;
 }
