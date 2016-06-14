@@ -19,7 +19,7 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "/home/ishiguro/catkin_ws/chidori/src/rtm-ros-robotics/rtmros_hrp2/jsk_models/CHIDORI/CHIDORImain.wrl"
+            modelFile: "@JSK_MODELS_DIR@/CHIDORI/CHIDORImain.wrl"
             currentBaseLink: "WAIST"
             rootPosition: [ 0, 0, 1 ]
             rootAttitude: [ 
@@ -50,8 +50,8 @@ items:
               data: 
                 isImmediateMode: true
                 controllerOptions: ""
-                moduleName: "/home/ishiguro/catkin_ws/chidori/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_choreonoid/PDcontroller.so"
-                confFileName: "/home/ishiguro/catkin_ws/chidori/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_choreonoid_tutorials/config/SensorReaderRTC_CHIDORI.PD.conf"
+                moduleName: "@JVRC_RTC_DIRECTORY@/lib/RobotHardware_choreonoid"
+                confFileName: "@JVRC_CONF_DIRECTORY@/BodyRTC_CHIDORI.RH.conf"
                 configurationMode: "Use Configuration File"
                 AutoConnect: false
                 InstanceName: "CHIDORI(Robot)0"

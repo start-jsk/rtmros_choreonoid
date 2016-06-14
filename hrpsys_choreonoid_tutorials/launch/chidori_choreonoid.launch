@@ -1,6 +1,6 @@
 <launch>
   <arg name="TASK" default="FLAT" />
-  <arg name="USE_ROBOTHARDWARE" default="false" />
+  <arg name="USE_ROBOTHARDWARE" default="true" />
 
   <arg name="KILL_SERVERS" default="false" />
   <arg name="NOSIM" default="false" />
@@ -20,15 +20,15 @@
   <arg unless="$(arg USE_ROBOTHARDWARE)"
        name="BRIDGE_SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
   <arg name="MODEL_FILE"     value="$(find jsk_models)/CHIDORI/CHIDORImain.wrl"/>
-  <arg name="COLLADA_FILE"   value="$(find hrpsys_choreonoid_tutorials)/models/CHIDORI.urdf"/>
-  <arg name="CONF_FILE"      value="$(find hrpsys_choreonoid_tutorials)/models/CHIDORI.conf"/>
+  <arg name="COLLADA_FILE"   value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI.urdf"/>
+  <arg name="CONF_FILE"      value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI.conf"/>
   <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
   <arg if="$(arg USE_ROBOTHARDWARE)"
-       name="HRPSYS_PY_NAME" value="chidori_setup.py" />
+       name="HRPSYS_PY_NAME" value="chidori_rh_setup.py" />
   <arg unless="$(arg USE_ROBOTHARDWARE)"
        name="HRPSYS_PY_NAME" value="chidori_setup.py" />
   <arg name="CONTROLLER_CONFIG"
-       value="$(find hrpsys_choreonoid_tutorials)/models/CHIDORI_controller_config.yaml" />
+       value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI_controller_config.yaml" />
   <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
 
   <!-- hrpsys -->
