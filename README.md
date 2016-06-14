@@ -16,7 +16,7 @@ wstool update rtm-ros-robotics/rtmros_choreonoid
 
 ---
 
-- for JVRC (Old information)
+- for JVRC (Old information), this may work with 'last_working_jvrc' tag
 - install choreonoid see http://jvrc.github.io/tutorials/html-ja/install.html#installation-of-choreonoid  
 
 - catkin build hrpsys_ros_bridge_jvrc and hrpsys_choreonoid
