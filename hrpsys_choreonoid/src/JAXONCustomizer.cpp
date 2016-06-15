@@ -72,6 +72,7 @@ static const char** getTargetModelNames()
 {
   static const char* names[] = {
     "JAXON_JVRC",
+    "CHIDORI",
     0 };
   return names;
 }
@@ -94,6 +95,7 @@ static void getVirtualbushJoints(JAXONCustomizer* customizer, BodyHandle body)
     for(int j=0; j < 3; ++j){
       int bushIndex = bushIndices[i][j];
       if(bushIndex < 0){
+        std::cerr << "[Customizer] failed to find out : " << i << " " << j << std::endl;
         customizer->hasVirtualBushJoints = false;
       } else {
         JointValSet& jointValSet = customizer->jointValSets[i][j];
