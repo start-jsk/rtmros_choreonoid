@@ -569,6 +569,12 @@ int open_iob(void)
     self_ptr->addInPort("gsensor_sim", *ip_gsensor_sim);
     self_ptr->addInPort("gyrometer_sim", *ip_gyrometer_sim);
 
+    // initial servo and power on
+    for(int i = 0; i < servo.size(); i++) {
+      power[i] = 1;
+      servo[i] = 1;
+    }
+
     std::cerr << "choreonoid IOB is opened" << std::endl;
     return TRUE;
 }
