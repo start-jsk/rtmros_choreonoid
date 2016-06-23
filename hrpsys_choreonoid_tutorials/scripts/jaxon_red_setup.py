@@ -21,6 +21,7 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
             # ['tc', "TorqueController"],
             # ['te', "ThermoEstimator"],
             # ['tl', "ThermoLimiter"],
+            ['rfu', "ReferenceForceUpdater"],
             ['hes', "EmergencyStopper"],
             ['el', "SoftErrorLimiter"],
             ['log', "DataLogger"]

@@ -16,6 +16,7 @@
     <arg name="USE_WALKING" default="true" />
     <arg name="USE_IMPEDANCECONTROLLER" default="true" />
     <arg name="USE_EMERGENCYSTOPPER" default="true" />
+    <arg name="USE_REFERENCEFORCEUPDATER" default="true" />
     <!-- for choreonoid -->
     <arg name="USE_COLLISIONCHECK" default="false" />
     <arg name="USE_SOFTERRORLIMIT" default="false" />
