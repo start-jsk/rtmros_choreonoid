@@ -770,6 +770,14 @@ DEF JAXON_JVRC Humanoid {
                                                           visual [ Inline { url "LARM_LINK7_JVRC.wrl" } ] # visual
                                                           collision [ Inline { url "collision_directory/LARM_LINK7_JVRC.wrl" } ] # collision
                                                         } # surface
+                                                        ### checkerboard for calibration
+                                                        #Transform {
+                                                        #   translation 0.06 0 -0.33
+                                                        #   rotation 0 1 0 1.5707963267948966
+                                                        #   children [
+                                                        #      Inline { url "../models/checkerboard.wrl" }
+                                                        #   ]
+                                                        #}
                                                         DEF lhsensor ForceSensor{
                                                           translation 0 0 -0.069
                                                           rotation 0.382683 -0.92388 -0 3.14159
@@ -1133,6 +1141,14 @@ DEF JAXON_JVRC Humanoid {
                                                           visual [ Inline { url "RARM_LINK7_JVRC.wrl" } ] # visual
                                                           collision [ Inline { url "collision_directory/RARM_LINK7_JVRC.wrl" } ] # collision
                                                         } # surface
+                                                        ### checkerboard for calibration 
+                                                        #Transform {
+                                                        #   translation 0.06 0 -0.33
+                                                        #   rotation 0 1 0 1.5707963267948966
+                                                        #   children [
+                                                        #      Inline { url "../models/checkerboard.wrl" }
+                                                        #   ]
+                                                        #}
                                                         DEF rhsensor ForceSensor{
                                                           translation 0 0 -0.069
                                                           rotation -0.382683 -0.92388 -0 3.14159
