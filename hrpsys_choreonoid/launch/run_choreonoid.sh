@@ -22,6 +22,7 @@ if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
 fi
 start_sim=""
 enable_const=""
+add_objects=""
 rtm_args=()
 latch=0
 
@@ -41,6 +42,9 @@ for arg in $@; do
   if [ $arg = "--enable-constraint" ]; then
       enable_const="--python $(rospack find hrpsys_choreonoid)/launch/constraint_enable.py"
   fi
+  if [ $arg = "--add-objects" ]; then
+      add_objects="--python $(rospack find hrpsys_choreonoid)/launch/add_objects.py"
+  fi
 done
 
 ## debug
@@ -56,7 +60,7 @@ for arg in "${rtm_args[@]}";
 done
 
 echo "choreonoid will be executed by the command below" 1>&2
-echo "$ (cd tmp; $choreonoid_exe $cnoid_proj $enable_const $cnoid_proj $start_sim)" 1>&2
+echo "$ (cd /tmp; $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)" 1>&2
 echo "choreonoid will run with rtc.conf file of $rtc_conf" 1>&2
 echo "contents of $rtc_conf are listed below" 1>&2
 echo "<BEGIN: rtc.conf>" 1>&2
@@ -67,6 +71,6 @@ export RTCTREE_NAMESERVERS=localhost:15005
 export ORBgiopMaxMsgSize=2147483648
 export CNOID_CUSTOMIZER_PATH=$(rospack find hrpsys_choreonoid)
 
-(cd /tmp; $choreonoid_exe $enable_const $cnoid_proj $start_sim)
+(cd /tmp; $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)
 ## for using gdb
-#(cd /tmp; gdb -ex run --args $choreonoid_exe $cnoid_proj $start_sim)
+#(cd /tmp; gdb -ex run --args $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)
