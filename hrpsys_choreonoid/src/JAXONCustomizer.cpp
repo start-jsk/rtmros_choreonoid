@@ -65,6 +65,10 @@ struct JAXONCustomizer
   double dampingT;
   double springR;
   double dampingR;
+
+  //* *//
+  bool hasMultisenseJoint;
+  JointValSet multisense_joint;
 };
 
 
@@ -105,6 +109,20 @@ static void getVirtualbushJoints(JAXONCustomizer* customizer, BodyHandle body)
       }
     }
   }
+
+  //* additional motor joints *//
+  {
+    int bindex = bodyInterface->getLinkIndexFromName(body, "motor_joint");
+    customizer->hasMultisenseJoint = true;
+    if(bindex < 0){
+      customizer->hasMultisenseJoint = false;
+    } else {
+      JointValSet& jointValSet = customizer->multisense_joint;
+      jointValSet.valuePtr = bodyInterface->getJointValuePtr(body, bindex);
+      jointValSet.velocityPtr = bodyInterface->getJointVelocityPtr(body, bindex);
+      jointValSet.torqueForcePtr = bodyInterface->getJointForcePtr(body, bindex);
+    }
+  }
 }
 
 static BodyCustomizerHandle create(BodyHandle bodyHandle, const char* modelName)
@@ -141,7 +159,6 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
   JAXONCustomizer* customizer = static_cast<JAXONCustomizer*>(customizerHandle);
 
   if(customizer->hasVirtualBushJoints){
-
     for(int i=0; i < 2; ++i){
       JointValSet& trans = customizer->jointValSets[i][0];
       *(trans.torqueForcePtr) = - customizer->springT * (*trans.valuePtr) - customizer->dampingT * (*trans.velocityPtr);
@@ -153,6 +170,17 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
         //std::cerr << i << " " << j << " " << *(rot.torqueForcePtr) << " = " << -customizer->springR << " x " << *rot.valuePtr << " + " <<  - customizer->dampingR << " x " << *rot.velocityPtr << std::endl;
       }
     }
+  }
+
+  if(customizer->hasMultisenseJoint) {
+    JointValSet& trans = customizer->multisense_joint;
+    static double dq_old = 0.0;
+    double dq = *(trans.velocityPtr);
+    double ddq = (dq - dq_old)/0.001; // dt = 0.001
+    double tq = -(dq - 1.0) * 100 - 0.2 * ddq;
+    double tlimit = 200;
+    *(trans.torqueForcePtr) = std::max(std::min(tq, tlimit), -tlimit);
+    dq_old = dq;
   }
 }
 
