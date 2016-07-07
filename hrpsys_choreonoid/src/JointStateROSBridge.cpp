@@ -29,7 +29,9 @@ static const char* imagesensorrosbridge_spec[] =
 JointStateROSBridge::JointStateROSBridge(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
-    m_angleIn("qRef", m_angle)
+    m_angleIn("qRef", m_angle),
+    prev_stamp(ros::Time(0)),
+    pub_cycle(0)
 {
 }
 
@@ -71,6 +73,13 @@ RTC::ReturnCode_t JointStateROSBridge::onInitialize()
     }
   }
 
+  if(ros::param::has("~rate")) {
+    double rate;
+    ros::param::get("~rate", rate);
+    if(rate != 0) {
+      pub_cycle = 1/rate;
+    }
+  }
   // initialize
   ROS_INFO_STREAM("[JointStateROSBridge] @Initilize name : " << getInstanceName());
 
@@ -120,6 +129,9 @@ RTC::ReturnCode_t JointStateROSBridge::onExecute(RTC::UniqueId ec_id)
     sensor_msgs::JointState js;
     js.header.stamp = ros::Time(m_angle.tm.sec, m_angle.tm.nsec);
 
+    if ((pub_cycle != 0) && (prev_stamp.toSec() != 0 ) && ((js.header.stamp - prev_stamp).toSec() < pub_cycle)) {
+      return RTC::RTC_OK;
+    }
     double tm = 0.0;
     if (prev_angle.data.length() == m_angle.data.length()) {
       tm = (m_angle.tm.sec - prev_angle.tm.sec) +
@@ -136,6 +148,7 @@ RTC::ReturnCode_t JointStateROSBridge::onExecute(RTC::UniqueId ec_id)
     jstate_pub.publish(js);
 
     prev_angle = m_angle;
+    prev_stamp = js.header.stamp;
   }
 
   return RTC::RTC_OK;

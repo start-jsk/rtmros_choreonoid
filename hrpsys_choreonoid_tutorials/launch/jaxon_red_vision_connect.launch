@@ -98,6 +98,7 @@
     <rosparam param="names">
       ["motor_joint"]
     </rosparam>
+    <param name="rate" value="100.0" />
     <rtconnect from="JAXON_RED(Robot)0.rtc:headq"
                to="JointStateROSBridge0.rtc:qRef" />
     <rtactivate component="JointStateROSBridge0.rtc" />
