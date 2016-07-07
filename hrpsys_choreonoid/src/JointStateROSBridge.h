@@ -129,6 +129,9 @@ class JointStateROSBridge  : public RTC::DataFlowComponentBase
   std::vector<std::string > joint_name_list;
 
   TimedDoubleSeq prev_angle;
+  ros::Time prev_stamp;
+
+  double pub_cycle;
 };
 
 
