@@ -156,19 +156,45 @@ DEF VALVE_BOX Humanoid {
                 } ## Segment VALVE_BOX_LINK0
              ]
           } ## Joint VALVE_BOX_JOINT0
-          #DEF VALVE_BOX_JOINT01 Joint {
-          #   jointType "fixed"
-          #} ## Joint VALVE_BOX_JOINT01
+          DEF VALVE_BOX_JOINT1 Joint { ## handle-rotation
+             translation -0.3 -0.5 1.0 
+             jointAxis 0 1 0
+             jointType "fixed"
+             jointId 1
+             #ulimit 1
+             #llimit -1
+             #uvlimit 4
+             #lvlimit -4
+             #climit [100.0]
+             rotorInertia 0.005
+             children [
+                DEF VALVE_BOX_LINK1 Segment {
+                   mass 10
+                   centerOfMass 0 0 0
+                   momentsOfInertia [0.02 0 0 0 0.02 0 0 0 0.02]
+                   children [
+                      Transform {
+                         rotation 0 0 1 1.570796326795
+                         children [
+                            Inline { url "handle.wrl" }
+                         ]
+                      }
+                   ]
+                } ## Segment VALVE_BOX_LINK1
+             ]
+          } ## Joint VALVE_BOX_JOINT1
        ]
     } ## Joint VALVE_BOX_BASE
    ]
    joints [
     USE VALVE_BOX_BASE,
     USE VALVE_BOX_JOINT0,
+    USE VALVE_BOX_JOINT1,
    ]
    segments [
     USE VALVE_BOX_BASE_LINK,
     USE VALVE_BOX_LINK0,
+    USE VALVE_BOX_LINK1,
    ]
    name "VALVE_BOX"
    version "1.0"
