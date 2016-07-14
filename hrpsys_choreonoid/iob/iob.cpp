@@ -386,8 +386,10 @@ int write_command_angles(const double *angles)
 int read_pgain(int id, double *gain)
 {
     CHECK_JOINT_ID(id);
+#if 0
     if (id == 9)
     std::cerr << "read_pgain: [" << id << "] " << Pgain[id] << std::endl;
+#endif
     *gain = Pgain[id];
     return TRUE;
 }
@@ -395,8 +397,10 @@ int read_pgain(int id, double *gain)
 int write_pgain(int id, double gain)
 {
     CHECK_JOINT_ID(id);
+#if 0
     if (id == 9)
     std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
+#endif
     Pgain[id] = gain;
     return TRUE;
 }
@@ -404,8 +408,10 @@ int write_pgain(int id, double gain)
 int read_dgain(int id, double *gain)
 {
     CHECK_JOINT_ID(id);
+#if 0
     if (id == 9)
     std::cerr << "read_dgain: [" << id << "] " << Dgain[id] << std::endl;
+#endif
     *gain = Dgain[id];
     return TRUE;
 }
@@ -413,8 +419,10 @@ int read_dgain(int id, double *gain)
 int write_dgain(int id, double gain)
 {
     CHECK_JOINT_ID(id);
+#if 0
     if (id == 9)
     std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
+#endif
     Dgain[id] = gain;
     return TRUE;
 }
@@ -517,6 +525,7 @@ int read_temperature(int id, double *v)
 
 int write_servo(int id, int com)
 {
+    //printf("iob_write_servo %d %d\n", id, com);
     servo[id] = com;
     return TRUE;
 }
@@ -834,9 +843,10 @@ int write_attitude_sensor_offset(int id, double *offset)
 
 int read_calib_state(int id, int *s)
 {
-    CHECK_JOINT_ID(id);
-    int v = id/2;
-    *s = v%2==0 ? ON : OFF;
+    //CHECK_JOINT_ID(id);
+    //int v = id/2;
+    //*s = v%2==0 ? ON : OFF;
+    *s = 0;
     return TRUE;
 }
 
@@ -940,7 +950,8 @@ int number_of_thermometers()
 
 int read_driver_temperature(int id, unsigned char *v)
 {
-    *v = id * 2;
+    //*v = id * 2;
+    *v = 0;
     return TRUE;
 }
 
