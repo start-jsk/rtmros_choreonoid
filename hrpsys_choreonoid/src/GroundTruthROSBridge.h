@@ -28,7 +28,6 @@
 
 // ros
 #include "ros/ros.h"
-#include "nav_msgs/Odometry.h"
 #include <tf/transform_datatypes.h>
 
 using namespace RTC;
@@ -134,6 +133,7 @@ class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
   bool is_initialized;
 
   void convertBaseTformToTfTransform(tf::Transform& base);
+  void calculateTwist(const tf::Transform& _current_base, const tf::Transform& _prev_base, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt);
   
 };
 
