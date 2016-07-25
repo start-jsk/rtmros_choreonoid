@@ -103,4 +103,12 @@
                to="JointStateROSBridge0.rtc:qRef" />
     <rtactivate component="JointStateROSBridge0.rtc" />
   </node>
+  <node pkg="hrpsys_choreonoid" name="ground_truth_bridge"
+        type="GroundTruthROSBridge" ns="multisense_local"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <param name="rate" value="100.0" />
+    <rtconnect from="JAXON_RED(Robot)0.rtc:WAIST"
+               to="GroundTruthROSBridge0.rtc:baseTform" />
+    <rtactivate component="GroundTruthROSBridge0.rtc" />
+  </node>
 </launch>
