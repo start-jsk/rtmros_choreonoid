@@ -17,7 +17,7 @@ static const char* imagesensorrosbridge_spec[] =
   {
     "implementation_id", "GroundTruthROSBridge",
     "type_name",         "GroundTruthROSBridge",
-    "description",       "rtm range data - ros bridge",
+    "description",       "publish ground truth from choreonoid",
     "version",           "1.0",
     "vendor",            "JSK",
     "category",          "example",
@@ -76,6 +76,12 @@ RTC::ReturnCode_t GroundTruthROSBridge::onInitialize()
       pub_cycle = 1/rate;
     }
   }
+
+  init_base.setOrigin(tf::Vector3(0, 0, 0));
+  init_base.setRotation(tf::Quaternion(0, 0, 0, 1));  
+  prev_base.setOrigin(tf::Vector3(0, 0, 0));
+  prev_base.setRotation(tf::Quaternion(0, 0, 0, 1));  
+  
   // initialize
   ROS_INFO_STREAM("[GroundTruthROSBridge] @Initilize name : " << getInstanceName());
 
@@ -131,9 +137,20 @@ RTC::ReturnCode_t GroundTruthROSBridge::onExecute(RTC::UniqueId ec_id)
       return RTC::RTC_OK;
     }
 
-    if (is_initialized == false) {
-      prev_base = current_base;
-      is_initialized = true;
+    // transform current_base into initial base relative coords
+    {
+      if (is_initialized == false) {
+        tf::Vector3 init_origin = current_base.getOrigin();
+        tf::Quaternion init_rotation = current_base.getRotation();
+        init_origin.setZ(0.0); // z origin should be on the ground
+        init_base.setOrigin(init_origin);
+        init_base.setRotation(init_rotation);
+        current_base = init_base.inverse() * current_base;
+        prev_base = current_base; // prev_base should be initilaized, too
+        is_initialized = true;
+      } else {
+        current_base = init_base.inverse() * current_base;
+      }
     }
 
     // calculate velocity
@@ -194,6 +211,8 @@ RTC::ReturnCode_t GroundTruthROSBridge::onRateChanged(RTC::UniqueId ec_id)
 }
 */
 
+
+
 void GroundTruthROSBridge::convertBaseTformToTfTransform(tf::Transform& result_base)
 {
   // baseTform: x, y, z, R[0][0], R[0][1], ... , R[2][2]
@@ -235,7 +254,6 @@ void GroundTruthROSBridge::calculateTwist(const tf::Transform& _current_base, co
   
   return;
 }
-
 
 extern "C"
 {

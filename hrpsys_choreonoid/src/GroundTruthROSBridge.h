@@ -123,9 +123,9 @@ class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
 
  private:
   ros::NodeHandle node;
-
   ros::Publisher ground_truth_odom_pub;
 
+  tf::Transform init_base;
   tf::Transform prev_base;
   ros::Time prev_stamp;
 
