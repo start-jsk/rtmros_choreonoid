@@ -157,9 +157,9 @@ DEF VALVE_BOX Humanoid {
              ]
           } ## Joint VALVE_BOX_JOINT0
           DEF VALVE_BOX_JOINT1 Joint { ## handle-rotation
-             translation -0.3 -0.5 1.0 
+             translation -0.3 -0.5 1.0
              jointAxis 0 1 0
-             jointType "fixed"
+             jointType "rotate"
              jointId 1
              #ulimit 1
              #llimit -1
