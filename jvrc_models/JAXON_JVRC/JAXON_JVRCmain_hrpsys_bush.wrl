@@ -492,7 +492,7 @@ DEF JAXON_JVRC Humanoid {
                             }
                             DEF motor_joint Joint {
                               translation 0.0559 0 0.14425
-                              jointId 37
+                              #jointId 37
                               jointType "rotate"
                               jointAxis 1 0 0
                               #ulimit 0.144751
@@ -1816,7 +1816,7 @@ DEF JAXON_JVRC Humanoid {
     USE LARM_F_JOINT1,
     USE RARM_F_JOINT0,
     USE RARM_F_JOINT1,
-    USE motor_joint,
+    # USE motor_joint,
   ]
   segments [
     USE BODY,
