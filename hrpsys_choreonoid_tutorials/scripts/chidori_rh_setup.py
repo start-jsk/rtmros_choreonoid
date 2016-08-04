@@ -39,7 +39,7 @@ class CHIDORI_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
         self.startStabilizer()
 
 if __name__ == '__main__':
-    hcf = CHIDORI_HrpsysConfigurator("CHIDORI(Robot)0")
+    hcf = CHIDORI_HrpsysConfigurator("CHIDORI")
     [sys.argv, connect_constraint_force_logger_ports] = hcf.parse_arg_for_connect_ports(sys.argv)
     if len(sys.argv) > 2 :
         hcf.init(sys.argv[1], sys.argv[2], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
