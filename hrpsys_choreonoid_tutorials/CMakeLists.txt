@@ -161,8 +161,14 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid.in ${PROJECT_S
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DRCBOX.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_DRCBOX.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid @ONLY)
 
 ###
 #CHIDORI conid
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid @ONLY)
+
+###
+# scene.yaml
+###
+configure_file(${PROJECT_SOURCE_DIR}/config/flat.yaml.in ${PROJECT_SOURCE_DIR}/config/flat.yaml @ONLY)

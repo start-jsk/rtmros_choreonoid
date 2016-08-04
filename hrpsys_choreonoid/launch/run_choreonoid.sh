@@ -43,7 +43,9 @@ for arg in $@; do
       enable_const="--python $(rospack find hrpsys_choreonoid)/launch/constraint_enable.py"
   fi
   if [ $arg = "--add-objects" ]; then
-      add_objects="--python $(rospack find hrpsys_choreonoid)/launch/add_objects.py"
+      if [ "${EXTRA_CHOREONOID_OBJS}" != "" ]; then
+          add_objects="--python $(rospack find hrpsys_choreonoid)/launch/add_objects.py"
+      fi
   fi
 done
 
