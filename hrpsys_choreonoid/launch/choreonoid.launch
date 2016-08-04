@@ -29,5 +29,5 @@
        name="enable_const" value="" />
   <node pkg="hrpsys_choreonoid" type="run_choreonoid.sh" name="choreonoid"
         output="screen"
-        args="$(arg PROJECT_FILE) $(arg enable_const) $(arg start_sim) $(arg RTC_ARGS)" />
+        args="$(arg PROJECT_FILE) --add-objects $(arg enable_const) $(arg start_sim) $(arg RTC_ARGS)" />
 </launch>
