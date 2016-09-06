@@ -4,8 +4,8 @@
  *
  * $Id$ 
  */
-#ifndef RANGESENSORROSBRIDGE_H
-#define RANGESENSORROSBRIDGE_H
+#ifndef JOINTSTATEROSBRIDGE_H
+#define JOINTSTATEROSBRIDGE_H
 
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <rtm/idl/InterfaceDataTypes.hh>
@@ -140,4 +140,4 @@ extern "C"
   DLL_EXPORT void JointStateROSBridgeInit(RTC::Manager* manager);
 };
 
-#endif // RANGESENSORROSBRIDGE_H
+#endif // JOINTSTATEROSBRIDGE_H

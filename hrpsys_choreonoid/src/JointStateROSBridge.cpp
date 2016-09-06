@@ -5,10 +5,11 @@
  * $Id$ 
  */
 #include "JointStateROSBridge.h"
+#include <algorithm>
 
 // Module specification
 // <rtc-template block="module_spec">
-static const char* imagesensorrosbridge_spec[] =
+static const char* jointstaterosbridge_spec[] =
   {
     "implementation_id", "JointStateROSBridge",
     "type_name",         "JointStateROSBridge",
@@ -61,7 +62,7 @@ RTC::ReturnCode_t JointStateROSBridge::onInitialize()
   // Bind variables and configuration variable
 
   // </rtc-template>
-  jstate_pub = node.advertise<sensor_msgs::JointState>("joint_states", 1);
+  jstate_pub = node.advertise<sensor_msgs::JointState>("joint_states", 10);
 
   if(ros::param::has("~names")) {
     //std::vector<std::string> name_list;
@@ -137,7 +138,8 @@ RTC::ReturnCode_t JointStateROSBridge::onExecute(RTC::UniqueId ec_id)
       tm = (m_angle.tm.sec - prev_angle.tm.sec) +
         0.000000001 * (m_angle.tm.nsec - prev_angle.tm.nsec);
     }
-    for(int i = 0; i < joint_name_list.size(); i++) {
+    for(int i = 0; i < std::min((long)m_angle.data.length(),
+                                (long)joint_name_list.size()); i++) {
        js.name.push_back(joint_name_list[i]);
        js.position.push_back(m_angle.data[i]);
        if (tm != 0.0) {
@@ -191,7 +193,7 @@ extern "C"
  
   void JointStateROSBridgeInit(RTC::Manager* manager)
   {
-    coil::Properties profile(imagesensorrosbridge_spec);
+    coil::Properties profile(jointstaterosbridge_spec);
     manager->registerFactory(profile,
                              RTC::Create<JointStateROSBridge>,
                              RTC::Delete<JointStateROSBridge>);
