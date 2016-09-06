@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_choreonoid)
 
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED COMPONENTS roscpp tf)
 
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)

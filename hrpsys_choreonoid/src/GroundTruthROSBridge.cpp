@@ -17,7 +17,7 @@ static const char* imagesensorrosbridge_spec[] =
   {
     "implementation_id", "GroundTruthROSBridge",
     "type_name",         "GroundTruthROSBridge",
-    "description",       "publish ground truth from choreonoid",
+    "description",       "convert transform from OpenRTM to ROS",
     "version",           "1.0",
     "vendor",            "JSK",
     "category",          "example",
@@ -34,10 +34,15 @@ static const char* imagesensorrosbridge_spec[] =
 GroundTruthROSBridge::GroundTruthROSBridge(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
-    m_baseTformIn("baseTform", m_baseTform),
-    prev_stamp(ros::Time(0)),
-    is_initialized(false),
-    pub_cycle(0)
+    m_TformIn("TformIn", m_Tform),
+    nh(),
+    publish_odom_(true),
+    prev_stamp_(ros::Time(0)),
+    is_initialized_(false),
+    initial_relative_(true),
+    pub_cycle_(0),
+    publish_tf_(false),
+    tf_parent_frame_("world"), tf_frame_("self")
 {
 }
 
@@ -51,7 +56,7 @@ RTC::ReturnCode_t GroundTruthROSBridge::onInitialize()
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
-  addInPort("baseTform", m_baseTformIn);
+  addInPort("TformIn", m_TformIn);
 
   // Set OutPort buffer
 
@@ -67,21 +72,30 @@ RTC::ReturnCode_t GroundTruthROSBridge::onInitialize()
   // Bind variables and configuration variable
 
   // </rtc-template>
-  ground_truth_odom_pub = node.advertise<nav_msgs::Odometry>("ground_truth_odom", 1);
+  odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 1);
 
   if(ros::param::has("~rate")) {
     double rate;
     ros::param::get("~rate", rate);
     if(rate != 0) {
-      pub_cycle = 1/rate;
+      pub_cycle_ = 1/rate;
     }
   }
+  if(ros::param::has("~publish_tf")) {
+    ros::param::get("~publish_tf", publish_tf_);
+  }
+  if(ros::param::has("~tf_frame")) {
+    ros::param::get("~tf_frame", tf_frame_);
+  }
+  if(ros::param::has("~tf_parent_frame")) {
+    ros::param::get("~tf_parent_frame", tf_parent_frame_);
+  }
 
-  init_base.setOrigin(tf::Vector3(0, 0, 0));
-  init_base.setRotation(tf::Quaternion(0, 0, 0, 1));  
-  prev_base.setOrigin(tf::Vector3(0, 0, 0));
-  prev_base.setRotation(tf::Quaternion(0, 0, 0, 1));  
-  
+  init_trans_.setOrigin(tf::Vector3(0, 0, 0));
+  init_trans_.setRotation(tf::Quaternion(0, 0, 0, 1));
+  prev_trans_.setOrigin(tf::Vector3(0, 0, 0));
+  prev_trans_.setRotation(tf::Quaternion(0, 0, 0, 1));
+
   // initialize
   ROS_INFO_STREAM("[GroundTruthROSBridge] @Initilize name : " << getInstanceName());
 
@@ -123,58 +137,67 @@ RTC::ReturnCode_t GroundTruthROSBridge::onDeactivated(RTC::UniqueId ec_id)
 RTC::ReturnCode_t GroundTruthROSBridge::onExecute(RTC::UniqueId ec_id)
 {
   //capture_time = ros::Time::now();
+  if (m_TformIn.isNew()) {
+    m_TformIn.read();
 
-  if (m_baseTformIn.isNew()) {
-    m_baseTformIn.read();
-    
-    tf::Transform current_base;
-    ros::Time current_stamp = ros::Time(m_baseTform.tm.sec, m_baseTform.tm.nsec);
-    convertBaseTformToTfTransform(current_base);
-    double dt = (current_stamp - prev_stamp).toSec();
+    tf::Transform current_trans;
+    ros::Time current_stamp = ros::Time(m_Tform.tm.sec, m_Tform.tm.nsec);
+    convertTformToTfTransform(current_trans);
+    double dt = (current_stamp - prev_stamp_).toSec();
 
     // skip for publish rate
-    if (pub_cycle != 0 && dt < pub_cycle) {
+    if (pub_cycle_ != 0 && dt < pub_cycle_) {
       return RTC::RTC_OK;
     }
 
-    // transform current_base into initial base relative coords
+    // transform current_trans into initial trans relative coords
+    if (initial_relative_)
     {
-      if (is_initialized == false) {
-        tf::Vector3 init_origin = current_base.getOrigin();
-        tf::Quaternion init_rotation = current_base.getRotation();
+      if (is_initialized_ == false) {
+        tf::Vector3 init_origin = current_trans.getOrigin();
+        tf::Quaternion init_rotation = current_trans.getRotation();
         init_origin.setZ(0.0); // z origin should be on the ground
-        init_base.setOrigin(init_origin);
-        init_base.setRotation(init_rotation);
-        current_base = init_base.inverse() * current_base;
-        prev_base = current_base; // prev_base should be initilaized, too
-        is_initialized = true;
+        init_trans_.setOrigin(init_origin);
+        init_trans_.setRotation(init_rotation);
+        current_trans = init_trans_.inverse() * current_trans;
+        prev_trans_ = current_trans; // prev_base should be initilaized, too
+        is_initialized_ = true;
       } else {
-        current_base = init_base.inverse() * current_base;
+        current_trans = init_trans_.inverse() * current_trans;
       }
+    } else {
+      // do nothing
     }
 
-    // calculate velocity
-    tf::Vector3 linear_twist, angular_twist;
-    calculateTwist(current_base, prev_base, linear_twist, angular_twist, dt);
-    geometry_msgs::Twist current_twist;
-    tf::vector3TFToMsg(linear_twist, current_twist.linear);
-    tf::vector3TFToMsg(angular_twist, current_twist.angular);
+    if(publish_tf_) {
+      br.sendTransform(tf::StampedTransform(current_trans, current_stamp,
+                                            tf_parent_frame_, tf_frame_));
+    }
 
-    // register msg
-    nav_msgs::Odometry ground_truth_odom;
-    ground_truth_odom.header.stamp = current_stamp;
-    tf::Vector3 current_origin = current_base.getOrigin();
-    ground_truth_odom.pose.pose.position.x = current_origin[0];
-    ground_truth_odom.pose.pose.position.y = current_origin[1];
-    ground_truth_odom.pose.pose.position.z = current_origin[2];
-    tf::quaternionTFToMsg(current_base.getRotation(), ground_truth_odom.pose.pose.orientation);
-    ground_truth_odom.twist.twist = current_twist;
+    if (publish_odom_) {
+      // calculate velocity
+      tf::Vector3 linear_twist, angular_twist;
+      calculateTwist(current_trans, prev_trans_, linear_twist, angular_twist, dt);
+      geometry_msgs::Twist current_twist;
+      tf::vector3TFToMsg(linear_twist, current_twist.linear);
+      tf::vector3TFToMsg(angular_twist, current_twist.angular);
 
-    ground_truth_odom_pub.publish(ground_truth_odom);
+      // register msg
+      nav_msgs::Odometry odom_msg;
+      odom_msg.header.stamp = current_stamp;
+      tf::Vector3 current_origin = current_trans.getOrigin();
+      odom_msg.pose.pose.position.x = current_origin[0];
+      odom_msg.pose.pose.position.y = current_origin[1];
+      odom_msg.pose.pose.position.z = current_origin[2];
+      tf::quaternionTFToMsg(current_trans.getRotation(), odom_msg.pose.pose.orientation);
+      odom_msg.twist.twist = current_twist;
+
+      odom_pub.publish(odom_msg);
+    }
 
     // preserve values for velocity calculation in next step
-    prev_base = current_base;
-    prev_stamp = current_stamp;
+    prev_trans_ = current_trans;
+    prev_stamp_ = current_stamp;
   }
 
   return RTC::RTC_OK;
@@ -213,35 +236,35 @@ RTC::ReturnCode_t GroundTruthROSBridge::onRateChanged(RTC::UniqueId ec_id)
 
 
 
-void GroundTruthROSBridge::convertBaseTformToTfTransform(tf::Transform& result_base)
+void GroundTruthROSBridge::convertTformToTfTransform(tf::Transform& result_trans)
 {
-  // baseTform: x, y, z, R[0][0], R[0][1], ... , R[2][2]
-  double *data = m_baseTform.data.get_buffer();
+  // Tform: x, y, z, R[0][0], R[0][1], ... , R[2][2]
+  double *data = m_Tform.data.get_buffer();
   tf::Vector3 base_origin(data[0], data[1], data[2]);
-  result_base.setOrigin(base_origin);
+  result_trans.setOrigin(base_origin);
   hrp::Matrix33 hrpsys_R;
   hrp::getMatrix33FromRowMajorArray(hrpsys_R, data, 3);
   hrp::Vector3 hrpsys_rpy = hrp::rpyFromRot(hrpsys_R);
   tf::Quaternion base_q = tf::createQuaternionFromRPY(hrpsys_rpy(0), hrpsys_rpy(1), hrpsys_rpy(2));
-  result_base.setRotation(base_q);
+  result_trans.setRotation(base_q);
   return;
 }
 
-void GroundTruthROSBridge::calculateTwist(const tf::Transform& _current_base, const tf::Transform& _prev_base, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt)
+void GroundTruthROSBridge::calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt)
 {
   // current rotation matrix
-  tf::Matrix3x3 current_basis = _current_base.getBasis();
+  tf::Matrix3x3 current_basis = _current_trans.getBasis();
   
   // linear twist
-  tf::Vector3 current_origin = _current_base.getOrigin();
-  tf::Vector3 prev_origin = _prev_base.getOrigin();
+  tf::Vector3 current_origin = _current_trans.getOrigin();
+  tf::Vector3 prev_origin = _prev_trans.getOrigin();
   _linear_twist = current_basis.transpose() * ((current_origin - prev_origin) / _dt);
 
   // angular twist
   // R = exp(omega_w*dt) * prev_R
   // omega_w is described in global coordinates in relationships of twist transformation.
   // it is easier to calculate omega using hrp functions than tf functions
-  tf::Matrix3x3 prev_basis = _prev_base.getBasis();
+  tf::Matrix3x3 prev_basis = _prev_trans.getBasis();
   double current_rpy[3], prev_rpy[3];
   current_basis.getRPY(current_rpy[0], current_rpy[1], current_rpy[2]);
   prev_basis.getRPY(prev_rpy[0], prev_rpy[1], prev_rpy[2]);
