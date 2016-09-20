@@ -1,11 +1,11 @@
 // -*- C++ -*-
 /*!
- * @file  GroundTruthROSBridge.h * @brief openhrp image - ros bridge * @date  $Date$ 
+ * @file  TransformROSBridge.h * @brief openhrp image - ros bridge * @date  $Date$ 
  *
  * $Id$ 
  */
-#ifndef GROUNDTRUTHROSBRIDGE_H
-#define GROUNDTRUTHROSBRIDGE_H
+#ifndef TRANSFORMROSBRIDGE_H
+#define TRANSFORMROSBRIDGE_H
 
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <rtm/idl/InterfaceDataTypes.hh>
@@ -33,11 +33,11 @@
 
 using namespace RTC;
 
-class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
+class TransformROSBridge  : public RTC::DataFlowComponentBase
 {
  public:
-  GroundTruthROSBridge(RTC::Manager* manager);
-  ~GroundTruthROSBridge();
+  TransformROSBridge(RTC::Manager* manager);
+  ~TransformROSBridge();
 
   // The initialize action (on CREATED->ALIVE transition)
   // formaer rtc_init_entry() 
@@ -148,7 +148,7 @@ class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
 
 extern "C"
 {
-  DLL_EXPORT void GroundTruthROSBridgeInit(RTC::Manager* manager);
+  DLL_EXPORT void TransformROSBridgeInit(RTC::Manager* manager);
 };
 
 #endif // RANGESENSORROSBRIDGE_H

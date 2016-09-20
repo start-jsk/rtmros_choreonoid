@@ -1,10 +1,10 @@
 // -*- C++ -*-
 /*!
- * @file  GroundTruthROSBridge.cpp * @brief openhrp image - ros bridge * $Date$ 
+ * @file  TransformROSBridge.cpp * @brief openhrp image - ros bridge * $Date$ 
  *
  * $Id$ 
  */
-#include "GroundTruthROSBridge.h"
+#include "TransformROSBridge.h"
 #include <hrpUtil/EigenTypes.h>
 #include <hrpUtil/Eigen3d.h>
 
@@ -13,10 +13,10 @@
 
 // Module specification
 // <rtc-template block="module_spec">
-static const char* imagesensorrosbridge_spec[] =
+static const char* transformrosbridge_spec[] =
   {
-    "implementation_id", "GroundTruthROSBridge",
-    "type_name",         "GroundTruthROSBridge",
+    "implementation_id", "TransformROSBridge",
+    "type_name",         "TransformROSBridge",
     "description",       "convert transform from OpenRTM to ROS",
     "version",           "1.0",
     "vendor",            "JSK",
@@ -31,7 +31,7 @@ static const char* imagesensorrosbridge_spec[] =
   };
 // </rtc-template>
 
-GroundTruthROSBridge::GroundTruthROSBridge(RTC::Manager* manager)
+TransformROSBridge::TransformROSBridge(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
     m_TformIn("TformIn", m_Tform),
@@ -46,12 +46,12 @@ GroundTruthROSBridge::GroundTruthROSBridge(RTC::Manager* manager)
 {
 }
 
-GroundTruthROSBridge::~GroundTruthROSBridge()
+TransformROSBridge::~TransformROSBridge()
 {
 }
 
 
-RTC::ReturnCode_t GroundTruthROSBridge::onInitialize()
+RTC::ReturnCode_t TransformROSBridge::onInitialize()
 {
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
@@ -97,44 +97,44 @@ RTC::ReturnCode_t GroundTruthROSBridge::onInitialize()
   prev_trans_.setRotation(tf::Quaternion(0, 0, 0, 1));
 
   // initialize
-  ROS_INFO_STREAM("[GroundTruthROSBridge] @Initilize name : " << getInstanceName());
+  ROS_INFO_STREAM("[TransformROSBridge] @Initilize name : " << getInstanceName());
 
   return RTC::RTC_OK;
 }
 
 
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onFinalize()
+RTC::ReturnCode_t TransformROSBridge::onFinalize()
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onStartup(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onStartup(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onShutdown(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onShutdown(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onActivated(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onActivated(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onDeactivated(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onDeactivated(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 
-RTC::ReturnCode_t GroundTruthROSBridge::onExecute(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onExecute(RTC::UniqueId ec_id)
 {
   //capture_time = ros::Time::now();
   if (m_TformIn.isNew()) {
@@ -204,31 +204,31 @@ RTC::ReturnCode_t GroundTruthROSBridge::onExecute(RTC::UniqueId ec_id)
 }
 
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onAborting(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onAborting(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onError(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onError(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onReset(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onReset(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onStateUpdate(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onStateUpdate(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
 */
 /*
-RTC::ReturnCode_t GroundTruthROSBridge::onRateChanged(RTC::UniqueId ec_id)
+RTC::ReturnCode_t TransformROSBridge::onRateChanged(RTC::UniqueId ec_id)
 {
   return RTC::RTC_OK;
 }
@@ -236,7 +236,7 @@ RTC::ReturnCode_t GroundTruthROSBridge::onRateChanged(RTC::UniqueId ec_id)
 
 
 
-void GroundTruthROSBridge::convertTformToTfTransform(tf::Transform& result_trans)
+void TransformROSBridge::convertTformToTfTransform(tf::Transform& result_trans)
 {
   // Tform: x, y, z, R[0][0], R[0][1], ... , R[2][2]
   double *data = m_Tform.data.get_buffer();
@@ -250,7 +250,7 @@ void GroundTruthROSBridge::convertTformToTfTransform(tf::Transform& result_trans
   return;
 }
 
-void GroundTruthROSBridge::calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt)
+void TransformROSBridge::calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt)
 {
   // current rotation matrix
   tf::Matrix3x3 current_basis = _current_trans.getBasis();
@@ -281,12 +281,12 @@ void GroundTruthROSBridge::calculateTwist(const tf::Transform& _current_trans, c
 extern "C"
 {
  
-  void GroundTruthROSBridgeInit(RTC::Manager* manager)
+  void TransformROSBridgeInit(RTC::Manager* manager)
   {
-    coil::Properties profile(imagesensorrosbridge_spec);
+    coil::Properties profile(transformrosbridge_spec);
     manager->registerFactory(profile,
-                             RTC::Create<GroundTruthROSBridge>,
-                             RTC::Delete<GroundTruthROSBridge>);
+                             RTC::Create<TransformROSBridge>,
+                             RTC::Delete<TransformROSBridge>);
   }
   
 };
