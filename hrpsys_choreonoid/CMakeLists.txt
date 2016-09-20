@@ -43,8 +43,8 @@ if(${cnoid-plugin_FOUND})
   add_executable(JointStateROSBridge src/JointStateROSBridge.cpp src/JointStateROSBridgeComp.cpp)
   target_link_libraries(JointStateROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
 
-  add_executable(GroundTruthROSBridge src/GroundTruthROSBridge.cpp src/GroundTruthROSBridgeComp.cpp)
-  target_link_libraries(GroundTruthROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
+  add_executable(TransformROSBridge src/TransformROSBridge.cpp src/TransformROSBridgeComp.cpp)
+  target_link_libraries(TransformROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
   
 endif()
 
