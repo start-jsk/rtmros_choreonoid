@@ -1,11 +1,11 @@
 // -*- C++ -*-
 /*!
- * @file  GroundTruthROSBridge.h * @brief openhrp image - ros bridge * @date  $Date$ 
+ * @file  TransformROSBridge.h * @brief openhrp image - ros bridge * @date  $Date$ 
  *
  * $Id$ 
  */
-#ifndef GROUNDTRUTHROSBRIDGE_H
-#define GROUNDTRUTHROSBRIDGE_H
+#ifndef TRANSFORMROSBRIDGE_H
+#define TRANSFORMROSBRIDGE_H
 
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <rtm/idl/InterfaceDataTypes.hh>
@@ -29,14 +29,15 @@
 // ros
 #include "ros/ros.h"
 #include <tf/transform_datatypes.h>
+#include <tf/transform_broadcaster.h>
 
 using namespace RTC;
 
-class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
+class TransformROSBridge  : public RTC::DataFlowComponentBase
 {
  public:
-  GroundTruthROSBridge(RTC::Manager* manager);
-  ~GroundTruthROSBridge();
+  TransformROSBridge(RTC::Manager* manager);
+  ~TransformROSBridge();
 
   // The initialize action (on CREATED->ALIVE transition)
   // formaer rtc_init_entry() 
@@ -96,8 +97,8 @@ class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 
-  TimedDoubleSeq m_baseTform;
-  InPort<TimedDoubleSeq> m_baseTformIn;
+  TimedDoubleSeq m_Tform;
+  InPort<TimedDoubleSeq> m_TformIn;
 
   // </rtc-template>
 
@@ -122,25 +123,32 @@ class GroundTruthROSBridge  : public RTC::DataFlowComponentBase
   // </rtc-template>
 
  private:
-  ros::NodeHandle node;
-  ros::Publisher ground_truth_odom_pub;
+  ros::NodeHandle nh;
+  ros::Publisher odom_pub;
 
-  tf::Transform init_base;
-  tf::Transform prev_base;
-  ros::Time prev_stamp;
+  bool publish_odom_;
+  tf::Transform init_trans_;
+  tf::Transform prev_trans_;
+  ros::Time prev_stamp_;
 
-  double pub_cycle;
-  bool is_initialized;
+  double pub_cycle_;
+  bool is_initialized_;
+  bool initial_relative_;
 
-  void convertBaseTformToTfTransform(tf::Transform& base);
-  void calculateTwist(const tf::Transform& _current_base, const tf::Transform& _prev_base, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt);
+  tf::TransformBroadcaster br;
+  bool publish_tf_;
+  std::string tf_parent_frame_;
+  std::string tf_frame_;
+
+  void convertTformToTfTransform(tf::Transform& result_trans);
+  void calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt);
   
 };
 
 
 extern "C"
 {
-  DLL_EXPORT void GroundTruthROSBridgeInit(RTC::Manager* manager);
+  DLL_EXPORT void TransformROSBridgeInit(RTC::Manager* manager);
 };
 
 #endif // RANGESENSORROSBRIDGE_H

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 /*!
- * @file GroundTruthROSBridgeComp.cpp
+ * @file TransformROSBridgeComp.cpp
  * @brief Standalone component
  * @date $Date$ 
  *
@@ -9,15 +9,15 @@
 #include <rtm/Manager.h>
 #include <iostream>
 #include <string>
-#include "GroundTruthROSBridge.h"
+#include "TransformROSBridge.h"
 
 void MyModuleInit(RTC::Manager* manager)
 {
-  GroundTruthROSBridgeInit(manager);
+  TransformROSBridgeInit(manager);
   RTC::RtcBase* comp;
 
   // Create a component
-  comp = manager->createComponent("GroundTruthROSBridge");
+  comp = manager->createComponent("TransformROSBridge");
 
 
   // Example
@@ -67,7 +67,7 @@ int main (int argc, char** argv)
 {
   RTC::Manager* manager;
   manager = RTC::Manager::init(argc, argv);
-  ros::init(argc, argv, "GroundTruthROSBridgeComp", ros::init_options::NoSigintHandler);
+  ros::init(argc, argv, "TransformROSBridgeComp", ros::init_options::NoSigintHandler);
 
   // Initialize manager
   manager->init(argc, argv);
