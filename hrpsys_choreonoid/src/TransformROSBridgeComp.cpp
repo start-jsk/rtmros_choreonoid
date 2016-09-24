@@ -15,10 +15,16 @@ void MyModuleInit(RTC::Manager* manager)
 {
   TransformROSBridgeInit(manager);
   RTC::RtcBase* comp;
+  bool use_ros_name = false;
+  ros::param::get("~use_ros_name", use_ros_name);
 
-  // Create a component
-  comp = manager->createComponent("TransformROSBridge");
-
+  if (use_ros_name) {
+    // Create a component
+    comp = manager->createComponent(std::string("TransformROSBridge?instance_name="+ros::this_node::getName().substr(ros::this_node::getNamespace().length())).c_str());
+  } else {
+    // Create a component
+    comp = manager->createComponent("TransformROSBridge");
+  }
 
   // Example
   // The following procedure is examples how handle RT-Components.
