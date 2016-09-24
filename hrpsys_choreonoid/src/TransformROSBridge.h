@@ -137,6 +137,7 @@ class TransformROSBridge  : public RTC::DataFlowComponentBase
 
   tf::TransformBroadcaster br;
   bool publish_tf_;
+  bool invert_tf_;
   std::string tf_parent_frame_;
   std::string tf_frame_;
 

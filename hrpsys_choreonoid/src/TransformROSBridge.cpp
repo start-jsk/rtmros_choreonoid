@@ -42,6 +42,7 @@ TransformROSBridge::TransformROSBridge(RTC::Manager* manager)
     initial_relative_(true),
     pub_cycle_(0),
     publish_tf_(false),
+    invert_tf_(false),
     tf_parent_frame_("world"), tf_frame_("self")
 {
 }
@@ -72,7 +73,7 @@ RTC::ReturnCode_t TransformROSBridge::onInitialize()
   // Bind variables and configuration variable
 
   // </rtc-template>
-  odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 1);
+  odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 10);
 
   if(ros::param::has("~rate")) {
     double rate;
@@ -81,8 +82,17 @@ RTC::ReturnCode_t TransformROSBridge::onInitialize()
       pub_cycle_ = 1/rate;
     }
   }
+  if(ros::param::has("~initial_relative")) {
+    ros::param::get("~initial_relative", initial_relative_);
+  }
+  if(ros::param::has("~publish_odom")) {
+    ros::param::get("~publish_odom", publish_odom_);
+  }
   if(ros::param::has("~publish_tf")) {
     ros::param::get("~publish_tf", publish_tf_);
+  }
+  if(ros::param::has("~invert_tf")) {
+    ros::param::get("~invert_tf", invert_tf_);
   }
   if(ros::param::has("~tf_frame")) {
     ros::param::get("~tf_frame", tf_frame_);
@@ -170,8 +180,14 @@ RTC::ReturnCode_t TransformROSBridge::onExecute(RTC::UniqueId ec_id)
     }
 
     if(publish_tf_) {
-      br.sendTransform(tf::StampedTransform(current_trans, current_stamp,
-                                            tf_parent_frame_, tf_frame_));
+      if (invert_tf_) {
+        tf::Transform inv_trans = current_trans.inverse();
+        br.sendTransform(tf::StampedTransform(inv_trans, current_stamp,
+                                              tf_frame_, tf_parent_frame_));
+      } else {
+        br.sendTransform(tf::StampedTransform(current_trans, current_stamp,
+                                              tf_parent_frame_, tf_frame_));
+      }
     }
 
     if (publish_odom_) {
@@ -191,10 +207,8 @@ RTC::ReturnCode_t TransformROSBridge::onExecute(RTC::UniqueId ec_id)
       odom_msg.pose.pose.position.z = current_origin[2];
       tf::quaternionTFToMsg(current_trans.getRotation(), odom_msg.pose.pose.orientation);
       odom_msg.twist.twist = current_twist;
-
       odom_pub.publish(odom_msg);
     }
-
     // preserve values for velocity calculation in next step
     prev_trans_ = current_trans;
     prev_stamp_ = current_stamp;

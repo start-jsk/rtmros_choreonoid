@@ -103,12 +103,26 @@
                to="JointStateROSBridge0.rtc:qRef" />
     <rtactivate component="JointStateROSBridge0.rtc" />
   </node>
+
   <node pkg="hrpsys_choreonoid" name="ground_truth_bridge"
-        type="GroundTruthROSBridge" 
+        type="TransformROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <!-- set rtc name by ros_name -->
+    <param name="use_ros_name" value="true" />
+
+    <remap from="odom" to="/ground_truth_odom" />
     <param name="rate" value="100.0" />
+    <param name="publish_odom" value="true" />
+    <param name="initial_relative" value="false" />
+    <!-- for publish_tf
+    <param name="publish_tf" value="true" />
+    <param name="invert_tf"  value="true" />
+    <param name="tf_frame"        value="BODY" />
+    <param name="tf_parent_frame" value="choreonoid_origin" />
+    -->
     <rtconnect from="JAXON_RED(Robot)0.rtc:WAIST"
-               to="GroundTruthROSBridge0.rtc:baseTform" />
-    <rtactivate component="GroundTruthROSBridge0.rtc" />
+               to="ground_truth_bridge.rtc:TformIn" />
+    <rtactivate component="ground_truth_bridge.rtc" />
   </node>
+
 </launch>
