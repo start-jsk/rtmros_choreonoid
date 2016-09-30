@@ -10,6 +10,7 @@
   <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
   <env name="LANG" value="C" />
   <env name="ORBgiopMaxMsgSize" value="2147483648" />
+  <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
 
   <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
         type="rtmlaunch.py"
@@ -114,12 +115,12 @@
     <param name="rate" value="100.0" />
     <param name="publish_odom" value="true" />
     <param name="initial_relative" value="false" />
-    <!-- for publish_tf
+
     <param name="publish_tf" value="true" />
     <param name="invert_tf"  value="true" />
     <param name="tf_frame"        value="BODY" />
     <param name="tf_parent_frame" value="choreonoid_origin" />
-    -->
+
     <rtconnect from="JAXON_RED(Robot)0.rtc:WAIST"
                to="ground_truth_bridge.rtc:TformIn" />
     <rtactivate component="ground_truth_bridge.rtc" />
