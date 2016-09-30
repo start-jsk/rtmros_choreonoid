@@ -11,8 +11,8 @@
 -o manager.modules.load_path:$(find hrpsys)/lib"
        />
   <arg name="RESPAWN_SIMULATOR" default="false"/>
-  <arg name="START_SIMULATOR" default="true" />
-  <arg name="ENABLE_CONSTRAINT" default="true" />
+  <arg name="START_SIMULATOR"   default="true" />
+  <arg name="ENABLE_CONSTRAINT" default="false" />
   <arg name="OUTPUT" default="log"/>
   <arg name="nameserver" default="localhost" />
   <arg name="corbaport"  default="2809" />

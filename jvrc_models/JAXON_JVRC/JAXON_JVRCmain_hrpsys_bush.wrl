@@ -518,9 +518,12 @@ DEF JAXON_JVRC Humanoid {
                                   translation 0.03 0 0.015
                                   rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                                   sensorId 0
-                                  scanAngle 2.3561944901923439 ## 135 deg
-                                  scanStep 0.0046019423636569 ## 512 line
-                                  scanRate 100
+                                  #scanAngle 2.3561944901923439 ## 135 deg
+                                  #scanStep 0.0026019423636569 ## 512 line
+                                  #scanRate 100
+                                  scanAngle 2.8797932657906435 ## 165 deg
+                                  scanStep 0.004363323129985825 ## 661 line
+                                  scanRate 40
                                   minDistance 0.2
                                   maxDistance 30.0
                                 }
