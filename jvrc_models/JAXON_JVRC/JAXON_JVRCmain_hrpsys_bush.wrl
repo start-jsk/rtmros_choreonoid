@@ -237,12 +237,12 @@ DEF JAXON_JVRC Humanoid {
             } # surface
             DEF gsensor AccelerationSensor{
               translation 0 0 0
-              rotation 1 0 0 0.006331688007092509
+              rotation 0.707107 0 -0.707107 3.14159
               sensorId 0
             } #Sensor
             DEF gyrometer Gyro{
               translation 0 0 0
-              rotation 1 0 0 0.006331688007092509
+              rotation 0.707107 0 -0.707107 3.14159
               sensorId 0
             } #Sensor
           ]
