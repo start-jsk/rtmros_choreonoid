@@ -1,0 +1,25 @@
+obj1:
+  name: 'VISIBLE_FLOOR'
+  file: '../../jvrc_models/models/visible_floor.wrl'
+  translation: [0, 0, -0.1]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj2:
+  name: 'wallA'
+  file: '../../jvrc_models/models/wallA.wrl'
+  translation: [6.1, 0, 2.25]
+  rotation: [[0, 1, 0], [-1, 0, 0], [0, 0, 1]]
+obj3:
+  name: 'wallB'
+  file: '../../jvrc_models/models/wallB.wrl'
+  translation: [0, 6.1, 2.25]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj4:
+  name: 'wallC'
+  file: '../../jvrc_models/models/wallC.wrl'
+  translation: [-6.1, 0, 2.25]
+  rotation: [[0, -1, 0], [1, 0, 0], [0, 0, 1]]
+obj5:
+  name: 'terrain'
+  file: '../../jvrc_models/models/simple_step.wrl'
+  translation: [0, 1.5, 0]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
