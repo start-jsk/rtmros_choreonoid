@@ -39,6 +39,8 @@ except:
     print >> sys.stderr, "can not read %s"%(objs_yaml)
     raise
 
+sci_path = os.path.abspath(os.path.dirname(__file__))
+
 itemTreeView = ItemTreeView.instance()
 rootItem = RootItem.instance()
 
@@ -55,6 +57,9 @@ if world:
             objname = obj_info['name']
         else:
             objname = obj_name
+
+        if filename[0] != '/':
+            filename = "%s/%s"%(sci_path, filename)
 
         robotItem = BodyItem()
         robotItem.load(filename)
