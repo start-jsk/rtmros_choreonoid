@@ -1,6 +1,6 @@
 <launch>
   <arg name="SIMULATOR_NAME" default="JAXON_RED(Robot)0" />
-  <arg name="OUTPUT" default="screen"/>
+  <arg name="OUTPUT" default="log"/>
   <arg name="nameserver" default="localhost" />
   <arg name="corbaport" default="15005" />
   <arg name="periodic_rate" default="200" />
