@@ -16,6 +16,31 @@ wstool update rtm-ros-robotics/rtmros_choreonoid
 
 ---
 
+## **Tips**
+
+### Use middle button with thinkpad keyborad
+
+Write functions below on .bashrc
+~~~
+function choreonoidinput () {
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 0
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 3
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
+}
+
+function defaultinput () {
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 0
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
+}
+~~~
+
+Type 'choreonoidinput' for changing role of buttons. Then middle button can work to translate views and right button can work to zoom views.
+
+For returning to default input, type 'defaultinput' in any terminals.
+
+---
+
 ## **install choreonoid from source**
 ### compile choreonoid
 ~~~
