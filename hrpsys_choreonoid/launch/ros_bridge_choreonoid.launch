@@ -6,6 +6,21 @@
   <arg name="RUN_RVIZ" default="false" />
 
   <arg name="corbaport" default="15005" />
+
+  <arg name="USE_WALKING"             default="true"  />
+  <arg name="USE_COLLISIONCHECK"      default="false" />
+  <arg name="USE_IMPEDANCECONTROLLER" default="true"  />
+  <arg name="USE_GRASPCONTROLLER"     default="false" />
+  <arg name="USE_SERVOCONTROLLER"     default="false" />
+  <arg name="USE_TORQUECONTROLLER"    default="false" />
+  <arg name="USE_SOFTERRORLIMIT"      default="false" />
+  <arg name="USE_TORQUEFILTER"        default="false" />
+  <!--arg name="USE_IMAGESENSOR" default="false" /-->
+  <arg name="USE_EMERGENCYSTOPPER"    default="true"  />
+  <arg name="USE_REFERENCEFORCEUPDATER" default="true" />
+  <arg name="USE_HRPSYS_PROFILE"      default="true"  />
+  <arg name="USE_VELOCITY_OUTPUT"     default="true"  />
+
   <include file="$(find hrpsys_ros_bridge)/launch/hrpsys_ros_bridge.launch">
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"   value="$(arg MODEL_FILE)" />
@@ -13,15 +28,22 @@
     <arg name="CONF_FILE"    value="$(arg CONF_FILE)" />
     <arg name="corbaport" default="$(arg corbaport)" />
     <!-- unstable RTC -->
-    <arg name="USE_WALKING" default="true" />
-    <arg name="USE_IMPEDANCECONTROLLER" default="true" />
-    <arg name="USE_EMERGENCYSTOPPER" default="true" />
-    <arg name="USE_REFERENCEFORCEUPDATER" default="true" />
+    <arg name="USE_WALKING"               value="$(arg USE_WALKING)" />
+    <arg name="USE_COLLISIONCHECK"        value="$(arg USE_COLLISIONCHECK)" />
+    <arg name="USE_IMPEDANCECONTROLLER"   value="$(arg USE_IMPEDANCECONTROLLER)" />
+    <arg name="USE_GRASPCONTROLLER"       value="$(arg USE_GRASPCONTROLLER)" />
+    <arg name="USE_SERVOCONTROLLER"       value="$(arg USE_SERVOCONTROLLER)" />
+    <arg name="USE_TORQUECONTROLLER"      value="$(arg USE_TORQUECONTROLLER)" />
+    <arg name="USE_SOFTERRORLIMIT"        value="$(arg USE_SOFTERRORLIMIT)" />
+    <arg name="USE_TORQUEFILTER"          value="$(arg USE_TORQUEFILTER)" />
+    <!--arg name="USE_IMAGESENSOR"           value="$(arg USE_IMAGESENSOR)" /-->
+    <arg name="USE_EMERGENCYSTOPPER"      value="$(arg USE_EMERGENCYSTOPPER)" />
+    <arg name="USE_REFERENCEFORCEUPDATER" value="$(arg USE_REFERENCEFORCEUPDATER)" />
+    <arg name="USE_HRPSYS_PROFILE"        value="$(arg USE_HRPSYS_PROFILE)" />
+    <arg name="USE_VELOCITY_OUTPUT"       value="$(arg USE_VELOCITY_OUTPUT)" />
+
     <!-- for choreonoid -->
-    <arg name="USE_COLLISIONCHECK" default="false" />
-    <arg name="USE_SOFTERRORLIMIT" default="false" />
     <arg name="periodic_rate" value="100" />
-    <arg name="USE_VELOCITY_OUTPUT" default="true" />
     <arg name="USE_ROBOT_POSE_EKF" default="false" />
     <!--arg name="BASE_LINK" default="" /-->
     <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
