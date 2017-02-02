@@ -21,7 +21,6 @@
   <build_depend>euslisp</build_depend>
   <build_depend>roseus</build_depend>
   <build_depend>pr2eus</build_depend>
-  <build_depend>roseus_msgs</build_depend>
   <build_depend>xacro</build_depend>
   <build_depend>control_msgs</build_depend>
   <build_depend>jvrc_models</build_depend>
@@ -40,7 +39,6 @@
   <run_depend>euslisp</run_depend>
   <run_depend>roseus</run_depend>
   <run_depend>pr2eus</run_depend>
-  <run_depend>roseus_msgs</run_depend>
   <run_depend>xacro</run_depend>
   <run_depend>control_msgs</run_depend>
   <run_depend>jvrc_models</run_depend>
