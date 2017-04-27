@@ -9,7 +9,7 @@ if (NOT APPLE AND NOT QNXNTO)
    target_link_libraries(hrpIo_choreonoid rt)
 endif()
 
-target_link_libraries(hrpIo_choreonoid roscpp rostime)
+target_link_libraries(hrpIo_choreonoid ${catkin_LIBRARIES})
 
 # RobotHardware
 #set(comp_source  ${ROBOTHARDWARE_SOURCE}/robot.cpp ${ROBOTHARDWARE_SOURCE}/RobotHardware.cpp ${ROBOTHARDWARE_SOURCE}/RobotHardwareService_impl.cpp)
