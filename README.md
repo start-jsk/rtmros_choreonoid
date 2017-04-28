@@ -55,14 +55,14 @@ $ sudo make install
 
 ### compile BodyRTC etc.
 ~~~
-$ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${CNOID_INSTALL_DIR}/lib/pkgconfig
+$ export PKG_CONFIG_PATH=${CNOID_INSTALL_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH
 $ roscd hrpsys_choreonoid
 $ catkin build --this
 ~~~
 
 ### add PATH
 ~~~
-export PATH=$PATH:${CNOID_INSTALL_DIR}/bin
+export PATH=${CNOID_INSTALL_DIR}/bin:$PATH
 ~~~
 
 ---
