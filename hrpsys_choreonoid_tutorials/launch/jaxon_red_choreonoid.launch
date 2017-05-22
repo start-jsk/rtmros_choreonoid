@@ -10,6 +10,7 @@
   <arg name="RUN_RVIZ" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="LAUNCH_FOOTCOORDS" default="true" />
 
   <!-- robot dependant settings -->
   <arg if="$(arg USE_ROBOTHARDWARE)"
@@ -72,8 +73,10 @@
   <!-- additional settings -->
   <!--                     -->
   <!-- additional ros_bridge -->
-  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch" />
-  <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server" />
+  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch"
+           if="$(arg LAUNCH_FOOTCOORDS)" />
+  <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server"
+        if="$(arg LAUNCH_FOOTCOORDS)" />
 
   <!-- vision setting -->
   <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
