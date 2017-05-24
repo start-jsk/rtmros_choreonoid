@@ -24,6 +24,7 @@
     <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)"/>
     <!--arg name="PROJECT_FILE"      value="$(arg PROJECT_FILE)" />
     <arg name="SIMULATOR_NAME"    value="$(arg SIMULATOR_NAME)" /-->
+    <arg name="LAUNCH_FOOTCOORDS" value="false" />
   </include>
 
 </launch>
