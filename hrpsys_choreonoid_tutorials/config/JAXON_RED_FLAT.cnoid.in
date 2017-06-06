@@ -355,7 +355,7 @@ Body:
       - 
         bodyItem: 2
         showCenterOfMass: false
-        showPpcom: false
+        showPpcom: true
         showZmp: false
       - 
         bodyItem: 3

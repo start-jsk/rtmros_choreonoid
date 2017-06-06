@@ -8,6 +8,7 @@
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
   <arg name="RUN_RVIZ" default="true" />
+  <arg name="USE_VISION" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
@@ -79,9 +80,12 @@
         if="$(arg LAUNCH_FOOTCOORDS)" />
 
   <!-- vision setting -->
-  <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
-    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
-  </include>
+  <group if="$(arg USE_VISION)">
+    <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
+      <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    </include>
+  </group>
+
 
   <!--
   <arg name="launch_multisense_local" default="false" />
