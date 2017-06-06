@@ -21,24 +21,24 @@ items:
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 0.0, -1.5, 1.0185 ]
+            rootPosition: [ 0.0, 0.0, 1.0185 ]
             rootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
               0, 0, 1 ]
             jointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.349066,  0.000000,  0.523599, -0.349066, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.450000,  0.000000,  0.523599, -0.349066,
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
-            initialRootPosition: [ 0.0, -1.5, 1.0185 ]
+            initialRootPosition: [ 0.0, 0.0, 1.0185 ]
             initialRootAttitude: [ 
               0, -1, 0, 
               1, 0, 0, 
               0, 0, 1 ]
             initialJointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
-              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.349066,  0.000000,  0.523599, -0.349066, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.450000,  0.000000,  0.523599, -0.349066,
               -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
@@ -53,134 +53,14 @@ items:
               class: BodyRTCItem
               data: 
                 isImmediateMode: true
-                moduleName: "@JVRC_RTC_DIRECTORY@/PDcontroller"
-                confFileName: "@JVRC_CONF_DIRECTORY@/SensorReaderRTC_JAXON_RED.PD.conf"
+                moduleName: "@JVRC_RTC_DIRECTORY@/lib/RobotHardware_choreonoid"
+                confFileName: "@JVRC_CONF_DIRECTORY@/BodyRTC_JAXON_RED.RH.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: JAXON_RED(Robot)0
                 bodyPeriodicRate: 0.002
         - 
           id: 4
-          name: "floor"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/visible_floor.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, -0.1 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, -0.1 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 5
-          name: "wallA"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/wallA.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 6.1, 0, 2.25 ]
-            rootAttitude: [ 
-               0, 1, 0, 
-              -1, 0, 0, 
-               0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 6.1, 0, 2.25 ]
-            initialRootAttitude: [ 
-              0, 1, 0, 
-             -1, 0, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 6
-          name: "wallB"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/wallB.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0, 6.1, 2.25 ]
-            rootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 6.1, 2.25 ]
-            initialRootAttitude: [ 
-              1, 0, 0, 
-              0, 1, 0, 
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 7
-          name: "wallC"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/wallC.wrl"
-            currentBaseLink: ""
-            rootPosition: [ -6.1, 0, 2.25 ]
-            rootAttitude: [ 
-              0, -1, 0, 
-              1,  0, 0, 
-              0,  0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ -6.1, 0, 2.25 ]
-            initialRootAttitude: [ 
-              0, -1, 0, 
-              1,  0, 0, 
-              0,  0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 8
-          name: "drcbox"
-          plugin: Body
-          class: BodyItem
-          data: 
-            modelFile: "../../jvrc_models/models/valve_box.wrl"
-            currentBaseLink: ""
-            rootPosition: [ 0.75, 0.5, 0.0 ]
-            rootAttitude: [ 
-               0,  1, 0, 
-              -1,  0, 0, 
-               0,  0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0.75, 0.5, 0.0 ]
-            initialRootAttitude: [ 
-               0,  1, 0, 
-              -1,  0, 0, 
-               0,  0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
-        - 
-          id: 11
           name: "AISTSimulator"
           plugin: Body
           class: AISTSimulatorItem
@@ -209,7 +89,7 @@ items:
             2Dmode: false
           children: 
             - 
-              id: 12
+              id: 5
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -229,7 +109,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 13
+              id: 6
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -249,7 +129,7 @@ items:
                 enableHeadLight: true
                 enableAdditionalLights: true
             - 
-              id: 14
+              id: 7
               name: "GLVisionSimulator"
               plugin: Body
               class: GLVisionSimulatorItem
@@ -268,8 +148,17 @@ items:
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
+    - 
+      id: 8
+      name: "add_objects.py"
+      plugin: Python
+      class: PythonScriptItem
+      data: 
+        file: "@JVRC_RTC_DIRECTORY@/launch/add_objects.py"
+        executionOnLoading: true
+        backgroundExecution: false
     -
-      id: 15
+      id: 9
       name: "ros_service_server.py"
       plugin: Python
       class: PythonScriptItem
@@ -296,8 +185,8 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 15 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,]
+      selected: [ 9 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ]
       expanded: [ 1 ]
   - 
     id: 3
@@ -321,7 +210,7 @@ views:
       worldLightIntensity: 0.5
       worldLightAmbient: 0.3
       additionalLights: true
-      floorGrid: false
+      floorGrid: true
       floorGridSpan: 10
       floorGridInterval: 0.5
       xzGridSpan: 10
