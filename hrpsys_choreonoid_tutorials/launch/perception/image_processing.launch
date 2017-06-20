@@ -52,7 +52,7 @@
         args="load contour_moments/contour_moments $(arg MANAGER)" >
     <remap from="image" to="right_hsv_color/image" />
     <!-- param name="use_camera_info" value="$(arg use_camera_info)" /-->
-    <param name="debug_view" value="true" />
+    <param name="debug_view" value="false" />
     <param name="use_camera_info" value="false" />
     <param name="canny_low_threshold" value="70" />
   </node>
