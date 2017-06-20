@@ -9,7 +9,7 @@
 (send *robot* :reset-manip-pose)
 (send *robot* :fix-leg-to-coords (make-coords))
 (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
-(send *ri* :angle-vector (send *robot* :angle-vector) 3000)
+(send *ri* :angle-vector (send *robot* :angle-vector) 2000)
 (send *ri* :wait-interpolation)
 
 (setq *target-point* nil)
@@ -60,6 +60,7 @@
             (when remain-step
               (send *ri* :angle-vector (send *robot* :angle-vector) 2000)
               (send *ri* :go-stop)
+              (warn ";;; finish walk to target ;;;~%")
               (return-from walk-to-target)
               ))
            (t
@@ -88,12 +89,18 @@
   )
 
 (defun make-random-first-position (&key (x-range 2000.0) (y-range 4000.0) (th-range 45.0))
+  (setq *random-state* (make-random-state))
   (let ((cds
          (make-coords :pos (float-vector (- (random y-range) (* 0.5 y-range))
                                          (- (+ 2000 (random x-range)))
-                                         985)
+                                         990)
                       :rpy (list (+ pi/2 (- (random th-range) (* 0.5 th-range)))
                                  0 0))))
     (reset-simulation :coords cds)
     cds
     ))
+
+(warn "
+(make-random-first-position)
+(walk-to-target)
+")
