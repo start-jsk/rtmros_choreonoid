@@ -5,7 +5,7 @@
 
 (defun reset-position (&key (robot "JAXON_RED")
                             (coords (make-coords :pos (float-vector 0 0 1000)))
-                            (sleep 0.2) &allow-other-keys)
+                            (sleep 0.1) &allow-other-keys)
   (let ((pos (send coords :worldpos))
         (rpy (car (send coords :rpy-angle)))
         req)
@@ -53,11 +53,11 @@
 
   ;; set position on choreonoid
   (apply #'reset-position args)
-  (unix::usleep (* 200 1000)) ;; not needed ??
 
   ;; reset kalmanfilter
   ;;(let ((strm (piped-fork "rosservice call /KalmanFilterServiceROSBridge/resetKalmanFilterState")))
   ;;(close strm))
+  (unix::usleep (* 500 1000)) ;; not needed ??
   (let ((req
          (instance hrpsys_ros_bridge::OpenHRP_KalmanFilterService_resetKalmanFilterStateRequest :init))
         ret)

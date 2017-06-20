@@ -92,13 +92,13 @@
     )
   )
 
-(defun make-random-first-position (&key (x-range 2000.0) (y-range 4000.0) (th-range 45.0))
+(defun make-random-first-position (&key (x-range 1600.0) (y-range 3200.0) (th-range 45.0))
   (setq *random-state* (make-random-state))
   (let ((cds
          (make-coords :pos (float-vector (- (random y-range) (* 0.5 y-range))
                                          (- (+ 2000 (random x-range)))
-                                         990)
-                      :rpy (list (+ pi/2 (- (random th-range) (* 0.5 th-range)))
+                                         995)
+                      :rpy (list (+ pi/2 (deg2rad (- (random th-range) (* 0.5 th-range))))
                                  0 0))))
     (reset-simulation :coords cds)
     cds
