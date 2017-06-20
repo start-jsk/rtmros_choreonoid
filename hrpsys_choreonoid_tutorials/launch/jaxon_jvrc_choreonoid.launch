@@ -1,5 +1,5 @@
 <launch>
-  <arg name="TASK" default="FLAT" />
+  <arg name="TASK" default="TUTORIALS" />
   <arg name="USE_ROBOTHARDWARE" default="false" />
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/flat.yaml" />
   <arg name="LOAD_OBJECTS" default="false" />

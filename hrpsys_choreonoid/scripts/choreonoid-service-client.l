@@ -38,18 +38,35 @@
     ))
 
 (defun reset-simulation (&rest args)
-  ;;
+  (unless (boundp '*ri*)
+    (warn "this function require *ri*~%")
+    (return-from reset-simulation))
+
+  ;; emergency
   (when (/= (send *ri* :emergency-mode) 0)
     (send *ri* :emergency-release-motion)
     )
-  ;;(send *ri* :stop-auto-balancer)
+
+  ;; stop abc/st
+  ;;(send *ri* :stop-auto-balancer) ;; stop-auto-balancer not required
   (send *ri* :stop-st)
-  ;;
+
+  ;; set position on choreonoid
   (apply #'reset-position args)
   (unix::usleep (* 200 1000)) ;; not needed ??
-  (let ((strm (piped-fork "rosservice call /KalmanFilterServiceROSBridge/resetKalmanFilterState")))
-    (close strm))
-  ;;
+
+  ;; reset kalmanfilter
+  ;;(let ((strm (piped-fork "rosservice call /KalmanFilterServiceROSBridge/resetKalmanFilterState")))
+  ;;(close strm))
+  (let ((req
+         (instance hrpsys_ros_bridge::OpenHRP_KalmanFilterService_resetKalmanFilterStateRequest :init))
+        ret)
+    (setq ret (ros::service-call "/KalmanFilterServiceROSBridge/resetKalmanFilterState" req))
+    (print-ros-msg ret)
+    )
+
+  ;; restart abc/st
   ;;(send *ri* :start-auto-balancer)
   (send *ri* :start-st)
+  t
   )
