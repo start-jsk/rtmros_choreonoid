@@ -5,7 +5,7 @@
 
 (defun reset-position (&key (robot "JAXON_RED")
                             (coords (make-coords :pos (float-vector 0 0 1000)))
-                            (sleep 0.1) &allow-other-keys)
+                            (sleep 0.05) &allow-other-keys)
   (let ((pos (send coords :worldpos))
         (rpy (car (send coords :rpy-angle)))
         req)
@@ -44,8 +44,7 @@
 
   ;; emergency
   (when (/= (send *ri* :emergency-mode) 0)
-    (send *ri* :emergency-release-motion)
-    )
+    (send *ri* :emergency-release-motion))
 
   ;; stop abc/st
   ;;(send *ri* :stop-auto-balancer) ;; stop-auto-balancer not required
@@ -54,17 +53,21 @@
   ;; set position on choreonoid
   (apply #'reset-position args)
 
-  ;; reset kalmanfilter
-  ;;(let ((strm (piped-fork "rosservice call /KalmanFilterServiceROSBridge/resetKalmanFilterState")))
-  ;;(close strm))
-  (unix::usleep (* 500 1000)) ;; not needed ??
+  ;; 0.5 sec sleep with ros::time
+  (let ((tm (ros::time+ (ros::time-now) (ros::time 0.2))))
+    (while (ros::time< (ros::time-now) tm)
+      (unix::usleep (* 100 1000))))
+  ;; reset kalman filter
   (let ((req
          (instance hrpsys_ros_bridge::OpenHRP_KalmanFilterService_resetKalmanFilterStateRequest :init))
         ret)
     (setq ret (ros::service-call "/KalmanFilterServiceROSBridge/resetKalmanFilterState" req))
     (print-ros-msg ret)
     )
-
+  ;; 1.0 sec sleep with ros::time
+  (let ((tm (ros::time+ (ros::time-now) (ros::time 1.2))))
+    (while (ros::time< (ros::time-now) tm)
+      (unix::usleep (* 100 1000))))
   ;; restart abc/st
   ;;(send *ri* :start-auto-balancer)
   (send *ri* :start-st)
