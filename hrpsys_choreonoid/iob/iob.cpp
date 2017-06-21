@@ -545,12 +545,19 @@ int open_iob(void)
     }
     clock_gettime(CLOCK_MONOTONIC, &g_ts);
 
-    self_ptr->bindParameter("pdgains_sim.file_name", gain_fname, "");
+    self_ptr->bindParameter("pdgains_sim_file_name", gain_fname, "");
     self_ptr->bindParameter("debugLevel", m_debugLevel, "0");
     //
     dt = 0.001; // fixed number or read from param
-    iob_nstep = 2;  // fixed number or read from param
-    iob_step = 2;
+    {
+      double hrpsys_dt = 0.002;
+      RTC::Properties& prop = self_ptr->getProperties();
+      coil::stringTo(hrpsys_dt, prop["dt"].c_str());
+      iob_step = hrpsys_dt/dt;
+      iob_nstep = iob_step;
+      std::cerr << "hrpsys cycle = " << hrpsys_dt << " [sec]";
+      std::cerr << ", iob_step = " << iob_step << std::endl;
+    }
 
     //* for PD controller *//
     ip_angleIn    = new InPort<TimedDoubleSeq> ("angleIn", m_angleIn);
@@ -718,9 +725,9 @@ void iob_finish(void)
 
       m_torqueOut.data[i] = std::max(std::min(tq, tlimit[i]), -tlimit[i]);
 #if 0
-      if (i == 18) {
+      if (i == 23) {
         std::cerr << "[iob] step = " << iob_step << ", joint = "
-                  << i << ", tq = " << m_torqueOut.data[i] << ", q,qref = (" << q << ", " << q_ref << "), dq,dqref = (" << dq << ", " << dq_ref << "), pd = (" << Pgain[i] << ", " << Dgain[i] << "), tlimit = " << tlimit << std::endl;
+                  << i << ", tq = " << m_torqueOut.data[i] << ", q,qref = (" << q << ", " << q_ref << "), dq,dqref = (" << dq << ", " << dq_ref << "), pd = (" << Pgain[i] << ", " << Dgain[i] << "), tlimit = " << tlimit[i] << std::endl;
       }
 #endif
     }
