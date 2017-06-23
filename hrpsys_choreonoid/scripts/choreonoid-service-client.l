@@ -1,4 +1,5 @@
 (ros::roseus-add-srvs "roseus")
+(ros::roseus-add-srvs "hrpsys_ros_bridge")
 
 (unless (ros::ok)
   (ros::roseus "choreonoid_service_client"))
@@ -35,6 +36,42 @@
                                  (elt force 0) (elt force 1) (elt force 2)
                                  tm)))
     (ros::service-call "/choreonoid_service" req)
+    ))
+
+(defun pause-simulation (&key (robot "JAXON_RED"))
+  (let ((req
+         (instance roseus::StringStringRequest
+                   :init :str
+                   (format nil "callSimulation('~A','pauseSimulation')" robot))))
+    (ros::service-call "/choreonoid_service" req)
+    ))
+
+(defun restart-simulation (&key (robot "JAXON_RED"))
+  (let ((req
+         (instance roseus::StringStringRequest
+                   :init :str
+                   (format nil "callSimulation('~A','restartSimulation')" robot))))
+    (ros::service-call "/choreonoid_service" req)
+    ))
+
+(defun add-object-to-simulation (name filename &key (robot "JAXON_RED") (coords))
+  ;; add as a static object
+  (let ((reqstr
+         (format nil "addObject('~A','~A'" name filename)))
+    (when coords
+      (let ((pos (send coords :worldpos))
+            (rot (array-entity (send coords :worldrot))))
+        (setq reqstr (format nil "~A,translation=[~A,~A,~A],rotation=[[~A,~A,~A],[~A,~A,~A],[~A,~A,~A]]"
+                             reqstr
+                             (/ (elt pos 0) 1000) (/ (elt pos 1) 1000) (/ (elt pos 2) 1000)
+                             (elt rot 0) (elt rot 1) (elt rot 2)
+                             (elt rot 3) (elt rot 4) (elt rot 5)
+                             (elt rot 6) (elt rot 7) (elt rot 8)))
+        ))
+    (setq reqstr (format nil "~A)" reqstr))
+    (ros::service-call "/choreonoid_service"
+                       (instance roseus::StringStringRequest
+                                 :init :str reqstr))
     ))
 
 (defun reset-simulation (&rest args)
