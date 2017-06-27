@@ -185,3 +185,5 @@ endif()
 # scene.yaml
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/flat.yaml.in ${PROJECT_SOURCE_DIR}/config/flat.yaml @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/soccer.yaml.in ${PROJECT_SOURCE_DIR}/config/soccer.yaml @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/footsal.yaml.in ${PROJECT_SOURCE_DIR}/config/footsal.yaml @ONLY)
