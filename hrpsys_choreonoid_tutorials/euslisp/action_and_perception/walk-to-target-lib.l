@@ -150,13 +150,16 @@
               ))
            ))
         ))
-    (let* ((now (ros::time-now))
-           (sec (send (ros::time- now *last-target*) :toSec)))
-      (when (> sec 2.0) ;; lost target
-        (warn ";;; lost target ;;;~%")
-        (send *ri* :go-stop)
-        (return-from walk-to-target :lost-target)
-        ))
+    (when *last-target*
+      (let* ((now (ros::time-now))
+             (sec (send (ros::time- now *last-target*) :to-Sec)))
+        (when (> sec 2.0) ;; lost target
+          (setq *last-target* nil)
+          (warn ";;; lost target ;;;~%")
+          (send *ri* :go-stop)
+          (return-from walk-to-target :lost-target)
+          ))
+      )
     (ros::sleep)
     )
   )
@@ -164,10 +167,10 @@
 (defun make-random-first-position (&key (x-range 1600.0) (y-range 3200.0) (th-range 45.0))
   (setq *random-state* (make-random-state))
   (let ((cds
-         (make-coords :pos (float-vector (- (random y-range) (* 0.5 y-range))
-                                         (- (+ 2000 (random x-range)))
+         (make-coords :pos (float-vector (- (+ 2000 (random x-range)))
+                                         (- (random y-range) (* 0.5 y-range))
                                          995)
-                      :rpy (list (+ pi/2 (deg2rad (- (random th-range) (* 0.5 th-range))))
+                      :rpy (list (deg2rad (- (random th-range) (* 0.5 th-range)))
                                  0 0))))
     (reset-simulation :coords cds)
     cds
