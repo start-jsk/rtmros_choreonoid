@@ -1,23 +1,26 @@
 (require :jaxon_jvrc-interface "package://hrpsys_choreonoid_tutorials/euslisp/jaxon_jvrc-interface.l")
+(require :choreonoid-service-client "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
 
-(defun setup-kick-motion ()
+(defun setup-kick-motion (&key (initialize-robot-pose t)
+                               (initial-pose :reset-pose))
   (unless (boundp '*ri*)
     (jaxon_jvrc-init))
   (unless (boundp '*robot*)
     (setq *robot* *jaxon_jvrc*))
 
-  (load "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
+  (when initialize-robot-pose
+    (send *robot* initial-pose)
+    (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
+    (send *robot* :fix-leg-to-coords(make-coords) (list :rleg :lleg))
+    (send *ri* :angle-vector (send *robot* :angle-vector) 2000)
+    (send *ri* :wait-interpolation))
 
-  (send *robot* :reset-pose)
-  (send *robot* :move-centroid-on-foot :both '(:rleg :lleg))
-  (send *robot* :fix-leg-to-coords(make-coords) '(:rleg :lleg))
-  (send *ri* :angle-vector (send *robot* :angle-vector) 2000)
-  (send *ri* :wait-interpolation)
+  ;;
+  ;; change parameters
   ;;
   (send *ri* :stop-impedance :arms)
   (send *ri* :stop-st)
   (send *ri* :stop-auto-balancer)
-
   ;;
   (send *ri* :set-auto-balancer-param
         :default-zmp-offsets (list #f(0 0 0) #f(0 0 0)
@@ -26,9 +29,8 @@
   (send *ri* :raw-set-st-param :emergency-check-mode 0);;
   ;; not working for EEFMCOP ???
   (send *ri* :set-st-param :st-algorithm "EEFM");;
-
   ;;
-  (send *ri* :start-auto-balancer :limbs '(:rleg :lleg))
+  (send *ri* :start-auto-balancer :limbs (list :rleg :lleg))
   (send *ri* :start-st)
   (send *ri* :go-pos 0 0 0) ;; dummy
   )
@@ -69,16 +71,26 @@
               :leg-names
               (list (case swing-leg (:rleg :lleg) (:lleg :rleg)))
               :transition-time auto-balancer-transition)
-        (send *ri* :start-auto-balancer :limbs '(:rleg :lleg))
+        (send *ri* :start-auto-balancer :limbs (list :rleg :lleg))
         ;;
         (send *ri* :set-auto-balancer-param :transition-time 1.4)
 
         ;; 片足あげる
-        (send *robot* :reset-pose)
-        (send *robot* :fix-leg-to-coords(make-coords) '(:rleg :lleg))
-        (send *robot* :move-centroid-on-foot :both '(:rleg :lleg))
+        (let ((prev-av (send *robot* :angle-vector))
+              rleg-av lleg-av)
+          ;; set angle-vector just for legs
+          (send *robot* :reset-pose)
+          (setq rleg-av (send *robot* :rleg :angle-vector)
+                lleg-av (send *robot* :lleg :angle-vector))
+          (send *robot* :angle-vector prev-av)
+          (send *robot* :rleg :angle-vector rleg-av)
+          (send *robot* :lleg :angle-vector lleg-av)
+          )
+        (send *robot* :fix-leg-to-coords(make-coords) (list :rleg :lleg))
+        (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
         (send *robot* swing-leg :move-end-pos (float-vector 0 0 leg-height) :world) ;;
-        (send *ri* :angle-vector (send *robot* :angle-vector) base-time)
+        (send *ri* :angle-vector (send *robot* :angle-vector)
+              base-time :default-controller 0 :min-time 0.1)
         (send *ri* :wait-interpolation)
         )
     (warn ";; Current mode is single leg mode~%")
@@ -88,8 +100,17 @@
   (if (= (length (send (send *ri* :get-auto-balancer-param) :leg_names)) 1)
       (progn
         ;; 着地前姿勢
-        (send *robot* :reset-pose)
-        (send *robot* :fix-leg-to-coords (make-coords) '(:rleg :lleg))
+        (let ((prev-av (send *robot* :angle-vector))
+              rleg-av lleg-av)
+          ;; set angle-vector just for legs
+          (send *robot* :reset-pose)
+          (setq rleg-av (send *robot* :rleg :angle-vector)
+                lleg-av (send *robot* :lleg :angle-vector))
+          (send *robot* :angle-vector prev-av)
+          (send *robot* :rleg :angle-vector rleg-av)
+          (send *robot* :lleg :angle-vector lleg-av)
+          )
+        (send *robot* :fix-leg-to-coords (make-coords) (list :rleg :lleg))
         (send *robot*
               (case
                   (read-from-string
@@ -98,23 +119,34 @@
                 (:rleg :lleg) (:lleg :rleg))
               :move-end-pos #f(0 0 100)
               :world)
-        (send *ri* :angle-vector (send *robot* :angle-vector) 500)
+        (send *ri* :angle-vector (send *robot* :angle-vector) 500
+              :default-controller 0 :min-time 0.1)
         (send *ri* :wait-interpolation)
 
         ;; 着地
-        (send *robot* :reset-pose)
-        (send *robot* :fix-leg-to-coords(make-coords) '(:rleg :lleg))
-        (send *robot* :move-centroid-on-foot :both '(:rleg :lleg))
-        (send *ri* :angle-vector (send *robot* :angle-vector) 500)
+        (let ((prev-av (send *robot* :angle-vector))
+              rleg-av lleg-av)
+          ;; set angle-vector just for legs
+          (send *robot* :reset-pose)
+          (setq rleg-av (send *robot* :rleg :angle-vector)
+                lleg-av (send *robot* :lleg :angle-vector))
+          (send *robot* :angle-vector prev-av)
+          (send *robot* :rleg :angle-vector rleg-av)
+          (send *robot* :lleg :angle-vector lleg-av)
+          )
+        (send *robot* :fix-leg-to-coords(make-coords) (list :rleg :lleg))
+        (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
+        (send *ri* :angle-vector (send *robot* :angle-vector) 500
+              :default-controller 0 :min-time 0.1)
         (send *ri* :wait-interpolation)
 
         ;; Stop -> 片足でstart
         (send *ri* :set-auto-balancer-param :transition-time 1.5)
         (send *ri* :stop-auto-balancer)
         ;;
-        (send *ri* :set-auto-balancer-param :leg-names '(:rleg :lleg)
+        (send *ri* :set-auto-balancer-param :leg-names (list :rleg :lleg)
               :transition-time 0.2)
-        (send *ri* :start-auto-balancer :limbs '(:rleg :lleg))
+        (send *ri* :start-auto-balancer :limbs (list :rleg :lleg))
         (send *ri* :set-auto-balancer-param :transition-time 2.0)
         )
     (warn ";; Current mode is double leg mode~%")
@@ -150,9 +182,9 @@
   (send *ri* :set-auto-balancer-param :transition-time 0.7)
   (send *ri* :stop-auto-balancer)
         ;;
-  (send *ri* :set-auto-balancer-param :leg-names '(:rleg :lleg)
+  (send *ri* :set-auto-balancer-param :leg-names (list :rleg :lleg)
         :transition-time 0.2)
-  (send *ri* :start-auto-balancer :limbs '(:rleg :lleg))
+  (send *ri* :start-auto-balancer :limbs (list :rleg :lleg))
   (send *ri* :set-auto-balancer-param :transition-time 1.4)
   )
 
@@ -162,10 +194,9 @@
     ;;(print 'stop-st)
     (send *ri* :stop-st)
     (unix::usleep (* 200 1000)))
-
   ;;
   (apply #'reset-position args)
-
+  ;;
   (reset-auto-balancer)
   (send *ri* :kalmanfilterservice_resetkalmanfilterstate)
   (unix::usleep (* 500 1000))
