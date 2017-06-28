@@ -1,18 +1,22 @@
 (require :jaxon_jvrc-interface "package://hrpsys_choreonoid_tutorials/euslisp/jaxon_jvrc-interface.l")
-
 (require :choreonoid-service-client "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
 
 (defun initialize-robot-for-walk-to-target ()
   (warn ";; create interface for robot~%")
-  (jaxon_jvrc-init)
-  (setq *robot* *jaxon_jvrc*)
+  (unless (boundp '*ri*)
+    (jaxon_jvrc-init))
+  (unless (boundp '*robot*)
+    (setq *robot* *jaxon_jvrc*))
   (warn ";; robot move to initial pose~%")
   (send *ri* :stop-impedance :arms)
+  ;;
   (send *robot* :reset-manip-pose)
   (send *robot* :fix-leg-to-coords (make-coords))
   (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
+  ;;
   (send *ri* :angle-vector (send *robot* :angle-vector) 2000)
   (send *ri* :wait-interpolation)
+  ;;
   (warn ";; finish initalizing~%")
   )
 
