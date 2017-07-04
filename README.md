@@ -38,6 +38,9 @@ wstool update rtm-ros-robotics/rtmros_choreonoid
 
 ## **Tips**
 
+### Move viewpoint in the simulation (Choreonoidシミュレータ内での視点の移動方法）
+Move cursor while pushing space key.
+
 ### Use middle button with thinkpad keyborad
 
 Write functions below on .bashrc
