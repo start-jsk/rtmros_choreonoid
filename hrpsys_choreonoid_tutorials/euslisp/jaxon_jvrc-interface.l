@@ -25,4 +25,7 @@
   (if (not (boundp '*ri*))
       (setq *ri* (instance* jaxon_jvrc-interface :init args)))
   (if (not (boundp '*jaxon_jvrc*))
-      (setq *jaxon_jvrc* (instance jaxon_jvrc-robot :init))))
+      (setq *jaxon_jvrc* (instance jaxon_jvrc-robot :init)))
+  (if (not (boundp '*robot*))
+      (setq *robot* *jaxon_jvrc*))
+  )
