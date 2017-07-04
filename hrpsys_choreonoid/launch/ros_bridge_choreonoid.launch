@@ -18,6 +18,7 @@
   <!--arg name="USE_IMAGESENSOR" default="false" /-->
   <arg name="USE_EMERGENCYSTOPPER"    default="true"  />
   <arg name="USE_REFERENCEFORCEUPDATER" default="true" />
+  <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" default="true" />
   <arg name="USE_HRPSYS_PROFILE"      default="true"  />
   <arg name="USE_VELOCITY_OUTPUT"     default="true"  />
 
@@ -39,6 +40,7 @@
     <!--arg name="USE_IMAGESENSOR"           value="$(arg USE_IMAGESENSOR)" /-->
     <arg name="USE_EMERGENCYSTOPPER"      value="$(arg USE_EMERGENCYSTOPPER)" />
     <arg name="USE_REFERENCEFORCEUPDATER" value="$(arg USE_REFERENCEFORCEUPDATER)" />
+    <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" value="$(arg USE_OBJECTCONTACTTURNAROUNDDETECTOR)" />
     <arg name="USE_HRPSYS_PROFILE"        value="$(arg USE_HRPSYS_PROFILE)" />
     <arg name="USE_VELOCITY_OUTPUT"       value="$(arg USE_VELOCITY_OUTPUT)" />
 
