@@ -716,7 +716,7 @@
   *net*
   )
 
-(defun start-state-net ()
+(defun start-statenet-demo ()
   (jaxon_jvrc-init)
   (build-statenet-jvrc)
   (warn "~%;;; start statenet ;;;~%")
