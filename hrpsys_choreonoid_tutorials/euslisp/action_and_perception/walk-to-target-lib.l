@@ -21,6 +21,7 @@
   )
 
 (defun setup-walk-to-target ()
+  (send *robot* :reset-manip-pose)
   (setq *target-point* nil)
   (defun target-callback (msg)
     (setq *target-point* msg))

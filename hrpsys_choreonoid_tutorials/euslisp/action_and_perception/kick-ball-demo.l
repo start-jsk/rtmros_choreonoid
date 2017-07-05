@@ -6,9 +6,9 @@
 (require :walk-to-target-lib "walk-to-target-lib.l")
 (require :jvec-statenet "jvrc-statenet.l")
 
-(build-statenet-jvrc)
 (initialize-robot-for-walk-to-target)
 (setup-kick-motion :initialize-robot-pose nil)
+(build-statenet-jvrc)
 (setup-walk-to-target)
 
 (defun standup-with-statenet ()
@@ -18,6 +18,8 @@
       (change-mode-for-getup-action)
       (send *net* :current-state cur)
       (send *net* :go-state "standing")
+      (send *ri* :angle-vector (send *robot* :reset-pose) 2000)
+      (send *ri* :wait-interpolation)
       )))
 
 (defun kick-ball-demo ()
