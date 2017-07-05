@@ -115,9 +115,10 @@
           (make-camera-from-ros-camera-info-aux
            (send *right-camera-info* :width)
            (send *right-camera-info* :height)
-           (let ((p (send *right-camera-info* :P)))
-             (setf (elt p 3) (* (/ (elt p 3) (elt p 0)) 1000.0))
-             p) ;; depend on roseus version
+           (send *right-camera-info* :P) ;; fixed roseus
+           ;;(let ((p (send *right-camera-info* :P)))
+           ;;(setf (elt p 3) (* (/ (elt p 3) (elt p 0)) 1000.0))
+           ;;p) ;; depend on roseus version
            nil))
 
     (send left-cam :assoc right-cam)
