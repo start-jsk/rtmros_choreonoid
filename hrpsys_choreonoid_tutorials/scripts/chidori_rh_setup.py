@@ -15,6 +15,7 @@ class CHIDORI_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             ['rmfo', "RemoveForceSensorLinkOffset"],
             ['es', "EmergencyStopper"],
             ['rfu', "ReferenceForceUpdater"],
+            ['octd', "ObjectContactTurnaroundDetector"],
             ['ic', "ImpedanceController"],
             ['abc', "AutoBalancer"],
             ['st', "Stabilizer"],
