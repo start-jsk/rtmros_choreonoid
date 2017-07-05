@@ -6,10 +6,10 @@
 (require :walk-to-target-lib "walk-to-target-lib.l")
 (require :jvec-statenet "jvrc-statenet.l")
 
+(build-statenet-jvrc)
 (initialize-robot-for-walk-to-target)
 (setup-kick-motion :initialize-robot-pose nil)
 (setup-walk-to-target)
-(build-statenet-jvrc)
 
 (defun standup-with-statenet ()
   (let ((cur (send *net* :find-nearest-state
@@ -20,7 +20,7 @@
       (send *net* :go-state "standing")
       )))
 
-(defun ball-kick-demo ()
+(defun kick-ball-demo ()
   (while t
     ;;(warn "~%;;; start walking to target ;;;~%~%")
     (let ((ret (walk-to-target :stop-threshold 600)))
@@ -28,7 +28,7 @@
       (case ret
         (:find-target
          (warn "~%;;; kick motion ;;;~%~%")
-         (change-to-single-leg-mode :rleg)
+         (change-to-single-leg-mode :lleg)
          (kick-motion :swing-speed 700)
          (change-to-double-leg-mode)
          (standup-with-statenet)
