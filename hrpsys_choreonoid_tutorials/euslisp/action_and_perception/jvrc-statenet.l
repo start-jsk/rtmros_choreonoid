@@ -729,3 +729,6 @@
         (send *net* :go-state "standing")
         )))
   )
+#|
+(send *net* :write-to-pdf "jvrc-statenet.pdf")
+|#
