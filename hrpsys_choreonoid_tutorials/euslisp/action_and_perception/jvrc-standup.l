@@ -1,5 +1,4 @@
 (require :jaxon_jvrc-interface "package://hrpsys_choreonoid_tutorials/euslisp/jaxon_jvrc-interface.l")
-(require :choreonoid-service-client "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
 (require :jvrc-action-utils "jvrc-action-utils.l")
 
 (defun check-falling-down ()
@@ -259,10 +258,11 @@
   )
 
 (defun face-up-to-face-down-action
-  (&key (real nil) (base-time 5000))
-  (setq base-time (/ base-time 2))
+  (&key (real nil) (base-time 2500))
+  ;; pose 0
   (send *robot* :init-pose)
   (when real
+    ;; move to initial pose
     (let ((diff
            (norm (v- (send *robot* :init-pose)
                      (send *ri* :state :potentio-vector)))))
@@ -271,28 +271,32 @@
       (send-pose :real real :base-time diff)
       ))
 
-  (send *robot* :rarm :collar-y :joint-angle 80)
+  ;; pose1
+  (send *robot* :rarm :collar-y   :joint-angle 80)
   (send *robot* :larm :shoulder-p :joint-angle -90)
-  (send *robot* :lleg :crotch-p :joint-angle -70)
-  (send *robot* :lleg :crotch-y :joint-angle -15)
-  (send-pose :real real :base-time base-time)
+  (send *robot* :lleg :crotch-p   :joint-angle -70)
+  (send *robot* :lleg :crotch-y   :joint-angle -15)
+  (send-pose :real real :base-time base-time) ;; send pose to real robot
 
-  (send *robot* :rleg :knee-p :joint-angle 90)
+  ;; pose 2
+  (send *robot* :rleg :knee-p   :joint-angle 90)
   (send *robot* :rleg :crotch-y :joint-angle -49)
-  (send *robot* :lleg :knee-p :joint-angle 90);; ??
-  (send-pose :real real :base-time base-time)
+  (send *robot* :lleg :knee-p   :joint-angle 90)
+  (send-pose :real real :base-time base-time) ;; send pose to real robot
 
+  ;; pose 3
   (send *robot* :rleg :crotch-y :joint-angle 49)
   (send-pose :real real :base-time base-time)
 
+  ;; pose 4
   (send *robot* :larm :shoulder-p :joint-angle -90)
-  (send *robot* :rarm :collar-y :joint-angle 0)
-  (send *robot* :lleg :knee-p :joint-angle 0) ;; ??
+  (send *robot* :rarm :collar-y   :joint-angle 0)
+  (send *robot* :lleg :knee-p     :joint-angle 0)
   (send *robot* :rarm :shoulder-p :joint-angle 45)
-  ;;(send *robot* :rarm :elbow-p :joint-angle 40)
-  (send-pose :real real :base-time base-time)
+  (send-pose :real real :base-time base-time)  ;; send pose to real robot
 
-  (send *robot* :init-pose)
+  ;; pose 5
+  (send *robot* :init-pose) ;; return to initial pose, the robot is expected to be face-down...
   (send-pose :real real :base-time base-time)
   )
 
