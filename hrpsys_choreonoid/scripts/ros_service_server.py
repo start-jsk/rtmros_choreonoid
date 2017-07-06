@@ -32,19 +32,19 @@ def addExternalForce(robotname = "JAXON_RED", linkname = "WAIST", pos = [0,0,1.0
 
     robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
     if robotItem == None:
-        return 'invalid robotname %s'%(robotname)
+        return '(:fail "invalid robotname %s")'%(robotname)
 
     if thisSimulatorItem == None:
         thisSimulatorItem = cnoid.BodyPlugin.SimulatorItem.findActiveSimulatorItemFor(robotItem)
         if thisSimulatorItem == None:
-            return 'invalid simulatorItem'
+            return '(:fail "invalid simulatorItem")'
 
     pushingLink = robotItem.body().link(linkname)
     if pushingLink:
         thisSimulatorItem.setExternalForce(robotItem, pushingLink, pos, force, tm)
-        return 'success'
+        return '(:success)'
 
-    return 'invalid link: %s'%(linkname)
+    return '(:fail "invalid link: %s")'%(linkname)
 
 def resetPosition(robotname = "JAXON_RED", pos = [0,0,1.0], rpy = [0,0,0], sleep = 0.2):
     #resetPosition("JAXON_RED", [0, 0, 1.0], [0, 0, 0])
@@ -52,12 +52,12 @@ def resetPosition(robotname = "JAXON_RED", pos = [0,0,1.0], rpy = [0,0,0], sleep
 
     robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
     if robotItem == None:
-        return 'invalid robotname %s'%(robotname)
+        return '(:fail "invalid robotname %s")'%(robotname)
 
     if thisSimulatorItem == None:
         thisSimulatorItem = cnoid.BodyPlugin.SimulatorItem.findActiveSimulatorItemFor(robotItem)
         if thisSimulatorItem == None:
-            return 'invalid simulatorItem'
+            return '(:fail "invalid simulatorItem")'
 
     mat = cnoid.Util.rotFromRpy(rpy)
 
@@ -70,7 +70,7 @@ def resetPosition(robotname = "JAXON_RED", pos = [0,0,1.0], rpy = [0,0,0], sleep
     time.sleep(sleep) ##
     thisSimulatorItem.clearForcedPositions()
 
-    return 'success'
+    return '(:success)'
 
 def addObject(objname, filename, translation = None, rotation = None):
     global thisSimulatorItem
@@ -80,7 +80,7 @@ def addObject(objname, filename, translation = None, rotation = None):
 
     world = rootItem.findItem("World")
     if world == None:
-        return 'world not found'
+        return '(:fail "world not found")'
 
     robotItem = cnoid.BodyPlugin.BodyItem()
     robotItem.load(filename)
@@ -88,7 +88,7 @@ def addObject(objname, filename, translation = None, rotation = None):
 
     robot = robotItem.body()
     if robot == None:
-        return 'file not found'
+        return '(:fail "file not found")'
 
     if translation:
         robot.rootLink().setTranslation(translation);
@@ -103,22 +103,37 @@ def addObject(objname, filename, translation = None, rotation = None):
     world.insertChildItem(robotItem, world.childItem())
     itemTreeView.checkItem(robotItem)
 
-    return 'success'
+    return '(:success)'
 
 def callSimulation(robotname = "JAXON_RED", call = 'pauseSimulation'):
     global thisSimulatorItem
 
     robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
     if robotItem == None:
-        return 'invalid robotname %s'%(robotname)
+        return '(:fail "invalid robotname %s")'%(robotname)
 
     if thisSimulatorItem == None:
         thisSimulatorItem = cnoid.BodyPlugin.SimulatorItem.findActiveSimulatorItemFor(robotItem)
         if thisSimulatorItem == None:
-            return 'invalid simulatorItem'
+            return '(:fail "invalid simulatorItem")'
 
     ret = eval('thisSimulatorItem.%s()'%(call))
 
-    return '(:return %s)'%(ret)
+    return '(:success "%s")'%(ret)
+
+def getCoordinate(robotname = 'JAXON_RED', linkname = 'WAIST'):
+    robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    if robotItem == None:
+        return '(:fail "invalid robotname %s")'%(robotname)
+
+    iLink = robotItem.body().link(linkname)
+    if iLink == None:
+        return '(:fail "invalid linkname %s")'%(linkname)
+
+    coords = iLink.position()
+    pos = coords[0:3, 3]
+    rot = coords[0:3, 0:3]
+
+    return '(:success (make-coords :pos #f(%f %f %f) :rot #2f((%f %f %f) (%f %f %f) (%f %f %f))))'%(pos[0]*1000,pos[1]*1000,pos[2]*1000,rot[0][0],rot[0][1],rot[0][2],rot[1][0],rot[1][1],rot[1][2],rot[2][0],rot[2][1],rot[2][2])
 
 ros_service_init()
