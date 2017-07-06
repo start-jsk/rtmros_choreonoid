@@ -36,7 +36,7 @@
   )
 
 (defun change-to-single-leg-mode (swing-leg
-                                  &key (leg-height 70) (base-time 500)
+                                  &key (leg-height 60) (base-time 500)
                                   (auto-balancer-transition 2.0))
   (if (= (length (send (send *ri* :get-auto-balancer-param) :leg_names)) 2)
       (progn
@@ -44,9 +44,14 @@
         (send *robot* :fix-leg-to-coords
               (send *ri* :get-foot-step-param :dst-foot-midcoords) ;; require :go-po 0 0 0 ???
               '(:rleg :lleg))
+        (send *robot* :angle-vector (send *ri* :state :reference-vector))
+        (send *robot* :fix-leg-to-coords (make-coords))
+        (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
+
         (send *ri* :angle-vector-sequence-full
               (list
-               (concatenate float-vector (send *robot* :angle-vector)
+               (concatenate float-vector
+                            (send *robot* :angle-vector)
                             (float-vector 0 0 0 0)) ;; this is for JAXON_JVRC
                )
               (list
@@ -152,7 +157,7 @@
     (warn ";; Current mode is double leg mode~%")
     ))
 
-(defun kick-motion (&key (swing-speed 700))
+(defun kick-motion (&key (swing-speed 700) (pre-crotch-p 15) (kick-crotch-p -65))
   (if (= (length (send (send *ri* :get-auto-balancer-param) :leg_names)) 1)
       (let ((swing-leg
              (case (read-from-string ;; check support leg of autobalancer
@@ -161,17 +166,17 @@
                (:lleg :rleg))))
 
         (let (avs)
-        ;; 後ろさげる
-          (send *robot* swing-leg :crotch-p :joint-angle 15)
+          ;; 後ろさげる
+          (send *robot* swing-leg :crotch-p :joint-angle pre-crotch-p)
           (push (send *robot* :angle-vector) avs)
           ;; 蹴り出す
-          (send *robot* swing-leg :crotch-p :joint-angle -60)
-          (send *robot* swing-leg :ankle-p :joint-angle 0)
+          (send *robot* swing-leg :crotch-p :joint-angle kick-crotch-p)
+          (send *robot* swing-leg :ankle-p :joint-angle 10)
           (push (send *robot* :angle-vector) avs)
 
           (send *ri* :angle-vector-sequence
                 (nreverse avs)
-                (make-list (length avs) :initial-element 700))
+                (make-list (length avs) :initial-element swing-speed))
           (send *ri* :wait-interpolation)
           )
         )
