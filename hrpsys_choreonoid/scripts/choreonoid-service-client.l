@@ -74,6 +74,21 @@
                                  :init :str reqstr))
     ))
 
+(defun get-coords-on-simulation (&key (robot "JAXON_RED") (link "WAIST"))
+  (let ((req
+         (instance roseus::StringStringRequest
+                   :init :str
+                   (format nil "getCoordinate('~A','~A')" robot link)))
+        ret)
+    (setq ret (ros::service-call "/choreonoid_service" req))
+    (when ret
+      (setq ret (send ret :str))
+      (when (> (length ret) 0)
+        (setq ret (read-from-string ret))
+        (when (eq :success (car ret))
+          (eval (cadr ret)))))
+    ))
+
 (defun reset-simulation (&rest args)
   (unless (boundp '*ri*)
     (warn "this function require *ri*~%")

@@ -24,6 +24,7 @@
 (defun jaxon_jvrc-init (&rest args)
   (if (not (boundp '*ri*))
       (setq *ri* (instance* jaxon_jvrc-interface :init args)))
+  (require :choreonoid-service-client "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
   (if (not (boundp '*jaxon_jvrc*))
       (setq *jaxon_jvrc* (instance jaxon_jvrc-robot :init)))
   (if (not (boundp '*robot*))

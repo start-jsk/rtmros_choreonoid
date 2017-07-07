@@ -1,5 +1,4 @@
 (require :jaxon_jvrc-interface "package://hrpsys_choreonoid_tutorials/euslisp/jaxon_jvrc-interface.l")
-(require :choreonoid-service-client "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
 
 (defun setup-kick-motion (&key (initialize-robot-pose t)
                                (initial-pose :reset-pose))
