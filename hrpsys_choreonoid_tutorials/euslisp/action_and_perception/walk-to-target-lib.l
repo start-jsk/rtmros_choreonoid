@@ -38,7 +38,7 @@
 (defun search-target ()
   (ros::rate 8)
 
-  (send *robot* :reset-pose)
+  (send *robot* :reset-manip-pose)
   (send *robot* :head :neck-p :joint-angle 20)
   (send *robot* :torso :wasit-y :joint-angle 25)
   (send *robot* :head  :neck-y  :joint-angle 30)
@@ -89,46 +89,82 @@
 
           (return-from search-target pos)
           ))
-      (when (> (send (ros::time- (ros::time-now) st) :to-sec) 14)
+      (when (> (send (ros::time- (ros::time-now) st) :to-sec) 13)
         ;;timeout
         (return-from search-target)
         )
       )
     ))
 
-(defun walk-to-target (&key (stop-threshold 700))
+(defun detect-target ()
+  (ros::spin-once)
+  (when (and
+         *target-point*
+         (send *tfl* :wait-for-transform
+               "BODY"
+               (send *target-point* :header :frame_id)
+               (send *target-point* :header :stamp) 2.0))
+    (let ((cds
+           (send *tfl* :lookup-transform
+                 "BODY"
+                 (send *target-point* :header :frame_id)
+                 (send *target-point* :header :stamp)
+                 ))
+          (pos (ros::tf-point->pos (send *target-point* :point)))
+          )
+      (setq *target-point* nil)
+      (setq *last-target* (ros::time-now))
+      (send cds :transform (send (send *robot* :body_lk) :worldcoords) :world)
+      ;; cds is camera-frame(world)
+      (setq pos (send cds :transform-vector pos))
+      ;; pos is point (world)
+      (pprint (list 'pos pos))
+      pos)
+    ))
+
+(defun walk-to-target (&key (stop-threshold 700) (finish-query-func))
   (warn ";; start walking to the target~%")
   (ros::rate 4)
   (while (ros::ok)
-    (ros::spin-once)
-    (when (and
-           *target-point*
-           (send *tfl* :wait-for-transform
-                 "BODY"
-                 (send *target-point* :header :frame_id)
-                 (send *target-point* :header :stamp) 2.0))
-      (let ((cds
-             (send *tfl* :lookup-transform
-                   "BODY"
-                   (send *target-point* :header :frame_id)
-                   (send *target-point* :header :stamp)
-                   ))
-            (pos (ros::tf-point->pos (send *target-point* :point)))
-            2d-pos
-            )
-        (setq *target-point* nil)
-        (setq *last-target* (ros::time-now))
-        (send cds :transform (send (send *robot* :body_lk) :worldcoords) :world)
-        ;; cds is camera-frame(world)
-        (setq pos (send cds :transform-vector pos))
-        ;; pos is point (world)
-        (pprint (list 'pos pos))
+    (let (pos 2d-pos)
+      (when (setq pos (detect-target))
         (setq 2d-pos (float-vector (elt pos 0) (elt pos 1) 0))
         ;;
         ;;(send *robot* :reset-manip-pose)
         ;;(send *robot* :fix-leg-to-coords (make-coords))
         ;;(send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
         (send *robot* :head :look-at pos)
+        (pprint (list
+                 (send *robot* :head :neck-p :joint-angle)
+                 (send *robot* :head :neck-y :joint-angle)))
+        (let (changed)
+          (cond
+           ((> (send *robot* :head :neck-p :joint-angle) 27)
+            (send *robot* :torso :waist-p :joint-angle 1 :relative t)
+            (setq changed t)
+            )
+           ((< (send *robot* :head :neck-p :joint-angle) 10)
+            (send *robot* :torso :waist-p :joint-angle -1 :relative t)
+            (setq changed t)
+            ))
+          (cond
+           ((> (abs (send *robot* :head :neck-y :joint-angle)) 18)
+            (send *robot* :torso :waist-y :joint-angle
+                  (/ (send *robot* :head :neck-y :joint-angle) 10)
+                  :relative t)
+            (setq changed t)
+            )
+           ((< (abs (send *robot* :head :neck-y :joint-angle)) 9)
+            (send *robot* :torso :waist-y :joint-angle
+                  (* (send *robot* :torso :waist-y :joint-angle) 0.8))
+            (setq changed t)
+            )
+           )
+          (when changed
+            (send *robot* :fix-leg-to-coords (make-coords))
+            (send *robot* :move-centroid-on-foot :both (list :rleg :lleg))
+            (send *robot* :head :look-at pos))
+          )
         ;;
         (let ((remain-step (send *ri* :get-remaining-foot-step-sequence)))
           (cond
@@ -137,7 +173,8 @@
               (send *ri* :angle-vector (send *robot* :angle-vector) 2000)
               (send *ri* :go-stop)
               (warn ";;; finish walk to target ;;;~%")
-              (return-from walk-to-target :find-target)
+
+              (return-from walk-to-target (list :find-target pos))
               ))
            (t
             (let* ((ref (send *ri* :reference-vector))
@@ -167,9 +204,14 @@
           (setq *last-target* nil)
           (warn ";;; lost target ;;;~%")
           (send *ri* :go-stop)
-          (return-from walk-to-target :lost-target)
+          (return-from walk-to-target (list :lost-target))
           ))
       )
+    (when finish-query-func
+      (when (funcall finish-query-func)
+        (send *ri* :go-stop)
+        (return-from walk-to-target (list :finish-query))
+        ))
     (ros::sleep)
     )
   )
