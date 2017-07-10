@@ -103,7 +103,7 @@
          (send *tfl* :wait-for-transform
                "BODY"
                (send *target-point* :header :frame_id)
-               (send *target-point* :header :stamp) 2.0))
+               (send *target-point* :header :stamp) 8.0))
     (let ((cds
            (send *tfl* :lookup-transform
                  "BODY"
@@ -224,6 +224,10 @@
                                          995)
                       :rpy (list (deg2rad (- (random th-range) (* 0.5 th-range)))
                                  0 0))))
+    ;; force stop stabilizer / no transition to air
+    (send *ri* :raw-set-st-param :contact-decision-threshold 1000 :transition-time 0.4)
+    (send *ri* :stop-st)
+    (send *ri* :raw-set-st-param :contact-decision-threshold 50 :transition-time 2.0)
     (reset-simulation :coords cds)
     cds
     ))
