@@ -462,6 +462,7 @@ DEF JAXON_JVRC Humanoid {
                               rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                               type "COLOR_DEPTH"
                               frontClipDistance 0.05
+                              backClipDistance  30.0
                               width 640
                               height 480
                               frameRate 15
@@ -474,6 +475,7 @@ DEF JAXON_JVRC Humanoid {
                               rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                               type "COLOR"
                               frontClipDistance 0.05
+                              backClipDistance  30.0
                               width 640
                               height 480
                               frameRate 15
