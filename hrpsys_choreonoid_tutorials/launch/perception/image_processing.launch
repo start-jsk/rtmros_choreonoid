@@ -44,7 +44,7 @@
     <!-- param name="use_camera_info" value="$(arg use_camera_info)" /-->
     <param name="debug_view" value="false" />
     <param name="use_camera_info" value="false" />
-    <param name="canny_low_threshold" value="70" />
+    <param name="canny_low_threshold" value="10" />
   </node>
 
   <node name="right_moments"
@@ -54,7 +54,7 @@
     <!-- param name="use_camera_info" value="$(arg use_camera_info)" /-->
     <param name="debug_view" value="false" />
     <param name="use_camera_info" value="false" />
-    <param name="canny_low_threshold" value="70" />
+    <param name="canny_low_threshold" value="10" />
   </node>
 
   <group if="$(arg gui)">

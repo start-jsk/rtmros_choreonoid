@@ -34,6 +34,10 @@
   (when (ros::has-param "~use_output_kalman")
     (setq *use-output-kalman* (ros::get-param "~use_output_kalman")))
 
+  (setq *area-threshold* 40)
+  (when (ros::has-param "~area_threshold")
+    (setq *area-threshold* (ros::get-param "~area_threshold")))
+
   (ros::advertise
    "~output"
    geometry_msgs::PointStamped)
@@ -139,7 +143,7 @@
                          (> (send mom :area) max-area))
                 (setq max-area (send mom :area))
                 (setq max-moment mom)))
-            (when (and max-moment (> max-area 100))
+            (when (and max-moment (> max-area *area-threshold*))
               (setq last-left-p (send max-moment :center))
               (send last-left-p :put :stamp (send *left-msg* :header :stamp)))
             (setq *left-msg* nil)
@@ -152,7 +156,7 @@
                          (> (send mom :area) max-area))
                 (setq max-area (send mom :area))
                 (setq max-moment mom)))
-            (when (and max-moment (> max-area 100))
+            (when (and max-moment (> max-area *area-threshold*))
               (setq last-right-p (send max-moment :center))
               (send last-right-p :put :stamp (send *right-msg* :header :stamp)))
             (setq *right-msg* nil)
