@@ -159,8 +159,20 @@
     (send *ri* :wait-interpolation)
     ))
 
+(defun make-random-ball-position (&key (x-range 5000.0) (y-range 10000.0))
+  (setq *random-state* (make-random-state))
+  (let ((cds
+         (make-coords :pos (float-vector (+ 1000 (random x-range))
+                                         (- (random y-range) (* 0.5 y-range))
+                                         200)
+                      )))
+    (reset-simulation :coords cds :robot "BALL")
+    cds
+    ))
+
 (warn "
 (make-random-first-position)
+(make-random-ball-position)
 (kick-ball-demo)
 (kick-ball-to-goal-demo)
 ")
