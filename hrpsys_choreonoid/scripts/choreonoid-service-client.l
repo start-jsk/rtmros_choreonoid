@@ -100,7 +100,12 @@
 
   ;; stop abc/st
   ;;(send *ri* :stop-auto-balancer) ;; stop-auto-balancer not required
-  (send *ri* :stop-st)
+  (send *ri* :raw-set-st-param :contact-decision-threshold 1000 :transition-time 0.4)
+  (while (/= 0 (send (send *ri* :get-st-param) :controller_mode))
+    ;;(print 'stop-st)
+    (send *ri* :stop-st)
+    )
+  (send *ri* :raw-set-st-param :contact-decision-threshold 50 :transition-time 2.0)
 
   ;; set position on choreonoid
   (apply #'reset-position args)
