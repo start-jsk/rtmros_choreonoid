@@ -11,8 +11,15 @@ $ make -j8
 $ sudo make install
 ~~~
 
+### download source files
+```
+wstool set --git rtm-ros-robotics/rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid.git
+wstool update rtm-ros-robotics/rtmros_choreonoid
+```
+
 ### compile BodyRTC etc.
 ~~~
+$ export CNOID_INSTALL_DIR=/usr/local/choreonoid
 $ export PKG_CONFIG_PATH=${CNOID_INSTALL_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH
 $ roscd hrpsys_choreonoid
 $ catkin build --this
@@ -23,11 +30,6 @@ $ catkin build --this
 export PATH=${CNOID_INSTALL_DIR}/bin:$PATH
 ~~~
 
-### download source files
-```
-wstool set --git rtm-ros-robotics/rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid.git
-wstool update rtm-ros-robotics/rtmros_choreonoid
-```
 ### run test
 
 - catkin build hrpsys_choreonoid_tutorials
