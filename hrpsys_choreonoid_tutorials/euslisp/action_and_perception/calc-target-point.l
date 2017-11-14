@@ -38,6 +38,10 @@
   (when (ros::has-param "~area_threshold")
     (setq *area-threshold* (ros::get-param "~area_threshold")))
 
+  (setq *loop-rate* 50)
+  (when (ros::has-param "~loop_rate")
+    (setq *loop-rate* (ros::get-param "~loop_rate")))
+
   (ros::advertise
    "~output"
    geometry_msgs::PointStamped)
@@ -127,6 +131,7 @@
 
     (send left-cam :assoc right-cam)
 
+    (ros::rate *loop-rate*)
     (while (ros::ok)
 
       ;; get object position in image coordinates
@@ -246,6 +251,7 @@
             ));; /cond
           );; /when calc-mean
         )
+      (ros::sleep)
       )
     ))
 
