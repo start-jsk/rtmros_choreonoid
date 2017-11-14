@@ -171,6 +171,7 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DRCBOX.cnoid.in ${PROJECT_
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid @ONLY)
 
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid @ONLY)
 

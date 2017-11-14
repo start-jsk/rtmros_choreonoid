@@ -3,6 +3,7 @@
   <arg name="USE_ROBOTHARDWARE" default="false" />
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/footsal.yaml" />
   <arg name="LOAD_OBJECTS" default="false" />
+  <arg name="NO_SCENE" default="false" />
 
   <arg name="KILL_SERVERS" default="false" />
   <arg name="NOSIM" default="false" />
@@ -18,6 +19,7 @@
     <arg name="USE_ROBOTHARDWARE" value="$(arg USE_ROBOTHARDWARE)" />
     <arg name="ENVIRONMENT_YAML"  value="$(arg ENVIRONMENT_YAML)" />
     <arg name="LOAD_OBJECTS"      value="$(arg LOAD_OBJECTS)" />
+    <arg name="NO_SCENE"          value="$(arg NO_SCENE)" />
     <arg name="KILL_SERVERS"      value="$(arg KILL_SERVERS)" />
     <arg name="NOSIM"             value="$(arg NOSIM)" />
     <arg name="REALTIME"          value="$(arg REALTIME)" />
