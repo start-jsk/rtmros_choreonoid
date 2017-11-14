@@ -40,7 +40,7 @@ RobotHardware_choreonoid::RobotHardware_choreonoid(RTC::Manager* manager)
 
 RTC::ReturnCode_t RobotHardware_choreonoid::onInitialize()
 {
-  //std::cerr << "[rh choreonoid]" << std::endl;
+  std::cerr << "[rh choreonoid initialize]" << std::endl;
   self_ptr = this;
   RTC::ReturnCode_t ret = RobotHardware::onInitialize();
   std::vector<double> vec;
@@ -53,13 +53,15 @@ RTC::ReturnCode_t RobotHardware_choreonoid::onInitialize()
     }
   }
   iob_set_torque_limit(vec);
-  //std::cerr << "[rh choreonoid] ret: " << ret << " / " << RTC::RTC_OK << std::endl;
+  std::cerr << "[rh choreonoid initialize iob_set_torque_limit]" << std::endl;
   return RTC::RTC_OK;
 }
 
 RTC::ReturnCode_t RobotHardware_choreonoid::onActivated(RTC::UniqueId ec_id)
 {
+  std::cerr << "[rh choreonoid activate]" << std::endl;
   iob_update();
+  std::cerr << "[rh choreonoid activate iob_update]" << std::endl;
   return RTC::RTC_OK;
 }
 
@@ -67,8 +69,9 @@ RTC::ReturnCode_t RobotHardware_choreonoid::onExecute(RTC::UniqueId ec_id)
 {
   //std::cerr << "[rh choreonoid exe]" << std::endl;
   iob_update();
+  //std::cerr << "[rh choreonoid exe / updated]" << std::endl;
   RTC::ReturnCode_t ret = RobotHardware::onExecute(ec_id);
-  //std::cerr << "[rh choreonoid] ret: " << ret << " / " << RTC::RTC_OK << std::endl;
+  //std::cerr << "[rh choreonoid exe] ret: " << ret << " / " << RTC::RTC_OK << std::endl;
   iob_finish();
   return ret;
 }
