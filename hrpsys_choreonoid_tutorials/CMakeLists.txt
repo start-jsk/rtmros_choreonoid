@@ -176,6 +176,13 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid.in ${PRO
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid @ONLY)
 
 ###
+#JAXON_BLUE conid
+###
+if (${jsk_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid @ONLY)
+endif()
+
+###
 #CHIDORI conid
 ###
 if (${jsk_models_FOUND})
