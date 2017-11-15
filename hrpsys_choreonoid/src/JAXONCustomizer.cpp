@@ -76,6 +76,7 @@ static const char** getTargetModelNames()
 {
   static const char* names[] = {
     "JAXON_JVRC",
+    "JAXON_BLUE",
     "CHIDORI",
     0 };
   return names;
