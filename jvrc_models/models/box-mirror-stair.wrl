@@ -1,0 +1,70 @@
+### created by print-box-stair
+###    step: 4, length: 320.0, height: 150.0, width: 1780.0, mirror: t, center-length: 0.0
+## 1 step
+Transform {
+    translation 1.28000 0 0.07500
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 0.1 0.1 0.1
+                    specularColor 0.8 0.8 0.8
+                }
+            }
+            geometry Box {
+                size 2.56000 1.78000 0.15000
+            }
+        } #Shape
+    ]
+}
+## 2 step
+Transform {
+    translation 1.28000 0 0.22500
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 0.1 0.1 0.1
+                    specularColor 0.8 0.8 0.8
+                }
+            }
+            geometry Box {
+                size 1.92000 1.78000 0.15000
+            }
+        } #Shape
+    ]
+}
+## 3 step
+Transform {
+    translation 1.28000 0 0.37500
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 0.1 0.1 0.1
+                    specularColor 0.8 0.8 0.8
+                }
+            }
+            geometry Box {
+                size 1.28000 1.78000 0.15000
+            }
+        } #Shape
+    ]
+}
+## 4 step
+Transform {
+    translation 1.28000 0 0.52500
+    children [
+        Shape {
+            appearance Appearance {
+                material Material {
+                    diffuseColor 0.1 0.1 0.1
+                    specularColor 0.8 0.8 0.8
+                }
+            }
+            geometry Box {
+                size 0.64000 1.78000 0.15000
+            }
+        } #Shape
+    ]
+}
