@@ -61,8 +61,6 @@ for arg in "${rtm_args[@]}";
   do echo $arg >> $rtc_conf;
 done
 
-echo "choreonoid will be executed by the command below" 1>&2
-echo "$ (cd /tmp; $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)" 1>&2
 echo "choreonoid will run with rtc.conf file of $rtc_conf" 1>&2
 echo "contents of $rtc_conf are listed below" 1>&2
 echo "<BEGIN: rtc.conf>" 1>&2
@@ -73,6 +71,14 @@ export RTCTREE_NAMESERVERS=localhost:15005
 export ORBgiopMaxMsgSize=2147483648
 export CNOID_CUSTOMIZER_PATH=$(rospack find hrpsys_choreonoid)
 
-(cd /tmp; $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)
-## for using gdb
-#(cd /tmp; gdb -ex run --args $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)
+if [ -z "$cnoid_proj" ]; then
+    echo "choreonoid will be executed by the command below" 1>&2
+    echo "$ (cd /tmp; $choreonoid_exe --python $(rospack find hrpsys_choreonoid)/scripts/create_environment.py)" 1>&2
+    (cd /tmp; $choreonoid_exe --python $(rospack find hrpsys_choreonoid)/scripts/create_environment.py)
+else
+    echo "choreonoid will be executed by the command below" 1>&2
+    echo "$ (cd /tmp; $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)" 1>&2
+    (cd /tmp; $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)
+    ## for using gdb
+    #(cd /tmp; gdb -ex run --args $choreonoid_exe $enable_const $add_objects $cnoid_proj $start_sim)
+fi

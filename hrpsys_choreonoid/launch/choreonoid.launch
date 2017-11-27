@@ -10,8 +10,8 @@
 -o manager.is_master:YES
 -o manager.modules.load_path:$(find hrpsys)/lib"
        />
-  <arg name="RESPAWN_SIMULATOR" default="false"/>
-  <arg name="START_SIMULATOR"   default="true" />
+  <arg name="RESPAWN_SIMULATOR" default="true"/> <!-- use RESPAWN_SIMULATOR as START_SIMULATOR -->
+  <!--arg name="START_SIMULATOR"   default="true" /-->
   <arg name="ENABLE_CONSTRAINT" default="false" />
   <arg name="OUTPUT" default="log"/>
   <arg name="nameserver" default="localhost" />
@@ -19,9 +19,9 @@
   <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
   <env name="LANG" value="$(env LANG)" />
   <env name="ORBgiopMaxMsgSize" value="2147483648" />
-  <arg if="$(arg START_SIMULATOR)"
+  <arg if="$(arg RESPAWN_SIMULATOR)"
        name="start_sim" value="--start-simulation" />
-  <arg unless="$(arg START_SIMULATOR)"
+  <arg unless="$(arg RESPAWN_SIMULATOR)"
        name="start_sim" value="" />
   <arg if="$(arg ENABLE_CONSTRAINT)"
        name="enable_const" value="--enable-constraint" />

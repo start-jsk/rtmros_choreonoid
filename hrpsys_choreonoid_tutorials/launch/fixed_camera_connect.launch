@@ -1,0 +1,51 @@
+<launch>
+  <arg name="SIMULATOR_NAME" default="FIXED_CAMERA(Robot)0" />
+  <arg name="OUTPUT" default="log"/>
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport" default="15005" />
+  <arg name="periodic_rate" default="200" />
+
+  <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:FIXED_%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
+
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+  <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
+
+  <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
+        type="rtmlaunch.py"
+        args="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch"
+        output="$(arg OUTPUT)"/>
+
+  <!--node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <rtconnect from="JAXON_RED(Robot)0.rtc:CHEST_CAMERA"
+               to="CameraImageViewer0.rtc:imageIn" />
+    <rtactivate component="CameraImageViewer0.rtc" />
+  </node-->
+
+  <node pkg="hrpsys_ros_bridge" name="CAMERA"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="fixed_camera">
+    <param name="frame_id" value="fixed_camera_optical_frame" />
+    <!--rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam-->
+    <!--rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam-->
+    <rtconnect from="FIXED_CAMERA(Robot)0.rtc:CAMERA_IMAGE"
+               to="FIXED_CAMERA.rtc:timedImage" />
+    <rtactivate component="FIXED_CAMERA.rtc" />
+    <remap from="image_raw" to="image_rect_color" />
+  </node>
+
+  <node pkg="hrpsys_ros_bridge" name="Points"
+        type="PointCloudROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="fixed_camera">
+    <param name="frame_id" value="fixed_camera_optical_frame" />
+    <param name="publish_depth" value="true" />
+    <param name="transformed_camera_frame" value="true" />
+    <remap from="points" to="image_points2_color" />
+    <rtconnect from="FIXED_CAMERA(Robot)0.rtc:CAMERA_DEPTH"
+               to="FIXED_PointCloudROSBridge0.rtc:points" />
+    <rtactivate component="FIXED_PointCloudROSBridge0.rtc" />
+  </node>
+
+</launch>
