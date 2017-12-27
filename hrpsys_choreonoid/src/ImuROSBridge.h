@@ -1,11 +1,11 @@
 // -*- C++ -*-
 /*!
- * @file  TransformROSBridge.h * @brief openhrp image - ros bridge * @date  $Date$ 
+ * @file  ImuROSBridge.h * @brief openhrp image - ros bridge * @date  $Date$ 
  *
  * $Id$ 
  */
-#ifndef TRANSFORMROSBRIDGE_H
-#define TRANSFORMROSBRIDGE_H
+#ifndef IMUROSBRIDGE_H
+#define IMUROSBRIDGE_H
 
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <rtm/idl/InterfaceDataTypes.hh>
@@ -33,11 +33,11 @@
 
 using namespace RTC;
 
-class TransformROSBridge  : public RTC::DataFlowComponentBase
+class ImuROSBridge  : public RTC::DataFlowComponentBase
 {
  public:
-  TransformROSBridge(RTC::Manager* manager);
-  ~TransformROSBridge();
+  ImuROSBridge(RTC::Manager* manager);
+  ~ImuROSBridge();
 
   // The initialize action (on CREATED->ALIVE transition)
   // formaer rtc_init_entry() 
@@ -97,9 +97,11 @@ class TransformROSBridge  : public RTC::DataFlowComponentBase
   // DataInPort declaration
   // <rtc-template block="inport_declare">
 
-  TimedDoubleSeq m_Tform;
-  InPort<TimedDoubleSeq> m_TformIn;
+  TimedAcceleration3D m_gsensor;
+  TimedAngularVelocity3D m_gyrometer;
 
+  InPort<TimedAcceleration3D> m_gsensor_in;
+  InPort<TimedAngularVelocity3D> m_gyrometer_in;
   // </rtc-template>
 
   // DataOutPort declaration
@@ -124,37 +126,20 @@ class TransformROSBridge  : public RTC::DataFlowComponentBase
 
  private:
   ros::NodeHandle nh;
-  ros::Publisher odom_pub;
-  ros::Publisher twist_pub;
   ros::Publisher imu_pub;
+  ros::Publisher clock_pub;
 
-  tf::Transform init_trans_;
-  tf::Transform prev_trans_;
   ros::Time prev_stamp_;
-  tf::Vector3 prev_linear_;
+  std::string frame_id_;
 
   double pub_cycle_;
-  bool is_initialized_;
-  bool initial_relative_;
-
-  tf::TransformBroadcaster br;
-  bool publish_tf_;
-  bool invert_tf_;
-  std::string tf_parent_frame_;
-  std::string tf_frame_;
-  bool publish_odom_;
-  bool publish_twist_;
-  bool publish_imu_;
-
-  void convertTformToTfTransform(tf::Transform& result_trans);
-  void calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt);
-  
+  bool publish_clock_;
 };
 
 
 extern "C"
 {
-  DLL_EXPORT void TransformROSBridgeInit(RTC::Manager* manager);
+  DLL_EXPORT void ImuROSBridgeInit(RTC::Manager* manager);
 };
 
-#endif // RANGESENSORROSBRIDGE_H
+#endif // IMUROSBRIDGE_H
