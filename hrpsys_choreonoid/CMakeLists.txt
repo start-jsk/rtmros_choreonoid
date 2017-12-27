@@ -22,6 +22,7 @@ catkin_package(
 if(${cnoid-plugin_FOUND})
   include_directories(${catkin_INCLUDE_DIRS} ${openrtm_aist_INCLUDE_DIRS} ${cnoid-plugin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${hrpsys_INCLUDE_DIRS})
   link_directories(${catkin_LIBRARY_DIRS} ${openrtm_aist_LIBRARY_DIRS} ${cnoid-plugin_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS} ${hrpsys_LIBRARY_DIRS})
+
   add_library(PDcontroller src/PDcontroller.cpp)
   target_link_libraries(PDcontroller ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
   set_target_properties(PDcontroller PROPERTIES COMPILE_FLAG "-fPIC" PREFIX "" SUFFIX ".so" LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
@@ -42,10 +43,10 @@ if(${cnoid-plugin_FOUND})
   link_directories(${catkin_LIBRARY_DIRS} ${openrtm_aist_LIBRARY_DIRS} ${cnoid-plugin_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS} ${hrpsys_LIBRARY_DIRS})
   add_executable(JointStateROSBridge src/JointStateROSBridge.cpp src/JointStateROSBridgeComp.cpp)
   target_link_libraries(JointStateROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
-
   add_executable(TransformROSBridge src/TransformROSBridge.cpp src/TransformROSBridgeComp.cpp)
   target_link_libraries(TransformROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
-  
+  add_executable(ImuROSBridge src/ImuROSBridge.cpp src/ImuROSBridgeComp.cpp)
+  target_link_libraries(ImuROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
 endif()
 
 ## Build only choreonoid iob
