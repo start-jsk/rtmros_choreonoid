@@ -125,11 +125,13 @@ class TransformROSBridge  : public RTC::DataFlowComponentBase
  private:
   ros::NodeHandle nh;
   ros::Publisher odom_pub;
+  ros::Publisher twist_pub;
+  ros::Publisher imu_pub;
 
-  bool publish_odom_;
   tf::Transform init_trans_;
   tf::Transform prev_trans_;
   ros::Time prev_stamp_;
+  tf::Vector3 prev_linear_;
 
   double pub_cycle_;
   bool is_initialized_;
@@ -140,6 +142,9 @@ class TransformROSBridge  : public RTC::DataFlowComponentBase
   bool invert_tf_;
   std::string tf_parent_frame_;
   std::string tf_frame_;
+  bool publish_odom_;
+  bool publish_twist_;
+  bool publish_imu_;
 
   void convertTformToTfTransform(tf::Transform& result_trans);
   void calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt);

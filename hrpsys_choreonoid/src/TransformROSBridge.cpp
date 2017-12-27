@@ -9,7 +9,8 @@
 #include <hrpUtil/Eigen3d.h>
 
 #include "nav_msgs/Odometry.h"
-#include "geometry_msgs/Twist.h"
+#include "sensor_msgs/Imu.h"
+#include "geometry_msgs/TwistWithCovarianceStamped.h"
 
 // Module specification
 // <rtc-template block="module_spec">
@@ -74,6 +75,8 @@ RTC::ReturnCode_t TransformROSBridge::onInitialize()
 
   // </rtc-template>
   odom_pub = nh.advertise<nav_msgs::Odometry>("odom", 10);
+  twist_pub = nh.advertise<geometry_msgs::TwistWithCovarianceStamped>("twist", 10);
+  imu_pub = nh.advertise<sensor_msgs::Imu>("imu", 10);
 
   if(ros::param::has("~rate")) {
     double rate;
@@ -87,6 +90,12 @@ RTC::ReturnCode_t TransformROSBridge::onInitialize()
   }
   if(ros::param::has("~publish_odom")) {
     ros::param::get("~publish_odom", publish_odom_);
+  }
+  if(ros::param::has("~publish_twist")) {
+    ros::param::get("~publish_twist", publish_twist_);
+  }
+  if(ros::param::has("~publish_imu")) {
+    ros::param::get("~publish_imu", publish_imu_);
   }
   if(ros::param::has("~publish_tf")) {
     ros::param::get("~publish_tf", publish_tf_);
@@ -190,7 +199,7 @@ RTC::ReturnCode_t TransformROSBridge::onExecute(RTC::UniqueId ec_id)
       }
     }
 
-    if (publish_odom_) {
+    if (publish_odom_ || publish_twist_ || publish_imu_) {
       // calculate velocity
       tf::Vector3 linear_twist, angular_twist;
       calculateTwist(current_trans, prev_trans_, linear_twist, angular_twist, dt);
@@ -198,22 +207,88 @@ RTC::ReturnCode_t TransformROSBridge::onExecute(RTC::UniqueId ec_id)
       tf::vector3TFToMsg(linear_twist, current_twist.linear);
       tf::vector3TFToMsg(angular_twist, current_twist.angular);
 
-      // register msg
-      nav_msgs::Odometry odom_msg;
-      odom_msg.header.stamp = current_stamp;
-      tf::Vector3 current_origin = current_trans.getOrigin();
-      odom_msg.pose.pose.position.x = current_origin[0];
-      odom_msg.pose.pose.position.y = current_origin[1];
-      odom_msg.pose.pose.position.z = current_origin[2];
-      tf::quaternionTFToMsg(current_trans.getRotation(), odom_msg.pose.pose.orientation);
-      odom_msg.twist.twist = current_twist;
-      odom_pub.publish(odom_msg);
+      if (publish_odom_) {
+        // register msg
+        nav_msgs::Odometry odom_msg;
+        odom_msg.header.stamp = current_stamp;
+        odom_msg.header.frame_id = tf_parent_frame_;
+        odom_msg.child_frame_id  = tf_frame_;
+
+        tf::Vector3 current_origin = current_trans.getOrigin();
+        odom_msg.pose.pose.position.x = current_origin[0];
+        odom_msg.pose.pose.position.y = current_origin[1];
+        odom_msg.pose.pose.position.z = current_origin[2];
+        //odom_msg.pose.covariance;
+        for(int i = 0; i < 36; i++) odom_msg.pose.covariance[ i] = 0;
+        for(int i = 0; i < 6; i++)  odom_msg.pose.covariance[i*7] = 0.1;
+        tf::quaternionTFToMsg(current_trans.getRotation(), odom_msg.pose.pose.orientation);
+        odom_msg.twist.twist = current_twist;
+        //odom_msg.twist.covariance;
+        for(int i = 0; i < 36; i++) odom_msg.twist.covariance[ i] = 0;
+        for(int i = 0; i < 6; i++)  odom_msg.twist.covariance[i*7] = 0.04;
+        odom_pub.publish(odom_msg);
+      }
+
+      if (publish_twist_) {
+        geometry_msgs::TwistWithCovarianceStamped msg;
+        msg.header.stamp = current_stamp;
+        msg.header.frame_id = tf_frame_;
+        msg.twist.twist = current_twist;
+        // set covariance
+        for(int i = 0; i < 36; i++) msg.twist.covariance[ i] = 0;
+        //for(int i = 0; i < 6; i++)  msg.twist.covariance[i*7] = 0.04; // sigma = 0.05
+        msg.twist.covariance[0] = 0.1;//0.1/0.01/0.001
+        msg.twist.covariance[7] = 0.1;//
+        msg.twist.covariance[14] = 0.0002;
+        msg.twist.covariance[21] = 0.001;
+        msg.twist.covariance[28] = 0.001;
+        msg.twist.covariance[35] = 0.001;
+        twist_pub.publish(msg);
+      }
+
+      if (publish_imu_) {
+        sensor_msgs::Imu imu;
+        imu.header.frame_id = tf_frame_;
+        imu.header.stamp = current_stamp;
+        imu.angular_velocity = current_twist.angular;
+
+        tf::quaternionTFToMsg(current_trans.getRotation(), imu.orientation);
+
+        tf::Vector3 w_acc = (current_trans.getBasis() * linear_twist - prev_trans_.getBasis() * prev_linear_)/dt;
+        tf::Vector3 gv(0, 0, 9.8066);
+        tf::Vector3 l_acc = current_trans.getBasis().transpose() * (w_acc + gv);
+        imu.linear_acceleration.x = l_acc[0];
+        imu.linear_acceleration.y = l_acc[1];
+        imu.linear_acceleration.z = l_acc[2];
+
+        for(int i = 0; i < 9; i++) {
+          imu.orientation_covariance[i] = 0;
+          imu.angular_velocity_covariance[i] = 0;
+          imu.linear_acceleration_covariance[i] = 0;
+        }
+        //imu.orientation_covariance[0]         = 2.89e-08;
+        imu.orientation_covariance[0]         = 7e-5; // sigma = 0.5 deg
+        imu.orientation_covariance[4]         = 7e-5;
+        imu.orientation_covariance[8]         = 7e-5;
+        //imu.angular_velocity_covariance[0]    = 0.000144;
+        imu.angular_velocity_covariance[0]    = 1e-4; // sigma = 0.01
+        imu.angular_velocity_covariance[4]    = 1e-4;
+        imu.angular_velocity_covariance[8]    = 1e-4;
+        //imu.linear_acceleration_covariance[0] = 0.0096;
+        imu.linear_acceleration_covariance[0] = 4e-4;
+        imu.linear_acceleration_covariance[4] = 4e-4;
+        imu.linear_acceleration_covariance[8] = 4e-4;
+        imu_pub.publish(imu);
+      }
+
+      prev_linear_ = linear_twist;
     }
     // preserve values for velocity calculation in next step
     prev_trans_ = current_trans;
     prev_stamp_ = current_stamp;
   }
 
+  //
   return RTC::RTC_OK;
 }
 
@@ -264,7 +339,8 @@ void TransformROSBridge::convertTformToTfTransform(tf::Transform& result_trans)
   return;
 }
 
-void TransformROSBridge::calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans, tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt)
+void TransformROSBridge::calculateTwist(const tf::Transform& _current_trans, const tf::Transform& _prev_trans,
+                                        tf::Vector3& _linear_twist, tf::Vector3& _angular_twist, double _dt)
 {
   // current rotation matrix
   tf::Matrix3x3 current_basis = _current_trans.getBasis();
