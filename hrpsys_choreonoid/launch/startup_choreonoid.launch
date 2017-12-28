@@ -20,6 +20,8 @@
   <arg name="hrpsys_precreate_rtc" default=""/>
   <arg name="hrpsys_opt_rtc_config_args" default="" />
 
+  <arg name="START_SIMULATION_AFTER_LAUNCH" default="true" />
+
   <param name="use_sim_time" value="true" />
   <include file="$(find hrpsys_tools)/launch/hrpsys.launch">
     <arg name="USE_CHOREONOID" value="true" />
@@ -44,5 +46,7 @@
     <arg name="HRPSYS_PY_PKG"  value="$(arg HRPSYS_PY_PKG)" />
     <arg name="HRPSYS_PY_NAME" value="$(arg HRPSYS_PY_NAME)" />
     <arg name="HRPSYS_PY_ARGS" value="--connect-constraint-force-logger-ports" if="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
+
+    <arg name="RESPAWN_SIMULATOR" value="$(arg START_SIMULATION_AFTER_LAUNCH)" />
   </include>
 </launch>
