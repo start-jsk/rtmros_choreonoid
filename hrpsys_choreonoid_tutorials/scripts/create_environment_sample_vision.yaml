@@ -2,24 +2,24 @@
 FIXED_CAMERA:
   name: 'FIXED_CAMERA'
   type: 'robot'
-  file: '../../jvrc_models/models/fixed_camera.wrl' ## relative path
+  file: '$(find jvrc_models)/models/fixed_camera.wrl'
   translation: [-2.0, 0, 1.0]
   rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
   body_rtc:
     name: 'FIXED_CAMERA(Robot)0'
-    config: '/path_to_pkg/hrpsys_choreonoid_tutorials/config/FIXED_CAMERA.conf' ## require absolute path
+    config: '$(find hrpsys_choreonoid_tutorials)/config/FIXED_CAMERA.conf'
     rate: 500
   vision:
     body: 'FIXED_CAMERA'
     namelist: 'FIXED_CAMERA'
 obj2:
   name: 'VIS_FLOOR'
-  file: '../../jvrc_models/models/visible_floor.wrl' ## relative path
+  file: '$(find jvrc_models)/models/visible_floor.wrl'
   translation: [0, 0, -0.1]
   rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 sci1:
   type: 'script'
-  file: 'scripts/ros_service_server.py' ## relative path
+  file: '$(find hrpsys_choreonoid)/scripts/ros_service_server.py'
 #start_simulation: True
 #robot:
 #  name: ''
