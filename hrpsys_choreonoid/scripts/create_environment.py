@@ -2,12 +2,17 @@ from cnoid.Base import *
 from cnoid.BodyPlugin import *
 from cnoid.OpenRTMPlugin import *
 from cnoid.PythonSimScriptPlugin import *
+import cnoid.Body
 
 import math
 import os
 import sys
 import yaml
 import time
+
+import re
+#import subprocess ## subprocess is recommended but choreonoid crashed when calling rospack find
+import commands
 
 try:
     objs_yaml = os.environ['CHOREONOID_SIMULATION_SETTING']
@@ -56,14 +61,37 @@ except:
     print >> sys.stderr, "can not read %s"%(objs_yaml)
     raise
 
-sci_path = os.path.abspath(os.path.dirname(__file__))
+___sci_path = os.path.abspath(os.path.dirname(__file__))
 
-def addFixedObjItem(world, obj_conf, filename, objname):
+def parse_filename(filestr):
+    re_find = re.compile(r'\$\(find ([^ ]+)\)')
+    ret = re_find.search(filestr)
+    if ret != None:
+        pkgname = ret.group(1)
+        packagepath = commands.getoutput('rospack find %s'%(pkgname))
+        #packagepath = subprocess.check_output(['rospack', 'find', pkgname])
+        filestr = filestr[:ret.start(0)] + packagepath + filestr[ret.end(0):]
+
+    if filestr[0] != '/' and filestr[0] != '$':
+        filestr = "%s/%s"%(___sci_path, filestr)
+
+    return filestr
+
+def addObjectItem(world, obj_conf, filename, objname):
     global itemTreeView
     robotItem = BodyItem()
     robotItem.load(filename)
     robotItem.setName(objname)
     robot = robotItem.body()
+
+    if 'static' in obj_info:
+        static = obj_info['static']
+        if static:
+            robot.rootLink().setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
+            robot.updateLinkTree()
+        else:
+            robot.rootLink().setJointType(cnoid.Body.Link.JointType.FREE_JOINT)
+            robot.updateLinkTree()
 
     if 'translation' in obj_conf:
         trans = obj_conf['translation']
@@ -81,6 +109,7 @@ def addFixedObjItem(world, obj_conf, filename, objname):
 
     world.insertChildItem(robotItem, world.childItem())
     itemTreeView.checkItem(robotItem)
+
 
 def addRobotItem(world, obj_conf, filename, objname):
     global itemTreeView
@@ -122,10 +151,10 @@ def addRobotItem(world, obj_conf, filename, objname):
     if body_rtc_conf:
         bodyRTC = BodyRTCItem()
         if 'module' in body_rtc_conf:
-            bodyRTC.setControllerModule(body_rtc_conf['module'])
+            bodyRTC.setControllerModule(parse_filename(body_rtc_conf['module']))
         if 'config' in body_rtc_conf:
             bodyRTC.setConfigMode(BodyRTCItem.ConfigMode.FILE)
-            bodyRTC.setConfigFile(body_rtc_conf['config'])
+            bodyRTC.setConfigFile(parse_filename(body_rtc_conf['config']))
             bodyRTC.setAutoConnectionMode(False)
         if 'rate' in body_rtc_conf:
             bodyRTC.setPeriodicRate(body_rtc_conf['rate'])
@@ -189,25 +218,22 @@ robotname = None
 for obj_name in dict_objs:
     obj_conf = dict_objs[obj_name]
     if isinstance(obj_conf, dict):
-        obj_type = 'fixed'
+        obj_type = 'object'
         filename = None
         objname = None
         if 'type' in obj_conf:
             obj_type = obj_conf['type']
 
         if 'file' in obj_conf:
-            filename = obj_conf['file']
-
-        if filename[0] != '/':
-            filename = "%s/%s"%(sci_path, filename)
+            filename = parse_filename(obj_conf['file'])
 
         if 'name' in obj_conf:
             objname = obj_conf['name']
         else:
             objname = obj_name
 
-        if obj_type == 'fixed':
-            addFixedObjItem(world, obj_conf, filename, objname)
+        if obj_type == 'object':
+            addObjectItem(world, obj_conf, filename, objname)
         elif obj_type == 'robot':
             addRobotItem(world, obj_conf, filename, objname)
             robotname = objname

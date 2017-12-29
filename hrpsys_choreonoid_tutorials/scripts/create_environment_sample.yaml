@@ -2,7 +2,7 @@
 JAXON_RED:
   name: 'JAXON_RED'
   type: 'robot'
-  file: '../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl'
+  file: '$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl'
   translation: [0, 0, 1.0]
   rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
   joint_angles: [
@@ -12,8 +12,8 @@ JAXON_RED:
     0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
   body_rtc:
     name: 'JAXON_RED(Robot)0'
-    module: '/path_to_pkg/hrpsys_choreonoid/PDcontroller'  ## require absolute path
-    config: '/path_to_pkg/hrpsys_choreonoid_tutorials/config/SensorReaderRTC_JAXON_RED.PD.conf'  ## require absolute path
+    module: '$(find hrpsys_choreonoid)/PDcontroller'
+    config: '$(find hrpsys_choreonoid_tutorials)/config/SensorReaderRTC_JAXON_RED.PD.conf'
     rate: 500
   vision:
     body: 'JAXON_RED'
@@ -21,24 +21,24 @@ JAXON_RED:
 FIXED_CAMERA:
   name: 'FIXED_CAMERA'
   type: 'robot'
-  file: '../../jvrc_models/models/fixed_camera.wrl'
+  file: '$(find jvrc_models)/models/fixed_camera.wrl'
   translation: [3.0, -1.2, 2.0]
   rotation: [[0.372026, -0.464443, 0.803672], [0.921061, 0.077365, -0.381656], [0.115081, 0.882217, 0.456562]]
   body_rtc:
     name: 'FIXED_CAMERA(Robot)0'
-    config: '/path_to_pkg/hrpsys_choreonoid_tutorials/config/FIXED_CAMERA.conf' ## require absolute path
+    config: '$(find hrpsys_choreonoid_tutorials)/config/FIXED_CAMERA.conf'
     rate: 500
   vision:
     body: 'FIXED_CAMERA'
     namelist: 'CAMERA'
 obj2:
   name: 'VIS_FLOOR'
-  file: '../../jvrc_models/models/visible_floor.wrl'
+  file: '$(find jvrc_models)/models/visible_floor.wrl'
   translation: [0, 0, -0.1]
   rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 sci1:
   type: 'script'
-  file: 'ros_service_server.py'
+  file: '$(find hrpsys_choreonoid)/scripts/ros_service_server.py'
 start_simulation: True
 #robot:
 #  name: ''
