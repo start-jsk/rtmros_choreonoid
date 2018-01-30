@@ -38,6 +38,8 @@ export PATH=${CNOID_INSTALL_DIR}/bin:$PATH
 
 - rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
 
+See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
+
 ---
 
 ## **Tips**
