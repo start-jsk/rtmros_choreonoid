@@ -1,3 +1,4 @@
+#include <stdlib.h>
 
 #include <cmath>
 #include <cstring>
@@ -78,14 +79,19 @@ struct JAXONCustomizer
 
 static const char** getTargetModelNames()
 {
+  char *rname = getenv("CHOREONOID_ROBOT");
+  if (rname != NULL) {
+    std::cerr << "CHOREONID_ROBOT =" << rname << std::endl;
+  }
   static const char* names[] = {
     "JAXON_JVRC",
     "JAXON_BLUE",
     "CHIDORI",
+    rname,
     0 };
+
   return names;
 }
-
 
 static void getVirtualbushJoints(JAXONCustomizer* customizer, BodyHandle body)
 {
