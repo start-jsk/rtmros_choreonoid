@@ -1,0 +1,18 @@
+dist: trusty
+sudo: required
+language:
+  - generic
+cache:
+  - apt
+services:
+  - docker
+
+env:
+  - DISTR=indigo  BASEIMG=osrf/ros:indigo-desktop-full
+  - DISTR=kinetic BASEIMG=osrf/ros:kinetic-desktop-full
+
+before_script:
+  - docker pull ${BASEIMG}
+
+script:
+  - docker build -f Dockerfile.${DISTR} --tag start-jsk/rtmros_choreonoid:${DISTR} .
