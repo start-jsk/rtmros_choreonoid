@@ -41,6 +41,21 @@ export PATH=${CNOID_INSTALL_DIR}/bin:$PATH
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
 ---
+## **Control simulator via roseus**
+
+### Get coordinates on simulation
+~~~
+(load "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
+(get-coords-on-simulation :robot "JAXON_RED" :link "WAIST")
+~~~
+
+### Apply external force to robot model using EusLisp
+
+Assume hrpsys_choreonoid_tutorials/jaxon_red_choreonoid.launch is running,
+~~~
+(load "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
+(add-external-force :pos #f(0 0 0) :force #f(0 100 0) :tm 0.1) ;;force is expressed in world frame
+~~~
 
 ## **Tips**
 
@@ -67,14 +82,6 @@ xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
 Type 'choreonoidinput' for changing role of buttons. Then middle button can work to translate views and right button can work to zoom views.
 
 For returning to default input, type 'defaultinput' in any terminals.
-
-### Apply external force to robot model using EusLisp
-
-Assume hrpsys_choreonoid_tutorials/jaxon_red_choreonoid.launch is running,
-~~~
-(load "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
-(add-external-force :pos #f(0 0 0) :force #f(0 100 0) :tm 0.1) ;;force is expressed in world frame
-~~~
 
 ---
 
