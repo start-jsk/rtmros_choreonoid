@@ -68,6 +68,14 @@ Type 'choreonoidinput' for changing role of buttons. Then middle button can work
 
 For returning to default input, type 'defaultinput' in any terminals.
 
+### Apply external force to robot model using EusLisp
+
+Assume hrpsys_choreonoid_tutorials/jaxon_red_choreonoid.launch is running,
+~~~
+(load "package://hrpsys_choreonoid/scripts/choreonoid-service-client.l")
+(add-external-force :pos #f(0 0 0) :force #f(0 100 0) :tm 0.1) ;;force is expressed in world frame
+~~~
+
 ---
 
 ## for JVRC (Old information), this may work with 'last_working_jvrc' tag
