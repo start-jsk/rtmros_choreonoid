@@ -1,9 +1,13 @@
 FROM osrf/ros:indigo-desktop-full
 
+SHELL ["/bin/bash", "-c"]
+
+ENV CNOID_BRANCH release-1.6
+
 ENV CNOID_INSTALL_DIR /usr/local/choreonoid
 ENV PATH ${CNOID_INSTALL_DIR}/bin:${PATH}
 ENV LD_LIBRARY_PATH ${CNOID_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}
-ENV PKG_CONFIG_PATH ${CNOID_INSTALL_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH
+ENV PKG_CONFIG_PATH ${CNOID_INSTALL_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
 ENV CNOID_RTM_DIR /opt/ros/${ROS_DISTRO}
 ENV WORKHOME /choreonoid
 
@@ -40,10 +44,11 @@ RUN apt-get install -q -qq -y ros-${ROS_DISTRO}-jsk-tilt-laser ros-${ROS_DISTRO}
 ## choreonoid
 
 WORKDIR ${WORKHOME}/src
-RUN git clone https://github.com/s-nakaoka/choreonoid.git && \
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
+    git clone --depth 1 -b ${CNOID_BRANCH} https://github.com/s-nakaoka/choreonoid.git && \
     mkdir -p choreonoid/build && \
     cd choreonoid/build && \
-    cmake .. -DCMAKE_INSTALL_PREFIX=${CNOID_INSTALL_DIR} -DOPENRTM_DIR=${CNOID_RTM_DIR} -DENABLE_INSTALL_RPATH=ON -DENABLE_CORBA=ON -DBUILD_CORBA_PLUGIN=ON -DBUILD_OPENRTM_PLUGIN=ON -DBUILD_HELLO_WORLD_SAMPLE=ON -DBUILD_SPRING_MODEL_SAMPLE=ON -DUSE_PYTHON3=OFF -DUSE_PYBIND11=OFF && \
+    cmake .. -DCMAKE_INSTALL_PREFIX=${CNOID_INSTALL_DIR} -DOPENRTM_DIR=${CNOID_RTM_DIR} -DENABLE_INSTALL_RPATH=ON -DENABLE_CORBA=ON -DBUILD_CORBA_PLUGIN=ON -DBUILD_OPENRTM_PLUGIN=ON -DBUILD_HELLO_WORLD_SAMPLE=ON -DBUILD_SPRING_MODEL_SAMPLE=ON -DUSE_PYTHON3=OFF -DUSE_PYBIND11=OFF -DUSE_BUILTIN_CAMERA_IMAGE_IDL=ON && \
     make -j4 && \
     make install
 
