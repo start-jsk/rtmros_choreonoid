@@ -1,0 +1,30 @@
+obj1:
+  name: 'GROUND'
+  file: '@jvrc_models_MODEL_DIR@/models/soccer_ground.wrl'
+  translation: [0, 0, -0.1]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj2:
+  name: 'GOAL'
+  file: '@jvrc_models_MODEL_DIR@/models/soccer_goal.wrl'
+  translation: [26.0, 0.0, 0.0]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj3:
+  name: 'BALL'
+  file: '@jvrc_models_MODEL_DIR@/models/yellow_ball.wrl'
+  translation: [2.0, 0.0, 0.12]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj4:
+  name: 'WALL_BACK'
+  file: '@jvrc_models_MODEL_DIR@/models/fix_wall.wrl'
+  translation: [27.5, 0.0, 0.6]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj5:
+  name: 'WALL_LSIDE'
+  file: '@jvrc_models_MODEL_DIR@/models/fix_wall.wrl'
+  translation: [0.0, 35.0, 0.6]
+  rotation: [[0, 1, 0], [-1, 0, 0], [0, 0, 1]]
+obj6:
+  name: 'WALL_RSIDE'
+  file: '@jvrc_models_MODEL_DIR@/models/fix_wall.wrl'
+  translation: [0.0, -35.0, 0.6]
+  rotation: [[0, -1, 0], [1, 0, 0], [0, 0, 1]]

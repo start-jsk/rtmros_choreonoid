@@ -1,0 +1,68 @@
+FROM osrf/ros:kinetic-desktop-full
+
+SHELL ["/bin/bash", "-c"]
+
+ENV CNOID_BRANCH master
+
+ENV CNOID_INSTALL_DIR /usr/local/choreonoid
+ENV PATH ${CNOID_INSTALL_DIR}/bin:${PATH}
+ENV LD_LIBRARY_PATH ${CNOID_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}
+ENV PKG_CONFIG_PATH ${CNOID_INSTALL_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
+ENV CNOID_RTM_DIR /opt/ros/${ROS_DISTRO}
+ENV WORKHOME /choreonoid
+
+### for choreonoid
+RUN apt-get update -q -qq && \
+    apt-get install -q -qq -y libyaml-dev mesa-utils python-pip \
+    ros-${ROS_DISTRO}-catkin python-wstools python-catkin-tools
+
+## ros pkg
+WORKDIR ${WORKHOME}/catkin_ws
+RUN wstool init src && \
+    wstool set -y -t src rtmros_tutorials https://github.com/start-jsk/rtmros_tutorials.git --git && \
+#    wstool set -y -t src rtmros_common https://github.com/start-jsk/rtmros_common --git && \
+#    wstool set -y -t src hrpsys https://github.com/fkanehiro/hrpsys-base.git --git && \
+#    wstool set -y -t src jsk_common https://github.com/jsk-ros-pkg/jsk_common.git --git && \
+    wstool set -y -t src pr2_navigation https://github.com/PR2/pr2_navigation.git --git && \
+    wstool update -t src && \
+    git clone https://github.com/jsk-ros-pkg/jsk_robot.git src/jsk_robot && \
+## why?
+    (cd src/jsk_robot; rm -rf README.md jsk_baxter_robot jsk_naoqi_robot jsk_robot doc jsk_fetch_robot jsk_pr2_robot) && \
+## remove hrpsys_gazebo, hironx, hrpsys, opnehrp3 tutorials because it cause to install ros-indigo-hrpsys
+    (cd src/rtmros_tutorials; rm -rf hrpsys_gazebo_tutorials hironx_tutorial hrpsys_tutorials openhrp3_tutorials)
+
+RUN mkdir -p src/rtmros_choreonoid
+COPY . src/rtmros_choreonoid/
+
+RUN rosdep install -y -r --from-paths src --ignore-src
+
+### should be solved ...,  hrpsys-base, jsk_common, pr2_navigation ###
+RUN apt-get install -q -qq -y ros-${ROS_DISTRO}-jsk-tilt-laser ros-${ROS_DISTRO}-jsk-recognition && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/
+
+## choreonoid
+
+WORKDIR ${WORKHOME}/src
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
+    git clone --depth 1 -b ${CNOID_BRANCH} https://github.com/s-nakaoka/choreonoid.git && \
+    mkdir -p choreonoid/build && \
+    cd choreonoid/build && \
+    cmake .. -DCMAKE_INSTALL_PREFIX=${CNOID_INSTALL_DIR} -DOPENRTM_DIR=${CNOID_RTM_DIR} -DENABLE_INSTALL_RPATH=ON -DENABLE_CORBA=ON -DBUILD_CORBA_PLUGIN=ON -DBUILD_OPENRTM_PLUGIN=ON -DBUILD_HELLO_WORLD_SAMPLE=ON -DBUILD_SPRING_MODEL_SAMPLE=ON -DUSE_PYTHON3=OFF -DUSE_PYBIND11=OFF -DUSE_BUILTIN_CAMERA_IMAGE_IDL=ON && \
+    make -j4 && \
+    make install
+
+## build hrpsys parallel ??
+#RUN cd /home/choreonoid/catkin_ws && \
+#    /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build hrpsys --no-status --no-notify"
+
+## build ros packages
+WORKDIR ${WORKHOME}/catkin_ws
+RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build hrpsys_choreonoid_tutorials jsk_robot_startup pr2_navigation_self_filter --no-status --no-notify -j 1 -p 1"
+
+##
+RUN /bin/bash -c "source ${WORKHOME}/catkin_ws/devel/setup.bash && rosrun roseus generate-all-msg-srv.sh geometry_msgs sensor_msgs hrpsys_ros_bridge opencv_apps"
+
+## ADD ./my_entrypoint.sh /
+## ENTRYPOINT ["/my_entrypoint.sh"]
+## CMD ["bash"]

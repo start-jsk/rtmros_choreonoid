@@ -107,6 +107,15 @@ items:
             contactCorrectionVelocityRatio: 1
             kinematicWalking: false
             2Dmode: false
+    -
+      id: 6
+      name: "ros_service_server.py"
+      plugin: Python
+      class: PythonScriptItem
+      data:
+        file: "@JVRC_RTC_DIRECTORY@/scripts/ros_service_server.py"
+        executionOnLoading: true
+        backgroundExecution: false
 views: 
   - 
     id: 0
@@ -119,9 +128,9 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 1 ]
-      checked: [ 1, 2, 3, 4, 5 ]
-      expanded: [ 1, 2 ]
+      selected: [ 6 ]
+      checked: [ 1, 2, 3, 4, 5, 6 ]
+      expanded: [ 1, 2, 3]
   - 
     id: 2
     plugin: Base
@@ -303,6 +312,7 @@ layoutOfToolBars:
   rows: 
     - 
       - { name: "FileBar", x: 0, priority: 0 }
+      - { name: "ScriptBar", x: 47, priority: 3 }
       - { name: "TimeBar", x: 47, priority: 1 }
       - { name: "SceneBar", x: 1455, priority: 2 }
       - { name: "SimulationBar", x: 1464, priority: 0 }

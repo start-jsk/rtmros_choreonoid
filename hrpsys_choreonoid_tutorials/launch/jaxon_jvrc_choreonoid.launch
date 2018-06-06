@@ -1,0 +1,60 @@
+<launch>
+  <arg name="TASK" default="TUTORIALS" />
+  <arg name="USE_ROBOTHARDWARE" default="false" />
+  <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/footsal.yaml" />
+  <arg name="LOAD_OBJECTS" default="false" />
+  <arg name="NO_SCENE" default="false" />
+
+  <arg name="KILL_SERVERS" default="false" />
+  <arg name="NOSIM" default="false" />
+  <arg name="REALTIME" default="true" />
+  <arg name="RUN_RVIZ" default="true" />
+  <arg name="GUI" default="true" />
+  <arg name="hrpsys_precreate_rtc" default=""/>
+
+  <arg name="USE_VISION" default="true" />
+
+  <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_choreonoid.launch" >
+    <arg name="TASK"              value="$(arg TASK)" />
+    <arg name="USE_ROBOTHARDWARE" value="$(arg USE_ROBOTHARDWARE)" />
+    <arg name="ENVIRONMENT_YAML"  value="$(arg ENVIRONMENT_YAML)" />
+    <arg name="LOAD_OBJECTS"      value="$(arg LOAD_OBJECTS)" />
+    <arg name="NO_SCENE"          value="$(arg NO_SCENE)" />
+    <arg name="KILL_SERVERS"      value="$(arg KILL_SERVERS)" />
+    <arg name="NOSIM"             value="$(arg NOSIM)" />
+    <arg name="REALTIME"          value="$(arg REALTIME)" />
+    <arg name="RUN_RVIZ"          value="$(arg RUN_RVIZ)" />
+    <arg name="GUI"               value="$(arg GUI)" />
+    <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)"/>
+    <!--arg name="PROJECT_FILE"      value="$(arg PROJECT_FILE)" />
+    <arg name="SIMULATOR_NAME"    value="$(arg SIMULATOR_NAME)" /-->
+    <arg name="LAUNCH_FOOTCOORDS" value="false" />
+  </include>
+
+  <!-- for vision args-->
+  <arg name="ROBOT_NAME" default="JAXON_RED" />
+  <arg name="USE_RESIZE"             default="false" />
+  <arg name="USE_BIPED_LOCALIZATION" default="false" />
+  <arg name="USE_HEIGHTMAP"          default="false" />
+  <group if="$(arg USE_VISION)" >
+    <include file="$(find jsk_robot_startup)/launch/multisense_local.launch">
+      <arg name="ip_address" value="multisense" />
+      <arg name="mtu" value="7200" />
+      <arg name="SELF_FILTER_PARAM"
+           value="$(find hrpsys_choreonoid_tutorials)/config/jaxon_self_filter.yaml" />
+      <arg name="ODOMETRY_PARAM"
+           value="$(find jsk_robot_startup)/config/$(arg ROBOT_NAME)_odometry_params.yaml" />
+      <arg name="RUN_DRIVER" value="false" />
+      <arg name="HEIGHTMAP_FILTER_Z" value="1.5" />
+
+      <arg name="USE_RESIZE"
+           value="$(arg USE_RESIZE)" />
+
+      <arg name="USE_BIPED_LOCALIZATION"
+           value="$(arg USE_BIPED_LOCALIZATION)" />
+
+      <arg name="USE_HEIGHTMAP"
+           value="$(arg USE_HEIGHTMAP)" />
+    </include>
+  </group>
+</launch>

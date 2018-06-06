@@ -23,8 +23,8 @@ items:
             currentBaseLink: "WAIST"
             rootPosition: [ 0.0, 0.0, 1.0185 ]
             rootAttitude: [ 
-              0, -1, 0, 
               1, 0, 0, 
+              0, 1, 0, 
               0, 0, 1 ]
             jointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
@@ -33,8 +33,8 @@ items:
                0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             initialRootPosition: [ 0.0, 0.0, 1.0185 ]
             initialRootAttitude: [ 
-              0, -1, 0, 
               1, 0, 0, 
+              0, 1, 0, 
               0, 0, 1 ]
             initialJointPositions: [ 
                0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
@@ -157,6 +157,15 @@ items:
         file: "@JVRC_RTC_DIRECTORY@/launch/add_objects.py"
         executionOnLoading: true
         backgroundExecution: false
+    -
+      id: 9
+      name: "ros_service_server.py"
+      plugin: Python
+      class: PythonScriptItem
+      data:
+        file: "@JVRC_RTC_DIRECTORY@/scripts/ros_service_server.py"
+        executionOnLoading: true
+        backgroundExecution: false
 
 views: 
   - 
@@ -176,8 +185,8 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 1 ]
-      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, ]
+      selected: [ 9 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ]
       expanded: [ 1 ]
   - 
     id: 3
@@ -412,6 +421,7 @@ layoutOfToolBars:
   rows: 
     - 
       - { name: "FileBar", x: 0, priority: 0 }
+      - { name: "ScriptBar", x: 47, priority: 3 }
       - { name: "TimeBar", x: 47, priority: 1 }
       - { name: "SceneBar", x: 1455, priority: 2 }
       - { name: "SimulationBar", x: 1464, priority: 0 }

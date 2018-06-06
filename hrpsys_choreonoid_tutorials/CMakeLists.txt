@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_choreonoid_tutorials)
 
 find_package(catkin REQUIRED COMPONENTS hrpsys_ros_bridge euscollada rostest rospy
-  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jsk_models jvrc_models hrpsys_choreonoid)
+  euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid)
 
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)
@@ -19,7 +19,14 @@ catkin_package(
 )
 
 ##
-set (JSK_MODELS_DIR ${jsk_models_SOURCE_PREFIX})
+find_package(jsk_models QUIET)
+if(NOT "${jsk_models_FOUND}")
+  string(ASCII 27 Esc)
+  message(WARNING "${Esc}[1;33mPackage jsk_models is not found, if you have right to access them please include source code in catkin workspace${Esc}[m")
+else()
+  set (JSK_MODELS_DIR ${jsk_models_SOURCE_PREFIX})
+endif()
+
 ################################
 ## compile_openhrp_model
 ##  Generate OpenHRP3 .xml and .conf file.
@@ -164,13 +171,27 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DRCBOX.cnoid.in ${PROJECT_
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_DOOR.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid @ONLY)
+
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid @ONLY)
+
+###
+#JAXON_BLUE conid
+###
+if (${jsk_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid @ONLY)
+endif()
 
 ###
 #CHIDORI conid
 ###
+if (${jsk_models_FOUND})
 configure_file(${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid @ONLY)
+endif()
 
 ###
 # scene.yaml
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/flat.yaml.in ${PROJECT_SOURCE_DIR}/config/flat.yaml @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/soccer.yaml.in ${PROJECT_SOURCE_DIR}/config/soccer.yaml @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/footsal.yaml.in ${PROJECT_SOURCE_DIR}/config/footsal.yaml @ONLY)

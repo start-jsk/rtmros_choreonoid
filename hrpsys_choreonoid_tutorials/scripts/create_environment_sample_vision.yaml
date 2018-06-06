@@ -1,0 +1,42 @@
+### sample yaml
+FIXED_CAMERA:
+  name: 'FIXED_CAMERA'
+  type: 'robot'
+  file: '$(find jvrc_models)/models/fixed_camera.wrl'
+  translation: [-2.0, 0, 1.0]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+  body_rtc:
+    name: 'FIXED_CAMERA(Robot)0'
+    config: '$(find hrpsys_choreonoid_tutorials)/config/FIXED_CAMERA.conf'
+    rate: 500
+  vision:
+    body: 'FIXED_CAMERA'
+    namelist: 'FIXED_CAMERA'
+obj2:
+  name: 'VIS_FLOOR'
+  file: '$(find jvrc_models)/models/visible_floor.wrl'
+  translation: [0, 0, -0.1]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+sci1:
+  type: 'script'
+  file: '$(find hrpsys_choreonoid)/scripts/ros_service_server.py'
+#start_simulation: True
+#robot:
+#  name: ''
+#  type: 'robot'
+#  file: ''
+#  translation: []
+#  rotation: [[], [], []]
+#  joint_angles: []
+#  body_rtc:
+#    name:
+#    module:
+#    config:
+#    rate:
+#  vision:
+#    body:
+#    namelist:
+#sci:
+#  name: ''
+#  type: 'script'
+#  file: ''

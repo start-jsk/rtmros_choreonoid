@@ -1,0 +1,91 @@
+<launch>
+  <arg name="USE_ROBOTHARDWARE" default="false" /> <!-- may be changed by yaml -->
+  <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/create_enviroment_sample.yaml" />
+  <!-- arg name="NO_SCENE" default="false" /-->
+
+  <arg name="KILL_SERVERS" default="false" />
+  <arg name="NOSIM" default="false" />
+  <arg name="REALTIME" default="true" />
+  <arg name="RUN_RVIZ" default="true" />
+  <arg name="USE_VISION" default="true" />
+  <arg name="GUI" default="true" />
+  <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="LAUNCH_FOOTCOORDS" default="true" />
+
+  <!-- robot dependant settings -->
+  <env name="CHOREONOID_SIMULATION_SETTING" value="$(arg ENVIRONMENT_YAML)" />
+
+  <arg name="SIMULATOR_NAME" default="JAXON_RED(Robot)0" /> <!-- name used here -->
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="BRIDGE_SIMULATOR_NAME" default="RobotHardware_choreonoid0" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="BRIDGE_SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
+
+  <!-- model for hrpsys/ROS-->
+  <arg name="MODEL_FILE"     value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"/>  <!-- file -->
+  <arg name="COLLADA_FILE"   value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_SENSORS.urdf"/> <!-- file -->
+  <arg name="CONF_FILE"      value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC.conf"/> <!-- file -->
+  <!-- config py -->
+  <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="HRPSYS_PY_NAME" value="jaxon_red_rh_setup.py" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="HRPSYS_PY_NAME" value="jaxon_red_setup.py" />
+  <!-- controller config -->
+  <arg name="CONTROLLER_CONFIG"
+       value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
+  <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
+
+  <!-- hrpsys -->
+  <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <!-- robot dependant settings -->
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="PROJECT_FILE"   value="dummy_argument" />
+    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+    <arg name="CONF_FILE"      value="$(arg CONF_FILE)"/>
+    <arg name="HRPSYS_PY_PKG"  value="$(arg HRPSYS_PY_PKG)"/>
+    <arg name="HRPSYS_PY_NAME" value="$(arg HRPSYS_PY_NAME)"/>
+    <!-- -->
+    <arg name="KILL_SERVERS" value="$(arg KILL_SERVERS)" />
+    <arg name="NOSIM" value="$(arg NOSIM)" />
+    <arg name="REALTIME" value="$(arg REALTIME)" />
+    <arg name="GUI" value="$(arg GUI)" />
+    <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)" />
+    <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
+  </include>
+
+  <!-- ros_bridge -->
+  <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
+  <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+    <!-- robot dependant settings -->
+    <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
+    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+    <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
+    <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
+  </include>
+
+  <!--                     -->
+  <!-- additional settings -->
+  <!--                     -->
+  <!-- additional ros_bridge -->
+  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch"
+           if="$(arg LAUNCH_FOOTCOORDS)" />
+  <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server"
+        if="$(arg LAUNCH_FOOTCOORDS)" />
+
+  <!-- vision setting -->
+  <ggroup if="$(arg USE_VISION)">
+    <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
+      <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    </include>
+  </ggroup>
+  <include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" />
+  <!--
+  <arg name="launch_multisense_local" default="false" />
+  <arg name="launch_multisense_remote" default="false" />
+  <include if="$(arg launch_multisense_local)"
+           file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch" />
+  <include if="$(arg launch_multisense_remote)"
+           file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_multisense.launch" />
+  -->
+</launch>

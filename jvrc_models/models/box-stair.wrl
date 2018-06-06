@@ -1,0 +1,109 @@
+#VRML V2.0 utf8
+Transform {
+translation 0.32000 0 0.07500
+scale 1.0 1.0 1.0
+children [
+Shape {
+appearance Appearance {
+material Material {
+diffuseColor 0.1 0.1 0.1
+specularColor 0.8 0.8 0.8
+}
+}
+geometry Box {
+size 0.32000 0.78000 0.15000
+}
+} #Shape
+]
+}
+
+Transform {
+translation 0.64000 0 0.07500
+scale 1.0 1.0 1.0
+children [
+Shape {
+appearance Appearance {
+material Material {
+diffuseColor 0.1 0.1 0.1
+specularColor 0.8 0.8 0.8
+}
+}
+geometry Box {
+size 0.32000 0.78000 0.15000
+}
+} #Shape
+]
+}
+
+Transform {
+translation 0.64000 0 0.22500
+scale 1.0 1.0 1.0
+children [
+Shape {
+appearance Appearance {
+material Material {
+diffuseColor 0.1 0.1 0.1
+specularColor 0.8 0.8 0.8
+}
+}
+geometry Box {
+size 0.32000 0.78000 0.15000
+}
+} #Shape
+]
+}
+
+Transform {
+translation 0.96000 0 0.07500
+scale 1.0 1.0 1.0
+children [
+Shape {
+appearance Appearance {
+material Material {
+diffuseColor 0.1 0.1 0.1
+specularColor 0.8 0.8 0.8
+}
+}
+geometry Box {
+size 0.32000 0.78000 0.15000
+}
+} #Shape
+]
+}
+
+Transform {
+translation 0.96000 0 0.22500
+scale 1.0 1.0 1.0
+children [
+Shape {
+appearance Appearance {
+material Material {
+diffuseColor 0.1 0.1 0.1
+specularColor 0.8 0.8 0.8
+}
+}
+geometry Box {
+size 0.32000 0.78000 0.15000
+}
+} #Shape
+]
+}
+
+Transform {
+translation 0.96000 0 0.37500
+scale 1.0 1.0 1.0
+children [
+Shape {
+appearance Appearance {
+material Material {
+diffuseColor 0.1 0.1 0.1
+specularColor 0.8 0.8 0.8
+}
+}
+geometry Box {
+size 0.32000 0.78000 0.15000
+}
+} #Shape
+]
+}
+

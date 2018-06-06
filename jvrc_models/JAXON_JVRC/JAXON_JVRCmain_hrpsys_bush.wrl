@@ -359,20 +359,21 @@ DEF JAXON_JVRC Humanoid {
                           visual [ Inline { url "CHEST_LINK2.wrl" } ] # visual
                           collision [ Inline { url "collision_directory/CHEST_LINK2.wrl" } ] # collision
                         } # surface
-                        Transform {
-                          translation 0.10 0.0 0.06
-                          children [
-                            DEF JVRC-Robot-Marker Shape {
-                              geometry Sphere { radius 0.025 }
-                              appearance Appearance {
-                                material Material {
-                                  diffuseColor 1.0 0.0 0.0
-                                  emissiveColor 1.0 0.0 0.0
-                                }
-                              }
-                            }
-                          ]
-                        }
+                        ### comment out ## this is jvrc's regulation
+                        # Transform {
+                        #   translation 0.10 0.0 0.06
+                        #   children [
+                        #     DEF JVRC-Robot-Marker Shape {
+                        #       geometry Sphere { radius 0.025 }
+                        #       appearance Appearance {
+                        #         material Material {
+                        #           diffuseColor 1.0 0.0 0.0
+                        #           emissiveColor 1.0 0.0 0.0
+                        #         }
+                        #       }
+                        #     }
+                        #   ]
+                        # }
                       ]
                     } #Segment CHEST_LINK2
                     DEF CHEST_CAMERA VisionSensor {
@@ -461,6 +462,7 @@ DEF JAXON_JVRC Humanoid {
                               rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                               type "COLOR_DEPTH"
                               frontClipDistance 0.05
+                              backClipDistance  30.0
                               width 640
                               height 480
                               frameRate 15
@@ -473,6 +475,7 @@ DEF JAXON_JVRC Humanoid {
                               rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
                               type "COLOR"
                               frontClipDistance 0.05
+                              backClipDistance  30.0
                               width 640
                               height 480
                               frameRate 15

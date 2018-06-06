@@ -119,16 +119,16 @@ angle-vector:
 #  - {name: 'head_hokuyo_frame', parent_link: 'HEAD_RANGE'}
 #  - {name: "multisense/left_camera_optiocal_frame", parent_link: 'HEAD_LEFT_CAMERA'}
 sensors:
-  # - sensor_name: left_camera_optical_frame
-  #   parent_link: HEAD_LEFT_CAMERA
-  #   translate: '0 0 0'
-  #   rotate: '0 0 0 0'
-  #   sensor_type: 'camera'
-  # - sensor_name: head_hokuyo_frame
-  #   parent_link: HEAD_RANGE
-  #   translate: '0 0 0'
-  #   rotate: '0 0 0 0'
-  #   sensor_type: 'camera'
+# - sensor_name: left_camera_optical_frame
+#   parent_link: HEAD_LEFT_CAMERA
+#   translate: '0 0 0'
+#   rotate: '0 0 0 0'
+#   sensor_type: 'camera'
+# - sensor_name: head_hokuyo_frame
+#   parent_link: HEAD_RANGE
+#   translate: '0 0 0'
+#   rotate: '0 0 0 0'
+#   sensor_type: 'camera'
   - sensor_name: head_root
     parent_link: HEAD_LINK1
     translate: '0 0 0'

@@ -1,0 +1,22 @@
+<launch>
+  <arg name="gui" default="false" />
+
+  <include file="$(find hrpsys_choreonoid_tutorials)/launch/perception/image_processing.launch" >
+    <arg name="gui" value="$(arg gui)" />
+  </include>
+
+  <node type="calc-target-point.l"
+        pkg="hrpsys_choreonoid_tutorials" name="calc_target_point"
+        output="screen" >
+    <!-- -->
+    <param name="time_out" value="1.0" />
+    <param name="use_input_kalman" value="true" />
+    <param name="use_output_kalman" value="true" />
+    <!-- -->
+    <remap from="left_camera_info"  to="/multisense_local/left/camera_info" />
+    <remap from="right_camera_info" to="/multisense_local/right/camera_info" />
+    <!-- -->
+    <remap from="left_moments"  to="/left_moments/moments" />
+    <remap from="right_moments" to="/right_moments/moments" />
+  </node>
+</launch>

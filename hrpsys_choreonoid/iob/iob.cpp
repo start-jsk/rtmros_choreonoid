@@ -162,7 +162,7 @@ int number_of_attitude_sensors()
 
 int set_number_of_joints(int num)
 {
-    fprintf(stderr, "set_number_of_joints\n");
+    fprintf(stderr, "set_number_of_joints %d\n", num);
     command.resize(num);
     act_angle.resize(num);
     com_torque.resize(num);
@@ -605,12 +605,19 @@ int open_iob(void)
     }
     clock_gettime(CLOCK_MONOTONIC, &g_ts);
 
-    self_ptr->bindParameter("pdgains_sim.file_name", gain_fname, "");
+    self_ptr->bindParameter("pdgains_sim_file_name", gain_fname, "");
     self_ptr->bindParameter("debugLevel", m_debugLevel, "0");
     //
     dt = 0.001; // fixed number or read from param
-    iob_nstep = 2;  // fixed number or read from param
-    iob_step = 2;
+    {
+      double hrpsys_dt = 0.002;
+      RTC::Properties& prop = self_ptr->getProperties();
+      coil::stringTo(hrpsys_dt, prop["dt"].c_str());
+      iob_step = hrpsys_dt/dt;
+      iob_nstep = iob_step;
+      std::cerr << "hrpsys cycle = " << hrpsys_dt << " [sec]";
+      std::cerr << ", iob_step = " << iob_step << std::endl;
+    }
 
     //* for PD controller *//
     ip_angleIn    = new InPort<TimedDoubleSeq> ("angleIn", m_angleIn);
@@ -656,7 +663,7 @@ void iob_update(void)
         m_torqueOut.data.length(dof);
         readGainFile();
       }
-      for(int i = 0; i < m_angleIn.data.length(); i++) {
+      for(int i = 0; i < m_angleIn.data.length() && i < dof; i++) {
         act_angle[i] = m_angleIn.data[i];
       }
       iob_time.sec = m_angleIn.tm.sec;
@@ -664,13 +671,13 @@ void iob_update(void)
     }
     if(ip_qvel_sim->isNew()) {
       ip_qvel_sim->read();
-      for(int i = 0; i < m_qvel_sim.data.length(); i++) {
+      for(int i = 0; i < m_qvel_sim.data.length() && i < dof; i++) {
         act_vel[i] = m_qvel_sim.data[i];
       }
     }
     if(ip_torque_sim->isNew()) {
       ip_torque_sim->read();
-      for(int i = 0; i < m_torque_sim.data.length(); i++) {
+      for(int i = 0; i < m_torque_sim.data.length() && i < dof; i++) {
         //act_torque[i] = m_torque_sim.data[i];
         torque_queue[torque_counter][i] = m_torque_sim.data[i];
       }
@@ -682,30 +689,38 @@ void iob_update(void)
     //* *//
     if(ip_rfsensor_sim->isNew()) {
       ip_rfsensor_sim->read();
-      for(int i = 0; i < 6; i++) {
-        //forces[0][i] = m_rfsensor_sim.data[i];
-        force_queue[force_counter][0][i] = m_rfsensor_sim.data[i];
+      if(number_of_force_sensors() >= 1) {
+        for(int i = 0; i < 6; i++) {
+          //forces[0][i] = m_rfsensor_sim.data[i];
+          force_queue[force_counter][0][i] = m_rfsensor_sim.data[i];
+        }
       }
     }
     if(ip_lfsensor_sim->isNew()) {
       ip_lfsensor_sim->read();
-      for(int i = 0; i < 6; i++) {
-        //forces[1][i] = m_lfsensor_sim.data[i];
-        force_queue[force_counter][1][i] = m_lfsensor_sim.data[i];
+      if(number_of_force_sensors() >= 2) {
+        for(int i = 0; i < 6; i++) {
+          //forces[1][i] = m_lfsensor_sim.data[i];
+          force_queue[force_counter][1][i] = m_lfsensor_sim.data[i];
+        }
       }
     }
     if(ip_rhsensor_sim->isNew()) {
       ip_rhsensor_sim->read();
-      for(int i = 0; i < 6; i++) {
-        //forces[2][i] = m_rhsensor_sim.data[i];
-        force_queue[force_counter][2][i] = m_rhsensor_sim.data[i];
+      if(number_of_force_sensors() >= 3) {
+        for(int i = 0; i < 6; i++) {
+          //forces[2][i] = m_rhsensor_sim.data[i];
+          force_queue[force_counter][2][i] = m_rhsensor_sim.data[i];
+        }
       }
     }
     if(ip_lhsensor_sim->isNew()) {
       ip_lhsensor_sim->read();
-      for(int i = 0; i < 6; i++) {
-        //forces[3][i] = m_lhsensor_sim.data[i];
-        force_queue[force_counter][3][i] = m_lhsensor_sim.data[i];
+      if(number_of_force_sensors() >= 4) {
+        for(int i = 0; i < 6; i++) {
+          //forces[3][i] = m_lhsensor_sim.data[i];
+          force_queue[force_counter][3][i] = m_lhsensor_sim.data[i];
+        }
       }
     }
     force_counter++;
@@ -725,7 +740,6 @@ void iob_update(void)
         forces[n][i] /= FORCE_AVERAGE;
       }
     }
-
     for(int i = 0; i < dof; i++) {
       act_torque[i] = 0;
     }
@@ -738,19 +752,22 @@ void iob_update(void)
       act_torque[i] /= TORQUE_AVERAGE;
     }
 
-
     //* *//
     if(ip_gsensor_sim->isNew()) {
       ip_gsensor_sim->read();
-      accelerometers[0][0] = m_gsensor_sim.data.ax;
-      accelerometers[0][1] = m_gsensor_sim.data.ay;
-      accelerometers[0][2] = m_gsensor_sim.data.az;
+      if(number_of_accelerometers() >= 1) {
+        accelerometers[0][0] = m_gsensor_sim.data.ax;
+        accelerometers[0][1] = m_gsensor_sim.data.ay;
+        accelerometers[0][2] = m_gsensor_sim.data.az;
+      }
     }
     if(ip_gyrometer_sim->isNew()) {
       ip_gyrometer_sim->read();
-      gyros[0][0] = m_gyrometer_sim.data.avx;
-      gyros[0][1] = m_gyrometer_sim.data.avy;
-      gyros[0][2] = m_gyrometer_sim.data.avz;
+      if(number_of_gyro_sensors() >= 1) {
+        gyros[0][0] = m_gyrometer_sim.data.avx;
+        gyros[0][1] = m_gyrometer_sim.data.avy;
+        gyros[0][2] = m_gyrometer_sim.data.avz;
+      }
     }
 
     //std::cerr << "tm: " << m_angleIn.tm.sec << " / " << m_angleIn.tm.nsec << std::endl; 
@@ -760,6 +777,8 @@ void iob_set_torque_limit(std::vector<double> &vec)
   tlimit.resize(vec.size());
   for(int i = 0; i < vec.size(); i++) {
     tlimit[i] = vec[i];
+    std::cerr << "joint: " << i;
+    std::cerr << ", tlimit: " << tlimit[i] << std::endl;
   }
 }
 void iob_finish(void)
@@ -790,9 +809,9 @@ void iob_finish(void)
 
       m_torqueOut.data[i] = std::max(std::min(ctq, tlimit[i]), -tlimit[i]);
 #if 0
-      if (i == 18) {
+      if (i == 23) {
         std::cerr << "[iob] step = " << iob_step << ", joint = "
-                  << i << ", tq = " << m_torqueOut.data[i] << ", q,qref = (" << q << ", " << q_ref << "), dq,dqref = (" << dq << ", " << dq_ref << "), pd = (" << Pgain[i] << ", " << Dgain[i] << "), tlimit = " << tlimit << std::endl;
+                  << i << ", tq = " << m_torqueOut.data[i] << ", q,qref = (" << q << ", " << q_ref << "), dq,dqref = (" << dq << ", " << dq_ref << "), pd = (" << Pgain[i] << ", " << Dgain[i] << "), tlimit = " << tlimit[i] << std::endl;
       }
 #endif
     }
@@ -843,6 +862,11 @@ static void readGainFile()
           } else {
             //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
           }
+          std::cerr << "joint: " << i;
+          std::cerr << ", P: " << Pgain[i];
+          std::cerr << ", D: " << Dgain[i] << std::endl;
+	  std::cerr << ", tqP: " << tqPgain[i];
+          std::cerr << ", tqD: " << tqDgain[i] << std::endl;
       }
       gain.close();
       std::cerr << "[iob] Gain file [" << gain_fname << "] opened" << std::endl;

@@ -1,3 +1,4 @@
+#include <stdlib.h>
 
 #include <cmath>
 #include <cstring>
@@ -69,18 +70,28 @@ struct JAXONCustomizer
   //* *//
   bool hasMultisenseJoint;
   JointValSet multisense_joint;
+
+  //* *//
+  bool hasTiltLaserJoint;
+  JointValSet tilt_laser_joint;
 };
 
 
 static const char** getTargetModelNames()
 {
+  char *rname = getenv("CHOREONOID_ROBOT");
+  if (rname != NULL) {
+    std::cerr << "CHOREONID_ROBOT =" << rname << std::endl;
+  }
   static const char* names[] = {
     "JAXON_JVRC",
+    "JAXON_BLUE",
     "CHIDORI",
+    rname,
     0 };
+
   return names;
 }
-
 
 static void getVirtualbushJoints(JAXONCustomizer* customizer, BodyHandle body)
 {
@@ -118,6 +129,20 @@ static void getVirtualbushJoints(JAXONCustomizer* customizer, BodyHandle body)
       customizer->hasMultisenseJoint = false;
     } else {
       JointValSet& jointValSet = customizer->multisense_joint;
+      jointValSet.valuePtr = bodyInterface->getJointValuePtr(body, bindex);
+      jointValSet.velocityPtr = bodyInterface->getJointVelocityPtr(body, bindex);
+      jointValSet.torqueForcePtr = bodyInterface->getJointForcePtr(body, bindex);
+    }
+  }
+
+  //* additional motor joints *//
+  {
+    int bindex = bodyInterface->getLinkIndexFromName(body, "tilt_laser_joint");
+    customizer->hasTiltLaserJoint = true;
+    if(bindex < 0){
+      customizer->hasTiltLaserJoint = false;
+    } else {
+      JointValSet& jointValSet = customizer->tilt_laser_joint;
       jointValSet.valuePtr = bodyInterface->getJointValuePtr(body, bindex);
       jointValSet.velocityPtr = bodyInterface->getJointVelocityPtr(body, bindex);
       jointValSet.torqueForcePtr = bodyInterface->getJointForcePtr(body, bindex);
@@ -178,6 +203,35 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
     double dq = *(trans.velocityPtr);
     double ddq = (dq - dq_old)/0.001; // dt = 0.001
     double tq = -(dq - 1.0) * 100 - 0.2 * ddq;
+    double tlimit = 200;
+    *(trans.torqueForcePtr) = std::max(std::min(tq, tlimit), -tlimit);
+    dq_old = dq;
+  }
+
+#define TILT_UPPER_BOUND  0.7
+#define TILT_POSITIVE_SPEED 1.0
+#define TILT_LOWER_BOUND -0.7
+#define TILT_NEGATIVE_SPEED -1.0
+  if(customizer->hasTiltLaserJoint) {
+    JointValSet& trans = customizer->tilt_laser_joint;
+    static double dq_old = 0.0;
+    static bool move_positive = true;
+    double  q = *(trans.valuePtr);
+    if (q > TILT_UPPER_BOUND) {
+      move_positive = false;
+    } else if (q < TILT_LOWER_BOUND) {
+      move_positive = true;
+    }
+
+    double dq = *(trans.velocityPtr);
+    double tq;
+    if (move_positive) {
+      double ddq = (dq - dq_old)/0.001; // dt = 0.001
+      tq = -(dq - TILT_POSITIVE_SPEED) * 100 - 0.2 * ddq;
+    } else {
+      double ddq = (dq - dq_old)/0.001; // dt = 0.001
+      tq = -(dq - TILT_NEGATIVE_SPEED) * 100 - 0.2 * ddq;
+    }
     double tlimit = 200;
     *(trans.torqueForcePtr) = std::max(std::min(tq, tlimit), -tlimit);
     dq_old = dq;

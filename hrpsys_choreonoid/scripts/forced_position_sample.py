@@ -19,6 +19,6 @@ def resetPosition():
 
     simulatorItem.setForcedPosition(robotItem, trs)
     time.sleep(0.2) ##
-    simulator.clearForcedPositions()
+    simulatorItem.clearForcedPositions()
 
 resetPosition()
