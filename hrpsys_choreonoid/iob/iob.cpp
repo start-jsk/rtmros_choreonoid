@@ -174,7 +174,7 @@ int set_number_of_joints(int num)
 
     for (int i=0; i<num; i++){
         command[i] = com_torque[i] = power[i] = servo[i] = 0;
-	isPosTq[i] = false;
+        isPosTq[i] = false;
     }
 
     torque_counter = 0;
@@ -287,14 +287,14 @@ int read_servo_alarm(int id, int *a)
     *a = 0;
     return TRUE;
 }
-    
+
 int read_control_mode(int id, joint_control_mode *s)
 {
     CHECK_JOINT_ID(id);
     if(isPosTq[id]){
-	*s = JCM_POSITION_TORQUE;
+      *s = JCM_POSITION_TORQUE;
     }else{
-	*s = JCM_POSITION;
+      *s = JCM_POSITION;
     }
     return TRUE;
 }
@@ -303,10 +303,10 @@ int write_control_mode(int id, joint_control_mode s)
 {
     CHECK_JOINT_ID(id);
     if(s == JCM_POSITION){
-	isPosTq[id] = false;
+      isPosTq[id] = false;
     }
     if(s == JCM_POSITION_TORQUE){
-	isPosTq[id] = true;
+      isPosTq[id] = true;
     }
     return TRUE;
 }
@@ -598,10 +598,10 @@ int open_iob(void)
     std::cerr << "choreonoid IOB will open" << std::endl;
     for (int i=0; i<number_of_joints(); i++){
         command[i] = 0.0;
-	com_torque[i] = 0.0;
+        com_torque[i] = 0.0;
         power[i] = OFF;
         servo[i] = OFF;
-	isPosTq[i] = false;
+        isPosTq[i] = false;
     }
     clock_gettime(CLOCK_MONOTONIC, &g_ts);
 
@@ -785,27 +785,30 @@ void iob_finish(void)
 {
     //* *//
     for(int i=0; i<dof; i++) {
+      // position
       double q = act_angle[i]; // current angle
-      //double q_ref = command[i];
       double q_ref = iob_step > 0 ? qold_ref[i] + (command[i] - qold_ref[i])/iob_step : qold_ref[i];
       double dq = (q - qold[i]) / dt;
       double dq_ref = (q_ref - qold_ref[i]) / dt;
       qold[i] = q;
       qold_ref[i] = q_ref;
+      // torque
       double tq = act_torque[i]; // current torque
       double tq_ref = iob_step > 0 ? tqold_ref[i] + (com_torque[i] - tqold_ref[i])/iob_step : tqold_ref[i];
       double dtq = (tq - tqold[i]) / dt;
       double dtq_ref = (tq_ref - tqold_ref[i]) / dt;
       tqold[i] = tq;
       tqold_ref[i] = tq_ref;
+
       double ctq;
       if(isPosTq[i]){
-	  //ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i] - (tq - tq_ref) * tqPgain[i] - (dtq - dtq_ref) * tqDgain[i];
-	  ctq = -(q - q_ref) * Pgain[i] / (tqPgain[i] + 1) - (dq - dq_ref) * Dgain[i] / (tqPgain[i] + 1) + tq_ref * tqPgain[i] / (tqPgain[i] + 1) - (dtq - dtq_ref) * tqDgain[i] / (tqPgain[i] + 1);
-      }else{
-        ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i];
+        // position & torque control
+        //ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i] - (tq - tq_ref) * tqPgain[i] - (dtq - dtq_ref) * tqDgain[i];
+        ctq = -(q - q_ref) *   Pgain[i] / (tqPgain[i] + 1) - (dq  -  dq_ref) *   Dgain[i] / (tqPgain[i] + 1)
+                +  tq_ref  * tqPgain[i] / (tqPgain[i] + 1) - (dtq - dtq_ref) * tqDgain[i] / (tqPgain[i] + 1);
+      } else {
+        ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i]; // simple PD control
       }
-      //double tlimit = m_robot->joint(i)->climit * m_robot->joint(i)->gearRatio * m_robot->joint(i)->torqueConst;
 
       m_torqueOut.data[i] = std::max(std::min(ctq, tlimit[i]), -tlimit[i]);
 #if 0
