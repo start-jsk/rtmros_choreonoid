@@ -842,38 +842,49 @@ static void readGainFile()
     tqPgain.resize(dof);
     tqDgain.resize(dof);
     gain.open(gain_fname.c_str());
-    if (gain.is_open()){
+    if (gain.is_open()) {
+      std::cerr << "[iob] Gain file [" << gain_fname << "] opened" << std::endl;
       double tmp;
-      for (int i=0; i<dof; i++){
-          if (gain >> tmp) {
-              Pgain[i] = tmp;
+      int i = 0;
+      for (; i < dof; i++) {
+
+      retry:
+        {
+          std::string str;
+          if (std::getline(gain, str)) {
+            if (str.empty())   goto retry;
+            if (str[0] == '#') goto retry;
+
+            std::istringstream sstrm(str);
+            sstrm >> tmp;
+            Pgain[i] = tmp;
+            if(sstrm.eof()) goto next;
+            sstrm >> tmp;
+            Dgain[i] = tmp;
+            if(sstrm.eof()) goto next;
+            sstrm >> tmp;
+            tqPgain[i] = tmp;
+            if(sstrm.eof()) goto next;
+            sstrm >> tmp;
+            tqDgain[i] = tmp;
           } else {
-            //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
+            i--;
+            break;
           }
-          if (gain >> tmp) {
-              Dgain[i] = tmp;
-          } else {
-            //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
-          }
-          if (gain >> tmp) {
-              tqPgain[i] = tmp;
-          } else {
-            //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
-          }
-          if (gain >> tmp) {
-              tqDgain[i] = tmp;
-          } else {
-            //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
-          }
-          std::cerr << "joint: " << i;
-          std::cerr << ", P: " << Pgain[i];
-          std::cerr << ", D: " << Dgain[i] << std::endl;
-	  std::cerr << ", tqP: " << tqPgain[i];
-          std::cerr << ", tqD: " << tqDgain[i] << std::endl;
+        }
+
+      next:
+        std::cerr << "joint: " << i;
+        std::cerr << ", P: " << Pgain[i];
+        std::cerr << ", D: " << Dgain[i];
+        std::cerr << ", tqP: " << tqPgain[i];
+        std::cerr << ", tqD: " << tqDgain[i] << std::endl;
       }
       gain.close();
-      std::cerr << "[iob] Gain file [" << gain_fname << "] opened" << std::endl;
-    }else{
+      if (i != dof) {
+        std::cerr << "[iob] Gain file [" << gain_fname << "] does not contain gains for all joints" << std::endl;
+      }
+    } else {
       std::cerr << "[iob] Gain file [" << gain_fname << "] not opened" << std::endl;
     }
     // initialize angleRef, old_ref and old with angle
