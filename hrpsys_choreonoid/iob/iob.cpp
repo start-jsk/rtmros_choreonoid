@@ -35,6 +35,7 @@ static bool isLocked = false;
 static int frame = 0;
 static timespec g_ts;
 static long g_period_ns=5000000;
+static std::vector<bool> isPosTq;
 
 Time iob_time;
 
@@ -87,6 +88,7 @@ static double dt;
 static std::ifstream gain;
 static std::string gain_fname;
 static std::vector<double> qold, qold_ref, Pgain, Dgain;
+static std::vector<double> tqold, tqold_ref, tqPgain, tqDgain;
 static std::vector<double> Pgain_orig, Dgain_orig;
 static std::vector<double> tlimit;
 static size_t dof, loop;
@@ -168,9 +170,11 @@ int set_number_of_joints(int num)
     act_vel.resize(num);
     power.resize(num);
     servo.resize(num);
+    isPosTq.resize(num);
 
     for (int i=0; i<num; i++){
-        command[i] = power[i] = servo[i] = 0;
+        command[i] = com_torque[i] = power[i] = servo[i] = 0;
+        isPosTq[i] = false;
     }
 
     torque_counter = 0;
@@ -283,17 +287,31 @@ int read_servo_alarm(int id, int *a)
     *a = 0;
     return TRUE;
 }
-    
+
 int read_control_mode(int id, joint_control_mode *s)
 {
     CHECK_JOINT_ID(id);
-    *s = JCM_POSITION;
+    if(isPosTq[id]){
+#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
+      *s = JCM_POSITION_TORQUE;
+#endif
+    }else{
+      *s = JCM_POSITION;
+    }
     return TRUE;
 }
 
 int write_control_mode(int id, joint_control_mode s)
 {
     CHECK_JOINT_ID(id);
+    if(s == JCM_POSITION){
+      isPosTq[id] = false;
+    }
+#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
+    if(s == JCM_POSITION_TORQUE){
+      isPosTq[id] = true;
+    }
+#endif
     return TRUE;
 }
 
@@ -535,13 +553,18 @@ int write_dio(unsigned short buf)
     return FALSE;
 }
 
+///
+///
+///
 int open_iob(void)
 {
     std::cerr << "choreonoid IOB will open" << std::endl;
     for (int i=0; i<number_of_joints(); i++){
         command[i] = 0.0;
+        com_torque[i] = 0.0;
         power[i] = OFF;
         servo[i] = OFF;
+        isPosTq[i] = false;
     }
     clock_gettime(CLOCK_MONOTONIC, &g_ts);
 
@@ -594,6 +617,10 @@ int open_iob(void)
     std::cerr << "choreonoid IOB is opened" << std::endl;
     return TRUE;
 }
+///
+/// called from RobotHardware_choreonoid
+/// update sensor date
+///
 void iob_update(void)
 {
     if(ip_angleIn->isNew()) {
@@ -709,9 +736,11 @@ void iob_update(void)
         gyros[0][2] = m_gyrometer_sim.data.avz;
       }
     }
-
     //std::cerr << "tm: " << m_angleIn.tm.sec << " / " << m_angleIn.tm.nsec << std::endl; 
 }
+///
+/// called from RobotHardware_choreonoid
+///
 void iob_set_torque_limit(std::vector<double> &vec)
 {
   tlimit.resize(vec.size());
@@ -721,21 +750,40 @@ void iob_set_torque_limit(std::vector<double> &vec)
     std::cerr << ", tlimit: " << tlimit[i] << std::endl;
   }
 }
+///
+/// called from RobotHardware_choreonoid
+/// update command to simulated robot
+///
 void iob_finish(void)
 {
     //* *//
     for(int i=0; i<dof; i++) {
+      // position
       double q = act_angle[i]; // current angle
-      //double q_ref = command[i];
       double q_ref = iob_step > 0 ? qold_ref[i] + (command[i] - qold_ref[i])/iob_step : qold_ref[i];
       double dq = (q - qold[i]) / dt;
       double dq_ref = (q_ref - qold_ref[i]) / dt;
       qold[i] = q;
       qold_ref[i] = q_ref;
-      double tq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i];
-      //double tlimit = m_robot->joint(i)->climit * m_robot->joint(i)->gearRatio * m_robot->joint(i)->torqueConst;
+      // torque
+      double tq = act_torque[i]; // current torque
+      double tq_ref = iob_step > 0 ? tqold_ref[i] + (com_torque[i] - tqold_ref[i])/iob_step : tqold_ref[i];
+      double dtq = (tq - tqold[i]) / dt;
+      double dtq_ref = (tq_ref - tqold_ref[i]) / dt;
+      tqold[i] = tq;
+      tqold_ref[i] = tq_ref;
 
-      m_torqueOut.data[i] = std::max(std::min(tq, tlimit[i]), -tlimit[i]);
+      double ctq;
+      if(isPosTq[i]){
+        // position & torque control
+        //ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i] - (tq - tq_ref) * tqPgain[i] - (dtq - dtq_ref) * tqDgain[i];
+        ctq = -(q - q_ref) *   Pgain[i] / (tqPgain[i] + 1) - (dq  -  dq_ref) *   Dgain[i] / (tqPgain[i] + 1)
+                +  tq_ref  * tqPgain[i] / (tqPgain[i] + 1) - (dtq - dtq_ref) * tqDgain[i] / (tqPgain[i] + 1);
+      } else {
+        ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i]; // simple PD control
+      }
+
+      m_torqueOut.data[i] = std::max(std::min(ctq, tlimit[i]), -tlimit[i]);
 #if 0
       if (i == 23) {
         std::cerr << "[iob] step = " << iob_step << ", joint = "
@@ -760,34 +808,62 @@ static void readGainFile()
 
     qold.resize(dof);
     qold_ref.resize(dof);
+    tqold.resize(dof);
+    tqold_ref.resize(dof);
     Pgain.resize(dof);
     Dgain.resize(dof);
+    tqPgain.resize(dof);
+    tqDgain.resize(dof);
     gain.open(gain_fname.c_str());
-    if (gain.is_open()){
+    if (gain.is_open()) {
+      std::cerr << "[iob] Gain file [" << gain_fname << "] opened" << std::endl;
       double tmp;
-      for (int i=0; i<dof; i++){
-          if (gain >> tmp) {
-              Pgain[i] = tmp;
+      int i = 0;
+      for (; i < dof; i++) {
+
+      retry:
+        {
+          std::string str;
+          if (std::getline(gain, str)) {
+            if (str.empty())   goto retry;
+            if (str[0] == '#') goto retry;
+
+            std::istringstream sstrm(str);
+            sstrm >> tmp;
+            Pgain[i] = tmp;
+            if(sstrm.eof()) goto next;
+            sstrm >> tmp;
+            Dgain[i] = tmp;
+            if(sstrm.eof()) goto next;
+            sstrm >> tmp;
+            tqPgain[i] = tmp;
+            if(sstrm.eof()) goto next;
+            sstrm >> tmp;
+            tqDgain[i] = tmp;
           } else {
-            //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
+            i--;
+            break;
           }
-          if (gain >> tmp) {
-              Dgain[i] = tmp;
-          } else {
-            //std::cerr << "[" << m_profile.instance_name << "] Gain file [" << gain_fname << "] is too short" << std::endl;
-          }
-          std::cerr << "joint: " << i;
-          std::cerr << ", P: " << Pgain[i];
-          std::cerr << ", D: " << Dgain[i] << std::endl;
+        }
+
+      next:
+        std::cerr << "joint: " << i;
+        std::cerr << ", P: " << Pgain[i];
+        std::cerr << ", D: " << Dgain[i];
+        std::cerr << ", tqP: " << tqPgain[i];
+        std::cerr << ", tqD: " << tqDgain[i] << std::endl;
       }
       gain.close();
-      std::cerr << "[iob] Gain file [" << gain_fname << "] opened" << std::endl;
-    }else{
+      if (i != dof) {
+        std::cerr << "[iob] Gain file [" << gain_fname << "] does not contain gains for all joints" << std::endl;
+      }
+    } else {
       std::cerr << "[iob] Gain file [" << gain_fname << "] not opened" << std::endl;
     }
     // initialize angleRef, old_ref and old with angle
     for(int i = 0; i < dof; ++i) {
       command[i] = qold_ref[i] = qold[i] = m_angleIn.data[i];
+      com_torque[i] = tqold_ref[i] = tqold[i] = 0/*act_torque[i]*/;
     }
 }
 
@@ -967,7 +1043,89 @@ int number_of_thermometers()
 {
     return 0;
 }
+#endif
 
+#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 3
+int write_command_acceleration(int id, double acc)
+{
+    return FALSE;
+}
+
+int write_command_accelerations(const double *accs)
+{
+    return FALSE;
+}
+
+int write_joint_inertia(int id, double mn)
+{
+    return FALSE;
+}
+
+int write_joint_inertias(const double *mns)
+{
+    return FALSE;
+}
+
+int read_pd_controller_torques(double *torques)
+{
+    return FALSE;
+}
+
+int write_disturbance_observer(int com)
+{
+    return FALSE;
+}
+
+int write_disturbance_observer_gain(double gain)
+{
+    return FALSE;
+}
+#endif
+
+#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
+int read_torque_pgain(int id, double *gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "read_pgain: [" << id << "] " << Pgain[id] << std::endl;
+#endif
+    *gain = tqPgain[id];
+    return TRUE;
+}
+
+int write_torque_pgain(int id, double gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
+#endif
+    tqPgain[id] = gain;
+    return TRUE;
+}
+
+int read_torque_dgain(int id, double *gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "read_dgain: [" << id << "] " << Dgain[id] << std::endl;
+#endif
+    *gain = tqDgain[id];
+    return TRUE;
+}
+
+int write_torque_dgain(int id, double gain)
+{
+    CHECK_JOINT_ID(id);
+#if 0
+    if (id == 9)
+    std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
+#endif
+    tqDgain[id] = gain;
+    return TRUE;
+}
 #endif
 
 int read_driver_temperature(int id, unsigned char *v)
