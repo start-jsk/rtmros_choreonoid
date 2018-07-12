@@ -3,10 +3,13 @@
 ~~~
 $ sudo apt-get install libyaml-dev
 $ export CNOID_INSTALL_DIR=/usr/local/choreonoid
-$ export CNOID_RTM_DIR=${HOME}/ros/indigo_parent/devel
+$ export CNOID_RTM_DIR=/opt/ros/${ROS_DISTRO}
+## for source install# 
+## $ export CNOID_RTM_DIR=${HOME}/ros/indigo_parent/devel
 $ git clone https://github.com/s-nakaoka/choreonoid.git
-$ mkdir -p choreonoid/build
-$ cd choreonoid/build
+$ cd choreonoid; git checkout release-1.6
+$ mkdir -p build
+$ cd build
 ## not use python3, and not use pybind11 for backward compatibility
 $ cmake .. -DCMAKE_INSTALL_PREFIX=${CNOID_INSTALL_DIR} -DOPENRTM_DIR=${CNOID_RTM_DIR} -DENABLE_INSTALL_RPATH=ON -DENABLE_CORBA=ON -DBUILD_CORBA_PLUGIN=ON -DBUILD_OPENRTM_PLUGIN=ON -DBUILD_HELLO_WORLD_SAMPLE=ON -DBUILD_SPRING_MODEL_SAMPLE=ON -DUSE_PYTHON3=OFF -DUSE_PYBIND11=OFF -DUSE_BUILTIN_CAMERA_IMAGE_IDL=ON
 $ make -j8
