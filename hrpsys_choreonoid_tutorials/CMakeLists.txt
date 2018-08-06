@@ -190,6 +190,13 @@ configure_file(${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid.in ${PROJECT_S
 endif()
 
 ###
+#TABLIS conid
+###
+if (${jsk_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/TABLIS_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/TABLIS_RH_FLAT.cnoid @ONLY)
+endif()
+
+###
 # scene.yaml
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/flat.yaml.in ${PROJECT_SOURCE_DIR}/config/flat.yaml @ONLY)
