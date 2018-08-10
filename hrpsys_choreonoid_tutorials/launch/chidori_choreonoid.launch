@@ -5,9 +5,12 @@
   <arg name="KILL_SERVERS" default="false" />
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
+  <arg name="USE_ROS" default="true" />
   <arg name="RUN_RVIZ" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="15006" />
   <!-- robot dependant settings -->
   <arg if="$(arg USE_ROBOTHARDWARE)"
        name="taskname" value="RH_$(arg TASK)" />
@@ -33,6 +36,8 @@
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="PROJECT_FILE"   value="$(arg PROJECT_FILE)" />
@@ -48,33 +53,21 @@
     <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)" />
     <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
   </include>
-  <!-- ros_bridge -->
-  <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
-  <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
-    <!-- robot dependant settings -->
-    <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
-    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
-    <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
-    <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
-  </include>
+  <group if="$(arg USE_ROS)">
+    <!-- ros_bridge -->
+    <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
+    <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+      <!-- robot dependant settings -->
+      <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
+      <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+      <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
+      <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
+    </include>
+    <!--                     -->
+    <!-- additional settings -->
+    <!--                     -->
+    <!-- additional ros_bridge -->
+    <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch" />
+  </group>
 
-  <!--                     -->
-  <!-- additional settings -->
-  <!--                     -->
-  <!-- additional ros_bridge -->
-  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch" />
-
-  <!-- vision setting -->
-<!--  <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >-->
-<!--    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />-->
-<!--  </include>-->
-
-  <!--
-  <arg name="launch_multisense_local" default="false" />
-  <arg name="launch_multisense_remote" default="false" />
-  <include if="$(arg launch_multisense_local)"
-           file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch" />
-  <include if="$(arg launch_multisense_remote)"
-           file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_multisense.launch" />
-  -->
 </launch>
