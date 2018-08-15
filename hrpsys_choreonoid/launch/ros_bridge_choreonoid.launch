@@ -6,6 +6,7 @@
   <arg name="RUN_RVIZ" default="false" />
 
   <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="15006" />
 
   <arg name="USE_WALKING"             default="true"  />
   <arg name="USE_COLLISIONCHECK"      default="false" />
@@ -28,6 +29,7 @@
     <arg name="COLLADA_FILE" value="$(arg COLLADA_FILE)" />
     <arg name="CONF_FILE"    value="$(arg CONF_FILE)" />
     <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- unstable RTC -->
     <arg name="USE_WALKING"               value="$(arg USE_WALKING)" />
     <arg name="USE_COLLISIONCHECK"        value="$(arg USE_COLLISIONCHECK)" />

@@ -72,6 +72,8 @@
     <!-- ros_bridge -->
     <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
     <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+      <arg name="corbaport" default="$(arg corbaport)" />
+      <arg name="managerport" default="$(arg managerport)" />
       <!-- robot dependant settings -->
       <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
       <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
@@ -91,6 +93,8 @@
     <!-- vision setting -->
     <group if="$(arg USE_VISION)">
       <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_blue_vision_connect.launch" >
+        <arg name="corbaport" default="$(arg corbaport)" />
+        <arg name="managerport" default="$(arg managerport)" />
         <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
       </include>
     </group>
