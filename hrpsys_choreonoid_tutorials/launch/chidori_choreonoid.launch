@@ -31,7 +31,7 @@
        value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI_controller_config.yaml" />
   <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
 
-  <env name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid)/config/CHIDORI.conf" />
+  <env name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid)/config/CHIDORICustomizer.yaml" />
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >

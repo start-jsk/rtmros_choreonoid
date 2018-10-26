@@ -182,15 +182,15 @@ static BodyCustomizerHandle create(BodyHandle bodyHandle, const char* modelName)
     ifstream ifs(config_file_path);
     if (ifs.is_open()) {
       std::cerr << "[JAXONCustomizer] Config file is: " << config_file_path << std::endl;
-      YAML::Node sensors_param = YAML::LoadFile(config_file_path);
-      customizer->springT  = sensors_param["springT"].as<double>();
-      customizer->dampingT = sensors_param["dampingT"].as<double>();
-      customizer->springR  = sensors_param["springR"].as<double>();
-      customizer->dampingR = sensors_param["dampingR"].as<double>();
-      customizer->tilt_upper_bound = sensors_param["TILT_UPPER_BOUND"].as<double>();
-      customizer->tilt_positive_speed = sensors_param["TILT_POSITIVE_SPEED"].as<double>();
-      customizer->tilt_lower_bound = sensors_param["TILT_LOWER_BOUND"].as<double>();
-      customizer->tilt_negative_speed = sensors_param["TILT_NEGATIVE_SPEED"].as<double>();
+      YAML::Node param = YAML::LoadFile(config_file_path);
+      customizer->springT  = param["bush"]["springT"].as<double>();
+      customizer->dampingT = param["bush"]["dampingT"].as<double>();
+      customizer->springR  = param["bush"]["springR"].as<double>();
+      customizer->dampingR = param["bush"]["dampingR"].as<double>();
+      customizer->tilt_upper_bound    = param["tilt_laser"]["TILT_UPPER_BOUND"].as<double>();
+      customizer->tilt_positive_speed = param["tilt_laser"]["TILT_POSITIVE_SPEED"].as<double>();
+      customizer->tilt_lower_bound    = param["tilt_laser"]["TILT_LOWER_BOUND"].as<double>();
+      customizer->tilt_negative_speed = param["tilt_laser"]["TILT_NEGATIVE_SPEED"].as<double>();
     } else {
       std::cerr << "[JAXONCustomizer] " << config_file_path << " is not found" << std::endl;
     }

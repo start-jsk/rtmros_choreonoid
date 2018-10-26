@@ -22,6 +22,7 @@ pkg_check_modules(hrpsys hrpsys-base REQUIRED)
 
 pkg_check_modules(cnoid-plugin choreonoid-body-plugin)
 find_package(Boost REQUIRED system filesystem)
+pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
 ##catkin_python_setup()
 
 catkin_package(
@@ -42,7 +43,7 @@ if(${cnoid-plugin_FOUND})
   include_directories(${catkin_INCLUDE_DIRS} ${openrtm_aist_INCLUDE_DIRS} ${cnoid-plugin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${hrpsys_INCLUDE_DIRS})
   link_directories(${catkin_LIBRARY_DIRS} ${openrtm_aist_LIBRARY_DIRS} ${cnoid-plugin_LIBRARY_DIRS} ${Boost_LIBRARY_DIRS} ${hrpsys_LIBRARY_DIRS})
   add_library(JAXONCustomizer src/JAXONCustomizer.cpp)
-  target_link_libraries(JAXONCustomizer ${cnoid-plugin_LIBRARIES} yaml-cpp)
+  target_link_libraries(JAXONCustomizer ${cnoid-plugin_LIBRARIES} ${YAML_CPP_LIBRARIES})
   set_target_properties(JAXONCustomizer PROPERTIES COMPILE_FLAG "-fPIC" PREFIX "" SUFFIX ".so" LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 ##
   include_directories(${catkin_INCLUDE_DIRS} ${openrtm_aist_INCLUDE_DIRS} ${cnoid-plugin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${hrpsys_INCLUDE_DIRS})
