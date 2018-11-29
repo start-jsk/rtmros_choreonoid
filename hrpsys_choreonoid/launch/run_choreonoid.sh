@@ -16,6 +16,9 @@ if [ "$(pgrep -x ${choreonoid_exe} | wc -l)" != 0 ]; then
     exit 1
 fi
 
+# Kill choreonoid certainly
+trap "pkill ${choreonoid_exe} -g 0" SIGINT SIGKILL SIGTERM
+
 cnoid_proj=""
 if [ "$(echo $1 | grep \.cnoid$ | wc -l)" == 1 ]; then
     cnoid_proj=$1
