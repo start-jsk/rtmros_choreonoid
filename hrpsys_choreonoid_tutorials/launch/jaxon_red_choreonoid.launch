@@ -70,6 +70,7 @@
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
     <!-- robot dependant settings -->
+    <arg name="USE_ROBOTHARDWARE" value="$(arg USE_ROBOTHARDWARE)" />
     <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
     <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
