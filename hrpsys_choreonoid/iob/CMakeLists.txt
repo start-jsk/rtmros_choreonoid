@@ -1,6 +1,7 @@
 add_definitions(-DHRPSYS_PACKAGE_VERSION=\"\\"${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}\\"\" -DROBOT_IOB_VERSION=4)
 
 # https://github.com/start-jsk/rtmros_choreonoid/issues/296
+# catkin bt --cmake-args -DCMAKE_BUILD_TYPE={Release, Debug}
 if(not CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
