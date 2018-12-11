@@ -1,5 +1,9 @@
 add_definitions(-DHRPSYS_PACKAGE_VERSION=\"\\"${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}\\"\" -DROBOT_IOB_VERSION=4)
-set(CMAKE_BUILD_TYPE Release)
+
+# https://github.com/start-jsk/rtmros_choreonoid/issues/296
+if(not CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
 # hrpIo
 add_library(hrpIo_choreonoid SHARED iob.cpp)
