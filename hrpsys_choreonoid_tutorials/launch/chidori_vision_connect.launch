@@ -25,15 +25,15 @@
   </node-->
 
   <!-- RANGE SENSOR -->
-  <node pkg="hrpsys_ros_bridge" name="range_bridge"
+  <node pkg="hrpsys_ros_bridge" name="RANGESENSOR"
         type="RangeSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
     <param name="frame_id" value="head_hokuyo_frame" />
     <param name="intensity" value="1000" />
     <remap from="range" to="lidar_scan" />
     <rtconnect from="CHIDORI(Robot)0.rtc:HEAD_RANGE"
-               to="RangeSensorROSBridge0.rtc:range" />
-    <rtactivate component="RangeSensorROSBridge0.rtc" />
+               to="RANGESENSOR.rtc:range" />
+    <rtactivate component="RANGESENSOR.rtc" />
   </node>
   <node name="head_range_frame_id" pkg="tf"
         type="static_transform_publisher"
