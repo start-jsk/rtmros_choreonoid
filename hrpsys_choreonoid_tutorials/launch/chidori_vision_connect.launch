@@ -1,0 +1,130 @@
+<launch>
+  <arg name="SIMULATOR_NAME" default="CHIDORI(Robot)0" />
+  <arg name="OUTPUT" default="log"/>
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport" default="15005" />
+  <arg name="periodic_rate" default="200" />
+
+  <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
+
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+  <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
+
+  <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
+        type="rtmlaunch.py"
+        args="$(find hrpsys_choreonoid_tutorials)/launch/chidori_vision_connect.launch"
+        output="$(arg OUTPUT)"/>
+
+  <!--node pkg="hrpsys" name="camview" type="CameraImageViewerComp"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <rtconnect from="JAXON_RED(Robot)0.rtc:CHEST_CAMERA"
+               to="CameraImageViewer0.rtc:imageIn" />
+    <rtactivate component="CameraImageViewer0.rtc" />
+  </node-->
+
+  <!-- <node pkg="hrpsys_ros_bridge" name="HEADLEFT" -->
+  <!--       type="ImageSensorROSBridge" -->
+  <!--       output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/left"> -->
+  <!--   <param name="frame_id" value="left_camera_optical_frame" /> -->
+  <!--   <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam> -->
+  <!--   <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam> -->
+  <!--   <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_LEFT_CAMERA" -->
+  <!--              to="HEADLEFT.rtc:timedImage" /> -->
+  <!--   <rtactivate component="HEADLEFT.rtc" /> -->
+  <!--   <remap from="image_raw" to="image_rect_color" /> -->
+  <!-- </node> -->
+  <!-- <node name="multisense_left_image_rect_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="/multisense_local/left/image_rect_color /multisense_local/left/image_rect" /> -->
+
+  <!-- <node pkg="hrpsys_ros_bridge" name="HEADRIGHT" -->
+  <!--       type="ImageSensorROSBridge" -->
+  <!--       output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/right"> -->
+  <!--   <param name="frame_id" value="left_camera_optical_frame" /> -->
+  <!--   <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam> -->
+  <!--   <rosparam param="camera_param_P">[240, 0, 319.5, -16.8,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam> -->
+  <!--   <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_RIGHT_CAMERA" -->
+  <!--              to="HEADRIGHT.rtc:timedImage" /> -->
+  <!--   <rtactivate component="HEADRIGHT.rtc" /> -->
+  <!--   <remap from="image_raw" to="image_rect_color" /> -->
+  <!-- </node> -->
+  <!-- <node name="multisense_right_image_rect_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="/multisense_local/right/image_rect_color /multisense_local/right/image_rect" /> -->
+
+  <node pkg="hrpsys_ros_bridge" name="range_bridge"
+        type="RangeSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
+    <param name="frame_id" value="head_hokuyo_frame" />
+    <param name="intensity" value="1000" />
+    <remap from="range" to="lidar_scan" />
+    <rtconnect from="CHIDORI(Robot)0.rtc:HEAD_RANGE"
+               to="RangeSensorROSBridge0.rtc:range" />
+    <rtactivate component="RangeSensorROSBridge0.rtc" />
+  </node>
+
+  <!-- <node pkg="hrpsys_ros_bridge" name="pointcloud_bridge" -->
+  <!--       type="PointCloudROSBridge" -->
+  <!--       output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local"> -->
+  <!--   <param name="frame_id" value="left_camera_optical_frame" /> -->
+  <!--   <param name="publish_depth" value="true" /> -->
+  <!--   <param name="transformed_camera_frame" value="true" /> -->
+  <!--   <remap from="points" to="organized_image_points2_color" /> -->
+  <!--   <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_LEFT_DEPTH" -->
+  <!--              to="PointCloudROSBridge0.rtc:points" /> -->
+  <!--   <rtactivate component="PointCloudROSBridge0.rtc" /> -->
+  <!-- </node> -->
+  <!-- <node name="multisense_organized_image_points2_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="multisense_local/organized_image_points2_color multisense_local/organized_image_points2" /> -->
+  <!-- <node name="multisense_image_points2_color_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="multisense_local/organized_image_points2_color multisense_local/image_points2_color" /> -->
+  <!-- <node name="head_left_frame_id" pkg="tf" -->
+  <!--       type="static_transform_publisher" -->
+  <!--       args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA left_camera_optical_frame 20" /> -->
+  <node name="head_range_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /HEAD_RANGE head_hokuyo_frame 20" />
+  <!--
+  <node name="head_root_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /HEAD_LINK1 /head_root 33" />
+  -->
+
+  <node pkg="hrpsys_choreonoid" name="jstate_bridge"
+        type="JointStateROSBridge" ns="multisense_local"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <rosparam param="names">
+      ["tilt_laser_joint"]
+    </rosparam>
+    <param name="rate" value="100.0" />
+    <rtconnect from="CHIDORI(Robot)0.rtc:headq"
+               to="JointStateROSBridge0.rtc:qRef" />
+    <rtactivate component="JointStateROSBridge0.rtc" />
+  </node>
+
+  <node pkg="hrpsys_choreonoid" name="ground_truth_bridge"
+        type="TransformROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <!-- set rtc name by ros_name -->
+    <param name="use_ros_name" value="true" />
+
+    <remap from="odom" to="/ground_truth_odom" />
+    <param name="rate" value="100.0" />
+    <param name="publish_odom" value="true" />
+    <param name="initial_relative" value="false" />
+
+    <param name="publish_tf" value="true" />
+    <param name="invert_tf"  value="true" />
+    <param name="tf_frame"        value="BODY" />
+    <param name="tf_parent_frame" value="choreonoid_origin" />
+
+    <rtconnect from="CHIDORI(Robot)0.rtc:WAIST"
+               to="ground_truth_bridge.rtc:TformIn" />
+    <rtactivate component="ground_truth_bridge.rtc" />
+  </node>
+
+</launch>
