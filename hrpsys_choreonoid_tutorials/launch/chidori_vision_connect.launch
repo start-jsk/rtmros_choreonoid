@@ -24,36 +24,7 @@
     <rtactivate component="CameraImageViewer0.rtc" />
   </node-->
 
-  <!-- <node pkg="hrpsys_ros_bridge" name="HEADLEFT" -->
-  <!--       type="ImageSensorROSBridge" -->
-  <!--       output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/left"> -->
-  <!--   <param name="frame_id" value="left_camera_optical_frame" /> -->
-  <!--   <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam> -->
-  <!--   <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam> -->
-  <!--   <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_LEFT_CAMERA" -->
-  <!--              to="HEADLEFT.rtc:timedImage" /> -->
-  <!--   <rtactivate component="HEADLEFT.rtc" /> -->
-  <!--   <remap from="image_raw" to="image_rect_color" /> -->
-  <!-- </node> -->
-  <!-- <node name="multisense_left_image_rect_relay" -->
-  <!--       pkg="topic_tools" type="relay" -->
-  <!--       args="/multisense_local/left/image_rect_color /multisense_local/left/image_rect" /> -->
-
-  <!-- <node pkg="hrpsys_ros_bridge" name="HEADRIGHT" -->
-  <!--       type="ImageSensorROSBridge" -->
-  <!--       output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local/right"> -->
-  <!--   <param name="frame_id" value="left_camera_optical_frame" /> -->
-  <!--   <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam> -->
-  <!--   <rosparam param="camera_param_P">[240, 0, 319.5, -16.8,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam> -->
-  <!--   <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_RIGHT_CAMERA" -->
-  <!--              to="HEADRIGHT.rtc:timedImage" /> -->
-  <!--   <rtactivate component="HEADRIGHT.rtc" /> -->
-  <!--   <remap from="image_raw" to="image_rect_color" /> -->
-  <!-- </node> -->
-  <!-- <node name="multisense_right_image_rect_relay" -->
-  <!--       pkg="topic_tools" type="relay" -->
-  <!--       args="/multisense_local/right/image_rect_color /multisense_local/right/image_rect" /> -->
-
+  <!-- RANGE SENSOR -->
   <node pkg="hrpsys_ros_bridge" name="range_bridge"
         type="RangeSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense">
@@ -64,36 +35,10 @@
                to="RangeSensorROSBridge0.rtc:range" />
     <rtactivate component="RangeSensorROSBridge0.rtc" />
   </node>
-
-  <!-- <node pkg="hrpsys_ros_bridge" name="pointcloud_bridge" -->
-  <!--       type="PointCloudROSBridge" -->
-  <!--       output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="multisense_local"> -->
-  <!--   <param name="frame_id" value="left_camera_optical_frame" /> -->
-  <!--   <param name="publish_depth" value="true" /> -->
-  <!--   <param name="transformed_camera_frame" value="true" /> -->
-  <!--   <remap from="points" to="organized_image_points2_color" /> -->
-  <!--   <rtconnect from="JAXON_RED(Robot)0.rtc:HEAD_LEFT_DEPTH" -->
-  <!--              to="PointCloudROSBridge0.rtc:points" /> -->
-  <!--   <rtactivate component="PointCloudROSBridge0.rtc" /> -->
-  <!-- </node> -->
-  <!-- <node name="multisense_organized_image_points2_relay" -->
-  <!--       pkg="topic_tools" type="relay" -->
-  <!--       args="multisense_local/organized_image_points2_color multisense_local/organized_image_points2" /> -->
-  <!-- <node name="multisense_image_points2_color_relay" -->
-  <!--       pkg="topic_tools" type="relay" -->
-  <!--       args="multisense_local/organized_image_points2_color multisense_local/image_points2_color" /> -->
-  <!-- <node name="head_left_frame_id" pkg="tf" -->
-  <!--       type="static_transform_publisher" -->
-  <!--       args="0 0 0 0 0 0 /HEAD_LEFT_CAMERA left_camera_optical_frame 20" /> -->
   <node name="head_range_frame_id" pkg="tf"
         type="static_transform_publisher"
         args="0 0 0 0 0 0 /HEAD_RANGE head_hokuyo_frame 20" />
-  <!--
-  <node name="head_root_frame_id" pkg="tf"
-        type="static_transform_publisher"
-        args="0 0 0 0 0 0 /HEAD_LINK1 /head_root 33" />
-  -->
-
+  <!-- settings for tilt laser joint -->
   <node pkg="hrpsys_choreonoid" name="jstate_bridge"
         type="JointStateROSBridge" ns="multisense_local"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
@@ -105,6 +50,97 @@
                to="JointStateROSBridge0.rtc:qRef" />
     <rtactivate component="JointStateROSBridge0.rtc" />
   </node>
+  <!-- RANGE SENSOR ends -->
+
+
+  <!-- FOOT RGB CAMERA -->
+  <!-- connect openRTM to ROS (FOOT CAMERA) -->
+  <node pkg="hrpsys_ros_bridge" name="FOOTCAMERA"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera2">
+    <param name="frame_id" value="camera2_rgb_optical_frame" />
+    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <rtconnect from="CHIDORI(Robot)0.rtc:FOOT_CAMERA"
+               to="FOOTCAMERA.rtc:timedImage" />
+    <rtactivate component="FOOTCAMERA.rtc" />
+    <remap from="image_raw" to="image_rect_color" />
+  </node>
+  <!-- make camera optical frame -->
+  <node name="foot_camera_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /FOOT_CAMERA camera2_rgb_optical_frame 20" />
+  <!-- replace topic name to names which openni2 launch pulishes -->
+  <node name="camera1_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="/camera1/image_rect_color /camera1/rgb/image_rect_color" />
+  <!-- FOOT RGB CAMERA ends-->
+
+  <!-- FORWARD RGB CAMERA -->
+  <node pkg="hrpsys_ros_bridge" name="FORWARDCAMERA"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera1">
+    <param name="frame_id" value="camera1_rgb_optical_frame" />
+    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, -16.8,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <rtconnect from="CHIDORI(Robot)0.rtc:FORWARD_CAMERA"
+               to="FORWARDCAMERA.rtc:timedImage" />
+    <rtactivate component="FORWARDCAMERA.rtc" />
+    <remap from="image_raw" to="image_rect_color" />
+  </node>
+  <node name="forward_camera_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /FORWARD_CAMERA camera1_rgb_optical_frame 20" />
+  <node name="camera2_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="/camera2/image_rect_color /camera2/rgb/image_rect_color" />
+  <!-- FORWARD RGB CAMERA ends -->
+
+  <!-- FOOT DEPTH CAMERA -->
+  <node pkg="hrpsys_ros_bridge" name="FOOTDEPTH"
+        type="PointCloudROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera1">
+    <param name="frame_id" value="camera2_depth_optical_frame" />
+    <param name="publish_depth" value="true" />
+    <param name="transformed_camera_frame" value="true" />
+    <remap from="points" to="depth_registered/points" />
+    <rtconnect from="CHIDORI(Robot)0.rtc:FOOT_DEPTH"
+               to="FOOTDEPTH.rtc:points" />
+    <rtactivate component="FOOTDEPTH.rtc" />
+  </node>
+  <!-- <node name="multisense_organized_image_points2_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="multisense_local/organized_image_points2_color multisense_local/organized_image_points2" /> -->
+  <!-- <node name="multisense_image_points2_color_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="multisense_local/organized_image_points2_color multisense_local/image_points2_color" /> -->
+  <node name="foot_depth_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /FOOT_DEPTH camera2_depth_optical_frame 20" />
+  <!-- FOOT DEPTH CAMERA ends -->
+
+  <!-- FORWARD DEPTH CAMERA -->
+  <node pkg="hrpsys_ros_bridge" name="FORWARDDEPTH"
+        type="PointCloudROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera2">
+    <param name="frame_id" value="camera1_depth_optical_frame" />
+    <param name="publish_depth" value="true" />
+    <param name="transformed_camera_frame" value="true" />
+    <remap from="points" to="depth_registered/points" />
+    <rtconnect from="CHIDORI(Robot)0.rtc:FORWARD_DEPTH"
+               to="FORWARDDEPTH.rtc:points" />
+    <rtactivate component="FORWARDDEPTH.rtc" />
+  </node>
+  <!-- <node name="multisense_organized_image_points2_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="multisense_local/organized_image_points2_color multisense_local/organized_image_points2" /> -->
+  <!-- <node name="multisense_image_points2_color_relay" -->
+  <!--       pkg="topic_tools" type="relay" -->
+  <!--       args="multisense_local/organized_image_points2_color multisense_local/image_points2_color" /> -->
+  <node name="forward_depth_frame_id" pkg="tf"
+        type="static_transform_publisher"
+        args="0 0 0 0 0 0 /FORWARD_DEPTH camera1_depth_optical_frame 20" />
+  <!-- FORWARD DEPTH CAMERA ends -->
 
   <node pkg="hrpsys_choreonoid" name="ground_truth_bridge"
         type="TransformROSBridge"
