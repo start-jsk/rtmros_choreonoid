@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 
-from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import *
+import sys
+from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import ChoreonoidHrpsysConfigurator
+from hrpsys_ros_bridge_tutorials.chidori_hrpsys_config import CHIDORIHrpsysConfigurator
 
-class CHIDORI_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
+class CHIDORICnoidHrpsysConfigurator(ChoreonoidHrpsysConfigurator, CHIDORIHrpsysConfigurator):
+    def __init__(self):
+        CHIDORIHrpsysConfigurator.__init__(self)
+
     def getRTCList (self):
-        ##return self.getRTCListUnstable()
         return [
             ['seq', "SequencePlayer"],
             ['sh', "StateHolder"],
             ['fk', "ForwardKinematics"],
-            #['tf', "TorqueFilter"],
+            # ['tf', "TorqueFilter"],
             ['kf', "KalmanFilter"],
-            #['vs', "VirtualForceSensor"],
+            # ['vs', "VirtualForceSensor"],
             ['rmfo', "RemoveForceSensorLinkOffset"],
             ['es', "EmergencyStopper"],
             ['rfu', "ReferenceForceUpdater"],
@@ -28,11 +32,6 @@ class CHIDORI_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             ['log', "DataLogger"]
             ]
 
-    def defJointGroups (self):
-        rleg_group = ['rleg', ['RLEG_JOINT0', 'RLEG_JOINT1', 'RLEG_JOINT2', 'RLEG_JOINT3', 'RLEG_JOINT4', 'RLEG_JOINT5']]
-        lleg_group = ['lleg', ['LLEG_JOINT0', 'LLEG_JOINT1', 'LLEG_JOINT2', 'LLEG_JOINT3', 'LLEG_JOINT4', 'LLEG_JOINT5']]
-        self.Groups = [rleg_group, lleg_group]
-
     def startABSTIMP (self):
         self.startAutoBalancer()
         #self.ic_svc.startImpedanceController("larm")
@@ -40,7 +39,7 @@ class CHIDORI_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
         self.startStabilizer()
 
 if __name__ == '__main__':
-    hcf = CHIDORI_HrpsysConfigurator("CHIDORI")
+    hcf = CHIDORICnoidHrpsysConfigurator()
     [sys.argv, connect_constraint_force_logger_ports] = hcf.parse_arg_for_connect_ports(sys.argv)
     if len(sys.argv) > 2 :
         hcf.init(sys.argv[1], sys.argv[2], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
