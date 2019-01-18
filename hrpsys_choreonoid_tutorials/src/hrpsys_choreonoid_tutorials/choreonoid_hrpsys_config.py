@@ -3,6 +3,12 @@
 from hrpsys_ros_bridge_tutorials.urata_hrpsys_config import *
 
 class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
+    """
+    Subclass to specify Choreonoid-dependent code.
+    Please inherit this class and hrpsys configurator for each robot to specify
+    robot-dependent class for Choreonoid.
+    """
+
     def getRTCList (self):
         ##return self.getRTCListUnstable()
         return [
@@ -52,6 +58,12 @@ class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
             return [arg_list, False]
 
 class ChoreonoidHrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
+    """
+    Subclass to specify Choreonoid-dependent code with RobotHardware.
+    Please inherit this class and hrpsys configurator for each robot to specify
+    robot-dependent class for Choreonoid.
+    """
+
     def waitForRobotHardware(self, robotname="Robot"):
         '''!@brief
         Wait for RobotHardware is exists and activated.
