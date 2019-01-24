@@ -1,4 +1,5 @@
-dist: trusty
+#dist: trusty
+dist: xenial
 sudo: required
 language:
   - generic
@@ -8,11 +9,18 @@ services:
   - docker
 
 env:
-  - DISTR=indigo  BASEIMG=osrf/ros:indigo-desktop-full
+#  - DISTR=indigo  BASEIMG=osrf/ros:indigo-desktop-full
   - DISTR=kinetic BASEIMG=osrf/ros:kinetic-desktop-full
 
 before_script:
   - docker pull ${BASEIMG}
-
+#  - docker build -f Dockerfile.kinetic_hrpsys --tag start-jsk/hrpsys_choreonoid:kinetic .
 script:
   - docker build -f Dockerfile.${DISTR} --tag start-jsk/rtmros_choreonoid:${DISTR} .
+
+# jobs:
+#   include:
+#     - stage: preinstall_hrpsys
+#       script: docker build -f Dockerfile.kinetic_hrpsys --tag start-jsk/hrpsys_choreonoid:kinetic .
+#     - stage: main
+#       script: docker build -f Dockerfile.kinetic_main   --tag start-jsk/rtmros_choreonoid:kinetic .
