@@ -17,7 +17,7 @@ RUN apt-get update  -q -qq && \
     apt-get install -q -qq -y libyaml-dev mesa-utils python-pip \
     ros-${ROS_DISTRO}-catkin python-wstools python-catkin-tools \
 # choreonoid
-    libyaml-dev ros-kinetic-openrtm-aist ros-kinetic-openrtm-aist-python \
+    libyaml-dev ros-kinetic-openrtm-aist ros-kinetic-openrtm-aist-python libqt4-opengl-dev \
 # hrpsys(hrputil)
     libopencv-dev libsdl1.2-dev freeglut3-dev libglew-dev
 
