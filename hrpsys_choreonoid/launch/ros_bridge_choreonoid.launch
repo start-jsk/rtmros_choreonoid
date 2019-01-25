@@ -6,6 +6,7 @@
   <arg name="RUN_RVIZ" default="false" />
 
   <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="2810" />
 
   <arg name="USE_ROBOTHARDWARE"       default="true" />
   <arg name="USE_WALKING"             default="true"  />
@@ -29,6 +30,7 @@
     <arg name="COLLADA_FILE" value="$(arg COLLADA_FILE)" />
     <arg name="CONF_FILE"    value="$(arg CONF_FILE)" />
     <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <arg name="USE_ROBOTHARDWARE" default="$(arg USE_ROBOTHARDWARE)" />
     <!-- unstable RTC -->
     <arg name="USE_WALKING"               value="$(arg USE_WALKING)" />

@@ -8,6 +8,8 @@
   <arg name="RUN_RVIZ" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="2810" />
   <!-- robot dependant settings -->
   <arg if="$(arg USE_ROBOTHARDWARE)"
        name="taskname" value="RH_$(arg TASK)" />
@@ -35,6 +37,8 @@
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="PROJECT_FILE"   value="$(arg PROJECT_FILE)" />
@@ -53,6 +57,8 @@
   <!-- ros_bridge -->
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="USE_ROBOTHARDWARE" value="$(arg USE_ROBOTHARDWARE)" />
     <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
@@ -69,6 +75,8 @@
 
   <!-- vision setting -->
  <include file="$(find hrpsys_choreonoid_tutorials)/launch/chidori_vision_connect.launch" >
+   <arg name="corbaport" default="$(arg corbaport)" />
+   <arg name="managerport" default="$(arg managerport)" />
    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
  </include>
 
