@@ -75,6 +75,10 @@ def parse_filename(filestr):
     if filestr[0] != '/' and filestr[0] != '$':
         filestr = "%s/%s"%(___sci_path, filestr)
 
+    if not os.path.exists(filestr):
+        print >> sys.stderr, "file: %s not found"%(filestr)
+        raise
+
     return filestr
 
 def addObjectItem(world, obj_conf, filename, objname):

@@ -78,6 +78,10 @@ if world:
         if filename[0] != '/' and filename[0] != '$':
             filename = "%s/%s"%(sci_path, filename)
 
+        if not os.path.exists(filename):
+            print >> sys.stderr, "file: %s not found"%(filename)
+            raise
+
         robotItem = BodyItem()
         robotItem.load(filename)
         robotItem.setName(objname)
