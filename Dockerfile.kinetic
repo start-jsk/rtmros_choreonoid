@@ -1,59 +1,18 @@
-FROM osrf/ros:kinetic-desktop-full
+####
+FROM yoheikakiuchi/hrpsys:16.04_release-1.6
 
 SHELL ["/bin/bash", "-c"]
 
-#ENV CNOID_BRANCH master
-ENV CNOID_BRANCH release-1.6
-
-ENV CNOID_INSTALL_DIR /usr/local/choreonoid
-ENV PATH ${CNOID_INSTALL_DIR}/bin:${PATH}
-ENV LD_LIBRARY_PATH ${CNOID_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}
-ENV PKG_CONFIG_PATH ${CNOID_INSTALL_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
-ENV CNOID_RTM_DIR /opt/ros/${ROS_DISTRO}
-ENV WORKHOME /choreonoid
-
-### for choreonoid
-RUN apt-get update  -q -qq && \
-    apt-get install -q -qq -y libyaml-dev mesa-utils python-pip \
-    ros-${ROS_DISTRO}-catkin python-wstools python-catkin-tools \
-# choreonoid
-    libyaml-dev ros-kinetic-openrtm-aist ros-kinetic-openrtm-aist-python libqt4-opengl-dev \
-# hrpsys(hrputil)
-    libopencv-dev libsdl1.2-dev freeglut3-dev libglew-dev
-
-
-#### choreonoid
-WORKDIR ${WORKHOME}/src
-RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
-    git clone --depth 1 -b ${CNOID_BRANCH} https://github.com/s-nakaoka/choreonoid.git && \
-    mkdir -p choreonoid/build && \
-    cd choreonoid/build && \
-    cmake .. -DCMAKE_INSTALL_PREFIX=${CNOID_INSTALL_DIR} -DOPENRTM_DIR=${CNOID_RTM_DIR} -DENABLE_INSTALL_RPATH=ON -DENABLE_CORBA=ON -DBUILD_CORBA_PLUGIN=ON -DBUILD_OPENRTM_PLUGIN=ON -DBUILD_HELLO_WORLD_SAMPLE=ON -DBUILD_SPRING_MODEL_SAMPLE=ON -DUSE_PYTHON3=OFF -DUSE_PYBIND11=OFF -DUSE_BUILTIN_CAMERA_IMAGE_IDL=ON && \
-    make -j4 && \
-    make install
-
-
-#### base ros pkg, they should be replaced by deb package
-WORKDIR ${WORKHOME}/base_ws
-RUN wstool init src && \
-    wstool set -y -t src hrpsys https://github.com/fkanehiro/hrpsys-base.git --git && \
-    wstool update -t src
-RUN rosdep install -y -r --from-paths src --ignore-src || echo 'Ignore rosdep error'
-RUN sed -i -e 's@"Use Doxygen" ON@"Use Doxygen" OFF@' src/hrpsys/CMakeLists.txt
-
-# build hrpsys parallel ??
-WORKDIR ${WORKHOME}/base_ws
-RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build hrpsys --no-notify"
-RUN source ${WORKHOME}/base_ws/devel/setup.bash
-
-
 #### ros pkg
-WORKDIR ${WORKHOME}/catkin_ws
-RUN wstool init src && \
+ENV MY_ROSWORKSPACE /catkin_ws
+
+WORKDIR ${MY_ROSWORKSPACE}
+RUN source /hrpsys_ws/devel/setup.bash && \
+    wstool init src && \
     wstool set -y -t src rtmros_tutorials https://github.com/start-jsk/rtmros_tutorials.git --git && \
 # (for compiling...)   wstool set -y -t src rtmros_common https://github.com/start-jsk/rtmros_common --git && \
-    wstool set -y -t src rtmros_common https://github.com/YoheiKakiuchi/rtmros_common --git -v fix_rtc_name2 && \
-#    wstool set -y -t src jsk_common https://github.com/jsk-ros-pkg/jsk_common.git --git && \
+#    wstool set -y -t src rtmros_common https://github.com/YoheiKakiuchi/rtmros_common --git -v fix_rtc_name2 && \
+    wstool set -y -t src jsk_common https://github.com/jsk-ros-pkg/jsk_common.git --git && \
     wstool set -y -t src pr2_navigation https://github.com/PR2/pr2_navigation.git --git && \
 # (install)  wstool set -y -t src rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid --git && \
     wstool update -t src && \
@@ -65,26 +24,24 @@ RUN wstool init src && \
 
 ## for travis
 RUN mkdir -p src/rtmros_choreonoid
-COPY . src/rtmros_choreonoid/
-
-#RUN rosdep install -y -r --from-paths src --ignore-src || echo 'Ignore rosdep error'
-RUN /bin/bash -c "source ${WORKHOME}/base_ws/devel/setup.bash && rosdep install -y -r --from-paths src --ignore-src || echo 'Ignore_rosdep_error'"
+COPY . src/rtmros_choreonoid
 
 ## should be solved ...,  hrpsys-base, jsk_common, pr2_navigation ###
-RUN apt-get install -q -qq -y ros-${ROS_DISTRO}-jsk-tilt-laser ros-${ROS_DISTRO}-jsk-recognition && \
-    apt-get clean && \
+RUN source /hrpsys_ws/devel/setup.bash && \
+    apt update -q -qq && \
+    apt install -q -qq -y ros-${ROS_DISTRO}-jsk-tilt-laser ros-${ROS_DISTRO}-jsk-recognition && \
+    (rosdep install -q -y -r --from-paths src --ignore-src || echo 'Ignore_rosdep_error') && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/
 
-
 ### build ros packages
-WORKDIR ${WORKHOME}/catkin_ws
-#RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build hrpsys_choreonoid_tutorials jsk_robot_startup pr2_navigation_self_filter --no-status --no-notify -j 1 -p 1"
-RUN /bin/bash -c "source ${WORKHOME}/base_ws/devel/setup.bash && catkin build hrpsys_choreonoid_tutorials jsk_robot_startup pr2_navigation_self_filter --no-status --no-notify -j 1 -p 1"
+WORKDIR ${MY_ROSWORKSPACE}
+RUN /bin/bash -c "source /hrpsys_ws/devel/setup.bash && catkin build hrpsys_choreonoid_tutorials jsk_robot_startup pr2_navigation_self_filter --no-status --no-notify -j 1 -p 1"
 
-##
-RUN /bin/bash -c "source ${WORKHOME}/catkin_ws/devel/setup.bash && rosrun roseus generate-all-msg-srv.sh geometry_msgs sensor_msgs hrpsys_ros_bridge opencv_apps"
+### for run programs
+RUN /bin/bash -c "source ${MY_ROSWORKSPACE}/devel/setup.bash && catkin clean -b -l -y && rosrun roseus generate-all-msg-srv.sh geometry_msgs sensor_msgs hrpsys_ros_bridge opencv_apps"
 
-
+###
 ## ADD ./my_entrypoint.sh /
 ## ENTRYPOINT ["/my_entrypoint.sh"]
 ## CMD ["bash"]
