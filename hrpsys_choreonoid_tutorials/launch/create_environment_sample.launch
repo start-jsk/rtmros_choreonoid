@@ -11,6 +11,8 @@
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
+  <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="2810" />
 
   <!-- robot dependant settings -->
   <env name="CHOREONOID_SIMULATION_SETTING" value="$(arg ENVIRONMENT_YAML)" />
@@ -38,6 +40,8 @@
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="PROJECT_FILE"   value="dummy_argument" />
@@ -57,6 +61,8 @@
   <!-- ros_bridge -->
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
@@ -76,10 +82,16 @@
   <!-- vision setting -->
   <ggroup if="$(arg USE_VISION)">
     <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
+      <arg name="corbaport" default="$(arg corbaport)" />
+      <arg name="managerport" default="$(arg managerport)" />
       <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     </include>
   </ggroup>
-  <include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" />
+  <include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" >
+      <arg name="corbaport" default="$(arg corbaport)" />
+      <arg name="managerport" default="$(arg managerport)" />
+  </include>
+
   <!--
   <arg name="launch_multisense_local" default="false" />
   <arg name="launch_multisense_remote" default="false" />

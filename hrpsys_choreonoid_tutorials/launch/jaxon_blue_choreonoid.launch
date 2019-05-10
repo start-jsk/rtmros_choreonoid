@@ -14,6 +14,8 @@
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
+  <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="2810" />
 
   <!-- robot dependant settings -->
   <arg if="$(arg USE_ROBOTHARDWARE)"
@@ -47,6 +49,8 @@
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     <arg name="PROJECT_FILE"   value="$(arg PROJECT_FILE)" />
@@ -65,6 +69,8 @@
   <!-- ros_bridge -->
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+    <arg name="corbaport" default="$(arg corbaport)" />
+    <arg name="managerport" default="$(arg managerport)" />
     <!-- robot dependant settings -->
     <arg name="USE_ROBOTHARDWARE" value="$(arg USE_ROBOTHARDWARE)" />
     <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
@@ -85,6 +91,8 @@
   <!-- vision setting -->
   <group if="$(arg USE_VISION)">
     <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_blue_vision_connect.launch" >
+      <arg name="corbaport" default="$(arg corbaport)" />
+      <arg name="managerport" default="$(arg managerport)" />
       <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     </include>
   </group>
