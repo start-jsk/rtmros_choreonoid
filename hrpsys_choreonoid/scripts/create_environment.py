@@ -98,8 +98,8 @@ def addObjectItem(world, obj_conf, filename, objname):
     else:
         robot_rootLink = robot.rootLink
 
-    if 'static' in obj_info:
-        static = obj_info['static']
+    if 'static' in obj_conf:
+        static = obj_conf['static']
         if static:
             robot_rootLink.setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
             robot.updateLinkTree()

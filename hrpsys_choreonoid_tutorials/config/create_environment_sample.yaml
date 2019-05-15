@@ -12,7 +12,7 @@ JAXON_RED:
     0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
   body_rtc:
     name: 'JAXON_RED(Robot)0'
-    module: '$(find hrpsys_choreonoid)/PDcontroller'
+    module: '$(find hrpsys_choreonoid)/PDcontroller.so'
     config: '$(find hrpsys_choreonoid_tutorials)/config/SensorReaderRTC_JAXON_RED.PD.conf'
     rate: 500
   vision:
