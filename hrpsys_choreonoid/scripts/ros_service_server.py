@@ -1,3 +1,5 @@
+from __future__ import print_function ### for python2 compatible with python3
+
 import cnoid.Base
 import cnoid.BodyPlugin
 import cnoid.Util
@@ -16,9 +18,9 @@ thisSimulatorItem = None
 def roscallback (req):
     ret = 'not called'
     if (len(req.str)) > 0:
-        print 'service called: %s'%(req.str)
+        print('service called: %s'%(req.str))
         ret = eval(req.str)
-        print 'service result: %s'%(ret)
+        print('service result: %s'%(ret))
     return StringStringResponse(ret)
 
 def ros_service_init ():
@@ -30,7 +32,10 @@ def addExternalForce(robotname = "JAXON_RED", linkname = "WAIST", pos = [0,0,1.0
     #addExternalForce("JAXON_RED", "WAIST", [0, 0, 1.0], [100, 0, 0], 0.2)
     global thisSimulatorItem
 
-    robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    if callable(cnoid.Base.RootItem.instance):
+        robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    else:
+        robotItem = cnoid.Base.RootItem.instance.findItem(robotname)
     if robotItem == None:
         return '(:fail "invalid robotname %s")'%(robotname)
 
@@ -39,7 +44,10 @@ def addExternalForce(robotname = "JAXON_RED", linkname = "WAIST", pos = [0,0,1.0
         if thisSimulatorItem == None:
             return '(:fail "invalid simulatorItem")'
 
-    pushingLink = robotItem.body().link(linkname)
+    if callable(robotItem.body):
+        pushingLink = robotItem.body().link(linkname)
+    else:
+        pushingLink = robotItem.body.link(linkname)
     if pushingLink:
         thisSimulatorItem.setExternalForce(robotItem, pushingLink, pos, force, tm)
         return '(:success)'
@@ -49,8 +57,10 @@ def addExternalForce(robotname = "JAXON_RED", linkname = "WAIST", pos = [0,0,1.0
 def resetPosition(robotname = "JAXON_RED", pos = [0,0,1.0], rpy = [0,0,0], sleep = 0.2):
     #resetPosition("JAXON_RED", [0, 0, 1.0], [0, 0, 0])
     global thisSimulatorItem
-
-    robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    if callable(cnoid.Base.RootItem.instance):
+        robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    else:
+        robotItem = cnoid.Base.RootItem.instance.findItem(robotname)
     if robotItem == None:
         return '(:fail "invalid robotname %s")'%(robotname)
 
@@ -75,9 +85,14 @@ def resetPosition(robotname = "JAXON_RED", pos = [0,0,1.0], rpy = [0,0,0], sleep
 def addObject(objname, filename, translation = None, rotation = None):
     global thisSimulatorItem
 
-    itemTreeView = cnoid.Base.ItemTreeView.instance()
-    rootItem = cnoid.Base.RootItem.instance()
-
+    if callable(cnoid.Base.ItemTreeView.instance):
+        itemTreeView = cnoid.Base.ItemTreeView.instance()
+    else:
+        itemTreeView = cnoid.Base.ItemTreeView.instance
+    if callable(cnoid.Base.RootItem.instance):
+        rootItem = cnoid.Base.RootItem.instance()
+    else:
+        rootItem = cnoid.Base.RootItem.instance
     world = rootItem.findItem("World")
     if world == None:
         return '(:fail "world not found")'
@@ -86,21 +101,34 @@ def addObject(objname, filename, translation = None, rotation = None):
     robotItem.load(filename)
     robotItem.setName(objname)
 
-    robot = robotItem.body()
+    if callable(robotItem.body):
+        robot = robotItem.body()
+    else:
+        robot = robotItem.body
     if robot == None:
         return '(:fail "file not found")'
 
+    if callable(robot.rootLink):
+        robot_rootLink = robot.rootLink()
+    else:
+        robot_rootLink = robot.rootLink
     if translation:
-        robot.rootLink().setTranslation(translation);
+        robot_rootLink.setTranslation(translation);
     if rotation:
-        robot.rootLink().setRotation(rotation);
+        robot_rootLink.setRotation(rotation);
 
-    for i in range(robot.numJoints()):
-        robot.joint(i).q = 0
-
+    if callable(robot.numJoints):
+        for i in range(robot.numJoints()):
+            robot.joint(i).q = 0
+    else:
+        for i in range(robot.numJoints):
+            robot.joint(i).q = 0
     robot.calcForwardKinematics()
     robotItem.storeInitialState()
-    world.insertChildItem(robotItem, world.childItem())
+    if callable(world.childItem):
+        world.insertChildItem(robotItem, world.childItem())
+    else:
+        world.insertChildItem(robotItem, world.childItem)
     itemTreeView.checkItem(robotItem)
 
     return '(:success)'
@@ -108,7 +136,10 @@ def addObject(objname, filename, translation = None, rotation = None):
 def callSimulation(robotname = "JAXON_RED", call = 'pauseSimulation'):
     global thisSimulatorItem
 
-    robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    if callable(cnoid.Base.RootItem.instance):
+        robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    else:
+        robotItem = cnoid.Base.RootItem.instance.findItem(robotname)
     if robotItem == None:
         return '(:fail "invalid robotname %s")'%(robotname)
 
@@ -122,11 +153,18 @@ def callSimulation(robotname = "JAXON_RED", call = 'pauseSimulation'):
     return '(:success "%s")'%(ret)
 
 def getCoordinate(robotname = 'JAXON_RED', linkname = 'WAIST'):
-    robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    if callable(cnoid.Base.RootItem.instance):
+        robotItem = cnoid.Base.RootItem.instance().findItem(robotname)
+    else:
+        robotItem = cnoid.Base.RootItem.instance.findItem(robotname)
     if robotItem == None:
         return '(:fail "invalid robotname %s")'%(robotname)
 
-    iLink = robotItem.body().link(linkname)
+    if callable(robotItem.body):
+        iLink = robotItem.body().link(linkname)
+    else:
+        iLink = robotItem.body.link(linkname)
+
     if iLink == None:
         return '(:fail "invalid linkname %s")'%(linkname)
 
