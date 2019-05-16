@@ -45,7 +45,8 @@ def parse_filename(filestr):
     if ret != None:
         pkgname = ret.group(1)
         #packagepath = commands.getoutput('rospack find %s'%(pkgname))
-        packagepath = subprocess.getoutput('rospack find %s'%(pkgname))
+        packagepath = subprocess.check_output(['rospack', 'find', pkgname])
+        packagepath = packagepath.rstrip('\n')
         filestr = filestr[:ret.start(0)] + packagepath + filestr[ret.end(0):]
 
     return filestr
