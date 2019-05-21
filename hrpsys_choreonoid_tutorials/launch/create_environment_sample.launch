@@ -10,7 +10,7 @@
   <arg name="USE_VISION" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
-  <arg name="LAUNCH_FOOTCOORDS" default="true" />
+  <arg name="LAUNCH_FOOTCOORDS" default="false" />
 
   <!-- robot dependant settings -->
   <env name="CHOREONOID_SIMULATION_SETTING" value="$(arg ROBOT_SETTING_YAML)" />
@@ -74,12 +74,13 @@
         if="$(arg LAUNCH_FOOTCOORDS)" />
 
   <!-- vision setting -->
-  <ggroup if="$(arg USE_VISION)">
+  <group if="$(arg USE_VISION)">
     <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
       <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     </include>
-  </ggroup>
-  <include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" />
+  </group>
+
+  <!-- include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" /-->
   <!--
   <arg name="launch_multisense_local" default="false" />
   <arg name="launch_multisense_remote" default="false" />
