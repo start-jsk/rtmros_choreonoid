@@ -19,7 +19,17 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(hrpsys hrpsys-base REQUIRED)
 pkg_check_modules(openrtm_aist openrtm-aist REQUIRED)
 
-pkg_check_modules(cnoid-plugin choreonoid-body-plugin)
+find_package(choreonoid)
+if (${choreonoid_FOUND})
+  ### for chorenoid with catkin
+  set(cnoid-plugin_FOUND ${choreonoid_FOUND} )
+  set(cnoid-plugin_INCLUDE_DIRS ${CHOREONOID_INCLUDE_DIRS} )
+  set(cnoid-plugin_LIBRARY_DIRS ${CHOREONOID_LIBRARY_DIRS})
+  set(cnoid-plugin_LIBRARIES ${CHOREONOID_LIBRARIES})
+else ()
+  pkg_check_modules(cnoid-plugin choreonoid-body-plugin)
+endif()
+
 find_package(Boost REQUIRED system filesystem)
 pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
 ##catkin_python_setup()
