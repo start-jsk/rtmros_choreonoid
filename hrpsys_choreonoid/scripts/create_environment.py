@@ -72,7 +72,10 @@ def parse_filename(filestr):
         pkgname = ret.group(1)
         #packagepath = commands.getoutput('rospack find %s'%(pkgname))
         packagepath = subprocess.check_output(['rospack', 'find', pkgname])
-        packagepath = packagepath.rstrip('\n')
+        if type(packagepath) == str:
+            packagepath = packagepath.rstrip()
+        else:
+            packagepath = packagepath.decode().rstrip()
         filestr = filestr[:ret.start(0)] + packagepath + filestr[ret.end(0):]
 
     if filestr[0] != '/' and filestr[0] != '$':
@@ -282,6 +285,11 @@ for obj_name in dict_objs:
             robotname = objname
         elif obj_type == 'script':
             addScriptItem(world, obj_conf, filename)
+        elif obj_type == 'sub_project':
+            taskProject = SubProjectItem()
+            taskProject.name = objname
+            taskProject.load(filename)
+            world.addChildItem(taskProject)
 
 if 'start_simulation' in dict_objs:
     if dict_objs['start_simulation']:
