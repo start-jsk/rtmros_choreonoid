@@ -1,3 +1,5 @@
+from __future__ import print_function ### for python2 compatible with python3
+
 from cnoid.Base import *
 from cnoid.BodyPlugin import *
 from cnoid.OpenRTMPlugin import *
@@ -11,13 +13,13 @@ import yaml
 import time
 
 import re
-#import subprocess ## subprocess is recommended but choreonoid crashed when calling rospack find
-import commands
+import subprocess ## subprocess is recommended but choreonoid crashed when calling rospack find
+#import commands
 
 try:
     objs_yaml = os.environ['CHOREONOID_SIMULATION_SETTING']
 except:
-    print >> sys.stderr, "environment variable 'CHOREONOID_SIMULATION_SETTING' is not found"
+    print("environment variable 'CHOREONOID_SIMULATION_SETTING' is not found", file=sys.stderr)
     raise
 
 ###
@@ -58,7 +60,7 @@ try:
     dict_objs = yaml.load(f)
     f.close()
 except:
-    print >> sys.stderr, "can not read %s"%(objs_yaml)
+    print("can not read %s"%(objs_yaml), file=sys.stderr)
     raise
 
 ___sci_path = os.path.abspath(os.path.dirname(__file__))
@@ -68,12 +70,20 @@ def parse_filename(filestr):
     ret = re_find.search(filestr)
     if ret != None:
         pkgname = ret.group(1)
-        packagepath = commands.getoutput('rospack find %s'%(pkgname))
-        #packagepath = subprocess.check_output(['rospack', 'find', pkgname])
+        #packagepath = commands.getoutput('rospack find %s'%(pkgname))
+        packagepath = subprocess.check_output(['rospack', 'find', pkgname])
+        if type(packagepath) == str:
+            packagepath = packagepath.rstrip()
+        else:
+            packagepath = packagepath.decode().rstrip()
         filestr = filestr[:ret.start(0)] + packagepath + filestr[ret.end(0):]
 
     if filestr[0] != '/' and filestr[0] != '$':
         filestr = "%s/%s"%(___sci_path, filestr)
+
+    if not os.path.exists(filestr):
+        print ("file: %s not found"%(filestr), file=sys.stderr)
+        raise
 
     return filestr
 
@@ -82,40 +92,60 @@ def addObjectItem(world, obj_conf, filename, objname):
     robotItem = BodyItem()
     robotItem.load(filename)
     robotItem.setName(objname)
-    robot = robotItem.body()
+    if callable(robotItem.body):
+        robot = robotItem.body()
+    else:
+        robot = robotItem.body
 
-    if 'static' in obj_info:
-        static = obj_info['static']
+    if callable(robot.rootLink):
+        robot_rootLink = robot.rootLink()
+    else:
+        robot_rootLink = robot.rootLink
+
+    if 'static' in obj_conf:
+        static = obj_conf['static']
         if static:
-            robot.rootLink().setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
+            robot_rootLink.setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
             robot.updateLinkTree()
         else:
-            robot.rootLink().setJointType(cnoid.Body.Link.JointType.FREE_JOINT)
+            robot_rootLink.setJointType(cnoid.Body.Link.JointType.FREE_JOINT)
             robot.updateLinkTree()
 
     if 'translation' in obj_conf:
         trans = obj_conf['translation']
-        robot.rootLink().setTranslation(trans);
+        robot_rootLink.setTranslation(trans);
 
     if 'rotation' in obj_conf:
         rot = obj_conf['rotation']
-        robot.rootLink().setRotation(rot);
+        robot_rootLink.setRotation(rot);
 
-    for i in range(robot.numJoints()):
-        robot.joint(i).q = 0
-
+    if callable(robot.numJoints):
+        for i in range(robot.numJoints()):
+            robot.joint(i).q = 0
+    else:
+        for i in range(robot.numJoints):
+            robot.joint(i).q = 0
     robot.calcForwardKinematics()
     robotItem.storeInitialState()
-
-    world.insertChildItem(robotItem, world.childItem())
+    if callable(world.childItem):
+        world.insertChildItem(robotItem, world.childItem())
+    else:
+        world.insertChildItem(robotItem, world.childItem)
     itemTreeView.checkItem(robotItem)
-
 
 def addRobotItem(world, obj_conf, filename, objname):
     global itemTreeView
     robotItem = BodyItem()
     robotItem.load(filename)
-    robot = robotItem.body()
+    if callable(robotItem.body):
+        robot = robotItem.body()
+    else:
+        robot = robotItem.body
+
+    if callable(robot.rootLink):
+        robot_rootLink = robot.rootLink()
+    else:
+        robot_rootLink = robot.rootLink
 
     body_rtc_conf = None
     vision_conf = None
@@ -126,18 +156,24 @@ def addRobotItem(world, obj_conf, filename, objname):
 
     if 'translation' in obj_conf:
         trans = obj_conf['translation']
-        robot.rootLink().setTranslation(trans);
+        robot_rootLink.setTranslation(trans);
 
     if 'rotation' in obj_conf:
         rot = obj_conf['rotation']
-        robot.rootLink().setRotation(rot);
+        robot_rootLink.setRotation(rot);
 
-    q = [0] * robot.numJoints()
-    if 'joint_angles' in obj_conf:
-        q = obj_conf['joint_angles']
-
-    for i in range(robot.numJoints()):
-        robot.joint(i).q = q[i];
+    if callable(robot.numJoints):
+        q = [0] * robot.numJoints()
+        if 'joint_angles' in obj_conf:
+            q = obj_conf['joint_angles']
+        for i in range(robot.numJoints()):
+            robot.joint(i).q = q[i];
+    else:
+        q = [0] * robot.numJoints
+        if 'joint_angles' in obj_conf:
+            q = obj_conf['joint_angles']
+        for i in range(robot.numJoints):
+            robot.joint(i).q = q[i];
 
     robot.calcForwardKinematics()
     robotItem.storeInitialState()
@@ -145,7 +181,10 @@ def addRobotItem(world, obj_conf, filename, objname):
         robotItem.setName(body_rtc_conf['name']) ## add name for BodyRTC name
     else:
         robotItem.setName(objname)
-    world.insertChildItem(robotItem, world.childItem())
+    if callable(world.childItem):
+        world.insertChildItem(robotItem, world.childItem())
+    else:
+        world.insertChildItem(robotItem, world.childItem)
     itemTreeView.checkItem(robotItem)
 
     if body_rtc_conf:
@@ -204,8 +243,15 @@ def addScriptItem(world, obj_conf, filename):
 ## main
 ##
 
-itemTreeView = ItemTreeView.instance()
-rootItem = RootItem.instance()
+if callable(ItemTreeView.instance):
+    itemTreeView = ItemTreeView.instance()
+else:
+    itemTreeView = ItemTreeView.instance
+
+if callable(RootItem.instance):
+    rootItem = RootItem.instance()
+else:
+    rootItem = RootItem.instance
 
 world = rootItem.findItem("World")
 if world == None:
@@ -239,10 +285,15 @@ for obj_name in dict_objs:
             robotname = objname
         elif obj_type == 'script':
             addScriptItem(world, obj_conf, filename)
+        elif obj_type == 'sub_project':
+            taskProject = SubProjectItem()
+            taskProject.name = objname
+            taskProject.load(filename)
+            world.addChildItem(taskProject)
 
 if 'start_simulation' in dict_objs:
     if dict_objs['start_simulation']:
-        sim = RootItem.instance().findItem('AISTSimulator')
+        sim = rootItem.findItem('AISTSimulator')
         sim.setRealtimeSyncMode(False)
         itemTreeView.selectItem(sim)
         ## itemTreeView.sigSelectionChanged()

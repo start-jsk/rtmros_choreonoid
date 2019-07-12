@@ -1,4 +1,5 @@
-dist: trusty
+#dist: trusty
+dist: xenial
 sudo: required
 language:
   - generic
@@ -8,11 +9,25 @@ services:
   - docker
 
 env:
-  - DISTR=indigo  BASEIMG=osrf/ros:indigo-desktop-full
-  - DISTR=kinetic BASEIMG=osrf/ros:kinetic-desktop-full
+  global:
+    - secure: "NL9lb+C6gWGjOxaGKDA/ZOdh2U9Q8h5lNmxPmAQyrbo+snkKTzsQhZXneI0323LUi8FIxPHSlgpcAjCc3NSSYff9css3uyLetTdaMZrIfPmv7fBRbPDmECwlP+fdBJmR2CkxJo8AsGumbeW39bnkNOXMFh+Fk+RNejDLmUbHqDNtvPv+YYcGTna3KmCqhbpVSScC8UZ3naK9ZcKTk5ivejB0BIY8ZA8Wyp1OfvAYIS4eUU5LHuFvodeUJDPiFI3Xyf0PYNwtfwu7+1uHkBW2/fEB1JfIHhHz2LP/aK1xkUzI6/1DXjfOg4Xqd1XiJ1LPTazzXsSDKnn3oCiVNp5PM4c/B+ZtOswrTCvV7VaQxKexhVAPzO01jNFR9+lgo8HzioMDF4g7y2jxIVSWnHmRO6pYe0RG6NHRqEMDCsrYGo3TXCynR97lYXCyx2fYMeppLD1Bde4tH/xM7ExE6FZTh3BzpXeFoCSFLqm0ArQqmOtIDIoVGQKOkqBL+Q6SJrHj1iPLTOp+ZiXLTnu3zMULkqzdXeEsQm2zCQ6TytJf23UOhiKLFYG+NeY0QwtqIAv66lmCU25t/K0FxvUXEbPjsz2zPNbEW3qV57uAOorOECal30PnsKbp+SnQiDmu8iVCpP6/8o3kaRG2B4bSnOG5COQRossfliCVUkoahcFqCqo=" ## DOCKER_USER
+    - secure: "jMWNUBYVobI+D5TrQg8MIUjZidkv+pLQw2pcZ5q/oo+4zXJa+efChY19y4YEijKX8kSQJLng1lmZnUSE73KzdgNxf9lpn9Nvsn/y3jkrxoWcaUbcPdYDjkeoswnb1k8DZfO1IBIo856aHf3AlWsPrFh/RPcnnr3PiKVp8cvl+U6CF2XR5DjLprzwZC2xJG6oHDaIbqelwE+uDDh+1mOYrJnF+JZVHMtvz293DFrwEKdyGgwqyMppiHj72TulvprfYox0RqnoYAhijO4i+Aphvf/htQ/DffQTP18Y2xZ1W5MOepAPAXFuJ8nR03gUEFqm+MN9/NP7xTttSKRl6whk+lbqfLEZ7trYvIuX3HOrpzeTMHH9n/EgaTyI2VLbSfNgcPlWITxquemW1iLDgcQXJd+zUOEO7lHrVvdpal8XWmbEbhJBAoKCBlZ0dWP26VFbmU6LJPwyhSkVruNrVUevkSOGeVls05bP5xxvjYeAKyI8Mv+FBkm0XtLiY+K1xSfznx1g0W6MlPQrSENKHVGpXtcsdf8KrWbOrWqFSGaABOTfMSeN5tlRjOjOrVxiDB41gFzE0jFB1kl2LryA0L7dyawvFozkyq4VJ9vm4kRpdhIcsrajXuaY3L1fYiDwRqa4TvdzIJ1B/lTc1/ZEmjK+WaalZW1xzfzOXJ/i19fjoTk=" ## DOCKER_PASS
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - REPO=yoheikakiuchi/rtmros_choreonoid
+  matrix:
+#   - DISTR=indigo  BASEIMG=osrf/ros:indigo-desktop-full
+    - DISTR=kinetic CNOID=latest      BASEIMG=yoheikakiuchi/hrpsys:latest
+    - DISTR=kinetic CNOID=release-1.7 BASEIMG=yoheikakiuchi/hrpsys:release-1.7
 
 before_script:
   - docker pull ${BASEIMG}
 
 script:
-  - docker build -f Dockerfile.${DISTR} --tag start-jsk/rtmros_choreonoid:${DISTR} .
+  - sed -e "s/latest/${CNOID}/" Dockerfile.${DISTR} > Dockerfile.${DISTR}_tmp
+  - docker build -f Dockerfile.${DISTR}_tmp --tag $REPO:${CNOID}_$COMMIT .
+
+after_success:
+   - if [ "$DOCKER_USER" != "" ]; then docker login -u $DOCKER_USER -p $DOCKER_PASS ; fi
+   - if [ "$DOCKER_USER" != "" ]; then docker tag $REPO:${CNOID}_$COMMIT $REPO:${CNOID} ; fi
+   - if [ "$DOCKER_USER" != "" ]; then docker tag $REPO:${CNOID}_$COMMIT $REPO:${CNOID}_travis-$TRAVIS_BUILD_NUMBER ; fi
+   - if [ "$DOCKER_USER" != "" ]; then docker push $REPO ; fi

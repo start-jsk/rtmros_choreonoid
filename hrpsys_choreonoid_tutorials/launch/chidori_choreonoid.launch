@@ -20,7 +20,7 @@
   <arg unless="$(arg USE_ROBOTHARDWARE)"
        name="BRIDGE_SIMULATOR_NAME" default="$(arg SIMULATOR_NAME)" />
   <arg name="MODEL_FILE"     value="$(find jsk_models)/CHIDORI/CHIDORImain.wrl"/>
-  <arg name="COLLADA_FILE"   value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI.urdf"/>
+  <arg name="COLLADA_FILE"   value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI_SENSORS.urdf"/>
   <arg name="CONF_FILE"      value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI.conf"/>
   <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
   <arg if="$(arg USE_ROBOTHARDWARE)"
@@ -30,6 +30,8 @@
   <arg name="CONTROLLER_CONFIG"
        value="$(find hrpsys_ros_bridge_tutorials)/models/CHIDORI_controller_config.yaml" />
   <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
+
+  <env name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid)/config/CHIDORICustomizer.yaml" />
 
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
@@ -52,6 +54,7 @@
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
     <!-- robot dependant settings -->
+    <arg name="USE_ROBOTHARDWARE" value="$(arg USE_ROBOTHARDWARE)" />
     <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
     <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
@@ -65,9 +68,9 @@
   <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch" />
 
   <!-- vision setting -->
-<!--  <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >-->
-<!--    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />-->
-<!--  </include>-->
+ <include file="$(find hrpsys_choreonoid_tutorials)/launch/chidori_vision_connect.launch" >
+   <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+ </include>
 
   <!--
   <arg name="launch_multisense_local" default="false" />

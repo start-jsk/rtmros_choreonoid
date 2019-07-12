@@ -2,8 +2,10 @@
 
 #include <cmath>
 #include <cstring>
+#include <fstream>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <yaml-cpp/yaml.h>
 
 #define CNOID_BODY_CUSTOMIZER
 #ifdef CNOID_BODY_CUSTOMIZER
@@ -16,8 +18,8 @@
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #define DLL_EXPORT __declspec(dllexport)
-#else 
-#define DLL_EXPORT 
+#else
+#define DLL_EXPORT
 #endif /* Windows */
 
 #if defined(HRPMODEL_VERSION_MAJOR) && defined(HRPMODEL_VERSION_MINOR)
@@ -66,6 +68,11 @@ struct JAXONCustomizer
   double dampingT;
   double springR;
   double dampingR;
+
+  double tilt_upper_bound;
+  double tilt_lower_bound;
+  double tilt_positive_speed;
+  double tilt_negative_speed;
 
   //* *//
   bool hasMultisenseJoint;
@@ -166,6 +173,30 @@ static BodyCustomizerHandle create(BodyHandle bodyHandle, const char* modelName)
   customizer->springR  = 2.5e3; // Nm / rad
   customizer->dampingR = 2.5;   // Nm / (rad/s)
 
+  customizer->tilt_upper_bound = 1.35; // rad
+  customizer->tilt_lower_bound = -0.7; // rad
+  customizer->tilt_positive_speed = 1.0; // rad/s
+  customizer->tilt_negative_speed = -1.0; // rad/s
+
+  char* config_file_path = getenv("CUSTOMIZER_CONF_FILE");
+  if (config_file_path) {
+    ifstream ifs(config_file_path);
+    if (ifs.is_open()) {
+      std::cerr << "[JAXONCustomizer] Config file is: " << config_file_path << std::endl;
+      YAML::Node param = YAML::LoadFile(config_file_path);
+      customizer->springT  = param["bush"]["springT"].as<double>();
+      customizer->dampingT = param["bush"]["dampingT"].as<double>();
+      customizer->springR  = param["bush"]["springR"].as<double>();
+      customizer->dampingR = param["bush"]["dampingR"].as<double>();
+      customizer->tilt_upper_bound    = param["tilt_laser"]["TILT_UPPER_BOUND"].as<double>();
+      customizer->tilt_positive_speed = param["tilt_laser"]["TILT_POSITIVE_SPEED"].as<double>();
+      customizer->tilt_lower_bound    = param["tilt_laser"]["TILT_LOWER_BOUND"].as<double>();
+      customizer->tilt_negative_speed = param["tilt_laser"]["TILT_NEGATIVE_SPEED"].as<double>();
+    } else {
+      std::cerr << "[JAXONCustomizer] " << config_file_path << " is not found" << std::endl;
+    }
+  }
+
   getVirtualbushJoints(customizer, bodyHandle);
 
   return static_cast<BodyCustomizerHandle>(customizer);
@@ -209,29 +240,24 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
     dq_old = dq;
   }
 
-#define TILT_UPPER_BOUND  0.7
-#define TILT_POSITIVE_SPEED 1.0
-#define TILT_LOWER_BOUND -0.7
-#define TILT_NEGATIVE_SPEED -1.0
   if(customizer->hasTiltLaserJoint) {
     JointValSet& trans = customizer->tilt_laser_joint;
     static double dq_old = 0.0;
     static bool move_positive = true;
     double  q = *(trans.valuePtr);
-    if (q > TILT_UPPER_BOUND) {
+    if (q > customizer->tilt_upper_bound) {
       move_positive = false;
-    } else if (q < TILT_LOWER_BOUND) {
+    } else if (q < customizer->tilt_lower_bound) {
       move_positive = true;
     }
 
     double dq = *(trans.velocityPtr);
     double tq;
+    double ddq = (dq - dq_old) / 0.001; // dt = 0.001
     if (move_positive) {
-      double ddq = (dq - dq_old)/0.001; // dt = 0.001
-      tq = -(dq - TILT_POSITIVE_SPEED) * 100 - 0.2 * ddq;
+      tq = -(dq - customizer->tilt_positive_speed) * 100 - 0.2 * ddq;
     } else {
-      double ddq = (dq - dq_old)/0.001; // dt = 0.001
-      tq = -(dq - TILT_NEGATIVE_SPEED) * 100 - 0.2 * ddq;
+      tq = -(dq - customizer->tilt_negative_speed) * 100 - 0.2 * ddq;
     }
     double tlimit = 200;
     *(trans.torqueForcePtr) = std::max(std::min(tq, tlimit), -tlimit);

@@ -8,6 +8,7 @@ $ export CNOID_RTM_DIR=/opt/ros/${ROS_DISTRO}
 ## $ export CNOID_RTM_DIR=${HOME}/ros/indigo_parent/devel
 $ git clone https://github.com/s-nakaoka/choreonoid.git
 $ cd choreonoid; git checkout release-1.6
+## git checkout -b tip_with_jsk a4743cc72cf2febbec5e27d923f455d4b24fcb44
 $ mkdir -p build
 $ cd build
 ## not use python3, and not use pybind11 for backward compatibility
