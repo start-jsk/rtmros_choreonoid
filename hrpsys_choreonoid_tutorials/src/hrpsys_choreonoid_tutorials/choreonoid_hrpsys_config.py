@@ -3,6 +3,12 @@
 from hrpsys_ros_bridge_tutorials.urata_hrpsys_config import *
 
 class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
+    """
+    Subclass to specify Choreonoid-dependent code.
+    Please inherit this class and hrpsys configurator for each robot to specify
+    robot-dependent class for Choreonoid.
+    """
+
     def getRTCList (self):
         ##return self.getRTCListUnstable()
         return [
@@ -27,13 +33,9 @@ class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
             ]
     def setupLogger(self, maxlen=15000):
         HrpsysConfigurator.setupLogger(self, maxlen)
-        self.connectLoggerPort(self.rh, 'WAIST') ##
-        self.connectLoggerPort(self.abc, 'rfsensor')
-        self.connectLoggerPort(self.abc, 'lfsensor')
+        # self.connectLoggerPort(self.rh, 'WAIST') # For debug
         for pn in filter (lambda x : re.match("Trans_", x), self.rh.ports.keys()):
             self.connectLoggerPort(self.rh, pn)
-        ##self.connectLoggerPort(self.abc, 'rhsensor')
-        ##self.connectLoggerPort(self.abc, 'lhsensor')
 
     def connectConstraintForceLoggerPorts(self):
         for pn in filter (lambda x : re.match("T_", x), self.rh.ports.keys()):
@@ -56,6 +58,12 @@ class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
             return [arg_list, False]
 
 class ChoreonoidHrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
+    """
+    Subclass to specify Choreonoid-dependent code with RobotHardware.
+    Please inherit this class and hrpsys configurator for each robot to specify
+    robot-dependent class for Choreonoid.
+    """
+
     def waitForRobotHardware(self, robotname="Robot"):
         '''!@brief
         Wait for RobotHardware is exists and activated.

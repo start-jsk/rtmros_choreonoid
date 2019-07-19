@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-from hrpsys_ros_bridge_tutorials.urata_hrpsys_config import *
+import sys
+from hrpsys_ros_bridge_tutorials.jaxon_red_hrpsys_config import JAXON_REDHrpsysConfigurator
 
-class JAXON_JVRC_HrpsysConfigurator(URATAHrpsysConfigurator):
+class JAXON_JVRC_HrpsysConfigurator(JAXON_REDHrpsysConfigurator):
     def getRTCList (self):
         ##return self.getRTCListUnstable()
         return [
@@ -45,7 +46,7 @@ class JAXON_JVRC_HrpsysConfigurator(URATAHrpsysConfigurator):
         self.startStabilizer()
 
 if __name__ == '__main__':
-    hcf = JAXON_JVRC_HrpsysConfigurator("JAXON_RED")
+    hcf = JAXON_JVRC_HrpsysConfigurator()
     if len(sys.argv) > 2 :
         hcf.init(sys.argv[1], sys.argv[2])
         hcf.startABSTIMP()

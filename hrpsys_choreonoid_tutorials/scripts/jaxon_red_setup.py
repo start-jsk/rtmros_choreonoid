@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import *
+import sys
+from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import ChoreonoidHrpsysConfiguratorOrg
+from hrpsys_ros_bridge_tutorials.jaxon_red_hrpsys_config import JAXON_REDHrpsysConfigurator
 
-class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
+class JAXON_REDCnoidHrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg, JAXON_REDHrpsysConfigurator):
     def getRTCList (self):
         ##return self.getRTCListUnstable()
         return [
@@ -42,22 +44,22 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
 
     def startABSTIMP (self):
         ### not used on hrpsys
-        self.el_svc.setServoErrorLimit("motor_joint",   sys.float_info.max)
-        self.el_svc.setServoErrorLimit("RARM_F_JOINT0", sys.float_info.max)
-        self.el_svc.setServoErrorLimit("RARM_F_JOINT1", sys.float_info.max)
-        self.el_svc.setServoErrorLimit("LARM_F_JOINT0", sys.float_info.max)
-        self.el_svc.setServoErrorLimit("LARM_F_JOINT1", sys.float_info.max)
+        self.setServoErrorLimit("motor_joint",   sys.float_info.max)
+        self.setServoErrorLimit("RARM_F_JOINT0", sys.float_info.max)
+        self.setServoErrorLimit("RARM_F_JOINT1", sys.float_info.max)
+        self.setServoErrorLimit("LARM_F_JOINT0", sys.float_info.max)
+        self.setServoErrorLimit("LARM_F_JOINT1", sys.float_info.max)
         ###
         self.startAutoBalancer()
         # Suppress limit over message and behave like real robot that always angle-vector is in seq.
         # Latter four 0.0 are for hands.
-        self.seq_svc.setJointAngles(self.jaxonResetPose()+[0.0, 0.0, 0.0, 0.0] , 1.0)
+        self.setJointAnglesRadian(self.resetPose()+[0.0, 0.0, 0.0, 0.0] , 1.0)
         self.ic_svc.startImpedanceController("larm")
         self.ic_svc.startImpedanceController("rarm")
         self.startStabilizer()
 
 if __name__ == '__main__':
-    hcf = JAXON_RED_HrpsysConfigurator("JAXON_RED")
+    hcf = JAXON_REDCnoidHrpsysConfigurator()
     [sys.argv, connect_constraint_force_logger_ports] = hcf.parse_arg_for_connect_ports(sys.argv)
     if len(sys.argv) > 2 :
         hcf.init(sys.argv[1], sys.argv[2], connect_constraint_force_logger_ports=connect_constraint_force_logger_ports)
