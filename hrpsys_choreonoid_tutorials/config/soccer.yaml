@@ -1,0 +1,30 @@
+obj1:
+  name: 'GROUND'
+  file: '/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/soccer_ground.wrl'
+  translation: [0, 0, -0.1]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj2:
+  name: 'GOAL'
+  file: '/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/soccer_goal.wrl'
+  translation: [26.0, 0.0, 0.0]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj3:
+  name: 'BALL'
+  file: '/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/yellow_ball.wrl'
+  translation: [2.0, 0.0, 0.12]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj4:
+  name: 'WALL_BACK'
+  file: '/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/fix_wall.wrl'
+  translation: [27.5, 0.0, 0.6]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+obj5:
+  name: 'WALL_LSIDE'
+  file: '/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/fix_wall.wrl'
+  translation: [0.0, 35.0, 0.6]
+  rotation: [[0, 1, 0], [-1, 0, 0], [0, 0, 1]]
+obj6:
+  name: 'WALL_RSIDE'
+  file: '/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/fix_wall.wrl'
+  translation: [0.0, -35.0, 0.6]
+  rotation: [[0, -1, 0], [1, 0, 0], [0, 0, 1]]
