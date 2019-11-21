@@ -12,7 +12,7 @@
   <env name="ORBgiopMaxMsgSize" value="2147483648" />
   <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
 
-  <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
+  <node name="rtmlaunch_fixed_vision_connect" pkg="openrtm_tools"
         type="rtmlaunch.py"
         args="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch"
         output="$(arg OUTPUT)"/>
@@ -30,12 +30,12 @@
     <param name="frame_id" value="fixed_camera_optical_frame" />
     <!--rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam-->
     <!--rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam-->
-    <rtconnect from="FIXED_CAMERA(Robot)0.rtc:CAMERA_IMAGE"
+    <rtconnect from="FIXED_CAMERA(Robot)0.rtc:CAMERA"
                to="FIXED_CAMERA.rtc:timedImage" />
     <rtactivate component="FIXED_CAMERA.rtc" />
     <remap from="image_raw" to="image_rect_color" />
   </node>
-
+  <!--
   <node pkg="hrpsys_ros_bridge" name="Points"
         type="PointCloudROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="fixed_camera">
@@ -47,5 +47,5 @@
                to="FIXED_PointCloudROSBridge0.rtc:points" />
     <rtactivate component="FIXED_PointCloudROSBridge0.rtc" />
   </node>
-
+  -->
 </launch>
