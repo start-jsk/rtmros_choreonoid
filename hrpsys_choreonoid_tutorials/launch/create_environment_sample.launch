@@ -7,7 +7,8 @@
   <arg name="NOSIM" default="false" />
   <arg name="REALTIME" default="true" />
   <arg name="RUN_RVIZ" default="true" />
-  <arg name="USE_VISION" default="true" />
+  <arg name="USE_VISION" default="false" />
+  <arg name="USE_FIXED_VISION" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <arg name="LAUNCH_FOOTCOORDS" default="false" />
@@ -81,7 +82,9 @@
     </include>
   </group>
 
-  <!-- include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" /-->
+  <group if="$(arg USE_FIXED_VISION)">
+    <include file="$(find hrpsys_choreonoid_tutorials)/launch/fixed_camera_connect.launch" />
+  </group>
   <!--
   <arg name="launch_multisense_local" default="false" />
   <arg name="launch_multisense_remote" default="false" />
