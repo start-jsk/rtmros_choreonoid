@@ -22,22 +22,22 @@ items:
           data: 
             modelFile: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ 0.1728965, -0.766109282, 0.26872098 ]
+            rootPosition: [ -0.168398272, 0.0717592106, 0.891817835 ]
             rootAttitude: [ 
-              -0.0204215103, -0.984845699, 0.172226336, 
-              0.108671019, -0.173428164, -0.978832612, 
-              0.993867985, -0.00127322842, 0.11056585 ]
+              0.0653918176, 0.997848371, -0.00474748065, 
+              -0.995282921, 0.0655639076, 0.0715072113, 
+              0.0716646177, 4.9099894e-05, 0.997428785 ]
             jointPositions: [ 
-              -0.000069,  0.002908, -0.323295,  0.699991, -0.374769, -0.003456,  0.000057,  0.002684, -0.322779,  0.699585, 
-              -0.374512, -0.002232,  0.000049, -0.001230,  0.000398,  0.000017, -0.000275,  0.611922,  0.043865, -0.430339, 
-               0.581671, -1.385472, -0.361148, -0.965445,  0.340463, -1.402675, -0.094395,  0.334272, -0.128238,  0.970027, 
-               2.206248, -1.051989, -1.345505, -0.000043, -0.000087,  0.000096,  0.005361,  211.056496, -0.000001,  0.000045, 
-               0.000009, -0.000001,  0.000045,  0.000009 ]
+               0.000745, -0.021800, -0.547824,  1.251792, -0.510089,  0.014233,  0.000987, -0.021382, -0.525862,  1.230874, 
+              -0.537350,  0.014074, -0.000719, -0.001613,  0.000005,  0.000002,  0.000202, -0.088509,  1.053951, -0.442297, 
+               0.273277, -0.449758, -0.183937,  0.102627, -0.651607,  0.089027,  1.049518,  0.440579, -0.278719, -0.441134, 
+               0.184467, -0.099797, -0.657487, -1.395994,  1.395691, -1.395993,  1.395692,  2675.662072,  0.000483,  0.005750, 
+              -0.015180,  0.000013,  0.006115, -0.009471 ]
             initialRootPosition: [ 0.00269327212, 0.0264409506, 0.975119573 ]
             initialRootAttitude: [ 
-              -0.000297981922, -0.999999956, 1.26265913e-06, 
-              0.999999956, -0.00029798193, -6.58982121e-06, 
-              6.59019716e-06, 1.26069543e-06, 1 ]
+              -0.000297982727, -0.999999956, 1.26265914e-06, 
+              0.999999956, -0.000297982735, -6.58982121e-06, 
+              6.59019717e-06, 1.26069543e-06, 1 ]
             initialJointPositions: [ 
                0.000002,  0.000500, -0.256187,  0.684682, -0.428985, -0.000839, -0.000028,  0.000302, -0.255745,  0.684400, 
               -0.428783,  0.000337, -0.000006, -0.000783, -0.000000,  0.000000,  0.000210,  0.069141,  0.697005, -0.471129, 
@@ -185,13 +185,13 @@ items:
           data: 
             modelFile: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/models/climb-box-40.wrl"
             currentBaseLink: "BASE"
-            rootPosition: [ 0, 0, -0.1 ]
+            rootPosition: [ -0.3, 1, -0.4 ]
             rootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
             jointPositions: [  ]
-            initialRootPosition: [ -0.3, 1.0, -0.4 ]
+            initialRootPosition: [ -0.3, 1, -0.4 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
@@ -227,7 +227,7 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 1 ]
+      selected: [ 1, 5 ]
       checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
       expanded: [ 1, 2, 3, 9 ]
   - 
@@ -280,9 +280,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 3.49490849, 3.45848819, 2.01570667 ]
-          direction: [ -0.933824888, -0.257643182, -0.24817548 ]
-          up: [ -0.239236946, -0.0660057027, 0.968715093 ]
+          eye: [ 5.72980792, 0.357767829, 1.20440135 ]
+          direction: [ -0.945743933, 0.324782554, 0.00920350814 ]
+          up: [ 0.00870453065, -0.00298926549, 0.999957647 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -352,12 +352,10 @@ toolbars:
     frameRate: 1000
     playbackFrameRate: 50
     idleLoopDrivenMode: false
-    currentTime: 127.073
+    currentTime: 2591.82
     speedScale: 1
     syncToOngoingUpdates: true
     autoExpansion: true
-  "BodyBar": 
-    current: 9
   "KinematicsBar": 
     mode: AUTO
     enablePositionDragger: true
@@ -366,6 +364,8 @@ toolbars:
     snapDistance: 0.025
     penetrationBlockDepth: 0.0005
     lazyCollisionDetectionMode: true
+  "BodyBar": 
+    current: 9
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
@@ -450,7 +450,7 @@ viewAreas:
         - 
           type: splitter
           orientation: vertical
-          sizes: [ 557, 556 ]
+          sizes: [ 497, 496 ]
           children: 
             - 
               type: pane
@@ -463,7 +463,7 @@ viewAreas:
         - 
           type: splitter
           orientation: vertical
-          sizes: [ 947, 166 ]
+          sizes: [ 845, 148 ]
           children: 
             - 
               type: splitter
@@ -481,7 +481,7 @@ viewAreas:
             - 
               type: pane
               views: [ 3, 10 ]
-              current: 3
+              current: 10
 layoutOfToolBars: 
   rows: 
     - 

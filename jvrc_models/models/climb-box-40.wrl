@@ -106,13 +106,13 @@ DEF box Humanoid {
              momentsOfInertia [ 1 0 0 0 1 0 0 0 1 ]
              children [
                 Transform {
-                   translation 0.35 0 0.6
+                   translation 0.35 0 0.75
                    rotation 0 0 1 0
                    children [
                       ## top
                       Shape {
                          geometry Box {
-                            size 1.5 1.5 0.4
+                            size 1.5 1.5 0.7
                          }
                          appearance Appearance {
                             material Material {
