@@ -11,10 +11,7 @@ WORKDIR ${MY_ROSWORKSPACE}
 RUN source ${CNOIDSIM_PARENT_SETUP} && \
     wstool init src && \
     wstool set -y -t src rtmros_tutorials https://github.com/start-jsk/rtmros_tutorials.git --git && \
-# (for compiling...)
-#    wstool set -y -t src rtmros_common https://github.com/start-jsk/rtmros_common --git && \
-#    wstool set -y -t src rtmros_common https://github.com/YoheiKakiuchi/rtmros_common --git -v fix_rtc_name2 && \
-    wstool set -y -t src rtmros_common https://github.com/YoheiKakiuchi/rtmros_common --git -v fix_compile_with_source && \
+    wstool set -y -t src rtmros_common https://github.com/start-jsk/rtmros_common --git && \
     wstool set -y -t src jsk_common https://github.com/jsk-ros-pkg/jsk_common.git --git && \
     wstool set -y -t src pr2_navigation https://github.com/PR2/pr2_navigation.git --git && \
 # (travis)  wstool set -y -t src rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid --git && \
