@@ -12,7 +12,6 @@ items:
       data: 
         collisionDetection: false
         collisionDetector: AISTCollisionDetector
-        materialTableFile: "${SHARE}/default/materials.yaml"
       children: 
         - 
           id: 2
@@ -20,30 +19,28 @@ items:
           plugin: Body
           class: BodyItem
           data: 
-            modelFile: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
             currentBaseLink: "WAIST"
-            rootPosition: [ -0.168398272, 0.0717592106, 0.891817835 ]
+            rootPosition: [ 0.0, 0.0, 1.0185 ]
             rootAttitude: [ 
-              0.0653918176, 0.997848371, -0.00474748065, 
-              -0.995282921, 0.0655639076, 0.0715072113, 
-              0.0716646177, 4.9099894e-05, 0.997428785 ]
+              0, -1, 0, 
+              1, 0, 0, 
+              0, 0, 1 ]
             jointPositions: [ 
-               0.000745, -0.021800, -0.547824,  1.251792, -0.510089,  0.014233,  0.000987, -0.021382, -0.525862,  1.230874, 
-              -0.537350,  0.014074, -0.000719, -0.001613,  0.000005,  0.000002,  0.000202, -0.088509,  1.053951, -0.442297, 
-               0.273277, -0.449758, -0.183937,  0.102627, -0.651607,  0.089027,  1.049518,  0.440579, -0.278719, -0.441134, 
-               0.184467, -0.099797, -0.657487, -1.395994,  1.395691, -1.395993,  1.395692,  2675.662072,  0.000483,  0.005750, 
-              -0.015180,  0.000013,  0.006115, -0.009471 ]
-            initialRootPosition: [ 0.00269327212, 0.0264409506, 0.975119573 ]
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
+            initialRootPosition: [ 0.0, 0.0, 1.0185 ]
             initialRootAttitude: [ 
-              -0.000297982727, -0.999999956, 1.26265914e-06, 
-              0.999999956, -0.000297982735, -6.58982121e-06, 
-              6.59019717e-06, 1.26069543e-06, 1 ]
+              0, -1, 0, 
+              1, 0, 0, 
+              0, 0, 1 ]
             initialJointPositions: [ 
-               0.000002,  0.000500, -0.256187,  0.684682, -0.428985, -0.000839, -0.000028,  0.000302, -0.255745,  0.684400, 
-              -0.428783,  0.000337, -0.000006, -0.000783, -0.000000,  0.000000,  0.000210,  0.069141,  0.697005, -0.471129, 
-               0.115738, -1.344385, -0.221699, -0.206682, -0.405635, -0.069140,  0.697004,  0.471127, -0.115755, -1.344395, 
-               0.221699,  0.206700, -0.405628,  0.000065,  0.000130,  0.000065,  0.000130,  84.053748,  0.000587,  0.000032, 
-               0.000064,  0.000587, -0.000019,  0.000059 ]
+               0.000054, -0.003093, -0.262419,  0.681091, -0.418672,  0.003093,  0.000054, -0.003093, -0.262401,  0.681084, 
+              -0.418684,  0.003093,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.523599, -0.349066, 
+              -0.087266, -1.396263,  0.000000,  0.000000, -0.349066,  0.000000,  0.523599,  0.349066,  0.087266, -1.396263, 
+               0.000000,  0.000000, -0.349066,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
@@ -55,15 +52,13 @@ items:
               plugin: OpenRTM
               class: BodyRTCItem
               data: 
-                isNoDelayMode: true
-                controllerOptions: ""
-                moduleName: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_choreonoid/PDcontroller"
-                confFileName: "${PROJECT_DIR}/SensorReaderRTC_JAXON_RED.PD.conf"
-                configurationMode: "Use Configuration File"
+                isImmediateMode: true
+                moduleName: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_choreonoid/lib/RobotHardware_choreonoid"
+                confFileName: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_choreonoid_tutorials/config/BodyRTC_JAXON_RED.RH.conf"
+                configurationMode: Use Configuration File
                 AutoConnect: false
-                InstanceName: "JAXON_RED(Robot)0"
+                InstanceName: JAXON_RED(Robot)0
                 bodyPeriodicRate: 0.002
-                baseDirectory: "RTC directory"
         - 
           id: 4
           name: "floor"
@@ -77,12 +72,13 @@ items:
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
-            jointPositions: [  ]
+            jointPositions: [  0.000000 ]
             initialRootPosition: [ 0, 0, -0.1 ]
             initialRootAttitude: [ 
               1, 0, 0, 
               0, 1, 0, 
               0, 0, 1 ]
+            initialJointPositions: [  0.000000 ]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
@@ -94,19 +90,19 @@ items:
           class: AISTSimulatorItem
           data: 
             realtimeSync: true
-            recording: "full"
-            timeRangeMode: "Active control period"
+            recording: full
+            timeRangeMode: TimeBar range
+            onlyActiveControlPeriod: true
             timeLength: 12000
             allLinkPositionOutputMode: false
             deviceStateOutput: true
             controllerThreads: true
             recordCollisionData: false
-            controllerOptions: ""
-            dynamicsMode: "Forward dynamics"
-            integrationMode: "Runge Kutta"
+            dynamicsMode: Forward dynamics
+            integrationMode: Runge Kutta
             gravity: [ 0, 0, -9.80665 ]
             staticFriction: 1
-            dynamicFriction: 1
+            slipFriction: 1
             cullingThresh: 0.005
             contactCullingDepth: 0.03
             errorCriterion: 0.001
@@ -115,7 +111,6 @@ items:
             contactCorrectionVelocityRatio: 1
             kinematicWalking: false
             2Dmode: false
-            oldAccelSensorMode: false
           children: 
             - 
               id: 6
@@ -129,14 +124,14 @@ items:
                 maxFrameRate: 1000
                 maxLatency: 1
                 recordVisionData: false
-                threadMode: Screen
+                useThread: true
+                useThreadsForSensors: true
                 bestEffort: false
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
-                antiAliasing: false
             - 
               id: 7
               name: "GLVisionSimulator"
@@ -149,14 +144,14 @@ items:
                 maxFrameRate: 1000
                 maxLatency: 1
                 recordVisionData: false
-                threadMode: Screen
+                useThread: true
+                useThreadsForSensors: true
                 bestEffort: false
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
-                antiAliasing: false
             - 
               id: 8
               name: "GLVisionSimulator"
@@ -169,14 +164,15 @@ items:
                 maxFrameRate: 1000
                 maxLatency: 1
                 recordVisionData: false
-                threadMode: Screen
+                useThread: true
+                useThreadsForSensors: true
                 bestEffort: false
                 allSceneObjects: false
                 rangeSensorPrecisionRatio: 2
                 depthError: 0
                 enableHeadLight: true
                 enableAdditionalLights: true
-                antiAliasing: false
+
         - 
           id: 9
           name: "box"
@@ -200,15 +196,17 @@ items:
             collisionDetection: true
             selfCollisionDetection: false
             isEditable: true
-    - 
+
+    -
       id: 10
       name: "ros_service_server.py"
       plugin: Python
       class: PythonScriptItem
-      data: 
+      data:
         file: "/home/fukazawa/catkin_ws/jaxon_tutorial/src/rtm-ros-robotics/rtmros_choreonoid/hrpsys_choreonoid/scripts/ros_service_server.py"
         executionOnLoading: true
         backgroundExecution: false
+
 views: 
   - 
     id: 0
@@ -227,9 +225,9 @@ views:
     class: ItemTreeView
     mounted: true
     state: 
-      selected: [ 1, 5 ]
-      checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-      expanded: [ 1, 2, 3, 9 ]
+      selected: [ 9 ]
+      checked: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ]
+      expanded: [ 1 ]
   - 
     id: 3
     plugin: Base
@@ -245,7 +243,6 @@ views:
       viewpointControlMode: thirdPerson
       collisionLines: false
       polygonMode: fill
-      cullingMode: enabled
       defaultHeadLight: true
       defaultHeadLightIntensity: 0.75
       headLightLightingFromBack: false
@@ -253,7 +250,6 @@ views:
       worldLightIntensity: 0.5
       worldLightAmbient: 0.3
       additionalLights: true
-      fog: true
       floorGrid: true
       floorGridSpan: 10
       floorGridInterval: 0.5
@@ -268,11 +264,9 @@ views:
       normalVisualization: false
       normalLength: 0.01
       coordinateAxes: true
-      fpsTestIteration: 1
       showFPS: false
       enableNewDisplayListDoubleRendering: false
       useBufferForPicking: true
-      upsideDown: false
       cameras: 
         - 
           camera: [ System, Perspective ]
@@ -280,9 +274,9 @@ views:
           fieldOfView: 0.6978
           near: 0.01
           far: 100
-          eye: [ 5.72980792, 0.357767829, 1.20440135 ]
-          direction: [ -0.945743933, 0.324782554, 0.00920350814 ]
-          up: [ 0.00870453065, -0.00298926549, 0.999957647 ]
+          eye: [ 11.7828093, -8.8897689, 7.27931946 ]
+          direction: [ -0.604984398, 0.718262808, -0.343645772 ]
+          up: [ -0.22138268, 0.262834787, 0.939099347 ]
         - 
           camera: [ System, Orthographic ]
           orthoHeight: 20
@@ -321,7 +315,6 @@ views:
       spinBox: true
       slider: true
       labelOnLeft: true
-      currentBodyItem: 9
   - 
     id: 8
     plugin: Body
@@ -329,17 +322,6 @@ views:
     mounted: true
     state: 
       listingMode: "Link List"
-      currentBodyItem: 9
-  - 
-    id: 9
-    plugin: OpenRTM
-    class: RTSNameServerView
-    state: 
-      NameServers: 
-        - 
-          isDefaultNameServer: false
-          host: "localhost"
-          port: 15005
   - 
     id: 10
     plugin: Python
@@ -352,7 +334,7 @@ toolbars:
     frameRate: 1000
     playbackFrameRate: 50
     idleLoopDrivenMode: false
-    currentTime: 2591.82
+    currentTime: 0
     speedScale: 1
     syncToOngoingUpdates: true
     autoExpansion: true
@@ -364,8 +346,6 @@ toolbars:
     snapDistance: 0.025
     penetrationBlockDepth: 0.0005
     lazyCollisionDetectionMode: true
-  "BodyBar": 
-    current: 9
   "LeggedBodyBar": 
     stanceWidth: 0.15
   "BodyMotionGenerationBar": 
@@ -409,15 +389,15 @@ Body:
       - 
         bodyItem: 2
         showCenterOfMass: false
-        showPpcom: true
+        showPpcom: false
         showZmp: false
       - 
-        bodyItem: 4
+        bodyItem: 3
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
       - 
-        bodyItem: 9
+        bodyItem: 4
         showCenterOfMass: false
         showPpcom: false
         showZmp: false
@@ -431,11 +411,6 @@ Body:
     targetJoints: all
     checkSelfCollisions: true
     onlyTimeBarRange: false
-  "SplineFilterDialog": 
-    isInputFrameRateSpecified: false
-    inputFrameRate: 200
-    isOutputFrameRateSpecified: false
-    outputFrameRate: 200
 OpenRTM: 
   "deleteUnmanagedRTCsOnStartingSimulation": false
 viewAreas: 
@@ -445,7 +420,7 @@ viewAreas:
     contents: 
       type: splitter
       orientation: horizontal
-      sizes: [ 315, 1534 ]
+      sizes: [ 326, 1588 ]
       children: 
         - 
           type: splitter
@@ -458,17 +433,17 @@ viewAreas:
               current: 2
             - 
               type: pane
-              views: [ 1, 8 ]
-              current: 1
+              views: [ 1, 8, 9 ]
+              current: 9
         - 
           type: splitter
           orientation: vertical
-          sizes: [ 845, 148 ]
+          sizes: [ 993, 0 ]
           children: 
             - 
               type: splitter
               orientation: horizontal
-              sizes: [ 0, 1528 ]
+              sizes: [ 0, 1582 ]
               children: 
                 - 
                   type: pane
@@ -481,7 +456,7 @@ viewAreas:
             - 
               type: pane
               views: [ 3, 10 ]
-              current: 10
+              current: 3
 layoutOfToolBars: 
   rows: 
     - 
