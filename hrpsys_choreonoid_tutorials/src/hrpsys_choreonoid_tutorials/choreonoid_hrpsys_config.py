@@ -56,6 +56,10 @@ class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
             return [arg_list, False]
 
 class ChoreonoidHrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
+    def __init__(self, robotname="", hardware_name="RobotHardware_choreonoid0"):
+        self.ROBOT_HW_NAME = hardware_name
+        URATAHrpsysConfigurator.__init__(self,robotname=robotname)
+
     def waitForRobotHardware(self, robotname="Robot"):
         '''!@brief
         Wait for RobotHardware is exists and activated.
@@ -68,7 +72,7 @@ class ChoreonoidHrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
         while self.rh == None and timeout_count < 10:  # <- time out limit
             if timeout_count > 0: # do not sleep initial loop
                 time.sleep(1);
-            self.rh = rtm.findRTC("RobotHardware_choreonoid0")
+            self.rh = rtm.findRTC(self.ROBOT_HW_NAME)
             print(self.configurator_name + "wait for %s : %s ( timeout %d < 10)" % ( robotname, self.rh, timeout_count))
             if self.rh and self.rh.isActive() == None:  # just in case rh is not ready...
                 self.rh = None
