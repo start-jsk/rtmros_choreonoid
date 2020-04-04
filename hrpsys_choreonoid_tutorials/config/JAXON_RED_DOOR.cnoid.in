@@ -20,6 +20,7 @@ items:
           class: BodyItem
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "WAIST"
             rootPosition: [ 0.0, -1.5, 1.0185 ]
             rootAttitude: [ 
@@ -162,6 +163,7 @@ items:
           class: BodyItem
           data: 
             modelFile: "../../jvrc_models/models/door_wallMain.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "DOOR_WALL_BASE"
             rootPosition: [ 0.75, 0.5, 0.0 ]
             rootAttitude: [ 

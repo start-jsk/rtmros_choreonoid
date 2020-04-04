@@ -21,6 +21,7 @@ items:
           class: BodyItem
           data:
             modelFile: "@JSK_MODELS_DIR@/CHIDORI/CHIDORImain_bush.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "WAIST"
             rootPosition: [ -0.0545523187, -0.00278991534, 0.932692459 ]
             rootAttitude: [

@@ -20,6 +20,7 @@ items:
           class: BodyItem
           data:
             modelFile: "@JSK_MODELS_DIR@/JAXON_BLUE/JAXON_BLUEmain_bush.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "WAIST"
             rootPosition: [ 0.0, 0.0, 1.0235 ]
             rootAttitude: [

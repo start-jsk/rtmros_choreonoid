@@ -20,6 +20,7 @@ items:
           class: BodyItem
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "WAIST"
             rootPosition: [ 0.0, -1.5, 1.0185 ]
             rootAttitude: [ 
@@ -66,6 +67,7 @@ items:
           class: BodyItem
           data: 
             modelFile: "../../jvrc_models/models/visible_floor.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: ""
             rootPosition: [ 0, 0, -0.1 ]
             rootAttitude: [ 
@@ -162,6 +164,7 @@ items:
           class: BodyItem
           data: 
             modelFile: "../../jvrc_models/models/valve_box.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: ""
             rootPosition: [ 0.75, 0.5, 0.0 ]
             rootAttitude: [ 
