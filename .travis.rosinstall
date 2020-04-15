@@ -1,0 +1,7 @@
+- git:
+    local-name: choreonoid
+    uri: https://github.com/choreonoid/choreonoid
+    version: release-1.7
+- git:
+    local-name: rtm-ros-robotics/rtmros_tutorials
+    uri: https://github.com/start-jsk/rtmros_tutorials

@@ -39,9 +39,12 @@
   <run_depend>xacro</run_depend>
   <run_depend>control_msgs</run_depend>
   <run_depend>jvrc_models</run_depend>
+  <run_depend>hrpsys_ros_bridge_jvrc</run_depend>
   <run_depend>hrpsys_choreonoid</run_depend>
   <run_depend>hrpsys_ros_bridge_tutorials</run_depend>
   <run_depend>rospy</run_depend>
+  <run_depend>jsk_footstep_controller</run_depend>
+  <run_depend>jsk_robot_startup</run_depend>
 
   <!-- Action with Perception -->
   <build_depend>jsk_pcl_ros</build_depend>

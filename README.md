@@ -1,46 +1,33 @@
-## **install choreonoid from source**
-### compile choreonoid
-~~~
-$ sudo apt-get install libyaml-dev
-$ export CNOID_INSTALL_DIR=/usr/local/choreonoid
-$ export CNOID_RTM_DIR=/opt/ros/${ROS_DISTRO}
-## for source install# 
-## $ export CNOID_RTM_DIR=${HOME}/ros/indigo_parent/devel
-$ git clone https://github.com/s-nakaoka/choreonoid.git
-$ cd choreonoid; git checkout release-1.6
-## git checkout -b tip_with_jsk a4743cc72cf2febbec5e27d923f455d4b24fcb44
-$ mkdir -p build
-$ cd build
-## not use python3, and not use pybind11 for backward compatibility
-$ cmake .. -DCMAKE_INSTALL_PREFIX=${CNOID_INSTALL_DIR} -DOPENRTM_DIR=${CNOID_RTM_DIR} -DENABLE_INSTALL_RPATH=ON -DENABLE_CORBA=ON -DBUILD_CORBA_PLUGIN=ON -DBUILD_OPENRTM_PLUGIN=ON -DBUILD_HELLO_WORLD_SAMPLE=ON -DBUILD_SPRING_MODEL_SAMPLE=ON -DUSE_PYTHON3=OFF -DUSE_PYBIND11=OFF -DUSE_BUILTIN_CAMERA_IMAGE_IDL=ON
-$ make -j8
-$ sudo make install
-~~~
+rtmros_choreonoid  [![Build Status](https://travis-ci.org/start-jsk/rtmros_choreonoid.png)](https://travis-ci.org/start-jsk/rtmros_choreonoid)
+-------------
 
-### download source files
-```
-wstool set --git rtm-ros-robotics/rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid.git
-wstool update rtm-ros-robotics/rtmros_choreonoid
-```
-
-### compile BodyRTC etc.
-~~~
-$ export CNOID_INSTALL_DIR=/usr/local/choreonoid
-$ export PKG_CONFIG_PATH=${CNOID_INSTALL_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH
-$ roscd hrpsys_choreonoid
-$ catkin build --this
-~~~
-
-### add PATH
-~~~
-export PATH=${CNOID_INSTALL_DIR}/bin:$PATH
-~~~
+## Install
+ Create catkin workspace and add rtmros_choreonoid
+ - `mkdir -p ~/catkin_ws/src`
+ - `cd ~/catkin_ws/src`
+ - `wstool init .`
+ - `wstool set rtm-ros-robotics/rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid --git -y`
+ Set up workspace
+ - `wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.travis.rosinstall -y`
+ - `wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.travis.rosinstall.${ROS_DISTRO} -y`
+ - `wstool update`
+ Install requisites for choreonoid
+ - `./choreonoid/misc/script/install-requisites-ubuntu-16.04.sh` # if ubuntu 16.04
+ - `./choreonoid/misc/script/install-requisites-ubuntu-18.04.sh` # if ubuntu 18.04
+ Apply JSK system settings
+ - `patch -p1 -d choreonoid < rtm-ros-robotics/rtmros_choreonoid/choreonoid.patch`
+ Build
+ - `cd ..`
+ - `source /opt/ros/${ROS_DISTRO}/setup.bash`
+ - `rosdep install -r --from-paths src --ignore-src -y`
+ - `catkin build choreonoid hrpsys_choreonoid`
+ - `source devel/setup.bash`
 
 ### run test
 
-- catkin build hrpsys_choreonoid_tutorials
-
-- rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
+- `catkin build hrpsys_choreonoid_tutorials`
+- `source devel/setup.bash`
+- `rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch`
 
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 

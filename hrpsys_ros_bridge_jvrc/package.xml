@@ -27,7 +27,6 @@
   <build_depend>hrpsys_choreonoid</build_depend>
   <build_depend>hrpsys_ros_bridge_tutorials</build_depend>
   <build_depend>jaxon_ros_bridge</build_depend>
-  <build_depend>jsk_hrp2_ros_bridge</build_depend>
   <build_depend>jsk_robot_startup</build_depend>
   <build_depend>message_generation</build_depend>
 
@@ -45,7 +44,6 @@
   <run_depend>hrpsys_choreonoid</run_depend>
   <run_depend>hrpsys_ros_bridge_tutorials</run_depend>
   <run_depend>jaxon_ros_bridge</run_depend>
-  <run_depend>jsk_hrp2_ros_bridge</run_depend>
   <run_depend>jsk_robot_startup</run_depend>
 
   <export>
