@@ -167,8 +167,10 @@ def getCoordinate(robotname = 'JAXON_RED', linkname = 'WAIST'):
 
     if iLink == None:
         return '(:fail "invalid linkname %s")'%(linkname)
-
-    coords = iLink.position()
+    if callable(iLink.position):
+        coords = iLink.position()
+    else:
+        coords = iLink.position
     pos = coords[0:3, 3]
     rot = coords[0:3, 0:3]
 
