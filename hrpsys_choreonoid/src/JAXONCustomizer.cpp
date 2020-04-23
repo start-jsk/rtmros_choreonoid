@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstring>
+#include <string>
 #include <fstream>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -53,6 +54,7 @@ static BodyCustomizerInterface bodyCustomizerInterface;
 
 struct JointValSet
 {
+  int index;
   double* valuePtr;
   double* velocityPtr;
   double* torqueForcePtr;
@@ -63,7 +65,7 @@ struct JAXONCustomizer
   BodyHandle bodyHandle;
 
   bool hasVirtualBushJoints;
-  JointValSet jointValSets[2][3];
+  JointValSet jointValSets[4][6];
   double springT;
   double dampingT;
   double springR;
@@ -102,28 +104,26 @@ static const char** getTargetModelNames()
 
 static void getVirtualbushJoints(JAXONCustomizer* customizer, BodyHandle body)
 {
-  customizer->hasVirtualBushJoints = true;
+  customizer->hasVirtualBushJoints = false;
 
-  int bushIndices[2][3];
+  static const char* limbs[] = {"RLEG", "LLEG", "RARM", "LARM"};
+  static const char* types[] = {"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
+  char bush_name[30];
 
-  bushIndices[0][0] = bodyInterface->getLinkIndexFromName(body, "RLEG_BUSH_Z");
-  bushIndices[0][1] = bodyInterface->getLinkIndexFromName(body, "RLEG_BUSH_ROLL");
-  bushIndices[0][2] = bodyInterface->getLinkIndexFromName(body, "RLEG_BUSH_PITCH");
-  bushIndices[1][0] = bodyInterface->getLinkIndexFromName(body, "LLEG_BUSH_Z");
-  bushIndices[1][1] = bodyInterface->getLinkIndexFromName(body, "LLEG_BUSH_ROLL");
-  bushIndices[1][2] = bodyInterface->getLinkIndexFromName(body, "LLEG_BUSH_PITCH");
+  for(int i=0; i < 4; ++i){
+    for(int j=0; j < 6; ++j){
+      JointValSet& jointValSet = customizer->jointValSets[i][j];
+      sprintf(bush_name, "%s_BUSH_%s", limbs[i], types[j]);
+      jointValSet.index = bodyInterface->getLinkIndexFromName(body, bush_name);
+      if(jointValSet.index < 0){
+        std::cerr << "[Customizer] failed to find out : " << bush_name << std::endl;
+      }else{
+        std::cerr << "[Customizer] find out : " << bush_name << std::endl;
+        customizer->hasVirtualBushJoints = true;
 
-  for(int i=0; i < 2; ++i){
-    for(int j=0; j < 3; ++j){
-      int bushIndex = bushIndices[i][j];
-      if(bushIndex < 0){
-        std::cerr << "[Customizer] failed to find out : " << i << " " << j << std::endl;
-        customizer->hasVirtualBushJoints = false;
-      } else {
-        JointValSet& jointValSet = customizer->jointValSets[i][j];
-        jointValSet.valuePtr = bodyInterface->getJointValuePtr(body, bushIndex);
-        jointValSet.velocityPtr = bodyInterface->getJointVelocityPtr(body, bushIndex);
-        jointValSet.torqueForcePtr = bodyInterface->getJointForcePtr(body, bushIndex);
+        jointValSet.valuePtr = bodyInterface->getJointValuePtr(body, jointValSet.index);
+        jointValSet.velocityPtr = bodyInterface->getJointVelocityPtr(body, jointValSet.index);
+        jointValSet.torqueForcePtr = bodyInterface->getJointForcePtr(body, jointValSet.index);
       }
     }
   }
@@ -215,15 +215,21 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
   JAXONCustomizer* customizer = static_cast<JAXONCustomizer*>(customizerHandle);
 
   if(customizer->hasVirtualBushJoints){
-    for(int i=0; i < 2; ++i){
-      JointValSet& trans = customizer->jointValSets[i][0];
-      *(trans.torqueForcePtr) = - customizer->springT * (*trans.valuePtr) - customizer->dampingT * (*trans.velocityPtr);
-      //std::cerr << i << " " << 0 << " " << *(trans.torqueForcePtr) << " = " << -customizer->springT << " x " << *trans.valuePtr << " + " <<  - customizer->dampingT << " x " << *trans.velocityPtr << std::endl;
+    for(int i=0; i < 4; ++i){
+      for(int j=0; j < 3; ++j){
+        JointValSet& trans = customizer->jointValSets[i][j];
+        if(trans.index >= 0){
+          *(trans.torqueForcePtr) = - customizer->springT * (*trans.valuePtr) - customizer->dampingT * (*trans.velocityPtr);
+          //std::cerr << i << " " << 0 << " " << *(trans.torqueForcePtr) << " = " << -customizer->springT << " x " << *trans.valuePtr << " + " <<  - customizer->dampingT << " x " << *trans.velocityPtr << std::endl;
+        }
+      }
 
-      for(int j=1; j < 3; ++j){
+      for(int j=3; j < 6; ++j){
         JointValSet& rot = customizer->jointValSets[i][j];
-        *(rot.torqueForcePtr) = - customizer->springR * (*rot.valuePtr) - customizer->dampingR * (*rot.velocityPtr);
-        //std::cerr << i << " " << j << " " << *(rot.torqueForcePtr) << " = " << -customizer->springR << " x " << *rot.valuePtr << " + " <<  - customizer->dampingR << " x " << *rot.velocityPtr << std::endl;
+        if(rot.index >= 0){
+          *(rot.torqueForcePtr) = - customizer->springR * (*rot.valuePtr) - customizer->dampingR * (*rot.velocityPtr);
+          //std::cerr << i << " " << j << " " << *(rot.torqueForcePtr) << " = " << -customizer->springR << " x " << *rot.valuePtr << " + " <<  - customizer->dampingR << " x " << *rot.velocityPtr << std::endl;
+        }
       }
     }
   }
