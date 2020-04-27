@@ -1,0 +1,23 @@
+Shape {
+   # geometry Cylinder {
+   #    radius 0.15
+   #    height 2.5
+   # }
+   geometry Box { size 0.3 0.3 2.5 }
+   appearance Appearance {
+      #material Material {
+      #  diffuseColor 0.0 0.0 1.0
+      #}
+      texture ImageTexture{
+         url "wood.jpg"
+         repeatS FALSE
+         repeatT FALSE
+      }
+      textureTransform TextureTransform{
+         #  scale 5.0 5.0 #横5枚、縦5枚貼り付ける
+         #   center 0.5 0.5
+         #   rotation 1.570796
+         #  translation x y
+      }
+   }
+}
