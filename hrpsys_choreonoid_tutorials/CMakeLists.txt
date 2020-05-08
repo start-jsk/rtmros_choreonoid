@@ -201,21 +201,21 @@ endif()
 #HRP2JSK conid
 ###
 if (${hrp2_models_FOUND})
-configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSK_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSK_RH_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSK_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSK_LOAD_OBJ.cnoid @ONLY)
 endif()
 
 ###
 #HRP2JSKNT conid
 ###
 if (${hrp2_models_FOUND})
-configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSKNT_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSKNT_RH_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSKNT_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSKNT_LOAD_OBJ.cnoid @ONLY)
 endif()
 
 ###
 #HRP2JSKNTS conid
 ###
 if (${hrp2_models_FOUND})
-configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSKNTS_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSKNTS_RH_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSKNTS_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSKNTS_LOAD_OBJ.cnoid @ONLY)
 endif()
 
 ###

@@ -19,7 +19,7 @@ items:
           plugin: Body
           class: BodyItem
           data:
-            modelFile: "@HRP2_MODELS_DIR@/HRP2JSK_for_OpenHRP3/HRP2JSKmain_bush.wrl"
+            modelFile: "@HRP2_MODELS_DIR@/HRP2JSKNTS_WITH_3HAND_for_OpenHRP3/HRP2JSKNTSmain_bush.wrl"
             currentBaseLink: "WAIST"
             rootPosition: [ 0.0, 0.0, 0.650 ]
             rootAttitude: [
@@ -27,22 +27,26 @@ items:
               0, 1, 0,
               0, 0, 1 ]
             jointPositions: [
-               -0.000015,  0.003323, -0.468274,  0.872491, -0.404216, -0.003323,
-               -0.000015,  0.003323, -0.467353,  0.870656, -0.403303, -0.003323,
+               -0.000015,  0.003323, -0.468274,  0.872491, -0.404216, -0.003323,  0.000000,
+               -0.000015,  0.003323, -0.467353,  0.870656, -0.403303, -0.003323,  0.000000,
                 0.000000,  0.000000,  0.000000,  0.000000,
                 0.174533, -0.174533,  0.000000, -0.436332,  0.000000,  0.000000, -0.174533,  0.261799,
-                0.174533,  0.174533,  0.000000, -0.436332,  0.000000,  0.000000, -0.174533, -0.261799]
+                0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
+                0.174533,  0.174533,  0.000000, -0.436332,  0.000000,  0.000000, -0.174533, -0.261799
+                0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000]
             initialRootPosition: [ 0.0, 0.0, 0.650 ]
             initialRootAttitude: [
               1, 0, 0,
               0, 1, 0,
               0, 0, 1 ]
             initialJointPositions: [
-               -0.000015,  0.003323, -0.468274,  0.872491, -0.404216, -0.003323,
-               -0.000015,  0.003323, -0.467353,  0.870656, -0.403303, -0.003323,
+               -0.000015,  0.003323, -0.468274,  0.872491, -0.404216, -0.003323,  0.000000,
+               -0.000015,  0.003323, -0.467353,  0.870656, -0.403303, -0.003323,  0.000000,
                 0.000000,  0.000000,  0.000000,  0.000000,
                 0.174533, -0.174533,  0.000000, -0.436332,  0.000000,  0.000000, -0.174533,  0.261799,
-                0.174533,  0.174533,  0.000000, -0.436332,  0.000000,  0.000000, -0.174533, -0.261799]
+                0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
+                0.174533,  0.174533,  0.000000, -0.436332,  0.000000,  0.000000, -0.174533, -0.261799
+                0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000]
             zmp: [ 0, 0, 0 ]
             collisionDetection: true
             selfCollisionDetection: false
@@ -56,35 +60,20 @@ items:
               data:
                 isImmediateMode: true
                 moduleName: "@JVRC_RTC_DIRECTORY@/lib/RobotHardware_choreonoid"
-                confFileName: "@JVRC_CONF_DIRECTORY@/BodyRTC_HRP2JSK.RH.conf"
+                confFileName: "@JVRC_CONF_DIRECTORY@/BodyRTC_HRP2JSKNTS.RH.conf"
                 configurationMode: Use Configuration File
                 AutoConnect: false
-                InstanceName: HRP2JSK(Robot)0
+                InstanceName: HRP2JSKNTS(Robot)0
                 bodyPeriodicRate: 0.004
         -
           id: 4
-          name: "floor"
-          plugin: Body
-          class: BodyItem
+          name: "add_objects.py"
+          plugin: Python
+          class: PythonScriptItem
           data:
-            modelFile: "${SHARE}/model/misc/floor.body"
-            currentBaseLink: ""
-            rootPosition: [ 0, 0, -0.1 ]
-            rootAttitude: [
-              1, 0, 0,
-              0, 1, 0,
-              0, 0, 1 ]
-            jointPositions: [  0.000000 ]
-            initialRootPosition: [ 0, 0, -0.1 ]
-            initialRootAttitude: [
-              1, 0, 0,
-              0, 1, 0,
-              0, 0, 1 ]
-            initialJointPositions: [  0.000000 ]
-            zmp: [ 0, 0, 0 ]
-            collisionDetection: true
-            selfCollisionDetection: false
-            isEditable: true
+            file: "@JVRC_RTC_DIRECTORY@/launch/add_objects.py"
+            executionOnLoading: true
+            backgroundExecution: false
         -
           id: 5
           name: "AISTSimulator"

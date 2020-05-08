@@ -2,7 +2,7 @@
   <arg name="TASK" default="FLAT" />
   <arg name="USE_ROBOTHARDWARE" default="true" />
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/flat.yaml" />
-  <arg name="LOAD_OBJECTS" default="false" />
+  <arg name="LOAD_OBJECTS" default="true" />
   <arg name="NO_SCENE" default="false" />
 
   <arg name="KILL_SERVERS" default="false" />
