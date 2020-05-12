@@ -14,7 +14,7 @@
     <arg name="HRPSYS_PY_PKG"        value="hrpsys_choreonoid_tutorials"/>
     <arg name="HRPSYS_PY_NAME"       value="hrp2_rh_setup.py" />
     <arg name="CONTROLLER_CONFIG"    value="$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSK_controller_config.yaml" />
-    <arg name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid)/config/HRP2JSKCustomizer.yaml" />
+    <arg name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid_tutorials)/config/HRP2JSKCustomizer.yaml" />
   </include>
 
 </launch>
