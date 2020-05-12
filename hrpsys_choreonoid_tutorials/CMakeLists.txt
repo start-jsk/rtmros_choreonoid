@@ -171,6 +171,14 @@ set(JVRC_RTC_DIRECTORY ${hrpsys_choreonoid_SOURCE_PREFIX})
 set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
 
 ###
+#SampleRobot conid
+###
+if (${hrp2_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/SampleRobot_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/SampleRobot_LOAD_OBJ.cnoid @ONLY)
+endif()
+configure_file(${PROJECT_SOURCE_DIR}/launch/samplerobot_choreonoid.launch.in ${PROJECT_SOURCE_DIR}/launch/samplerobot_choreonoid.launch @ONLY) #OPENHRP_SAMPLE_DIR is difficult to find in roslaunch api
+
+###
 #JAXON_RED conid
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid @ONLY)

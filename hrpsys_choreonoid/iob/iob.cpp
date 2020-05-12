@@ -14,6 +14,8 @@
 #include <rtm/DataInPort.h>
 #include <rtm/DataOutPort.h>
 #include <rtm/idl/BasicDataTypeSkel.h>
+#include <hrpModel/ModelLoaderUtil.h>
+#include <hrpModel/Sensor.h>
 
 #include "RobotHardware_choreonoid.h"
 
@@ -81,6 +83,11 @@ static InPort<TimedDoubleSeq> *ip_rhsensor_sim;
 static InPort<TimedDoubleSeq> *ip_lhsensor_sim;
 static InPort<TimedAcceleration3D> *ip_gsensor_sim;
 static InPort<TimedAngularVelocity3D> *ip_gyrometer_sim;
+
+static int rfsensor_id;
+static int lfsensor_id;
+static int rhsensor_id;
+static int lhsensor_id;
 
 static void readGainFile();
 
@@ -622,6 +629,44 @@ int open_iob(void)
       servo[i] = 1;
     }
 
+    // get sensorId of force sensors
+    {
+      RTC::Manager& rtcManager = RTC::Manager::instance();
+      std::string nameServer = rtcManager.getConfig()["corba.nameservers"];
+      int comPos = nameServer.find(",");
+      if (comPos < 0){
+        comPos = nameServer.length();
+      }
+      nameServer = nameServer.substr(0, comPos);
+      RTC::CorbaNaming naming(rtcManager.getORB(), nameServer.c_str());
+      RTC::Properties& prop = self_ptr->getProperties();
+      hrp::BodyPtr m_robot = hrp::BodyPtr(new hrp::Body());
+      if (!loadBodyFromModelLoader(m_robot, prop["model"].c_str(), 
+                                   CosNaming::NamingContext::_duplicate(naming.getRootContext())
+                                   )){
+        std::cerr << "failed to load model[" << prop["model"] << "]" << std::endl;
+        return RTC::RTC_ERROR;
+      }
+
+      if (m_robot->sensor<hrp::ForceSensor>("rfsensor") && m_robot->sensor<hrp::ForceSensor>("lfsensor") && m_robot->sensor<hrp::ForceSensor>("rhsensor") && m_robot->sensor<hrp::ForceSensor>("lhsensor") ){
+        rfsensor_id = m_robot->sensor<hrp::ForceSensor>("rfsensor")->id;
+        lfsensor_id = m_robot->sensor<hrp::ForceSensor>("lfsensor")->id;
+        rhsensor_id = m_robot->sensor<hrp::ForceSensor>("rhsensor")->id;
+        lhsensor_id = m_robot->sensor<hrp::ForceSensor>("lhsensor")->id;
+      } else if (m_robot->sensor<hrp::ForceSensor>("rfsensor") && m_robot->sensor<hrp::ForceSensor>("lfsensor") ){
+        rfsensor_id = m_robot->sensor<hrp::ForceSensor>("rfsensor")->id;
+        lfsensor_id = m_robot->sensor<hrp::ForceSensor>("lfsensor")->id;
+        rhsensor_id = 2;
+        lhsensor_id = 3;
+      } else {
+        std::cerr << "could not find rfsensor/lfsensor/rhsensor/lhsensor. use default sensorId" << std::endl;
+        rfsensor_id = 0;
+        lfsensor_id = 1;
+        rhsensor_id = 2;
+        lhsensor_id = 3;
+      }
+    }
+
     std::cerr << "choreonoid IOB is opened" << std::endl;
     return TRUE;
 }
@@ -667,7 +712,7 @@ void iob_update(void)
       if(number_of_force_sensors() >= 1) {
         for(int i = 0; i < 6; i++) {
           //forces[0][i] = m_rfsensor_sim.data[i];
-          force_queue[force_counter][0][i] = m_rfsensor_sim.data[i];
+          force_queue[force_counter][rfsensor_id][i] = m_rfsensor_sim.data[i];
         }
       }
     }
@@ -676,7 +721,7 @@ void iob_update(void)
       if(number_of_force_sensors() >= 2) {
         for(int i = 0; i < 6; i++) {
           //forces[1][i] = m_lfsensor_sim.data[i];
-          force_queue[force_counter][1][i] = m_lfsensor_sim.data[i];
+          force_queue[force_counter][lfsensor_id][i] = m_lfsensor_sim.data[i];
         }
       }
     }
@@ -685,7 +730,7 @@ void iob_update(void)
       if(number_of_force_sensors() >= 3) {
         for(int i = 0; i < 6; i++) {
           //forces[2][i] = m_rhsensor_sim.data[i];
-          force_queue[force_counter][2][i] = m_rhsensor_sim.data[i];
+          force_queue[force_counter][rhsensor_id][i] = m_rhsensor_sim.data[i];
         }
       }
     }
@@ -694,7 +739,7 @@ void iob_update(void)
       if(number_of_force_sensors() >= 4) {
         for(int i = 0; i < 6; i++) {
           //forces[3][i] = m_lhsensor_sim.data[i];
-          force_queue[force_counter][3][i] = m_lhsensor_sim.data[i];
+          force_queue[force_counter][lhsensor_id][i] = m_lhsensor_sim.data[i];
         }
       }
     }
