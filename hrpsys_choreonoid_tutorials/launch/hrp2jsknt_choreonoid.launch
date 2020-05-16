@@ -15,6 +15,22 @@
     <arg name="HRPSYS_PY_NAME"       value="hrp2_rh_setup.py" />
     <arg name="CONTROLLER_CONFIG"    value="$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSKNT_controller_config.yaml" />
     <arg name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid_tutorials)/config/HRP2JSKNTCustomizer.yaml" />
+    <arg name="hrpsys_opt_rtc_config_args" value='-o "example.HRP3HandController_choreonoid.config_file:$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSKNT.conf" -o "example.HRP3HandController_choreonoid.pdgains_sim_file_name:$(find jsk_hrp2_ros_bridge)/rtc/HRP3HandController/HRP3HAND.PDgains.dat"'/>
   </include>
+
+  <!-- HRP3HANDControllerServiceROSBridge -->
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport" default="15005" />
+  <arg name="managerport" default="2810" />
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
+
+  <node pkg="jsk_hrp2_ros_bridge" name="HRP3HandControllerServiceROSBridge" type="HRP3HandControllerServiceROSBridgeComp"
+        output="screen" args='-o "corba.master_manager:$(arg nameserver):$(arg managerport)" -o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:2000" -o "logger.file_name:/tmp/rtc%p.log"' />
+  <rtconnect from="HRP3HandControllerServiceROSBridge.rtc:HRP3HandControllerService" to="HRP3HandController_choreonoid0.rtc:HRP3HandControllerService" subscription_type="new"/>
+  <rtactivate component="HRP3HandControllerServiceROSBridge.rtc" />
+  <node name="rtmlaunch_hrp2jsknt_choreonoid" pkg="openrtm_tools" type="rtmlaunch.py" args="$(find hrpsys_choreonoid_tutorials)/launch/hrp2jsknt_choreonoid.launch" output="screen"/>
 
 </launch>

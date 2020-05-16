@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <vector>
-#include "iob.h"
 
 #include <stdio.h>
 
@@ -16,8 +15,14 @@
 #include <rtm/idl/BasicDataTypeSkel.h>
 #include <hrpModel/ModelLoaderUtil.h>
 #include <hrpModel/Sensor.h>
+#include <rtm/idl/BasicDataType.hh>
+#include <rtm/idl/ExtendedDataTypes.hh>
 
-#include "RobotHardware_choreonoid.h"
+#if defined IOB_NAMESPACE
+namespace IOB_NAMESPACE {
+#endif
+
+#include "iob.h"
 
 static std::vector<double> command;
 static std::vector<double> act_angle;
@@ -39,8 +44,6 @@ static timespec g_ts;
 static long g_period_ns=5000000;
 static std::vector<bool> isPosTq;
 
-Time iob_time;
-
 #define FORCE_AVERAGE 8
 #define TORQUE_AVERAGE 2
 
@@ -57,7 +60,9 @@ static std::vector<std::vector<double> > torque_queue;
 
 using namespace RTC;
 
-RobotHardware_choreonoid *self_ptr;
+Time iob_time;
+
+RTC::DataFlowComponentBase *self_ptr;
 
 //* *//
 static TimedDoubleSeq m_angleIn;
@@ -100,6 +105,7 @@ static std::vector<double> Pgain_orig, Dgain_orig;
 static std::vector<double> tlimit;
 static size_t dof, loop;
 static unsigned int m_debugLevel;
+static bool initial_p=true;
 
 static int iob_step;
 static int iob_nstep;
@@ -189,6 +195,23 @@ int set_number_of_joints(int num)
     for (int j = 0; j < TORQUE_AVERAGE; j++) {
       torque_queue[j].resize(num);
     }
+
+    dof = num;
+    m_torqueOut.data.length(dof);
+    m_angleIn.data.length(dof);
+    qold.resize(dof);
+    qold_ref.resize(dof);
+    tqold.resize(dof);
+    tqold_ref.resize(dof);
+    Pgain.resize(dof);
+    Dgain.resize(dof);
+    tqPgain.resize(dof);
+    tqDgain.resize(dof);
+    initial_Pgain.resize(dof);
+    initial_Dgain.resize(dof);
+    initial_tqPgain.resize(dof);
+    initial_tqDgain.resize(dof);
+
     return TRUE;
 }
 
@@ -667,6 +690,8 @@ int open_iob(void)
       }
     }
 
+    readGainFile();
+
     std::cerr << "choreonoid IOB is opened" << std::endl;
     return TRUE;
 }
@@ -678,10 +703,18 @@ void iob_update(void)
 {
     if(ip_angleIn->isNew()) {
       ip_angleIn->read();
-      if (dof == 0) {
-        dof = m_angleIn.data.length();
-        m_torqueOut.data.length(dof);
-        readGainFile();
+      if (initial_p){
+        if (dof != m_angleIn.data.length()) {
+          dof = m_angleIn.data.length();
+          m_torqueOut.data.length(dof);
+          readGainFile();
+        }
+        // initialize angleRef, old_ref and old with angle
+        for(int i = 0; i < dof; ++i) {
+          command[i] = qold_ref[i] = qold[i] = m_angleIn.data[i];
+          com_torque[i] = tqold_ref[i] = tqold[i] = 0/*act_torque[i]*/;
+        }
+        initial_p = false;
       }
       for(int i = 0; i < m_angleIn.data.length() && i < dof; i++) {
         act_angle[i] = m_angleIn.data[i];
@@ -916,11 +949,6 @@ static void readGainFile()
       }
     } else {
       std::cerr << "[iob] Gain file [" << gain_fname << "] not opened" << std::endl;
-    }
-    // initialize angleRef, old_ref and old with angle
-    for(int i = 0; i < dof; ++i) {
-      command[i] = qold_ref[i] = qold[i] = m_angleIn.data[i];
-      com_torque[i] = tqold_ref[i] = tqold[i] = 0/*act_torque[i]*/;
     }
 }
 
@@ -1290,4 +1318,6 @@ int read_digital_output(char *doutput)
     return FALSE;
 }
 
-
+#if defined IOB_NAMESPACE
+}
+#endif

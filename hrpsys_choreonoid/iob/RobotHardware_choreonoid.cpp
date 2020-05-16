@@ -28,7 +28,7 @@ static const char* robothardware_choreonoid_spec[] =
   };
 // </rtc-template>
 
-extern RobotHardware_choreonoid *self_ptr;
+extern RTC::DataFlowComponentBase *self_ptr;
 extern void iob_update();
 extern void iob_finish();
 extern void iob_set_torque_limit(std::vector<double> &vec);

@@ -35,6 +35,14 @@ else()
   set (HRP2_MODELS_DIR ${hrp2_models_SOURCE_PREFIX})
 endif()
 
+find_package(jsk_hrp2_ros_bridge QUIET)
+if(NOT "${jsk_hrp2_ros_bridge_FOUND}")
+  string(ASCII 27 Esc)
+  message(WARNING "${Esc}[1;33mPackage jsk_hrp2_ros_bridge is not found, if you have right to access them please include source code in catkin workspace${Esc}[m")
+else()
+  set (JSK_HRP2_ROS_BRIDGE_DIR ${jsk_hrp2_ros_bridge_SOURCE_PREFIX})
+endif()
+
 ################################
 ## compile_openhrp_model
 ##  Generate OpenHRP3 .xml and .conf file.

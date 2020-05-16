@@ -7,6 +7,7 @@
   <arg name="USE_VISION" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="hrpsys_opt_rtc_config_args" default=""/>
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
 
   <arg name="CHOREONOID_ROBOT" default="JAXON_RED"/>
@@ -51,6 +52,7 @@
     <arg name="REALTIME" value="$(arg REALTIME)" />
     <arg name="GUI" value="$(arg GUI)" />
     <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)" />
+    <arg name="hrpsys_opt_rtc_config_args" value="$(arg hrpsys_opt_rtc_config_args)"/>
     <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
   </include>
   <!-- ros_bridge -->

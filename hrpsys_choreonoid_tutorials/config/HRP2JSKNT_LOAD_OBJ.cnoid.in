@@ -65,6 +65,19 @@ items:
                 AutoConnect: false
                 InstanceName: HRP2JSKNT(Robot)0
                 bodyPeriodicRate: 0.004
+            -
+              id: 6
+              name: "BodyRTC_hand"
+              plugin: OpenRTM
+              class: BodyRTCItem
+              data:
+                isImmediateMode: true
+                moduleName: "@JSK_HRP2_ROS_BRIDGE_DIR@/lib/choreonoid/HRP3HandController_choreonoid"
+                confFileName: "@JVRC_CONF_DIRECTORY@/BodyRTC_HRP3HAND.RH.conf"
+                configurationMode: Use Configuration File
+                AutoConnect: false
+                InstanceName: HRP3HAND(Robot)0
+                bodyPeriodicRate: 0.004
         -
           id: 4
           name: "add_objects.py"
