@@ -114,6 +114,26 @@ if world:
                 robot_rootLink.setJointType(cnoid.Body.Link.JointType.FREE_JOINT)
                 robot.updateLinkTree()
 
+        if 'static_joint' in obj_info:
+            static_joint = obj_info['static_joint']
+            if static_joint:
+                if callable(robot.numAllJoints): # include virtual joints
+                    for i in range(robot.numAllJoints()):
+                        robot.joint(i).setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
+                else:
+                    for i in range(robot.numAllJoints):
+                        robot.joint(i).setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
+                robot.updateLinkTree()
+
+        if 'static_joints' in obj_info:
+            static_joints = obj_info['static_joints']
+            for j in static_joints:
+                if robot.link(j):
+                    robot.link(j).setJointType(cnoid.Body.Link.JointType.FIXED_JOINT)
+                else:
+                    print("joint: %s not found"%(j), file=sys.stderr)
+            robot.updateLinkTree()
+
         if 'translation' in obj_info:
             trans = obj_info['translation']
             robot_rootLink.setTranslation(trans);
