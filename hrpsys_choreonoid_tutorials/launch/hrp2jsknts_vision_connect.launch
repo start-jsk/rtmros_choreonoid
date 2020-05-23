@@ -1,0 +1,67 @@
+<launch>
+  <arg name="SIMULATOR_NAME" default="HRP2JSKNTS(Robot)0" />
+  <arg name="OUTPUT" default="log"/>
+  <arg name="nameserver" default="localhost" />
+  <arg name="corbaport" default="15005" />
+  <arg name="periodic_rate" default="200" />
+
+  <arg name="openrtm_args" default='-o "corba.nameservers:$(arg nameserver):$(arg corbaport)" -o "naming.formats:%n.rtc" -o "exec_cxt.periodic.type:PeriodicExecutionContext" -o "exec_cxt.periodic.rate:$(arg periodic_rate)" -o "logger.file_name:/tmp/rtc%p.log"' />
+
+  <env name="RTCTREE_NAMESERVERS" value="$(arg nameserver):$(arg corbaport)" />
+  <env name="LANG" value="C" />
+  <env name="ORBgiopMaxMsgSize" value="2147483648" />
+  <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
+
+  <node name="rtmlaunch_vision_connect" pkg="openrtm_tools"
+        type="rtmlaunch.py"
+        args="$(find hrpsys_choreonoid_tutorials)/launch/hrp2jsknts_vision_connect.launch"
+        output="$(arg OUTPUT)"/>
+
+  <node pkg="hrpsys_ros_bridge" name="HEAD"
+        type="ImageSensorROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera_remote/rgb">
+    <param name="frame_id" value="camera_rgb_optical_frame" />
+    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <rtconnect from="HRP2JSKNTS(Robot)0.rtc:HEAD_CAMERA"
+               to="HEAD.rtc:timedImage" />
+    <rtactivate component="HEAD.rtc" />
+    <remap from="image_raw" to="image_rect_color" />
+  </node>
+  <node name="camera_remote_image_rect_relay"
+        pkg="topic_tools" type="relay"
+        args="camera_remote/rgb/image_rect_color camera_remote/rgb/image_rect" />
+
+  <node pkg="hrpsys_ros_bridge" name="pointcloud_bridge"
+        type="PointCloudROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera_remote/depth_registered">
+    <param name="frame_id" value="camera_depth_optical_frame" />
+    <param name="publish_depth" value="true" />
+    <param name="transformed_camera_frame" value="true" />
+    <rtconnect from="HRP2JSKNTS(Robot)0.rtc:HEAD_DEPTH"
+               to="PointCloudROSBridge0.rtc:points" />
+    <rtactivate component="PointCloudROSBridge0.rtc" />
+  </node>
+
+  <node pkg="hrpsys_choreonoid" name="ground_truth_bridge"
+        type="TransformROSBridge"
+        output="$(arg OUTPUT)" args="$(arg openrtm_args)" >
+    <!-- set rtc name by ros_name -->
+    <param name="use_ros_name" value="true" />
+
+    <remap from="odom" to="/ground_truth_odom" />
+    <param name="rate" value="100.0" />
+    <param name="publish_odom" value="true" />
+    <param name="initial_relative" value="false" />
+
+    <param name="publish_tf" value="true" />
+    <param name="invert_tf"  value="true" />
+    <param name="tf_frame"        value="BODY" />
+    <param name="tf_parent_frame" value="choreonoid_origin" />
+
+    <rtconnect from="HRP2JSKNTS(Robot)0.rtc:WAIST"
+               to="ground_truth_bridge.rtc:TformIn" />
+    <rtactivate component="ground_truth_bridge.rtc" />
+  </node>
+
+</launch>

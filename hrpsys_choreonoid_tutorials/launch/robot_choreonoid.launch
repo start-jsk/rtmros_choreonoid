@@ -72,8 +72,9 @@
         if="$(arg LAUNCH_FOOTCOORDS)" />
 
   <!-- vision setting -->
+  <arg name="VISION_CONNECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" />
   <group if="$(arg USE_VISION)">
-    <include file="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" >
+    <include file="$(arg VISION_CONNECT_FILE)" >
       <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
     </include>
   </group>

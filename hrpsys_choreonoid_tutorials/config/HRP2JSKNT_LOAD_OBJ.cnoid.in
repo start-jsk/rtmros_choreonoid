@@ -15,7 +15,7 @@ items:
       children:
         -
           id: 2
-          name: "HRP2JSK"
+          name: "HRP2JSKNT"
           plugin: Body
           class: BodyItem
           data:
