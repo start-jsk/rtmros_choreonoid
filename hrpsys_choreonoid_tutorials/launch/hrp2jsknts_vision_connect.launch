@@ -21,8 +21,12 @@
         type="ImageSensorROSBridge"
         output="$(arg OUTPUT)" args="$(arg openrtm_args)" ns="camera_remote/rgb">
     <param name="frame_id" value="camera_rgb_optical_frame" />
-    <rosparam param="camera_param_K">[240, 0, 319.5,  0, 240, 239.5,  0, 0, 1]</rosparam>
-    <rosparam param="camera_param_P">[240, 0, 319.5, 0,  0, 240, 239.5, 0,  0, 0, 1, 0]</rosparam>
+    <!-- fieldOfView in WRML defines fov in Y direction.
+             | (height/2 / tan(fovY/2)           0             width/2 |
+         K = |          0             (height/2 / tan(fovY/2) height/2 |
+             |          0                       0                1     | -->
+    <rosparam param="camera_param_K">[500, 0, 319.5,  0, 500, 239.5,  0, 0, 1]</rosparam>
+    <rosparam param="camera_param_P">[500, 0, 319.5, 0,  0, 500, 239.5, 0,  0, 0, 1, 0]</rosparam>
     <rtconnect from="HRP2JSKNTS(Robot)0.rtc:HEAD_CAMERA"
                to="HEAD.rtc:timedImage" />
     <rtactivate component="HEAD.rtc" />
