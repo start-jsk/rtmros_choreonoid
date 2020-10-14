@@ -4,6 +4,12 @@ bush:
   springR: 1.0e3
   dampingR: 1.0
 
+armbush:
+  springT: 3.3e5
+  dampingT: 3.3e2
+  springR: 1.0e3
+  dampingR: 1.0
+
 tilt_laser:
   TILT_UPPER_BOUND: 1.35
   TILT_POSITIVE_SPEED: 1.0

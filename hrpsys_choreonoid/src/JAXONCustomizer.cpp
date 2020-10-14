@@ -71,6 +71,11 @@ struct JAXONCustomizer
   double springR;
   double dampingR;
 
+  double arm_springT;
+  double arm_dampingT;
+  double arm_springR;
+  double arm_dampingR;
+
   double tilt_upper_bound;
   double tilt_lower_bound;
   double tilt_positive_speed;
@@ -172,6 +177,11 @@ static BodyCustomizerHandle create(BodyHandle bodyHandle, const char* modelName)
   customizer->springR  = 2.5e3; // Nm / rad
   customizer->dampingR = 2.5;   // Nm / (rad/s)
 
+  customizer->arm_springT  = 1.1e6; // N/m
+  customizer->arm_dampingT = 1.1e3; // N/(m/s)
+  customizer->arm_springR  = 2.5e3; // Nm / rad
+  customizer->arm_dampingR = 2.5;   // Nm / (rad/s)
+
   customizer->tilt_upper_bound = 1.35; // rad
   customizer->tilt_lower_bound = -0.7; // rad
   customizer->tilt_positive_speed = 1.0; // rad/s
@@ -187,6 +197,10 @@ static BodyCustomizerHandle create(BodyHandle bodyHandle, const char* modelName)
       customizer->dampingT = param["bush"]["dampingT"].as<double>();
       customizer->springR  = param["bush"]["springR"].as<double>();
       customizer->dampingR = param["bush"]["dampingR"].as<double>();
+      customizer->arm_springT  = param["armbush"]["springT"].as<double>();
+      customizer->arm_dampingT = param["armbush"]["dampingT"].as<double>();
+      customizer->arm_springR  = param["armbush"]["springR"].as<double>();
+      customizer->arm_dampingR = param["armbush"]["dampingR"].as<double>();
       customizer->tilt_upper_bound    = param["tilt_laser"]["TILT_UPPER_BOUND"].as<double>();
       customizer->tilt_positive_speed = param["tilt_laser"]["TILT_POSITIVE_SPEED"].as<double>();
       customizer->tilt_lower_bound    = param["tilt_laser"]["TILT_LOWER_BOUND"].as<double>();
@@ -219,7 +233,8 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
       for(int j=0; j < 3; ++j){
         JointValSet& trans = customizer->jointValSets[i][j];
         if(trans.index >= 0){
-          *(trans.torqueForcePtr) = - customizer->springT * (*trans.valuePtr) - customizer->dampingT * (*trans.velocityPtr);
+          if(i<2) *(trans.torqueForcePtr) = - customizer->springT * (*trans.valuePtr) - customizer->dampingT * (*trans.velocityPtr);
+          else  *(trans.torqueForcePtr) = - customizer->arm_springT * (*trans.valuePtr) - customizer->arm_dampingT * (*trans.velocityPtr);
           //std::cerr << i << " " << 0 << " " << *(trans.torqueForcePtr) << " = " << -customizer->springT << " x " << *trans.valuePtr << " + " <<  - customizer->dampingT << " x " << *trans.velocityPtr << std::endl;
         }
       }
@@ -227,7 +242,8 @@ static void setVirtualJointForces(BodyCustomizerHandle customizerHandle)
       for(int j=3; j < 6; ++j){
         JointValSet& rot = customizer->jointValSets[i][j];
         if(rot.index >= 0){
-          *(rot.torqueForcePtr) = - customizer->springR * (*rot.valuePtr) - customizer->dampingR * (*rot.velocityPtr);
+          if(i<2) *(rot.torqueForcePtr) = - customizer->springR * (*rot.valuePtr) - customizer->dampingR * (*rot.velocityPtr);
+          else *(rot.torqueForcePtr) = - customizer->arm_springR * (*rot.valuePtr) - customizer->arm_dampingR * (*rot.velocityPtr);
           //std::cerr << i << " " << j << " " << *(rot.torqueForcePtr) << " = " << -customizer->springR << " x " << *rot.valuePtr << " + " <<  - customizer->dampingR << " x " << *rot.velocityPtr << std::endl;
         }
       }
