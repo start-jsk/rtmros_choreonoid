@@ -1,0 +1,4 @@
+# run_depend. not released on melodic
+- git:
+    uri: https://github.com/jsk-ros-pkg/jsk_control
+    local-name: jsk-ros-pkg/jsk_control

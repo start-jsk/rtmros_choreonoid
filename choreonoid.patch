@@ -1,0 +1,112 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 504d56c..bb3b0bf 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -312,7 +312,7 @@ else()
+   option(ENABLE_PYTHON "Enable Python" ON)
+ endif()
+ 
+-option(USE_PYBIND11 "Use the pybind11 library to make python bindings" ON)
++option(USE_PYBIND11 "Use the pybind11 library to make python bindings" OFF)
+ set(PYBIND11_DIR ${PYBIND11_DIR} CACHE PATH "The directory of the pybind11 library")
+ if(USE_PYBIND11)
+   set(USE_BOOST_PYTHON OFF)
+@@ -322,7 +322,8 @@ endif()
+ set(CNOID_USE_PYBIND11 ${USE_PYBIND11})
+ set(CNOID_USE_BOOST_PYTHON ${USE_BOOST_PYTHON})
+ 
+-option(USE_PYTHON3 "Use Python version 3 instead of version 2" ON)
++# option(USE_PYTHON3 "Use Python version 3 instead of version 2" ON)
++option(USE_PYTHON3 "Use Python version 3 instead of version 2" OFF)
+ 
+ # for Config.h
+ if(USE_PYTHON3)
+@@ -648,7 +649,9 @@ if(MSVC)
+ endif()
+ 
+ # CORBA, omniORB
+-option(ENABLE_CORBA "Enable CORBA related modules / plugins" OFF)
++# option(ENABLE_CORBA "Enable CORBA related modules / plugins" OFF)
++option(ENABLE_CORBA "Enable CORBA related modules / plugins" ON)
++option(BUILD_CORBA_PLUGIN "Build CORBA Plugin" ON)
+ 
+ if(ENABLE_CORBA)
+   # The OMNIDYNAMIC_XXX variables are used for storing the omniORB information
+@@ -904,6 +907,9 @@ if(ENABLE_CORBA)
+ endif(ENABLE_CORBA)
+ 
+ # OpenRTM
++# option(BUILD_OPENRTM_PLUGIN "Building OpenRTMPlugin" OFF)
++option(BUILD_OPENRTM_PLUGIN "Building OpenRTMPlugin" ON)
++
+ if(BUILD_OPENRTM_PLUGIN)
+   find_package(OpenRTM REQUIRED CONFIG)
+ 
+@@ -912,7 +918,7 @@ if(BUILD_OPENRTM_PLUGIN)
+     list(APPEND OPENRTM_DEFINITIONS -DOPENRTM_VERSION12)
+     list(APPEND OPENRTM_DEFINITIONS -Wno-deprecated)
+ 
+-  elseif(OPENRTM_VERSION VERSION_EQUAL "1.1.2")
++  elseif(OPENRTM_VERSION VERSION_EQUAL "1.1.2"  OR OPENRTM_VERSION STREQUAL "1.1.0")
+     list(APPEND OPENRTM_DEFINITIONS -DOPENRTM_VERSION11)
+     # Remove extra "-I" from the elements of OPENRTM_INCLUDE_DIRS
+     unset(include_dirs)
+@@ -935,7 +941,8 @@ if(BUILD_OPENRTM_PLUGIN)
+ 
+   set(IDL_INCLUDE_DIRS ${IDL_INCLUDE_DIRS} ${OPENRTM_INCLUDE_DIRS})
+ 
+-  option(USE_BUILTIN_CAMERA_IMAGE_IDL "Enable this option when you run hrpsys-base on Choreonoid" OFF)
++  # option(USE_BUILTIN_CAMERA_IMAGE_IDL "Enable this option when you run hrpsys-base on Choreonoid" OFF)
++  option(USE_BUILTIN_CAMERA_IMAGE_IDL "Enable this option when you run hrpsys-base on Choreonoid" ON)
+   if(USE_BUILTIN_CAMERA_IMAGE_IDL)
+     list(APPEND OPENRTM_DEFINITIONS -DUSE_BUILTIN_CAMERA_IMAGE_IDL)
+   else()
+diff --git a/package.xml b/package.xml
+index 5e1e1e3..05d7c28 100644
+--- a/package.xml
++++ b/package.xml
+@@ -25,6 +25,7 @@
+   <depend>libjpeg</depend>
+   <build_depend>libpng12-dev</build_depend>
+   <build_depend>assimp-dev</build_depend>
++  <build_depend>openrtm_aist</build_depend>
+   <exec_depend>assimp</exec_depend>
+ 
+   <build_export_depend>qtbast5-dev</build_export_depend>
+diff --git a/sample/SpringModel/CMakeLists.txt b/sample/SpringModel/CMakeLists.txt
+index b855a2e..37fbd57 100644
+--- a/sample/SpringModel/CMakeLists.txt
++++ b/sample/SpringModel/CMakeLists.txt
+@@ -2,7 +2,8 @@ if(NOT ENABLE_GUI)
+   return()
+ endif()
+ 
+-option(BUILD_SPRING_MODEL_SAMPLE "Building a spring model sample" OFF)
++# option(BUILD_SPRING_MODEL_SAMPLE "Building a spring model sample" OFF)
++option(BUILD_SPRING_MODEL_SAMPLE "Building a spring model sample" ON)
+ if(NOT BUILD_SPRING_MODEL_SAMPLE)
+   return()
+ endif()
+diff --git a/src/CorbaPlugin/CMakeLists.txt b/src/CorbaPlugin/CMakeLists.txt
+index 4b39461..5d42d51 100644
+--- a/src/CorbaPlugin/CMakeLists.txt
++++ b/src/CorbaPlugin/CMakeLists.txt
+@@ -2,7 +2,8 @@
+ 
+ #set(CMAKE_BUILD_TYPE Debug)
+ 
+-option(BUILD_CORBA_PLUGIN "Build CORBA Plugin" OFF)
++# option(BUILD_CORBA_PLUGIN "Build CORBA Plugin" OFF)
++option(BUILD_CORBA_PLUGIN "Build CORBA Plugin" ON)
+ 
+ if(NOT BUILD_CORBA_PLUGIN)
+   return()
+diff --git a/src/OpenRTM/CMakeLists.txt b/src/OpenRTM/CMakeLists.txt
+index 7771c26..ac5fcdc 100644
+--- a/src/OpenRTM/CMakeLists.txt
++++ b/src/OpenRTM/CMakeLists.txt
+@@ -1,4 +1,3 @@
+-option(BUILD_OPENRTM_PLUGIN "Building OpenRTMPlugin" OFF)
+ if(NOT BUILD_OPENRTM_PLUGIN)
+   return()
+ elseif(NOT (ENABLE_CORBA AND BUILD_CORBA_PLUGIN))
