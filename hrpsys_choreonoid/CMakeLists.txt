@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(hrpsys_choreonoid)
 
+cmake_policy(SET CMP0003 NEW)
+cmake_policy(SET CMP0057 NEW)
+
 find_package(catkin REQUIRED COMPONENTS roscpp tf)
 
 # activate C++ 11 for choreonoid-1.7

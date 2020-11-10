@@ -20,6 +20,7 @@ items:
           class: BodyItem
           data: 
             modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "WAIST"
             rootPosition: [ 0.0, 0.0, 1.0185 ]
             rootAttitude: [ 
@@ -90,6 +91,7 @@ items:
           class: BodyItem
           data:
             modelFile: "../../jvrc_models/models/simple_box.wrl"
+            format: CHOREONOID-BODY
             currentBaseLink: "BOX"
             rootPosition: [ 0, 3.0, 0.15 ]
             rootAttitude: [
