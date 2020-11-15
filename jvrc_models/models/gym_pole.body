@@ -1,0 +1,30 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+name: GymPole
+links:
+  -
+    name: GymPole
+    translation: [ 0, 0, 0 ]
+    rotation: [ 0, 0, 1, 0 ]
+    jointType: fixed
+    material: { viscosity: 0.5 }
+    elements:
+      -
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 0.5
+        inertia: [
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Cylinder
+              radius: 0.02
+              height: 5.0
+            appearance: &BodyAppearance
+              material:
+                diffuseColor: [ 0.8, 0.8, 0.8 ]
+                specularColor: [ 0.2, 0.8, 0.2 ]
+                shininess: 0.6
