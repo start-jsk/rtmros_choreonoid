@@ -42,6 +42,7 @@
     <param name="frame_id" value="camera_depth_optical_frame" />
     <param name="publish_depth" value="true" />
     <param name="transformed_camera_frame" value="true" />
+    <remap from="depth" to="image_raw"/>
     <rtconnect from="HRP2JSKNTS(Robot)0.rtc:HEAD_DEPTH"
                to="PointCloudROSBridge0.rtc:points" />
     <rtactivate component="PointCloudROSBridge0.rtc" />

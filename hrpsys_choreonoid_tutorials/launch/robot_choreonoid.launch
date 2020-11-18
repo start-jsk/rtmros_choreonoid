@@ -34,6 +34,8 @@
        default="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
   <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
 
+  <arg name="USE_SOFTERRORLIMIT" default="false" />
+
   <!-- hrpsys -->
   <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
     <!-- robot dependant settings -->
@@ -60,6 +62,8 @@
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
     <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
     <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
+
+    <arg name="USE_SOFTERRORLIMIT" value="$(arg USE_SOFTERRORLIMIT)" />
   </include>
 
   <!--                     -->
