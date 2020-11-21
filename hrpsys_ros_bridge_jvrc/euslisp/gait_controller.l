@@ -9,7 +9,6 @@
   (:check-ready
    ()
    (speak-en "checking if i am ready" :timeout 1)
-   (send *ri* :stop-grasp)
    (send *ri* :start-grasp)
    (let ((abc-mode (send *ri* :get-auto-balancer-controller-mode))
          (st-mode (send *ri* :get-st-controller-mode))
@@ -317,7 +316,7 @@
                  :gait-generator-param (list :default-step-time (* speed-up-ratio biped-step-time) ;speed up
                                              :default-double-support-ratio (let ((swing-time (* (- 1.0 biped-double-support-ratio) biped-step-time)))
                                                                              (- 1.0 (/ swing-time (* speed-up-ratio biped-step-time))))
-                                             :default-step-height 0.05
+                                             :default-step-height 0.08
                                              :default-orbit-type 2 ;RECTANGLE
                                              :stride-parameter (float-vector 0.15 0.10 20.0 0.15)
                                              :leg-default-translate-pos (list (send (send *robot* :rleg :end-coords) :worldpos)
@@ -375,9 +374,9 @@
    (send *ri* :set-st-param :emergency-check-mode 0)
    (progn
      ;; RYOBI HOIST
-     ;; (send *ri* :angle-vector touch-down-pose 5000)
+     (send *ri* :angle-vector touch-down-pose 3000)
      ;; IREX HOIST
-     (send *ri* :angle-vector touch-down-pose 6000)
+     ;; (send *ri* :angle-vector touch-down-pose 6000)
      (speak-en "u go e te ru" :timeout 1)
      (send *ri* :wait-interpolation))
    (progn

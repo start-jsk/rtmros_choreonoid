@@ -1,0 +1,66 @@
+<launch>
+  <node name="tilt_scan_to_cloud" pkg="laser_filters" type="scan_to_cloud_filter_chain" output="screen">
+    <remap from="scan" to="/multisense/lidar_scan" />
+    <remap from="cloud_filtered" to="/multisense/lidar_scan_filtered" />
+    <rosparam subst_value="true">
+      scan_filter_chain:
+      - name: shadows
+        type: laser_filters/ScanShadowsFilter
+        params:
+          min_angle: 0
+          max_angle: 165
+          neighbors: 5
+          window: 5
+      - name: dark_shadows
+        type: LaserScanIntensityFilter
+        params:
+          lower_threshold: 200
+          upper_threshold: 10000
+          disp_histogram: 0
+      - name: range
+        type: laser_filters/LaserScanRangeFilter
+        params:
+          lower_threshold: 0.2 # 0.5
+          upper_threshold: 10
+      high_fidelity: true
+      target_frame: odom
+    </rosparam>
+  </node>
+
+  <node pkg="pr2_navigation_self_filter" type="self_filter" name="laser_self_filter_local" output="screen">
+    <remap from="cloud_in" to="/multisense/lidar_scan_filtered" />
+    <remap from="cloud_out" to="/multisense/cloud_self_filtered" />
+    <rosparam command="load" file="$(find hrpsys_ros_bridge_jvrc)/config/jaxon_jvrc_self_filter.yaml" />
+  </node>
+
+  <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet" name="multisense_laser" output="screen">
+    <rosparam subst_value="true">
+    nodelets:
+      - name: tilt_laser_listener
+        type: jsk_pcl/TiltLaserListener
+        remappings:
+          - from: ~input
+            to: /joint_states
+          - from: ~input/cloud
+            to: /multisense/cloud_self_filtered
+      - name: multisense_laser_relay
+        type: jsk_topic_tools/Relay
+        remappings:
+          - from: ~input
+            to: tilt_laser_listener/output_cloud
+          - from: ~output
+            to: /full_cloud2
+    </rosparam>
+  </node>
+  <group ns="tilt_laser_listener">
+    <rosparam subst_value="true">
+      laser_type: infinite_spindle
+      joint_name: motor_joint
+      use_laser_assembler: true
+      not_use_laser_assembler_service: true
+      twist_frame_id: head_hokuyo_frame
+      overwrap_angle: 0.0
+      skip_number: 10
+    </rosparam>
+  </group>
+</launch>

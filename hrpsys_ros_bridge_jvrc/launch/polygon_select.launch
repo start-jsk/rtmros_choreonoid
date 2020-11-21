@@ -1,0 +1,75 @@
+<launch>
+  <group ns="polygon_select_group">
+    <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet" name="aiueo" output="screen">
+      <rosparam subst_value="true">
+        nodelets:
+          - name: laser_x_filter
+            type: pcl/PassThrough
+            remappings:
+              - from: ~input
+                to: /full_cloud2
+              - from: /tf
+                to: /tf_null
+          - name: laser_y_filter
+            type: pcl/PassThrough
+            remappings:
+              - from: ~input
+                to: laser_x_filter/output
+              - from: /tf
+                to: /tf_null
+          - name: laser_z_filter
+            type: pcl/PassThrough
+            remappings:
+              - from: ~input
+                to: laser_y_filter/output
+              - from: /tf
+                to: /tf_null
+      </rosparam>
+    </node>
+    <group ns="laser_x_filter">
+      <rosparam>
+        filter_field_name: x
+        filter_limit_min: -5.0
+        filter_limit_max: 1000.0
+      </rosparam>
+    </group>
+    <group ns="laser_y_filter">
+      <rosparam>
+        filter_field_name: y
+        filter_limit_min: -1.0
+        filter_limit_max: 1.0
+      </rosparam>
+    </group>
+    <group ns="laser_z_filter">
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: 0.8
+        filter_limit_max: 2.0
+      </rosparam>
+    </group>
+
+    <!-- normal detection -->
+    <node pkg="jsk_pcl_ros" type="normal_estimation_omp" name="normal_estimation">
+      <remap from="~input" to="laser_z_filter/output" />
+      <rosparam>
+        k_search: 50
+      </rosparam>
+    </node>
+    <!-- region growing -->
+    <node pkg="jsk_pcl_ros" type="region_growing_multiple_plane_segmentation" name="region_growing_multiple_plane_segmentation">
+      <remap from="~input" to="normal_estimation/output_with_xyz" />
+      <remap from="~input_normal" to="normal_estimation/output_with_xyz" />
+      <rosparam>
+        max_area: 1.0
+        min_area: 0.01
+      </rosparam>
+    </node>
+    <!-- throttle -->
+    <node pkg="topic_tools" type="throttle" name="region_throttle"
+          args="messages region_growing_multiple_plane_segmentation/output/polygons 1.0 region_growing_multiple_plane_segmentation/output/polygons_throttle"/>
+    <!-- main -->
+    <node pkg="jsk_interactive_marker" type="polygon_marker" name="polygon_marker">
+      <remap from="~polygon_array" to="region_growing_multiple_plane_segmentation/output/polygons_throttle" />
+    </node>
+  </group>
+</launch>
