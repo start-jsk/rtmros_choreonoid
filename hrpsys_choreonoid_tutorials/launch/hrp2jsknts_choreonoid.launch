@@ -1,5 +1,6 @@
 <launch>
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/flat_no_texture.yaml" /> <!-- simulating cameras with a textured ground takes much computational time -->
+  <arg name="PROJECT_FILE" default=""/>
 
   <include file="$(find hrpsys_choreonoid_tutorials)/launch/robot_choreonoid.launch" >
     <arg name="USE_VISION"           value="true" />
@@ -15,6 +16,7 @@
     <arg name="CONTROLLER_CONFIG"    value="$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSKNTS_controller_config.yaml" />
     <arg name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid_tutorials)/config/HRP2JSKNTSCustomizer.yaml" />
     <arg name="USE_SOFTERRORLIMIT" value="true" />
+    <arg name="PROJECT_FILE" value="$(arg PROJECT_FILE)" if="$(eval bool(arg('PROJECT_FILE')))" />
   </include>
 
 </launch>
