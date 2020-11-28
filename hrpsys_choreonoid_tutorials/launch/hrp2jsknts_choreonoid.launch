@@ -6,6 +6,7 @@
     <arg name="USE_VISION"           value="true" />
     <arg name="VISION_CONNECT_FILE"  default="$(find hrpsys_choreonoid_tutorials)/launch/hrp2jsknts_vision_connect.launch" />
     <arg name="LAUNCH_FOOTCOORDS"    default="true" />
+    <arg name="USE_SIMPLE_FOOTCOORDS" value="true" />
     <arg name="ENVIRONMENT_YAML"     value="$(arg ENVIRONMENT_YAML)" />
     <arg name="CHOREONOID_ROBOT"     value="HRP2JSKNTS"/>
     <arg name="MODEL_FILE"           value="$(find hrp2_models)/HRP2JSKNTS_for_OpenHRP3/HRP2JSKNTSmain.wrl"/>

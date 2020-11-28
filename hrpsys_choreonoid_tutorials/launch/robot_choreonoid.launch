@@ -8,6 +8,7 @@
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
+  <arg name="USE_SIMPLE_FOOTCOORDS" default="false" />
 
   <arg name="CHOREONOID_ROBOT" default="JAXON_RED"/>
   <env name="CHOREONOID_ROBOT" value="$(arg CHOREONOID_ROBOT)" /> <!-- for JAXONCustomizer and some setup.py -->
@@ -70,10 +71,13 @@
   <!-- additional settings -->
   <!--                     -->
   <!-- additional ros_bridge -->
-  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch"
-           if="$(arg LAUNCH_FOOTCOORDS)" />
-  <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server"
-        if="$(arg LAUNCH_FOOTCOORDS)" />
+  <group if="$(arg LAUNCH_FOOTCOORDS)">
+    <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch">
+      <arg name="use_footcoords" value="false" if="$(arg USE_SIMPLE_FOOTCOORDS)"/>
+      <arg name="use_simple_footcoords" value="true" if="$(arg USE_SIMPLE_FOOTCOORDS)"/>
+    </include>
+    <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server" />
+  </group>
 
   <!-- vision setting -->
   <arg name="VISION_CONNECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/launch/jaxon_red_vision_connect.launch" />
