@@ -1,6 +1,6 @@
 <launch>
   <arg name="TASK" default="TUTORIALS" />
-  <arg name="USE_ROBOTHARDWARE" default="false" />
+  <arg name="USE_ROBOTHARDWARE" default="true" />
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/footsal.yaml" />
   <arg name="LOAD_OBJECTS" default="false" />
   <arg name="NO_SCENE" default="false" />
