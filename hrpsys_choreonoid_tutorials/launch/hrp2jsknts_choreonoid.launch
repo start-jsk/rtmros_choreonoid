@@ -36,4 +36,6 @@
   <rtactivate component="HRP3HandControllerServiceROSBridge.rtc" />
   <node name="rtmlaunch_hrp2jsknts_choreonoid" pkg="openrtm_tools" type="rtmlaunch.py" args="$(find hrpsys_choreonoid_tutorials)/launch/hrp2jsknts_choreonoid.launch" output="screen"/>
 
+  <node pkg="jsk_hrp2_ros_bridge" type="hrp3hand_joint_publisher.py" name="hrp3hand_joint_publisher" />
+
 </launch>
