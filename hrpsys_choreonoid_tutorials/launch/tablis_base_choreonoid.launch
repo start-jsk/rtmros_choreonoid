@@ -1,6 +1,5 @@
 <launch>
   <arg name="TASK" default="FLAT" />
-  <!-- <arg name="USE_ROBOTHARDWARE" default="false" /> -->
   <arg name="USE_ROBOTHARDWARE" default="true" />
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/flat.yaml" />
   <arg name="LOAD_OBJECTS" default="false" />
@@ -66,36 +65,17 @@
   <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
   <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
     <!-- robot dependant settings -->
-    <arg name="IS_MASTER_SIDE_OF_MASTERSLAVE" value="true" />
+    <!-- <arg name="IS_MASTER_SIDE_OF_MASTERSLAVE" value="true" /> -->
     <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
     <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
     <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
     <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
   </include>
 
-  <!--                     -->
-  <!-- additional settings -->
-  <!--                     -->
   <!-- additional ros_bridge -->
   <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch"
            if="$(arg LAUNCH_FOOTCOORDS)" />
   <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server"
         if="$(arg LAUNCH_FOOTCOORDS)" />
 
-  <!-- vision setting -->
-  <!-- <group if="$(arg USE_VISION)"> -->
-  <!--   <include file="$(find hrpsys_choreonoid_tutorials)/launch/tablis_vision_connect.launch" > -->
-  <!--     <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" /> -->
-  <!--   </include> -->
-  <!-- </group> -->
-
-
-  <!--
-  <arg name="launch_multisense_local" default="false" />
-  <arg name="launch_multisense_remote" default="false" />
-  <include if="$(arg launch_multisense_local)"
-           file="$(find jaxon_ros_bridge)/launch/jaxon_multisense_local.launch" />
-  <include if="$(arg launch_multisense_remote)"
-           file="$(find hrpsys_ros_bridge_jvrc)/launch/jaxon_jvrc_multisense.launch" />
-  -->
 </launch>
