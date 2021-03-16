@@ -209,8 +209,10 @@ DEF JAXON_JVRC Humanoid {
           #mass 18.7
           #centerOfMass -0.1159 -0.00067 -0.023
           ## fix by hand 2015.4.26
-          mass 22.7
-          centerOfMass -0.1059 -0.00067 -0.023
+          # mass 22.7
+          # centerOfMass -0.1059 -0.00067 -0.023
+          mass 13.38 # 13.38+4kg
+          centerOfMass -0.071 -0.00069 -0.053
           momentsOfInertia [0.229835 0.00171 0.135708 0.00171 0.535336 0.000616 0.135708 0.000616 0.549159]
           children [
             Inline { url "BODY.wrl" }
@@ -288,8 +290,10 @@ DEF JAXON_JVRC Humanoid {
                   #mass 15.23
                   #centerOfMass -0.11697 0.00390 0.03652
                   ## fix by hand 2015.4.26
-                  mass 18.23
-                  centerOfMass -0.111697 0.00390 0.03652
+                  # mass 18.23
+                  # centerOfMass -0.111697 0.00390 0.03652
+                  mass 8.007 #5.007+3kg
+                  centerOfMass -0.004 0.011 0.054
                   momentsOfInertia [0.186526 0.003889 -0.039414 0.003889 0.418012 0.001281 -0.039414 0.001281 0.477668]
                   children [
                     Inline { url "CHEST_LINK1.wrl" }
@@ -324,8 +328,10 @@ DEF JAXON_JVRC Humanoid {
                       #mass 25.33
                       #centerOfMass  -0.13693 -0.00113 -0.03796
                       ## fix by hand 2015.4.26
-                      mass 31.33
-                      centerOfMass  -0.13693 -0.00113 -0.05796
+                      # mass 31.33
+                      # centerOfMass  -0.13693 -0.00113 -0.05796
+                      mass 23.0 # 17.0+6kg
+                      centerOfMass -0.075 -0.013 -0.052
                       momentsOfInertia [0.510746 0.005161 0.143334 0.005161 1.09582 0.004687 0.143334 0.004687 1.02505]
                       children [
                         Inline { url "CHEST_LINK2.wrl" }
@@ -549,7 +555,8 @@ DEF JAXON_JVRC Humanoid {
                               jointAxis 1 0 0
                               # with margin
                               ulimit 3.14159
-                              llimit 0.2762
+                              # llimit 0.2762
+                              llimit 0
                               # actual measure
                               # ulimit 3.27031
                               # llimit 0.2462
@@ -615,7 +622,8 @@ DEF JAXON_JVRC Humanoid {
                                       rotorInertia 7.0e-6
                                       children [
                                         DEF LARM_LINK4 Segment {
-                                          mass 1.641
+                                          # mass 1.641
+                                          mass 2.641
                                           centerOfMass 3e-05 0.00551 -0.0426
                                           momentsOfInertia [0.00665559 0 0 0 0.00598857 0 0 0 0.00288237 ]
                                           children [
@@ -702,14 +710,18 @@ DEF JAXON_JVRC Humanoid {
                                                       #centerOfMass 0 0 -0.03
                                                       #momentsOfInertia [0.02 0 0 0 0.02 0 0 0 0.01 ]
                                                       ## add hand mass
-                                                      mass 2.257
+                                                      # mass 2.257
+                                                      mass 4.757
                                                       centerOfMass 0 0 -0.085
                                                       momentsOfInertia [0.020752 -1.298590e-06 8.029880e-06 -1.298590e-06 0.0198 0.000501 8.029880e-06 0.000501 0.013089]
                                                       children [
                                                         Inline { url "LARM_LINK7_JVRC.wrl" }
-                                                        DEF lhsensor ForceSensor{
-                                                          translation 0 0 -0.069
-                                                          rotation 0.382683 -0.92388 -0 3.14159
+                                                        # DEF lhsensor ForceSensor{
+                                                        #   translation 0 0 -0.069
+                                                        #   rotation 0.382683 -0.92388 -0 3.14159
+                                                        DEF lhsensor ForceSensor{ ## 2019/07 wacoh
+                                                          translation 0 0 -0.09
+                                                          rotation 0 1 0 3.14159
                                                           sensorId 3
                                                         } #Sensor
                                                       ]
@@ -881,7 +893,8 @@ DEF JAXON_JVRC Humanoid {
                               jointType "rotate"
                               jointAxis 1 0 0
                               # with margin
-                              ulimit -0.2762
+                              # ulimit -0.2762
+                              ulimit 0
                               llimit -3.14159
                               # actual measure
                               # ulimit -0.2462
@@ -948,7 +961,8 @@ DEF JAXON_JVRC Humanoid {
                                       rotorInertia 7.0e-6
                                       children [
                                         DEF RARM_LINK4 Segment {
-                                          mass 1.641
+                                          # mass 1.641
+                                          mass 2.641
                                           centerOfMass 3e-05 -0.00551 -0.0426
                                           momentsOfInertia [0.00665559 0 0 0 0.00598857 0 0 0 0.00288237 ]
                                           children [
@@ -1035,14 +1049,18 @@ DEF JAXON_JVRC Humanoid {
                                                       #centerOfMass 0 0 -0.03
                                                       #momentsOfInertia [0.02 0 0 0 0.02 0 0 0 0.01 ]
                                                       ## add hand mass
-                                                      mass 2.257
+                                                      # mass 2.257
+                                                      mass 4.757
                                                       centerOfMass 0 0 -0.085
                                                       momentsOfInertia [0.020752 1.298590e-06 -8.029880e-06 1.298590e-06 0.0198 -0.000501 -8.029880e-06 -0.000501 0.013089]
                                                       children [
                                                         Inline { url "RARM_LINK7_JVRC.wrl" }
-                                                        DEF rhsensor ForceSensor{
-                                                          translation 0 0 -0.069
-                                                          rotation -0.382683 -0.92388 -0 3.14159
+                                                        # DEF rhsensor ForceSensor{
+                                                        #   translation 0 0 -0.069
+                                                        #   rotation -0.382683 -0.92388 -0 3.14159
+                                                        DEF rhsensor ForceSensor{ ## 2019/07 wacoh
+                                                          translation 0 0 -0.09
+                                                          rotation 0 1 0 3.14159
                                                           sensorId 2
                                                         } #Sensor
                                                       ]
@@ -1330,7 +1348,8 @@ DEF JAXON_JVRC Humanoid {
                               rotorInertia 7.0e-6
                               children [
                                 DEF LLEG_LINK5 Segment {
-                                  mass 1.552
+                                  # mass 1.552
+                                  mass 2.752
                                   centerOfMass 0.00064 0.00264 -0.05633
                                   momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
                                   children [
@@ -1521,7 +1540,8 @@ DEF JAXON_JVRC Humanoid {
                               rotorInertia 7.0e-6
                               children [
                                 DEF RLEG_LINK5 Segment {
-                                  mass 1.552
+                                  # mass 1.552
+                                  mass 2.752
                                   centerOfMass 0.00064 -0.00264 -0.05633
                                   momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
                                   children [
