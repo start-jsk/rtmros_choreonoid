@@ -163,7 +163,7 @@ set(JVRC_RTC_DIRECTORY ${hrpsys_choreonoid_SOURCE_PREFIX})
 set(JVRC_CONF_DIRECTORY ${PROJECT_SOURCE_DIR}/config)
 
 ###
-#JAXON_RED conid
+#JAXON_RED cnoid
 ###
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_FLAT.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_VALVE.cnoid @ONLY)
@@ -176,17 +176,25 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid.in ${PRO
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid @ONLY)
 
 ###
-#JAXON_BLUE conid
+#JAXON_BLUE cnoid
 ###
 if (${jsk_models_FOUND})
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid @ONLY)
 endif()
 
 ###
-#CHIDORI conid
+#CHIDORI cnoid
 ###
 if (${jsk_models_FOUND})
 configure_file(${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/CHIDORI_RH_FLAT.cnoid @ONLY)
+endif()
+
+###
+#TABLIS cnoid
+###
+if (${jsk_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/TABLIS_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/TABLIS_RH_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/TABLIS_BASE_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/TABLIS_BASE_RH_FLAT.cnoid @ONLY)
 endif()
 
 ###
