@@ -9,12 +9,21 @@ cd ~/catkin_ws/src
 wstool init .
 wstool set rtm-ros-robotics/rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid --git -y
 ```
-Set up workspace
+Set up workspace.
+
+If you install openhrp3 and hrpsys from apt.
 ```
 wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.travis.rosinstall -y
 wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.travis.rosinstall.${ROS_DISTRO} -y
 wstool update
 ```
+
+Else if you install openhrp3 and hrpsys from source.
+```
+wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.from_source.rosinstall -y
+wstool update
+```
+
 Install requisites for choreonoid
 ```
 ./choreonoid/misc/script/install-requisites-ubuntu-16.04.sh # if ubuntu 16.04
