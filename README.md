@@ -48,6 +48,17 @@ catkin build hrpsys_choreonoid_tutorials
 source devel/setup.bash
 rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
 ```
+Launch another terminal and send command to robot. (python)
+```
+ipython -i `rospack find hrpsys_choreonoid_tutorials`/scripts/jaxon_red_setup.py "JAXON_RED(Robot)0"
+hcf.abc_svc.goPos(1,0,0)
+```
+Launch another terminal and send command to robot. (euslisp)
+```
+roseus `rospack find hrpsys_ros_bridge_tutorials`/euslisp/jaxon_red-interface.l
+(jaxon_red-init)
+(send *ri* :go-pos 1 0 0)
+```
 
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
