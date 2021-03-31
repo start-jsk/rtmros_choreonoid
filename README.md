@@ -60,6 +60,8 @@ roseus `rospack find hrpsys_ros_bridge_tutorials`/euslisp/jaxon_red-interface.l
 (send *ri* :go-pos 1 0 0)
 ```
 
+If you get error, try `export ORBgiopMaxMsgSize=2097152000`.
+
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
 ---
