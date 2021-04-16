@@ -17,6 +17,9 @@ rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch LOAD_OBJECTS:=
 
 If you use the open-source jaxon model, please use jaxon_jvrc_choreonoid.launch instead of jaxon_red_choreonoid.launch.
 
+If simulatitors often end abnormaly, the stand-alone roscore may solve the problem (Please launch the roscore before rtmlaunch command.).
+This enables you to reuse a single '*ri*' in simurations and to skip '(jaxon_red-init)'.
+
 オープンソースのJAXONモデルを用いている場合はjaxon_red_choreonoid.launchの代わりにjaxon_jvrc_choreonoid.launchを使う．
 
 シミュレーションが頻繁に突然終了する時には，roscoreを別で立ち上げておくと改善される場合がある．
