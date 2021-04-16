@@ -40,6 +40,8 @@ source devel/setup.bash
 rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
 ```
 
+If you use the open-source jaxon model, please use jaxon_jvrc_choreonoid.launch instead of jaxon_red_choreonoid.launch.
+
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
 ---
