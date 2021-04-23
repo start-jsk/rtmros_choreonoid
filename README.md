@@ -9,12 +9,21 @@ cd ~/catkin_ws/src
 wstool init .
 wstool set rtm-ros-robotics/rtmros_choreonoid https://github.com/start-jsk/rtmros_choreonoid --git -y
 ```
-Set up workspace
+Set up workspace.
+
+If you install openhrp3 and hrpsys from apt.
 ```
 wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.travis.rosinstall -y
 wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.travis.rosinstall.${ROS_DISTRO} -y
 wstool update
 ```
+
+Else if you install openhrp3 and hrpsys from source.
+```
+wstool merge https://raw.githubusercontent.com/start-jsk/rtmros_choreonoid/master/.from_source.rosinstall -y
+wstool update
+```
+
 Install requisites for choreonoid
 ```
 ./choreonoid/misc/script/install-requisites-ubuntu-16.04.sh # if ubuntu 16.04
@@ -39,6 +48,19 @@ catkin build hrpsys_choreonoid_tutorials
 source devel/setup.bash
 rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
 ```
+Launch another terminal and send command to robot. (python)
+```
+ipython -i `rospack find hrpsys_choreonoid_tutorials`/scripts/jaxon_red_setup.py "JAXON_RED(Robot)0"
+hcf.abc_svc.goPos(1,0,0)
+```
+Launch another terminal and send command to robot. (euslisp)
+```
+roseus `rospack find hrpsys_ros_bridge_tutorials`/euslisp/jaxon_red-interface.l
+(jaxon_red-init)
+(send *ri* :go-pos 1 0 0)
+```
+
+If you get error, try `export ORBgiopMaxMsgSize=2097152000`.
 
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
