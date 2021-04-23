@@ -87,8 +87,8 @@ static void readGainFile();
 static double dt;
 static std::ifstream gain;
 static std::string gain_fname;
-static std::vector<double> qold, qold_ref, Pgain, Dgain;
-static std::vector<double> tqold, tqold_ref, tqPgain, tqDgain;
+static std::vector<double> qold, qold_ref, Pgain, Dgain, initial_Pgain, initial_Dgain;
+static std::vector<double> tqold, tqold_ref, tqPgain, tqDgain, initial_tqPgain, initial_tqDgain;
 static std::vector<double> Pgain_orig, Dgain_orig;
 static std::vector<double> tlimit;
 static size_t dof, loop;
@@ -408,7 +408,11 @@ int read_pgain(int id, double *gain)
     if (id == 9)
     std::cerr << "read_pgain: [" << id << "] " << Pgain[id] << std::endl;
 #endif
-    *gain = Pgain[id];
+    if (initial_Pgain[id]==0) {
+      *gain = 0;
+    } else {
+      *gain = Pgain[id] / initial_Pgain[id];
+    }
     return TRUE;
 }
 
@@ -419,7 +423,7 @@ int write_pgain(int id, double gain)
     if (id == 9)
     std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
 #endif
-    Pgain[id] = gain;
+    Pgain[id] = gain * initial_Pgain[id];
     return TRUE;
 }
 
@@ -430,7 +434,11 @@ int read_dgain(int id, double *gain)
     if (id == 9)
     std::cerr << "read_dgain: [" << id << "] " << Dgain[id] << std::endl;
 #endif
-    *gain = Dgain[id];
+    if (initial_Dgain[id]==0) {
+      *gain = 0;
+    } else {
+      *gain = Dgain[id] / initial_Dgain[id];
+    }
     return TRUE;
 }
 
@@ -441,7 +449,7 @@ int write_dgain(int id, double gain)
     if (id == 9)
     std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
 #endif
-    Dgain[id] = gain;
+    Dgain[id] = gain * initial_Dgain[id];
     return TRUE;
 }
 
@@ -814,6 +822,10 @@ static void readGainFile()
     Dgain.resize(dof);
     tqPgain.resize(dof);
     tqDgain.resize(dof);
+    initial_Pgain.resize(dof);
+    initial_Dgain.resize(dof);
+    initial_tqPgain.resize(dof);
+    initial_tqDgain.resize(dof);
     gain.open(gain_fname.c_str());
     if (gain.is_open()) {
       std::cerr << "[iob] Gain file [" << gain_fname << "] opened" << std::endl;
@@ -830,16 +842,16 @@ static void readGainFile()
 
             std::istringstream sstrm(str);
             sstrm >> tmp;
-            Pgain[i] = tmp;
+            Pgain[i] = initial_Pgain[i] = tmp;
             if(sstrm.eof()) goto next;
             sstrm >> tmp;
-            Dgain[i] = tmp;
+            Dgain[i] = initial_Dgain[i] = tmp;
             if(sstrm.eof()) goto next;
             sstrm >> tmp;
-            tqPgain[i] = tmp;
+            tqPgain[i] = initial_tqPgain[i] = tmp;
             if(sstrm.eof()) goto next;
             sstrm >> tmp;
-            tqDgain[i] = tmp;
+            tqDgain[i] = initial_tqDgain[i] = tmp;
           } else {
             i--;
             break;
@@ -1090,7 +1102,11 @@ int read_torque_pgain(int id, double *gain)
     if (id == 9)
     std::cerr << "read_pgain: [" << id << "] " << Pgain[id] << std::endl;
 #endif
-    *gain = tqPgain[id];
+    if (initial_tqPgain[id]==0) {
+      *gain = 0;
+    } else {
+      *gain = tqPgain[id] / initial_tqPgain[id];
+    }
     return TRUE;
 }
 
@@ -1101,7 +1117,7 @@ int write_torque_pgain(int id, double gain)
     if (id == 9)
     std::cerr << "write_pgain: [" << id << "] " << gain << std::endl;
 #endif
-    tqPgain[id] = gain;
+    tqPgain[id] = gain * initial_tqPgain[id];
     return TRUE;
 }
 
@@ -1112,7 +1128,11 @@ int read_torque_dgain(int id, double *gain)
     if (id == 9)
     std::cerr << "read_dgain: [" << id << "] " << Dgain[id] << std::endl;
 #endif
-    *gain = tqDgain[id];
+    if (initial_tqDgain[id]==0) {
+      *gain = 0;
+    } else {
+      *gain = tqDgain[id] / initial_tqDgain[id];
+    }
     return TRUE;
 }
 
@@ -1123,7 +1143,7 @@ int write_torque_dgain(int id, double gain)
     if (id == 9)
     std::cerr << "write_dgain: [" << id << "] " << gain << std::endl;
 #endif
-    tqDgain[id] = gain;
+    tqDgain[id] = gain * initial_tqDgain[id];
     return TRUE;
 }
 #endif
