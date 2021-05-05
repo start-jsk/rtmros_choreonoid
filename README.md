@@ -46,7 +46,7 @@ source devel/setup.bash
 ```
 catkin build hrpsys_choreonoid_tutorials
 source devel/setup.bash
-rtmlaunch hrpsys_choreonoid_tutorials jaxon_red_choreonoid.launch
+rtmlaunch hrpsys_choreonoid_tutorials jaxon_jvrc_choreonoid.launch
 ```
 Launch another terminal and send command to robot. (python)
 ```
@@ -55,14 +55,18 @@ hcf.abc_svc.goPos(1,0,0)
 ```
 Launch another terminal and send command to robot. (euslisp)
 ```
-roseus `rospack find hrpsys_ros_bridge_tutorials`/euslisp/jaxon_red-interface.l
-(jaxon_red-init)
+roseus `rospack find hrpsys_choreonoid_tutorials`/euslisp/jaxon_jvrc-interface.l
+(jaxon_jvrc-init)
 (send *ri* :go-pos 1 0 0)
+(send *ri* :start-grasp)
+(send *ri* :stop-grasp)
+(setq *robot* *jaxon_jvrc*)
+(objects *robot*)
+(send *robot* :reset-manip-pose)
+(send *ri* :angle-vector (send *robot* :angle-vector) 5000)
 ```
 
 If you get error, try `export ORBgiopMaxMsgSize=2097152000`.
-
-If you use the open-source jaxon model, please use jaxon_jvrc_choreonoid.launch instead of jaxon_red_choreonoid.launch.
 
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
