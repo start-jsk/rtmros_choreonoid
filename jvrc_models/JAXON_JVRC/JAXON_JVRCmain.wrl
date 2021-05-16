@@ -211,7 +211,8 @@ DEF JAXON_JVRC Humanoid {
           ## fix by hand 2015.4.26
           # mass 22.7
           # centerOfMass -0.1059 -0.00067 -0.023
-          mass 13.38 # 13.38+4kg
+          # mass 13.38
+          mass 17.38 # 13.38+4kg
           centerOfMass -0.071 -0.00069 -0.053
           momentsOfInertia [0.229835 0.00171 0.135708 0.00171 0.535336 0.000616 0.135708 0.000616 0.549159]
           children [
@@ -330,7 +331,8 @@ DEF JAXON_JVRC Humanoid {
                       ## fix by hand 2015.4.26
                       # mass 31.33
                       # centerOfMass  -0.13693 -0.00113 -0.05796
-                      mass 23.0 # 17.0+6kg
+                      # mass 23.0 # 17.0+6kg
+                      mass 21.0 # 17.0+4kg
                       centerOfMass -0.075 -0.013 -0.052
                       momentsOfInertia [0.510746 0.005161 0.143334 0.005161 1.09582 0.004687 0.143334 0.004687 1.02505]
                       children [
