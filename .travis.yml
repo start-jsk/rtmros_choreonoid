@@ -1,4 +1,4 @@
-dist: trusty
+dist: bionic
 sudo: required
 language:
   - generic
@@ -7,72 +7,45 @@ python:
 compiler:
   - gcc
 cache:
-  - ccache
-  - apt
+  apt: true
+  pip: true
+  directories:
+    - $HOME/.ccache
+    - $HOME/.cache/pip
+    - $HOME/apt-cacher-ng
 services:
   - docker
 
 env:
   global:
-    # for jsk_travis
     - USE_JENKINS=false
     - USE_TRAVIS=true
     - USE_DOCKER=true
-
-    # for auto docker build
-    - secure: "NL9lb+C6gWGjOxaGKDA/ZOdh2U9Q8h5lNmxPmAQyrbo+snkKTzsQhZXneI0323LUi8FIxPHSlgpcAjCc3NSSYff9css3uyLetTdaMZrIfPmv7fBRbPDmECwlP+fdBJmR2CkxJo8AsGumbeW39bnkNOXMFh+Fk+RNejDLmUbHqDNtvPv+YYcGTna3KmCqhbpVSScC8UZ3naK9ZcKTk5ivejB0BIY8ZA8Wyp1OfvAYIS4eUU5LHuFvodeUJDPiFI3Xyf0PYNwtfwu7+1uHkBW2/fEB1JfIHhHz2LP/aK1xkUzI6/1DXjfOg4Xqd1XiJ1LPTazzXsSDKnn3oCiVNp5PM4c/B+ZtOswrTCvV7VaQxKexhVAPzO01jNFR9+lgo8HzioMDF4g7y2jxIVSWnHmRO6pYe0RG6NHRqEMDCsrYGo3TXCynR97lYXCyx2fYMeppLD1Bde4tH/xM7ExE6FZTh3BzpXeFoCSFLqm0ArQqmOtIDIoVGQKOkqBL+Q6SJrHj1iPLTOp+ZiXLTnu3zMULkqzdXeEsQm2zCQ6TytJf23UOhiKLFYG+NeY0QwtqIAv66lmCU25t/K0FxvUXEbPjsz2zPNbEW3qV57uAOorOECal30PnsKbp+SnQiDmu8iVCpP6/8o3kaRG2B4bSnOG5COQRossfliCVUkoahcFqCqo=" ## DOCKER_USER
-    - secure: "jMWNUBYVobI+D5TrQg8MIUjZidkv+pLQw2pcZ5q/oo+4zXJa+efChY19y4YEijKX8kSQJLng1lmZnUSE73KzdgNxf9lpn9Nvsn/y3jkrxoWcaUbcPdYDjkeoswnb1k8DZfO1IBIo856aHf3AlWsPrFh/RPcnnr3PiKVp8cvl+U6CF2XR5DjLprzwZC2xJG6oHDaIbqelwE+uDDh+1mOYrJnF+JZVHMtvz293DFrwEKdyGgwqyMppiHj72TulvprfYox0RqnoYAhijO4i+Aphvf/htQ/DffQTP18Y2xZ1W5MOepAPAXFuJ8nR03gUEFqm+MN9/NP7xTttSKRl6whk+lbqfLEZ7trYvIuX3HOrpzeTMHH9n/EgaTyI2VLbSfNgcPlWITxquemW1iLDgcQXJd+zUOEO7lHrVvdpal8XWmbEbhJBAoKCBlZ0dWP26VFbmU6LJPwyhSkVruNrVUevkSOGeVls05bP5xxvjYeAKyI8Mv+FBkm0XtLiY+K1xSfznx1g0W6MlPQrSENKHVGpXtcsdf8KrWbOrWqFSGaABOTfMSeN5tlRjOjOrVxiDB41gFzE0jFB1kl2LryA0L7dyawvFozkyq4VJ9vm4kRpdhIcsrajXuaY3L1fYiDwRqa4TvdzIJ1B/lTc1/ZEmjK+WaalZW1xzfzOXJ/i19fjoTk=" ## DOCKER_PASS
-    - COMMIT=${TRAVIS_COMMIT::8}
-    - REPO=yoheikakiuchi/rtmros_choreonoid
-
   matrix:
-    # for jsk_travis
     # BUILD_PKGS: avoid compiling unused packages
-    - JSK_TRAVIS=true ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
-    - JSK_TRAVIS=true ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
-    - JSK_TRAVIS=true ROS_DISTRO=melodic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
-    - JSK_TRAVIS=true ROS_DISTRO=melodic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
-
-    # for auto docker build
-    # - JSK_TRAVIS=false DISTR=indigo  BASEIMG=osrf/ros:indigo-desktop-full
-    - JSK_TRAVIS=false DISTR=kinetic CNOID=latest      BASEIMG=yoheikakiuchi/hrpsys:latest
-    - JSK_TRAVIS=false DISTR=kinetic CNOID=release-1.7 BASEIMG=yoheikakiuchi/hrpsys:release-1.7
+    - ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
+    - ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
+    - ROS_DISTRO=melodic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
+    - ROS_DISTRO=melodic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
 
 matrix:
   allow_failures:
-    # for jsk_travis
     # rtmros_choreonoid can be compiled without compiling choreonoid.
-    - env: JSK_TRAVIS=true ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
-    - env: JSK_TRAVIS=true ROS_DISTRO=melodic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
+    - env: ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
+    - env: ROS_DISTRO=melodic USE_DEB=false NOT_TEST_INSTALL=true BUILD_PKGS="choreonoid hrpsys_choreonoid_tutorials jvrc_models hrpsys_choreonoid hrpsys_ros_bridge_jvrc"
 
 before_script:
-  # for jsk_travis
   # follow the installation instructions in the readme
-  - if [ "${JSK_TRAVIS}" == "true" ] && [ "${ROS_DISTRO}" == "kinetic" ] ; then add_scr="./choreonoid/misc/script/install-requisites-ubuntu-16.04.sh"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
-  - if [ "${JSK_TRAVIS}" == "true" ] && [ "${ROS_DISTRO}" == "melodic" ] ; then add_scr="./choreonoid/misc/script/install-requisites-ubuntu-18.04.sh"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
-  - if [ "${JSK_TRAVIS}" == "true" ] ; then add_scr="patch -p1 -d choreonoid < rtmros_choreonoid/choreonoid.patch"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
+  - if [ "${ROS_DISTRO}" == "kinetic" ] ; then add_scr="./choreonoid/misc/script/install-requisites-ubuntu-16.04.sh"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
+  - if [ "${ROS_DISTRO}" == "melodic" ] ; then add_scr="./choreonoid/misc/script/install-requisites-ubuntu-18.04.sh"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
+  - add_scr="patch -p1 -d choreonoid < rtmros_choreonoid/choreonoid.patch"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi;
   # libpng12-dev(depend of choreonoid) and leap_motion(depend of hironx_tutorials) are not released on melodic
-  - if [ "${JSK_TRAVIS}" == "true" ] && [ "${ROS_DISTRO}" == "melodic" ] ; then export ROSDEP_ADDITIONAL_OPTIONS="-n -q -r --ignore-src --skip-keys libpng12-dev --skip-keys leap_motion"; fi;
+  - if [ "${ROS_DISTRO}" == "melodic" ] ; then export ROSDEP_ADDITIONAL_OPTIONS="-n -q -r --ignore-src --skip-keys libpng12-dev --skip-keys leap_motion"; fi;
   # To avoid exceeding the maximum log length on melodic
-  - if [ "${JSK_TRAVIS}" == "true" ] && [ "${ROS_DISTRO}" == "melodic" ] && [ "${USE_DEB}" != "true" ] ; then add_scr="pwd; sed -i \"35iadd_definitions(-Wno-deprecated)\" hrpsys/CMakeLists.txt; (cd hrpsys; git diff)"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
-  - if [ "${JSK_TRAVIS}" == "true" ] && [ "${ROS_DISTRO}" == "melodic" ] && [ "${USE_DEB}" != "true" ] ; then add_scr="pwd; sed -i \"32iadd_definitions(-Wno-deprecated)\" choreonoid/CMakeLists.txt; (cd choreonoid; git --no-pager diff)"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
+  - if [ "${ROS_DISTRO}" == "melodic" ] && [ "${USE_DEB}" != "true" ] ; then add_scr="pwd; sed -i \"35iadd_definitions(-Wno-deprecated)\" hrpsys/CMakeLists.txt; (cd hrpsys; git diff)"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
+  - if [ "${ROS_DISTRO}" == "melodic" ] && [ "${USE_DEB}" != "true" ] ; then add_scr="pwd; sed -i \"32iadd_definitions(-Wno-deprecated)\" choreonoid/CMakeLists.txt; (cd choreonoid; git --no-pager diff)"; if [ "${BEFORE_SCRIPT}" == "" ] ; then export BEFORE_SCRIPT=${add_scr}; else export BEFORE_SCRIPT="${BEFORE_SCRIPT}; ${add_scr}"; fi; fi;
   # avoid building run_depend to reduce building time on melodic
-  - if [ "${JSK_TRAVIS}" == "true" ] && [ "${ROS_DISTRO}" == "melodic" ] && [ "${USE_DEB}" != "true" ] ; then export CATKIN_TOOLS_CONFIG_OPTIONS="--blacklist jsk_footstep_controller jsk_footstep_planner"; fi;
-
-  # for auto docker build
-  - if [ "${JSK_TRAVIS}" != "true" ] ; then docker pull ${BASEIMG}; fi;
+  - if [ "${ROS_DISTRO}" == "melodic" ] && [ "${USE_DEB}" != "true" ] ; then export CATKIN_TOOLS_CONFIG_OPTIONS="--blacklist jsk_footstep_controller jsk_footstep_planner"; fi;
 
 script:
-  # for jsk_travis
-  - if [ "${JSK_TRAVIS}" == "true" ] ; then source .travis/travis.sh; fi;
-
-  # for auto docker build
-  - if [ "${JSK_TRAVIS}" != "true" ] ; then sed -e "s/latest/${CNOID}/" Dockerfile.${DISTR} > Dockerfile.${DISTR}_tmp; fi;
-  - if [ "${JSK_TRAVIS}" != "true" ] ; then docker build -f Dockerfile.${DISTR}_tmp --tag $REPO:${CNOID}_$COMMIT .; fi;
-
-after_success:
-  # for auto docker build
-  - if [ "${JSK_TRAVIS}" != "true" ] && [ "$DOCKER_USER" != "" ]; then docker login -u $DOCKER_USER -p $DOCKER_PASS ; fi
-  - if [ "${JSK_TRAVIS}" != "true" ] && [ "$DOCKER_USER" != "" ]; then docker tag $REPO:${CNOID}_$COMMIT $REPO:${CNOID} ; fi
-  - if [ "${JSK_TRAVIS}" != "true" ] && [ "$DOCKER_USER" != "" ]; then docker tag $REPO:${CNOID}_$COMMIT $REPO:${CNOID}_travis-$TRAVIS_BUILD_NUMBER ; fi
-  - if [ "${JSK_TRAVIS}" != "true" ] && [ "$DOCKER_USER" != "" ]; then docker push $REPO ; fi
+  - source .travis/travis.sh
