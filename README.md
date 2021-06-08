@@ -38,7 +38,7 @@ Build
 cd ..
 source /opt/ros/${ROS_DISTRO}/setup.bash
 rosdep install -r --from-paths src --ignore-src -y
-catkin build choreonoid hrpsys_choreonoid
+catkin build hrpsys_choreonoid
 source devel/setup.bash
 ```
 

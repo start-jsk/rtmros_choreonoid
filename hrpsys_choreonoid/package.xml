@@ -15,6 +15,7 @@
 
   <build_depend>hrpsys</build_depend>
   <build_depend version_gte="3.1.8">openhrp3</build_depend>
+  <build_depend>choreonoid</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>openrtm_aist</build_depend>
@@ -22,6 +23,7 @@
 
   <run_depend>hrpsys</run_depend>
   <run_depend>openhrp3</run_depend>
+  <run_depend>choreonoid</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>openrtm_aist</run_depend>
