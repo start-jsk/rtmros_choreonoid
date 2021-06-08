@@ -1,8 +1,10 @@
-if(EXISTS ${hrpsys_SOURCE_DIR})
-  add_definitions(-DHRPSYS_PACKAGE_VERSION=\"\\"${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}\\"\" -DROBOT_IOB_VERSION=4)
-else()
+if(${hrpsys_PREFIX} MATCHES "/opt/ros/.*")
   # ROBOT_IOB_VERSION=4 is not supported in the released hrpsys
+  message ("Build with -DROBOT_IOB_VERSION=3")
   add_definitions(-DHRPSYS_PACKAGE_VERSION=\"\\"${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}\\"\" -DROBOT_IOB_VERSION=3)
+else()
+  message ("Build with -DROBOT_IOB_VERSION=4")
+  add_definitions(-DHRPSYS_PACKAGE_VERSION=\"\\"${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}\\"\" -DROBOT_IOB_VERSION=4)
 endif()
 
 # https://github.com/start-jsk/rtmros_choreonoid/issues/296
