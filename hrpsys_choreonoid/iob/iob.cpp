@@ -35,7 +35,7 @@ static bool isLocked = false;
 static int frame = 0;
 static timespec g_ts;
 static long g_period_ns=5000000;
-static std::vector<bool> isPosTq;
+static std::vector<joint_control_mode> controlmode;
 
 Time iob_time;
 
@@ -170,11 +170,11 @@ int set_number_of_joints(int num)
     act_vel.resize(num);
     power.resize(num);
     servo.resize(num);
-    isPosTq.resize(num);
+    controlmode.resize(num);
 
     for (int i=0; i<num; i++){
         command[i] = com_torque[i] = power[i] = servo[i] = 0;
-        isPosTq[i] = false;
+        controlmode[i] = JCM_POSITION;
     }
 
     torque_counter = 0;
@@ -291,27 +291,14 @@ int read_servo_alarm(int id, int *a)
 int read_control_mode(int id, joint_control_mode *s)
 {
     CHECK_JOINT_ID(id);
-    if(isPosTq[id]){
-#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
-      *s = JCM_POSITION_TORQUE;
-#endif
-    }else{
-      *s = JCM_POSITION;
-    }
+    *s = controlmode[id];
     return TRUE;
 }
 
 int write_control_mode(int id, joint_control_mode s)
 {
     CHECK_JOINT_ID(id);
-    if(s == JCM_POSITION){
-      isPosTq[id] = false;
-    }
-#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
-    if(s == JCM_POSITION_TORQUE){
-      isPosTq[id] = true;
-    }
-#endif
+    controlmode[id] = s;
     return TRUE;
 }
 
@@ -572,7 +559,7 @@ int open_iob(void)
         com_torque[i] = 0.0;
         power[i] = OFF;
         servo[i] = OFF;
-        isPosTq[i] = false;
+        controlmode[i] = JCM_POSITION;
     }
     clock_gettime(CLOCK_MONOTONIC, &g_ts);
 
@@ -782,13 +769,18 @@ void iob_finish(void)
       tqold_ref[i] = tq_ref;
 
       double ctq;
-      if(isPosTq[i]){
+      switch(controlmode[i]){
+#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
+      case JCM_POSITION_TORQUE:
+#endif
+      case JCM_TORQUE:
         // position & torque control
-        //ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i] - (tq - tq_ref) * tqPgain[i] - (dtq - dtq_ref) * tqDgain[i];
-        ctq = -(q - q_ref) *   Pgain[i] / (tqPgain[i] + 1) - (dq  -  dq_ref) *   Dgain[i] / (tqPgain[i] + 1)
-                +  tq_ref  * tqPgain[i] / (tqPgain[i] + 1) - (dtq - dtq_ref) * tqDgain[i] / (tqPgain[i] + 1);
-      } else {
+        ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i] + tq_ref * tqPgain[i] - (dtq - dtq_ref) * tqDgain[i];
+        break;
+      case JCM_POSITION:
+      default:
         ctq = -(q - q_ref) * Pgain[i] - (dq - dq_ref) * Dgain[i]; // simple PD control
+        break;
       }
 
       m_torqueOut.data[i] = std::max(std::min(ctq, tlimit[i]), -tlimit[i]);
