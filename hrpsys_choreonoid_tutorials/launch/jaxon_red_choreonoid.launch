@@ -15,13 +15,13 @@
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
 
   <!-- robot dependant settings -->
-  <arg if="$(arg USE_ROBOTHARDWARE)"
-       name="taskname" value="RH_$(arg TASK)" />
-  <arg unless="$(arg USE_ROBOTHARDWARE)"
-       name="taskname" value="$(arg TASK)" />
   <arg if="$(arg LOAD_OBJECTS)"
-       name="taskname_obj" value="LOAD_OBJ" />
+       name="taskname" value="LOAD_OBJ" />
   <arg unless="$(arg LOAD_OBJECTS)"
+       name="taskname" value="$(arg TASK)" />
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="taskname_obj" value="RH_$(arg taskname)" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
        name="taskname_obj" value="$(arg taskname)" />
   <arg if="$(arg NO_SCENE)"
        name="taskname_last" value="$(arg taskname_obj)_NW" />
