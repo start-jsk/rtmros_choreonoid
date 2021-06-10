@@ -83,6 +83,7 @@ static InPort<TimedAcceleration3D> *ip_gsensor_sim;
 static InPort<TimedAngularVelocity3D> *ip_gyrometer_sim;
 
 static void readGainFile();
+static void loadInitialGain();
 
 static double dt;
 static std::ifstream gain;
@@ -624,6 +625,7 @@ void iob_update(void)
         dof = m_angleIn.data.length();
         m_torqueOut.data.length(dof);
         readGainFile();
+        loadInitialGain();
       }
       for(int i = 0; i < m_angleIn.data.length() && i < dof; i++) {
         act_angle[i] = m_angleIn.data[i];
@@ -870,6 +872,65 @@ static void readGainFile()
       com_torque[i] = tqold_ref[i] = tqold[i] = 0/*act_torque[i]*/;
     }
 }
+
+static void loadInitialGain()
+{
+  std::string initialgain_fname;
+  RTC::Properties& prop = self_ptr->getProperties();
+  coil::stringTo(initialgain_fname, prop["pdgains.file_name"].c_str());
+  std::ifstream strm(initialgain_fname.c_str());
+  if (strm.is_open()) {
+    std::cerr << "[iob] Initial Gain file [" << initialgain_fname << "] opened" << std::endl;
+    int i = 0;
+    for (; i < dof; i++) {
+      double pgain=0, dgain=0, tqpgain=0, tqdgain=0, tmp;
+    retry:
+      {
+        std::string str;
+        if (std::getline(strm, str)) {
+          if (str.empty())   goto retry;
+          if (str[0] == '#') goto retry;
+
+          std::istringstream sstrm(str);
+          sstrm >> pgain;
+          if(sstrm.eof()) goto next;
+          sstrm >> tmp;
+          if(sstrm.eof()) goto next;
+          sstrm >> dgain;
+          if(sstrm.eof()) goto next;
+          sstrm >> tqpgain;
+          if(sstrm.eof()) goto next;
+          sstrm >> tmp;
+          if(sstrm.eof()) goto next;
+          sstrm >> tqdgain;
+        } else {
+          i--;
+          break;
+        }
+      }
+
+    next:
+      write_pgain(i, pgain);
+      write_dgain(i, dgain);
+#if defined(ROBOT_IOB_VERSION) && ROBOT_IOB_VERSION >= 4
+      write_torque_pgain(i, tqpgain);
+      write_torque_dgain(i, tqdgain);
+#endif
+      std::cerr << "joint: " << i;
+      std::cerr << ", P: " << pgain;
+      std::cerr << ", D: " << dgain;
+      std::cerr << ", tqP: " << tqpgain;
+      std::cerr << ", tqD: " << tqdgain << std::endl;
+    }
+    strm.close();
+    if (i != dof) {
+      std::cerr << "[iob] Initial Gain file [" << initialgain_fname << "] does not contain gains for all joints" << std::endl;
+    }
+  } else {
+    std::cerr << "[iob] Initial Gain file [" << initialgain_fname << "] not opened" << std::endl;
+  }
+}
+
 
 int close_iob(void)
 {
