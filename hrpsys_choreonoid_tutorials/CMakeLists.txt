@@ -27,6 +27,14 @@ else()
   set (JSK_MODELS_DIR ${jsk_models_SOURCE_PREFIX})
 endif()
 
+find_package(hrp2_models QUIET)
+if(NOT "${hrp2_models_FOUND}")
+  string(ASCII 27 Esc)
+  message(WARNING "${Esc}[1;33mPackage hrp2_models is not found, if you have right to access them please include source code in catkin workspace${Esc}[m")
+else()
+  set (HRP2_MODELS_DIR ${hrp2_models_SOURCE_PREFIX})
+endif()
+
 ################################
 ## compile_openhrp_model
 ##  Generate OpenHRP3 .xml and .conf file.
@@ -196,6 +204,27 @@ endif()
 if (${jsk_models_FOUND})
 configure_file(${PROJECT_SOURCE_DIR}/config/TABLIS_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/TABLIS_RH_FLAT.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/TABLIS_BASE_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/TABLIS_BASE_RH_FLAT.cnoid @ONLY)
+endif()
+
+###
+#HRP2JSK conid
+###
+if (${hrp2_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSK_RH_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSK_RH_LOAD_OBJ.cnoid @ONLY)
+endif()
+
+###
+#HRP2JSKNT conid
+###
+if (${hrp2_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSKNT_RH_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSKNT_RH_LOAD_OBJ.cnoid @ONLY)
+endif()
+
+###
+#HRP2JSKNTS conid
+###
+if (${hrp2_models_FOUND})
+configure_file(${PROJECT_SOURCE_DIR}/config/HRP2JSKNTS_RH_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/HRP2JSKNTS_RH_LOAD_OBJ.cnoid @ONLY)
 endif()
 
 ###
