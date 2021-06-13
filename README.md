@@ -43,9 +43,35 @@ source devel/setup.bash
 ```
 
 ### run test
+If you get error, try `export ORBgiopMaxMsgSize=2097152000`.
+
+#### SampleRobot
+```
+rtmlaunch hrpsys_choreonoid samplerobot_choreonoid.launch
+```
+Launch another terminal and send command to robot. (python)
+```
+ipython -i `rospack find hrpsys_choreonoid`/scripts/samplerobot_rh_setup.py "SampleRobot(Robot)0"
+hcf.abc_svc.goPos(1,0,0)
+```
+Launch another terminal and send command to robot. (euslisp)
+```
+roseus `rospack find hrpsys_ros_bridge`/euslisp/samplerobot-interface.l
+(samplerobot-init)
+(send *ri* :go-pos 1 0 0)
+(setq *robot* *sr*)
+(objects *robot*)
+(send *robot* :reset-manip-pose)
+(send *ri* :angle-vector (send *robot* :angle-vector) 5000)
+```
+
+#### JAXON
+Build hrpsys_choreonoid_tutorials
 ```
 catkin build hrpsys_choreonoid_tutorials
 source devel/setup.bash
+```
+```
 rtmlaunch hrpsys_choreonoid_tutorials jaxon_jvrc_choreonoid.launch
 ```
 Launch another terminal and send command to robot. (python)
@@ -65,8 +91,6 @@ roseus `rospack find hrpsys_choreonoid_tutorials`/euslisp/jaxon_jvrc-interface.l
 (send *robot* :reset-manip-pose)
 (send *ri* :angle-vector (send *robot* :angle-vector) 5000)
 ```
-
-If you get error, try `export ORBgiopMaxMsgSize=2097152000`.
 
 See also [hrpsys_choreonoid_tutorials/README.md](/hrpsys_choreonoid_tutorials/README.md)
 
