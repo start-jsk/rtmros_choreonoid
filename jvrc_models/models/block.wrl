@@ -1,0 +1,19 @@
+          Shape {
+             geometry Box { size 0.8 0.16 0.4 }
+             appearance Appearance {
+               #material Material {
+               #  diffuseColor 0.0 0.0 1.0
+               #}
+               texture ImageTexture{
+                 url "block.jpg"
+                 repeatS FALSE
+                 repeatT FALSE
+               }
+               textureTransform TextureTransform{
+               #  scale 5.0 5.0 #横5枚、縦5枚貼り付ける
+               #   center 0.5 0.5
+               #   rotation 1.570796
+               #  translation x y
+               }
+             }
+           }

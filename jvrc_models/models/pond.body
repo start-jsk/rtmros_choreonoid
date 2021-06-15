@@ -1,0 +1,27 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: radian
+name: pond
+
+links:
+  -
+    name: WAIST
+    jointType: free
+    translation: [ 0, 0, 0 ]
+    rotation: [ 0, 0, 1, 0 ]
+    elements:
+      -
+        type: RigidBody
+        mass: 300.0
+        inertia: [
+          1000.0, 0, 0,
+          0, 1000.0, 0,
+          0, 0, 1000.0 ]
+        elements:
+          Shape:
+            geometry:
+              type: Box
+              size: [ 1.6, 1.6, 0.2 ]
+            appearance:
+              material:
+                diffuseColor: [ 0.6, 0.7, 0.7 ]

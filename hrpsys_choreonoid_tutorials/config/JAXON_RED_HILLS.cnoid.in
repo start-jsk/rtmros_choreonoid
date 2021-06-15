@@ -1,0 +1,805 @@
+items:
+  id: 0
+  name: "Root"
+  plugin: Base
+  class: RootItem
+  children:
+    -
+      id: 1
+      name: "World"
+      plugin: Body
+      class: WorldItem
+      data:
+        collisionDetection: false
+        collisionDetector: AISTCollisionDetector
+        materialTableFile: "${SHARE}/default/materials.yaml"
+      children:
+        -
+          id: 2
+          name: "AISTSimulator"
+          plugin: Body
+          class: AISTSimulatorItem
+          data:
+            realtimeSync: true
+            recording: "full"
+            timeRangeMode: "Active control period"
+            timeLength: 12000
+            allLinkPositionOutputMode: false
+            deviceStateOutput: true
+            controllerThreads: true
+            recordCollisionData: false
+            controllerOptions: ""
+            dynamicsMode: "Forward dynamics"
+            integrationMode: "Runge Kutta"
+            gravity: [ 0, 0, -9.80665 ]
+            staticFriction: 1
+            dynamicFriction: 1
+            cullingThresh: 0.005
+            contactCullingDepth: 0.03
+            errorCriterion: 0.001
+            maxNumIterations: 1000
+            contactCorrectionDepth: 0.0001
+            contactCorrectionVelocityRatio: 1
+            kinematicWalking: false
+            2Dmode: false
+            oldAccelSensorMode: false
+          children:
+            -
+              id: 3
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data:
+                enabled: true
+                targetBodies: [ JAXON_RED ]
+                targetSensors: [ HEAD_LEFT_CAMERA ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                threadMode: Screen
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: false
+                antiAliasing: false
+            -
+              id: 4
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data:
+                enabled: true
+                targetBodies: [ JAXON_RED ]
+                targetSensors: [ HEAD_RIGHT_CAMERA ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                threadMode: Screen
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: false
+                antiAliasing: false
+            -
+              id: 5
+              name: "GLVisionSimulator"
+              plugin: Body
+              class: GLVisionSimulatorItem
+              data:
+                enabled: true
+                targetBodies: [ JAXON_RED ]
+                targetSensors: [ HEAD_RANGE ]
+                maxFrameRate: 1000
+                maxLatency: 1
+                recordVisionData: false
+                threadMode: Screen
+                bestEffort: false
+                allSceneObjects: false
+                rangeSensorPrecisionRatio: 2
+                depthError: 0
+                enableHeadLight: true
+                enableAdditionalLights: false
+                antiAliasing: false
+        -
+          id: 6
+          name: "JAXON_RED"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/JAXON_JVRC/JAXON_JVRCmain_hrpsys_bush.wrl"
+            currentBaseLink: "WAIST"
+            rootPosition: [ -0.301134654, 6.57532506e-06, 0.975153522 ]
+            rootAttitude: [
+              0.999996007, -0.000135166593, -0.00282266535,
+              0.000134430012, 0.999999957, -0.000261140356,
+              0.00282270053, 0.000260759863, 0.999995982 ]
+            jointPositions: [
+               0.000141,  0.003770, -0.247730,  0.681384, -0.430549, -0.001123, -0.000155,  0.003159, -0.252932,  0.690222,
+              -0.431294,  0.004163, -0.000013, -0.001489,  0.000001, -0.000000,  0.000410,  0.000028,  0.697766, -0.348262,
+              -0.086752, -1.395234,  0.000032,  0.000129, -0.348826, -0.000028,  0.697765,  0.348257,  0.086750, -1.395236,
+              -0.000032, -0.000129, -0.348826,  0.000130,  0.000260,  0.000129,  0.000259,  819.789732,  0.000544, -0.000692,
+              -0.001094,  0.000566, -0.000400, -0.001410 ]
+            initialRootPosition: [ -0.301134654, 6.57532506e-06, 0.975153522 ]
+            initialRootAttitude: [
+              0.999996007, -0.000135166593, -0.00282266535,
+              0.000134430012, 0.999999957, -0.000261140356,
+              0.00282270053, 0.000260759863, 0.999995982 ]
+            initialJointPositions: [
+               0.000141,  0.003770, -0.247730,  0.681384, -0.430549, -0.001123, -0.000155,  0.003159, -0.252932,  0.690222,
+              -0.431294,  0.004163, -0.000013, -0.001489,  0.000001, -0.000000,  0.000410,  0.000028,  0.697766, -0.348262,
+              -0.086752, -1.395234,  0.000032,  0.000129, -0.348826, -0.000028,  0.697765,  0.348257,  0.086750, -1.395236,
+              -0.000032, -0.000129, -0.348826,  0.000130,  0.000260,  0.000129,  0.000259,  819.789732,  0.000544, -0.000692,
+              -0.001094,  0.000566, -0.000400, -0.001410 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+          children:
+            -
+              id: 7
+              name: "BodyRTC"
+              plugin: OpenRTM
+              class: BodyRTCItem
+              data:
+                isNoDelayMode: true
+                controllerOptions: ""
+                moduleName: "@JVRC_RTC_DIRECTORY@/PDcontroller"
+                confFileName: "@JVRC_CONF_DIRECTORY@/SensorReaderRTC_JAXON_RED.PD.conf"
+                configurationMode: "Use Configuration File"
+                autoConnect: false
+                instanceName: "JAXON_RED(Robot)0"
+                bodyPeriodicRate: 0.002
+                baseDirectory: "RTC directory"
+        -
+          id: 8
+          name: "uneven_ground"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/uneven_ground.stl"
+            currentBaseLink: "Root"
+            rootPosition: [ -3.45, 0, -0.5 ]
+            rootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ -3.45, 0, -0.5 ]
+            initialRootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 9
+          name: "uneven_ground"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/uneven_ground.stl"
+            currentBaseLink: "Root"
+            rootPosition: [ 3.45, 0, -0.5 ]
+            rootAttitude: [
+              -1, -1.2246468e-16, 0,
+              1.2246468e-16, -1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 3.45, 0, -0.5 ]
+            initialRootAttitude: [
+              -1, -1.2246468e-16, 0,
+              1.2246468e-16, -1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 10
+          name: "woodsA"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/woodsA.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 2, 5, 2.5 ]
+            rootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 2, 5, 2.5 ]
+            initialRootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 11
+          name: "woodsB"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/woodsB.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ -3, 0, 2.5 ]
+            rootAttitude: [
+              2.22044605e-16, -1, 0,
+              1, 2.22044605e-16, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ -3, 0, 2.5 ]
+            initialRootAttitude: [
+              2.22044605e-16, -1, 0,
+              1, 2.22044605e-16, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 12
+          name: "woodsC"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/woodsC.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 7, 0, 2.5 ]
+            rootAttitude: [
+              2.22044605e-16, 1, 0,
+              -1, 2.22044605e-16, -0,
+              -0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 7, 0, 2.5 ]
+            initialRootAttitude: [
+              2.22044605e-16, 1, 0,
+              -1, 2.22044605e-16, -0,
+              -0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 13
+          name: "woodsD"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/woodsD.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 2, -5, 2.5 ]
+            rootAttitude: [
+              -1, -1.2246468e-16, 0,
+              1.2246468e-16, -1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 2, -5, 2.5 ]
+            initialRootAttitude: [
+              -1, -1.2246468e-16, 0,
+              1.2246468e-16, -1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 14
+          name: "wood"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/wood.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ -2, 1, 1 ]
+            rootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ -2, 1, 1 ]
+            initialRootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 15
+          name: "wood"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/wood.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ 1.5, -2, 1 ]
+            rootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 1.5, -2, 1 ]
+            initialRootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 16
+          name: "wood"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/wood.wrl"
+            currentBaseLink: "Root"
+            rootPosition: [ -1, -1, 1 ]
+            rootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            jointPositions: [  ]
+            initialRootPosition: [ -1, -1, 1 ]
+            initialRootAttitude: [
+              1, 0, 0,
+              0, 1, 0,
+              0, 0, 1 ]
+            zmp: [ 0, 0, 0 ]
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: false
+        -
+          id: 17
+          name: "pond"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/pond.body"
+            currentBaseLink: "WAIST"
+            rootPosition: [ 1.49983886, 1.99989692, -0.185448025 ]
+            rootAttitude: [
+              0.999998741, 3.83984848e-05, 0.00158661762,
+              -4.07635019e-05, 0.999998888, 0.00149059762,
+              -0.00158655861, -0.00149066041, 0.99999763 ]
+            jointPositions: [  ]
+            initialRootPosition: [ 1.49983886, 1.99989692, -0.185448025 ]
+            initialRootAttitude: [
+              0.999998741, 3.83984848e-05, 0.00158661762,
+              -4.07635019e-05, 0.999998888, 0.00149059762,
+              -0.00158655861, -0.00149066041, 0.99999763 ]
+            zmp: [ 0, 0, 0 ]
+            staticModel: true
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+        -
+          id: 18
+          name: "pond"
+          plugin: Body
+          class: BodyItem
+          data:
+            modelFile: "../../jvrc_models/models/pond.body"
+            currentBaseLink: "WAIST"
+            rootPosition: [ -1.49988244, -1.99984746, -0.186120937 ]
+            rootAttitude: [
+              0.999998943, -0.000228347495, -0.00143626303,
+              0.000226920809, 0.999999481, -0.000993416943,
+              0.00143648913, 0.000993089975, 0.999998475 ]
+            jointPositions: [  ]
+            initialRootPosition: [ -1.49988244, -1.99984746, -0.186120937 ]
+            initialRootAttitude: [
+              0.999998943, -0.000228347495, -0.00143626303,
+              0.000226920809, 0.999999481, -0.000993416943,
+              0.00143648913, 0.000993089975, 0.999998475 ]
+            zmp: [ 0, 0, 0 ]
+            staticModel: true
+            collisionDetection: true
+            selfCollisionDetection: false
+            isEditable: true
+    -
+      id: 19
+      name: "ros_service_server.py"
+      plugin: Python
+      class: PythonScriptItem
+      data:
+        file: "@JVRC_RTC_DIRECTORY@/scripts/ros_service_server.py"
+        executionOnLoading: true
+        backgroundExecution: false
+    -
+      id: 20
+      name: "external_force_sample.py"
+      plugin: Python
+      class: PythonScriptItem
+      data:
+        file: "../../hrpsys_choreonoid/scripts/external_force_sample.py"
+        executionOnLoading: true
+        backgroundExecution: true
+    -
+      id: 21
+      name: "wheelbarrow"
+      plugin: Body
+      class: BodyItem
+      data:
+        modelFile: "../../jvrc_models/models/wheelbarrow.body"
+        currentBaseLink: "base"
+        rootPosition: [ 0.7, 0, 0 ]
+        rootAttitude: [
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1 ]
+        jointPositions: [  0.000000 ]
+        initialRootPosition: [ 0, 0, 0 ]
+        initialRootAttitude: [
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1 ]
+        initialJointPositions: [  0.000000 ]
+        zmp: [ 0, 0, 0 ]
+        collisionDetection: true
+        selfCollisionDetection: false
+        isEditable: true
+    -
+      id: 22
+      name: "push_cart"
+      plugin: Body
+      class: BodyItem
+      data:
+        modelFile: "../../jvrc_models/models/push_cart.body"
+        currentBaseLink: "base"
+        rootPosition: [ 0.395466953, 0.000320833852, 0.0280771695 ]
+        rootAttitude: [
+          0.999997169, -0.00106597264, 0.00212724552,
+          0.00104847078, 0.999965734, 0.00821169648,
+          -0.00213592607, -0.00820944288, 0.999964021 ]
+        jointPositions: [ -0.159244, -0.313246,  0.837976,  0.181890, -0.062592, -0.149031 ]
+        initialRootPosition: [ 0.395466953, 0.000320833852, 0.0280771695 ]
+        initialRootAttitude: [
+          0.999997169, -0.00106597264, 0.00212724552,
+          0.00104847078, 0.999965734, 0.00821169648,
+          -0.00213592607, -0.00820944288, 0.999964021 ]
+        initialJointPositions: [ -0.159244, -0.313246,  0.837976,  0.181890, -0.062592, -0.149031 ]
+        zmp: [ 0, 0, 0 ]
+        collisionDetection: true
+        selfCollisionDetection: false
+        isEditable: true
+views:
+  -
+    id: 0
+    name: "CameraImage"
+    plugin: Base
+    class: ImageView
+    mounted: true
+  -
+    id: 1
+    plugin: Base
+    class: ItemPropertyView
+    mounted: true
+  -
+    id: 2
+    plugin: Base
+    class: ItemTreeView
+    mounted: true
+    state:
+      selected: [ 1 ]
+      checked: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20 ]
+      expanded: [ 1, 7, 8, 17, 18, 22 ]
+  -
+    id: 3
+    plugin: Base
+    class: MessageView
+    mounted: true
+  -
+    id: 4
+    plugin: Base
+    class: SceneView
+    mounted: true
+    state:
+      editMode: false
+      viewpointControlMode: thirdPerson
+      collisionLines: false
+      polygonMode: fill
+      cullingMode: enabled
+      defaultHeadLight: true
+      defaultHeadLightIntensity: 0.75
+      headLightLightingFromBack: false
+      worldLight: true
+      worldLightIntensity: 0.5
+      worldLightAmbient: 0.3
+      additionalLights: false
+      fog: true
+      floorGrid: false
+      floorGridSpan: 10
+      floorGridInterval: 0.5
+      xzGridSpan: 10
+      xzGridInterval: 0.5
+      xzGrid: false
+      yzGridSpan: 10
+      yzGridInterval: 0.5
+      texture: true
+      lineWidth: 1
+      pointSize: 1
+      normalVisualization: false
+      normalLength: 0.01
+      coordinateAxes: true
+      fpsTestIteration: 2
+      showFPS: true
+      enableNewDisplayListDoubleRendering: false
+      useBufferForPicking: true
+      upsideDown: false
+      cameras:
+        -
+          camera: [ System, Perspective ]
+          isCurrent: true
+          fieldOfView: 0.698132
+          near: 0.01
+          far: 100
+          eye: [ 9.38280894, -3.85390396, 5.74463669 ]
+          direction: [ -0.647304201, 0.493351219, -0.58103515 ]
+          up: [ -0.462116287, 0.35220787, 0.813878464 ]
+        -
+          camera: [ System, Orthographic ]
+          orthoHeight: 20
+          near: 0.01
+          far: 100
+      backgroundColor: [ 0.53725493, 0.815686285, 1 ]
+      gridColor: [ 0.899999976, 0.899999976, 0.899999976, 1 ]
+      xzgridColor: [ 0.899999976, 0.899999976, 0.899999976, 1 ]
+      yzgridColor: [ 0.899999976, 0.899999976, 0.899999976, 1 ]
+      dedicatedItemTreeViewChecks: false
+  -
+    id: 5
+    name: "Task"
+    plugin: Base
+    class: TaskView
+    state:
+      layoutMode: horizontal
+      isAutoMode: false
+  -
+    id: 6
+    plugin: Body
+    class: BodyLinkView
+    mounted: true
+    state:
+      showRotationMatrix: false
+  -
+    id: 7
+    plugin: Body
+    class: JointSliderView
+    mounted: true
+    state:
+      showAllJoints: true
+      jointId: false
+      name: true
+      numColumns: 1
+      spinBox: true
+      slider: true
+      dial: false
+      labelOnLeft: true
+      currentBodyItem: 22
+  -
+    id: 8
+    plugin: Body
+    class: LinkSelectionView
+    mounted: true
+    state:
+      listingMode: "Link List"
+      currentBodyItem: 22
+  -
+    id: 9
+    plugin: OpenRTM
+    class: RTSNameServerView
+    state:
+      NameServers:
+        -
+          isDefaultNameServer: true
+          host: "localhost"
+          port: 15005
+  -
+    id: 10
+    plugin: Python
+    class: PythonConsoleView
+    mounted: true
+toolbars:
+  "TimeBar":
+    minTime: 0
+    maxTime: 240.106
+    frameRate: 1000
+    playbackFrameRate: 50
+    idleLoopDrivenMode: false
+    currentTime: 0
+    speedScale: 1
+    syncToOngoingUpdates: false
+    autoExpansion: true
+  "KinematicsBar":
+    mode: AUTO
+    enablePositionDragger: true
+    penetrationBlock: false
+    collisionLinkHighlight: false
+    snapDistance: 0.025
+    penetrationBlockDepth: 0.0005
+    lazyCollisionDetectionMode: true
+  "BodyBar":
+    current: 22
+  "LeggedBodyBar":
+    stanceWidth: 0.15
+  "BodyMotionGenerationBar":
+    autoGenerationForNewBody: true
+    balancer: false
+    autoGeneration: false
+    timeScaleRatio: 1
+    preInitialDuration: 1
+    postFinalDuration: 1
+    onlyTimeBarRange: false
+    makeNewBodyItem: true
+    stealthyStepMode: true
+    stealthyHeightRatioThresh: 2
+    flatLiftingHeight: 0.005
+    flatLandingHeight: 0.005
+    impactReductionHeight: 0.005
+    impactReductionTime: 0.04
+    autoZmp: true
+    minZmpTransitionTime: 0.1
+    zmpCenteringTimeThresh: 0.03
+    zmpTimeMarginBeforeLiftingSpin: 0
+    zmpMaxDistanceFromCenter: 0.02
+    allLinkPositions: false
+    lipSyncMix: false
+    timeToStartBalancer: 0
+    balancerIterations: 2
+    plainBalancerMode: false
+    boundaryConditionType: position
+    boundarySmootherType: quintic
+    boundarySmootherTime: 0.5
+    boundaryCmAdjustment: false
+    boundaryCmAdjustmentTime: 1
+    waistHeightRelaxation: false
+    gravity: 9.8
+    dynamicsTimeRatio: 1
+Body:
+  "BodyMotionEngine":
+    updateJointVelocities: false
+  "EditableSceneBody":
+    editableSceneBodies:
+      -
+        bodyItem: 6
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 8
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 9
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 10
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 11
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 12
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 13
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 14
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 15
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 16
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 17
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 18
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 21
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+      -
+        bodyItem: 22
+        showCenterOfMass: false
+        showPpcom: false
+        showZmp: false
+    staticModelEditing: false
+  "KinematicFaultChecker":
+    checkJointPositions: true
+    angleMargin: 0
+    translationMargin: 0
+    checkJointVelocities: true
+    velocityLimitRatio: 100
+    targetJoints: all
+    checkSelfCollisions: true
+    onlyTimeBarRange: false
+  "SplineFilterDialog":
+    isInputFrameRateSpecified: false
+    inputFrameRate: 200
+    isOutputFrameRateSpecified: false
+    outputFrameRate: 200
+OpenRTM:
+  "deleteUnmanagedRTCsOnStartingSimulation": false
+viewAreas:
+  -
+    type: embedded
+    tabs: true
+    contents:
+      type: splitter
+      orientation: horizontal
+      sizes: [ 660, 1189 ]
+      children:
+        -
+          type: splitter
+          orientation: horizontal
+          sizes: [ 290, 364 ]
+          children:
+            -
+              type: pane
+              views: [ 1, 8, 2 ]
+              current: 2
+            -
+              type: pane
+              views: [ 6, 7, 0 ]
+              current: 6
+        -
+          type: splitter
+          orientation: vertical
+          sizes: [ 819, 174 ]
+          children:
+            -
+              type: pane
+              views: [ 4 ]
+              current: 4
+            -
+              type: pane
+              views: [ 3, 10 ]
+              current: 3
+layoutOfToolBars:
+  rows:
+    -
+      - { name: "FileBar", x: 0, priority: 0 }
+      - { name: "ScriptBar", x: 47, priority: 3 }
+      - { name: "TimeBar", x: 47, priority: 1 }
+      - { name: "SceneBar", x: 1455, priority: 2 }
+      - { name: "SimulationBar", x: 1464, priority: 0 }

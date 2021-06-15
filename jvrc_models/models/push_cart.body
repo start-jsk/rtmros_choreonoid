@@ -1,0 +1,158 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+name: push_cart
+rootLink: base
+
+links:
+  -
+    name: base
+    jointType: free
+    # mass: 8.4
+    mass: 28.4
+    centerOfMass: [ 0, 0, 0.08 ]
+    inertia: [ 10, 0, 0,
+               0, 1, 0,
+               0, 0, 1 ]
+    routhness: 0.1
+    elements:
+      -
+        type: Transform
+        translation: [ 0, 0, 0.07 ]
+        rotation: [ 0, 0, 1, 0 ]
+        elements:
+          -
+            type: Shape
+            geometry: { type: Box, size: [ 0.725, 0.472, 0.04 ] }
+            appearance: &base_app
+              material: { diffuseColor: [ 0.5, 0.5, 1.0 ] }
+          -
+            type: Transform
+            translation: [ -0.32, -0.2, 0.35 ]
+            rotation: [1, 0, 0, 90]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.66, radius: 0.03}
+                appearance: &grip_app
+                  material: { diffuseColor: [ 0.5, 0.5, 0.5 ] }
+          -
+            type: Transform
+            translation: [ -0.32, 0.2, 0.35 ]
+            rotation: [1, 0, 0, 90]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.66, radius: 0.03}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.32, 0, 0.68 ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.45, radius: 0.03}
+                appearance: *grip_app
+  -
+    name: wheel1_pitch
+    parent: base
+    jointType: revolute
+    jointAxis: [0, 1, 0]
+    jointRange: unlimited
+    translation: [ -0.32, 0.2, 0.01 ]
+    rotorInertia: 1.0E-2
+    mass: 0.41
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00000385, 0, 0,
+    0, 0.00000703, 0,
+    0, 0, 0.00000385 ]
+    elements:
+      Shape:
+        geometry: { type: Cylinder, height: 0.02, radius: 0.0375}
+        appearance: &wheel_app
+          material: { diffuseColor: [ 0.0, 0.61, 0.81 ] }
+
+  -
+    name: wheel2_pitch
+    parent: base
+    jointType: revolute
+    jointAxis: [0, 1, 0]
+    jointRange: unlimited
+    translation: [ -0.32, -0.2, 0.01 ]
+    rotorInertia: 1.0E-2
+    mass: 0.41
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00000385, 0, 0,
+    0, 0.00000703, 0,
+    0, 0, 0.00000385 ]
+    elements:
+      Shape:
+        geometry: { type: Cylinder, height: 0.02, radius: 0.0375}
+        appearance: *wheel_app
+
+  -
+    name: wheel3_yaw
+    parent: base
+    jointType: revolute
+    jointAxis: [0, 0, 1]
+    jointRange: unlimited
+    translation: [ 0.32, 0.2, 0.01 ]
+    rotorInertia: 1.0E-2
+    mass: 0.01
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00000385, 0, 0,
+    0, 0.00000703, 0,
+    0, 0, 0.00000385 ]
+
+  -
+    name: wheel3_pitch
+    parent: wheel3_yaw
+    jointType: revolute
+    jointAxis: [0, 1, 0]
+    jointRange: unlimited
+    translation: [ -0.03, 0.0, 0.0 ]
+    rotorInertia: 1.0E-2
+    mass: 0.41
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00000385, 0, 0,
+    0, 0.00000703, 0,
+    0, 0, 0.00000385 ]
+    elements:
+      Shape:
+        geometry: { type: Cylinder, height: 0.02, radius: 0.0375}
+        appearance: *wheel_app
+
+  -
+    name: wheel4_yaw
+    parent: base
+    jointType: revolute
+    jointAxis: [0, 0, 1]
+    jointRange: unlimited
+    translation: [ 0.32, -0.2, 0.01 ]
+    rotorInertia: 1.0E-2
+    mass: 0.01
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00000385, 0, 0,
+    0, 0.00000703, 0,
+    0, 0, 0.00000385 ]
+
+  -
+    name: wheel4_pitch
+    parent: wheel4_yaw
+    jointType: revolute
+    jointAxis: [0, 1, 0]
+    jointRange: unlimited
+    translation: [ -0.03, 0.0, 0.0 ]
+    rotorInertia: 1.0E-2
+    mass: 0.41
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00000385, 0, 0,
+    0, 0.00000703, 0,
+    0, 0, 0.00000385 ]
+    elements:
+      Shape:
+        geometry: { type: Cylinder, height: 0.02, radius: 0.0375}
+        appearance: *wheel_app

@@ -1,0 +1,154 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+angleUnit: degree
+name: wheelbarrow
+rootLink: base
+
+links:
+  -
+    name: base
+    jointType: free
+    # mass: 10.4
+    mass: 3.4
+    # mass: 28.4
+    centerOfMass: [ 0.3, 0, 0.1 ]
+    inertia: [ 0.5, 0, 0,
+               0, 0.5, 0,
+               0, 0, 0.5 ]
+    routhness: 0.1
+    elements:
+      -
+        type: Transform
+        translation: [ 0, 0, 0.6 ]
+        rotation: [ 0, 0, 1, 0 ]
+        elements:
+          -
+            type: Shape
+            translation: [ 0.2788, 0.0, -0.161 ]
+            rotation: [ 0, 1, 0, -30 ]
+            geometry: { type: Box, size: [ 0.644, 0.665, 0.04 ] }
+            appearance: &base_app
+              material: { diffuseColor: [ 0.8, 0.8, 0.4 ] }
+          -
+            type: Shape
+            translation: [ -0.161, 0.0, -0.161 ]
+            rotation: [ 0, 1, 0, 45 ]
+            geometry: { type: Box, size: [ 0.4554, 0.665, 0.04 ] }
+            appearance: *base_app
+          -
+            type: Transform
+            translation: [ 0.0, -0.3125, 0.02]
+            elements:
+              Shape: &TRACK
+                geometry:
+                  type: Extrusion
+                  crossSection: [
+                  -0.322, 0.0,
+                  0.0, -0.322,
+                  0.5576, 0.0,
+                  -0.322, 0.0
+                  ]
+                  spine: [ 0, -0.02, 0, 0, 0.02, 0 ]
+                appearance: *base_app
+          -
+            type: Transform
+            translation: [ 0.0, 0.3125, 0.02]
+            elements:
+              Shape: *TRACK
+          -
+            type: Transform
+            translation: [ -0.44, -0.3, 0.0 ]
+            rotation: [0, 0, 1, 90]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.3, radius: 0.03}
+                appearance: &grip_app
+                  material: { diffuseColor: [ 0.5, 0.5, 0.5 ] }
+          -
+            type: Transform
+            translation: [ -0.6866, -0.3, -0.027 ]
+            rotation: [ [0, 1, 0, -15],  [0, 0, 1, 90] ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.23, radius: 0.03}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.3668, -0.3, -0.28 ]
+            rotation: [ [ 0, 1, 0, 60 ], [ 0, 0, 1, 90 ] ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.69  , radius: 0.02}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.11, -0.3, -0.43 ]
+            rotation: [ [ 0, 1, 0, -60 ], [ 0, 0, 1, 90 ] ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.345  , radius: 0.02}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.44, 0.3, 0.0 ]
+            rotation: [0, 0, 1, 90]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.3, radius: 0.03}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.6866, 0.3, -0.027 ]
+            rotation: [ [0, 1, 0, -15],  [0, 0, 1, 90] ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.23, radius: 0.03}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.3668, 0.3, -0.28 ]
+            rotation: [ [ 0, 1, 0, 60 ], [ 0, 0, 1, 90 ] ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.69  , radius: 0.02}
+                appearance: *grip_app
+          -
+            type: Transform
+            translation: [ -0.11, 0.3, -0.43 ]
+            rotation: [ [ 0, 1, 0, -60 ], [ 0, 0, 1, 90 ] ]
+            elements:
+              Shape:
+                geometry: { type: Cylinder, height: 0.345  , radius: 0.02}
+                appearance: *grip_app
+  -
+    name: wheel1_pitch
+    parent: base
+    jointType: revolute
+    jointAxis: [0, 1, 0]
+    jointRange: unlimited
+    translation: [ 0.45, 0, 0.18 ]
+    rotorInertia: 1.0
+    # mass: 0.2
+    mass: 5
+    centerOfMass: [0, 0, 0]
+    inertia: [
+    0.00003385, 0, 0,
+    0, 0.00003703, 0,
+    0, 0, 0.00003385 ]
+    elements:
+      -
+        type: Visual
+        elements:
+          Shape:
+            geometry: { type: Cylinder, height: 0.075, radius: 0.1775}
+            # geometry: { type: Cylinder, height: 0.01, radius: 0.1775}
+            appearance: &wheel_app
+              material: { diffuseColor: [ 0.3, 0.3, 0.3 ] }
+      -
+        type: Collision
+        elements:
+          Shape:
+            geometry: { type: Cylinder, height: 0.075, radius: 0.1775}
+            # geometry: { type: Cylinder, height: 0.01, radius: 0.1775}
+            # appearance: &wheel_app
+            #   material: { diffuseColor: [ 0.3, 0.3, 0.3 ] }
