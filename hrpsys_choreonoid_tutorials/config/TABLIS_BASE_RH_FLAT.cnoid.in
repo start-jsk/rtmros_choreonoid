@@ -58,7 +58,7 @@ items:
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: TABLIS(Robot)0
-                bodyPeriodicRate: 0.002
+                bodyPeriodicRate: 0.001
         -
           id: 4
           name: "floor"

@@ -58,14 +58,14 @@ items:
                 configurationMode: Use Configuration File
                 AutoConnect: false
                 InstanceName: TABLIS(Robot)0
-                bodyPeriodicRate: 0.002
+                bodyPeriodicRate: 0.001
         -
           id: 4
           name: "floor"
           plugin: Body
           class: BodyItem
           data:
-            modelFile: "${SHARE}/model/misc/floor.wrl"
+            modelFile: "${SHARE}/model/misc/floor.body"
             currentBaseLink: ""
             rootPosition: [ 0, 0, -0.1 ]
             rootAttitude: [

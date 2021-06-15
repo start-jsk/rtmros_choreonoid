@@ -4,9 +4,10 @@ from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import *
 
 class TABLIS_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
     def startABSTIMP (self):
-        self.startAutoBalancer()
+        self.rh_svc.setServoGainPercentage("all",100)
+        # self.startAutoBalancer()
         self.setResetPose()
-        self.startStabilizer()
+        # self.startStabilizer()
 
 if __name__ == '__main__':
     hcf = TABLIS_HrpsysConfigurator("TABLIS")
