@@ -12,6 +12,7 @@
   <arg name="USE_VISION" default="true" />
   <arg name="GUI" default="true" />
   <arg name="hrpsys_precreate_rtc" default=""/>
+  <arg name="hrpsys_opt_rtc_config_args" default="" />
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
 
   <!-- robot dependant settings -->
@@ -40,11 +41,11 @@
   <arg name="MODEL_FILE"     value="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"/>
   <arg name="COLLADA_FILE"   value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_SENSORS.urdf"/>
   <arg name="CONF_FILE"      value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC.conf"/>
-  <arg name="HRPSYS_PY_PKG"  value="hrpsys_choreonoid_tutorials"/>
+  <arg name="HRPSYS_PY_PKG"  default="hrpsys_choreonoid_tutorials"/>
   <arg if="$(arg USE_ROBOTHARDWARE)"
-       name="HRPSYS_PY_NAME" value="jaxon_red_rh_setup.py" />
+       name="HRPSYS_PY_NAME" default="jaxon_red_rh_setup.py" />
   <arg unless="$(arg USE_ROBOTHARDWARE)"
-       name="HRPSYS_PY_NAME" value="jaxon_red_setup.py" />
+       name="HRPSYS_PY_NAME" default="jaxon_red_setup.py" />
   <arg name="CONTROLLER_CONFIG"
        value="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
   <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
@@ -64,6 +65,7 @@
     <arg name="REALTIME" value="$(arg REALTIME)" />
     <arg name="GUI" value="$(arg GUI)" />
     <arg name="hrpsys_precreate_rtc" value="$(arg hrpsys_precreate_rtc)" />
+    <arg name="hrpsys_opt_rtc_config_args" value="$(arg hrpsys_opt_rtc_config_args)" />
     <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="$(arg CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS)"/>
   </include>
   <!-- ros_bridge -->
