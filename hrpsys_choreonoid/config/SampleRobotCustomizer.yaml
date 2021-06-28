@@ -1,0 +1,5 @@
+bush:
+  springT: 3.3e5
+  dampingT: 3.3e2
+  springR: 2.5e3
+  dampingR: 2.5

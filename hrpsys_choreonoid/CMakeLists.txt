@@ -96,3 +96,13 @@ endif()
 add_subdirectory(iob)
 
 add_custom_target(hrpsys_choreonoid_iob ALL DEPENDS RobotHardware_choreonoid)
+
+
+set(HRPSYS_CHOREONOID_DIRECTORY ${PROJECT_SOURCE_DIR})
+set(OPENHRP_SAMPLE_DIR ${openhrp3_PREFIX}/share/OpenHRP-3.1/sample)
+
+###
+#SampleRobot conid
+###
+configure_file(${PROJECT_SOURCE_DIR}/config/SampleRobot_RH_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/SampleRobot_RH_LOAD_OBJ.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/launch/samplerobot_choreonoid.launch.in ${PROJECT_SOURCE_DIR}/launch/samplerobot_choreonoid.launch @ONLY) #OPENHRP_SAMPLE_DIR is difficult to find in roslaunch api
