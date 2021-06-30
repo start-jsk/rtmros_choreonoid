@@ -1,11 +1,11 @@
 ### sole plate
 Transform {
 #  translation 0.0155 -0.01 -0.096
-  translation 0.0155 -0.01 -0.004
+  translation 0.005 0.0 0.005
   children [
     Shape {
       geometry Box {
-        size 0.23 0.13 0.038
+        size 0.23 0.14 0.036
       }
       appearance Appearance {
         material Material {
