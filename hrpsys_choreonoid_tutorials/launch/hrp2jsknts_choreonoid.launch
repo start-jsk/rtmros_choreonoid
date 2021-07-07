@@ -1,0 +1,61 @@
+<launch>
+  <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid)/config/flat.yaml" />
+  <arg name="LAUNCH_FOOTCOORDS" default="true" />
+  <arg name="USE_VISION" default="true" />
+
+  <!-- settings -->
+  <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/HRP2JSKNTS_RH_LOAD_OBJ.cnoid" />
+  <arg name="SIMULATOR_NAME" default="HRP2JSKNTS(Robot)0" />
+  <arg name="BRIDGE_SIMULATOR_NAME" default="RobotHardware_choreonoid0" />
+  <arg name="MODEL_FILE"     default="$(find hrp2_models)/HRP2JSKNTS_WITH_3HAND_for_OpenHRP3/HRP2JSKNTSmain.wrl"/>
+  <arg name="COLLADA_FILE"   default="$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSKNTS_WH_SENSORS.urdf"/>
+  <arg name="CONF_FILE"      default="$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSKNTS.conf"/>
+  <arg name="HRPSYS_PY_PKG"  default="hrpsys_choreonoid_tutorials"/>
+  <arg name="HRPSYS_PY_NAME" default="hrp2jsknts_rh_setup.py" />
+  <arg name="CONTROLLER_CONFIG" default="$(find hrpsys_ros_bridge_tutorials)/models/HRP2JSKNTS_controller_config.yaml" />
+
+  <env name="CHOREONOID_ROBOT" value="HRP2JSKNTS" /> <!-- for JAXONCustomizer -->
+  <env name="CUSTOMIZER_CONF_FILE" value="$(find hrpsys_choreonoid_tutorials)/config/HRP2JSKNTSCustomizer.yaml"/> <!-- for JAXONCustomizer -->
+  <env name="EXTRA_CHOREONOID_OBJS" value="$(arg ENVIRONMENT_YAML)" />  <!-- for add_objects.py -->
+
+  <!-- hrpsys -->
+  <include file="$(find hrpsys_choreonoid)/launch/startup_choreonoid.launch" >
+    <!-- robot dependant settings -->
+    <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    <arg name="PROJECT_FILE"   value="$(arg PROJECT_FILE)" />
+    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+    <arg name="CONF_FILE"      value="$(arg CONF_FILE)"/>
+    <arg name="HRPSYS_PY_PKG"  value="$(arg HRPSYS_PY_PKG)"/>
+    <arg name="HRPSYS_PY_NAME" value="$(arg HRPSYS_PY_NAME)"/>
+  </include>
+
+  <!-- ros_bridge -->
+  <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
+  <include file="$(find hrpsys_choreonoid)/launch/ros_bridge_choreonoid.launch" >
+    <!-- robot dependant settings -->
+    <arg name="USE_ROBOTHARDWARE" value="true" />
+    <arg name="SIMULATOR_NAME" value="$(arg BRIDGE_SIMULATOR_NAME)" />
+    <arg name="MODEL_FILE"     value="$(arg MODEL_FILE)" />
+    <arg name="COLLADA_FILE"   value="$(arg COLLADA_FILE)"/>
+    <arg name="CONF_FILE"      value="$(arg CONF_FILE)" />
+  </include>
+
+  <!-- additional ros_bridge -->
+  <rosparam>
+    footcoords:
+        invert_odom_init: false
+  </rosparam>
+  <include file="$(find jsk_footstep_controller)/launch/hrp2jsk_footcoords.launch"
+           if="$(arg LAUNCH_FOOTCOORDS)" />
+  <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server"
+        if="$(arg LAUNCH_FOOTCOORDS)" />
+
+  <!-- vision setting -->
+  <arg name="VISION_CONNECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/launch/hrp2jsknts_vision_connect.launch" />
+  <group if="$(arg USE_VISION)">
+    <include file="$(arg VISION_CONNECT_FILE)" >
+      <arg name="SIMULATOR_NAME" value="$(arg SIMULATOR_NAME)" />
+    </include>
+  </group>
+
+</launch>

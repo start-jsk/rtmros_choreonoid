@@ -1,0 +1,5 @@
+obj1:
+  name: 'VISIBLE_FLOOR'
+  file: '$(find choreonoid)/share/model/misc/floor.body'
+  translation: [0, 0, -0.1]
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]

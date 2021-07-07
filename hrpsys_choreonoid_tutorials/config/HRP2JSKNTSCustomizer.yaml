@@ -1,0 +1,21 @@
+bush:
+  RLEG:
+    springT: 3.3e5
+    dampingT: 3.3e2
+    springR: 1.0e3
+    dampingR: 1.0
+  LLEG:
+    springT: 3.3e5
+    dampingT: 3.3e2
+    springR: 1.0e3
+    dampingR: 1.0
+  RARM:
+    springT: 1.0e5
+    dampingT: 1.0e3
+    springR: 3.0e2
+    dampingR: 3.0
+  LARM:
+    springT: 1.0e5
+    dampingT: 1.0e3
+    springR: 3.0e2
+    dampingR: 3.0
