@@ -49,12 +49,11 @@
              (map float-vector #'(lambda (a b) (* a b)) vec w)))
      vec))
   (:norm () (norm (send self :vector)))
-#|
   (:pitch-roll ()
    (let ((rpyangles (car (rpy-angle (send coords :rot)))))
-     (float-vector (elt rpyangles 1) (elt rpyangles 2))
+     (float-vector (- (elt rpyangles 1)) (elt rpyangles 2))
      ))
-|#
+  #|
   (:pitch-roll ()
    (let* ((z #f(0 0 1))
           (y #f(0 1 0))
@@ -73,6 +72,7 @@
                    (v. z ly)
                    )
      ))
+  |#
   ;;
   (:posture-distance (state)
    (norm (v- (send state :posture) (send self :posture))))
