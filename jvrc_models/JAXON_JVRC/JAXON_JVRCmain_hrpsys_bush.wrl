@@ -1486,17 +1486,16 @@ DEF JAXON_JVRC Humanoid {
                               rotorInertia 7.0e-6
                               children [
                                 DEF LLEG_LINK5_UPPER Segment {
-                                  # mass 1.552
-                                  mass 2.752
-                                  centerOfMass 0.00064 0.00264 -0.05633
-                                  momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
+                                  mass 1.574
+                                  centerOfMass 0.00129 -0.00007 -0.07425
+                                  momentsOfInertia [0.00284031 0.00000330 -0.00005559 0.00000330 0.00418291 -0.00000218 -0.00005559 -0.00000218 0.00413640 ]
                                   children [
                                     Surface {
                                       visual [ Inline { url "LLEG_LINK5_U.wrl" } ] # visual
                                       # collision [ Inline { url "collision_directory/LLEG_LINK5_U.wrl" } ] # collision
                                     } # surface
                                     DEF lfsensor ForceSensor {
-                                      translation 0 0 -0.069
+                                      translation 0 0 -0.0825
                                       rotation 0 1 0 3.14159
                                       sensorId 1
                                     }
@@ -1505,7 +1504,7 @@ DEF JAXON_JVRC Humanoid {
                                 DEF LLEG_BUSH_Z Joint {
                                   jointType "slide"
                                   jointAxis 0 0 1
-                                  translation 0 0 -0.077 # bush center
+                                  translation 0 0 -0.1025 # bush center
                                   llimit [-1.0]
                                   ulimit [ 1.0]
                                   rotorInertia 0.07
@@ -1735,18 +1734,17 @@ DEF JAXON_JVRC Humanoid {
                               rotorInertia 7.0e-6
                               children [
                                 DEF RLEG_LINK5_UPPER Segment {
-                                  # mass 1.552
-                                  mass 2.752
-                                  centerOfMass 0.00064 -0.00264 -0.05633
-                                  momentsOfInertia [0.00442296 0 0 0 0.00907896 0 0 0 0.00902826 ]
+                                  mass 1.574
+                                  centerOfMass 0.00129 0.00007 -0.07425
+                                  momentsOfInertia [0.00284031 0.00000330 -0.00005559 0.00000330 0.00418291 -0.00000218 -0.00005559 -0.00000218 0.00413640 ]
                                   children [
                                     Surface {
                                       visual [ Inline { url "RLEG_LINK5_U.wrl" } ] # visual
                                       # collision [ Inline { url "collision_directory/RLEG_LINK5_U.wrl" } ] # collision
                                     } # surface
                                     DEF rfsensor ForceSensor {
-                                      translation 0 0 -0.069
-                                      rotation 0 1 0 3.14159
+                                      translation 0 0 -0.0825
+                                      rotation 1 0 0 3.14159
                                       sensorId 0
                                     } #Sensor
                                   ]
@@ -1754,7 +1752,7 @@ DEF JAXON_JVRC Humanoid {
                                 DEF RLEG_BUSH_Z Joint {
                                   jointType "slide"
                                   jointAxis 0 0 1
-                                  translation 0 0 -0.077 # bush center
+                                  translation 0 0 -0.1025 # bush center
                                   llimit [-1.0]
                                   ulimit [ 1.0]
                                   rotorInertia 0.07
