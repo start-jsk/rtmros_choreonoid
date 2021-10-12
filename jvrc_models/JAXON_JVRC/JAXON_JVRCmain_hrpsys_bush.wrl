@@ -795,12 +795,9 @@ DEF JAXON_JVRC Humanoid {
                                                         #      Inline { url "../models/checkerboard.wrl" }
                                                         #   ]
                                                         #}
-                                                        # DEF lhsensor ForceSensor{
-                                                        #   translation 0 0 -0.069
-                                                        #   rotation 0.382683 -0.92388 -0 3.14159
-                                                        DEF lhsensor ForceSensor{ ## 2019/07 wacoh
-                                                          translation 0 0 -0.09
-                                                          rotation 0 1 0 3.14159
+                                                        DEF lhsensor ForceSensor{ ##2021/10 leptorino
+                                                          translation 0 0 -0.076
+                                                          rotation 0.25881904510252074 -0.9659258262890683 0 3.14159
                                                           sensorId 3
                                                         } #Sensor
                                                       ]
@@ -1172,12 +1169,9 @@ DEF JAXON_JVRC Humanoid {
                                                         #      Inline { url "../models/checkerboard.wrl" }
                                                         #   ]
                                                         #}
-                                                        # DEF rhsensor ForceSensor{
-                                                        #   translation 0 0 -0.069
-                                                        #   rotation -0.382683 -0.92388 -0 3.14159
-                                                        DEF rhsensor ForceSensor{ ## 2019/07 wacoh
-                                                          translation 0 0 -0.09
-                                                          rotation 0 1 0 3.14159
+                                                        DEF rhsensor ForceSensor{ ##2021/10 leptorino
+                                                          translation 0 0 -0.076
+                                                          rotation 0.9659258262890683 0.25881904510252074 0 3.14159
                                                           sensorId 2
                                                         } #Sensor
                                                       ]
