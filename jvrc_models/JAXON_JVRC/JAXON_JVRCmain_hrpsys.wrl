@@ -451,6 +451,42 @@ DEF JAXON_JVRC Humanoid {
                               fieldOfView 1.5708
                               sensorId 1
                             }
+                            DEF l515 VisionSensor { # for l515
+                               name "l515"
+                               translation 0.140 0.0 -0.015
+                               # Rotate 180[deg] around X axis because OpenHRP3 camera -Z axis equals to ROS camera Z axis
+                               rotation 0.357407 -0.357407 -0.862856 1.71777
+                               type "COLOR"
+                               sensorId 7
+                               width 960
+                               height 540
+                               fieldOfView 0.750492 #43deg (70deg x 43deg)
+                               frameRate 30
+                            }
+                            DEF l515_DEPTH VisionSensor { # for l515 DEPTH
+                               name "l515_DEPTH"
+                               translation 0.140 0.0 -0.015
+                               # Rotate 180[deg] around X axis because OpenHRP3 camera -Z axis equals to ROS camera Z axis
+                               rotation 0.357407 -0.357407 -0.862856 1.71777
+                               type "COLOR_DEPTH"
+                               sensorId 8
+                               width 640
+                               height 480
+                               fieldOfView 0.959931 #55deg (70deg x 55deg)
+                               frameRate 30
+                            }
+                            DEF t265 VisionSensor { # for t265
+                               name "t265"
+                               translation 0.1459 0.0775 0.0085
+                               # Rotate 180[deg] around X axis because OpenHRP3 camera -Z axis equals to ROS camera Z axis
+                               rotation 0.57735026919 -0.57735026919 -0.57735026919 2.094395102393
+                               type "MONO"
+                               sensorId 9
+                               width 848
+                               height 800
+                               fieldOfView 2.84489 #163deg fisheye like
+                               frameRate 30
+                            }
                             DEF HeadMainLight SpotLightDevice {
                               translation 0.1005 0.035 0.05425
                               # rotation
