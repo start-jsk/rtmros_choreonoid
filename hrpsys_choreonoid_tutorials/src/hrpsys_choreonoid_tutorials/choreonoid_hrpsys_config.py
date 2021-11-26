@@ -17,10 +17,10 @@ class ChoreonoidHrpsysConfiguratorOrg(URATAHrpsysConfigurator):
             ['ic', "ImpedanceController"],
             ['abc', "AutoBalancer"],
             ['st', "Stabilizer"],
-            ['co', "CollisionDetector"],
-            # ['tc', "TorqueController"],
-            # ['te', "ThermoEstimator"],
             # ['tl', "ThermoLimiter"],
+            # ['te', "ThermoEstimator"],
+            # ['tc', "TorqueController"],
+            ['co', "CollisionDetector"],
             ['hes', "EmergencyStopper"],
             ['el', "SoftErrorLimiter"],
             ['log', "DataLogger"]
