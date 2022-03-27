@@ -59,6 +59,182 @@ PROTO Segment [
   }
 }
 
+PROTO PressureSensor [
+ exposedField SFFloat maxPressure -1
+ exposedField SFVec3f translation 0 0 0
+ exposedField SFRotation rotation 0 0 1 0
+ exposedField SFInt32 sensorId -1
+]
+{
+   Transform {
+      translation IS translation
+      rotation IS rotation
+   }
+}
+
+PROTO PhotoInterrupter [
+ exposedField SFVec3f transmitter 0 0 0
+ exposedField SFVec3f receiver 0 0 0
+ exposedField SFInt32 sensorId -1
+]
+{
+   Transform{
+      children [
+         Transform{
+            translation IS transmitter
+         }
+         Transform{
+            translation IS receiver
+         }
+      ]
+   }
+}
+
+PROTO CylinderSensorZ [
+ exposedField    SFFloat    maxAngle      -1
+ exposedField    SFFloat    minAngle        0
+ exposedField    MFNode     children        [ ]
+]
+{
+   Transform{
+      rotation 1 0 0 1.5708
+      children [
+         DEF SensorY CylinderSensor{
+            maxAngle IS maxAngle
+            minAngle IS minAngle
+         }
+         DEF AxisY Transform{
+            children [
+               Transform{
+                  rotation 1 0 0 -1.5708
+                  children IS children
+               }
+            ]
+         }
+      ]
+   }
+   ROUTE SensorY.rotation_changed TO AxisY.set_rotation
+}
+
+PROTO CylinderSensorY [
+ exposedField    SFFloat    maxAngle      -1
+ exposedField    SFFloat    minAngle        0
+ exposedField    MFNode     children        [ ]
+]
+{
+   Transform{
+      rotation 0 1 0 1.5708
+      children [
+         DEF SensorX CylinderSensor{
+            maxAngle IS maxAngle
+            minAngle IS minAngle
+         }
+         DEF AxisX Transform{
+            children [
+               Transform{
+                  rotation 0 1 0 -1.5708
+                  children IS children
+               }
+            ]
+         }
+      ]
+   }
+   ROUTE SensorX.rotation_changed TO AxisX.set_rotation
+}
+
+PROTO CylinderSensorX [
+ exposedField    SFFloat    maxAngle      -1
+ exposedField    SFFloat    minAngle        0
+ exposedField    MFNode     children        [ ]
+]
+{
+   Transform{
+      rotation 0 0 1 -1.5708
+      children [
+         DEF SensorZ CylinderSensor{
+            maxAngle IS maxAngle
+            minAngle IS minAngle
+         }
+         DEF AxisZ Transform{
+            children [
+               Transform{
+                  rotation 0 0 1 1.5708
+                  children IS children
+               }
+            ]
+         }
+      ]
+   }
+   ROUTE SensorZ.rotation_changed TO AxisZ.set_rotation
+}
+
+PROTO WheelFront [
+]
+{
+   Shape {
+      geometry Cylinder {
+         radius 0.04
+         height 0.12
+      }
+      appearance Appearance {
+         material Material {}
+      }
+   }
+}
+
+NavigationInfo {
+   avatarSize    0.5
+   headlight     TRUE
+   type  ["EXAMINE", "ANY"]
+}
+
+Background {
+   skyColor 0.4 0.6 0.4
+}
+
+Viewpoint {
+   position    3 0 0.835
+   orientation 0.5770 0.5775 0.5775 2.0935
+}
+
+PROTO Surface [
+ field   SFVec3f bboxCenter 0 0 0
+ field   SFVec3f bboxSize   -1 -1 -1
+ field   MFNode  visual     [ ]
+ field   MFNode  collision  [ ]
+ eventIn MFNode  addChildren
+ eventIn MFNode  removeChildren
+]
+{
+   Group {
+      addChildren    IS addChildren
+      bboxCenter     IS bboxCenter
+      bboxSize       IS bboxSize
+      children       IS visual
+      removeChildren IS removeChildren
+   }
+}
+
+# If the body includes closed loop links, plase define the following proto node
+PROTO ExtraJoint [
+ # Name of the first link
+ exposedField SFString link1Name ""
+ # Name of the second link
+ exposedField SFString link2Name ""
+ # Connection (joint) position in the local coordinate of the first link
+ exposedField SFVec3f  link1LocalPos 0 0 0
+ # Connection (joint) position in the local coordinate of the second link
+ exposedField SFVec3f  link2LocalPos 0 0 0
+ # Constraint axes. Two or three orthogonal axes must be specified
+ # in the local coordinate of the first link
+ #exposedField MFVec3f  axes [ ]
+ # Possible types are "piston" and "ball"
+ exposedField SFString jointType "ball"
+ exposedField SFVec3f  jointAxis 0 1 0
+]
+{
+}
+
 PROTO Humanoid [
   field           SFVec3f    bboxCenter            0 0 0
   field           SFVec3f    bboxSize              -1 -1 -1
@@ -1362,6 +1538,72 @@ DEF JAXON_JVRC Humanoid {
                                     } #Sensor
                                   ]
                                 } #Segment LLEG_LINK5
+                                DEF LLEG_JOINT6 Joint { #wheel main
+                                  jointType "rotate"
+                                  jointId 38
+                                  jointAxis 0 1 0
+                                  translation 0.12 0.0 0.02
+                                  rotation 1 0 0 0
+                                  llimit [-100]
+                                  ulimit [ 100]
+                                  lvlimit [-38.0]
+                                  uvlimit [ 38.0]
+                                  # climit[50.55]
+                                  # torqueConst 0.1
+                                  # gearRatio 3.5
+                                  climit[80]
+                                  torqueConst 0.02
+                                  gearRatio 1000.0
+                                  rotorInertia 1.0e-6
+                                  children [
+                                    DEF LLEG_LINK6_MOV CylinderSensorY {
+                                      maxAngle 100
+                                      minAngle -100
+                                      children [
+                                        DEF LLEG_LINK6 Segment {
+                                          centerOfMass 0.0 -0.0455 0.0
+                                          #mass 1.6718
+                                          mass 2.4689 # 1.6718 + 0.5072 + 0.2899
+                                          momentsOfInertia [0.0038 0.0 0.0 0.0 0.0041 0.0 0.0 0.0 0.0038]
+                                          children [
+                                            DEF WHEEL_FRONT_L WheelFront {}
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                } # End of LLEG_JOINT6
+                                DEF LLEG_JOINT7 Joint { #wheel rear
+                                  jointType "rotate"
+                                  jointId 40
+                                  jointAxis 0 1 0
+                                  translation -0.11 0.0 0.02
+                                  rotation 1 0 0 0
+                                  llimit [-100]
+                                  ulimit [ 100]
+                                  lvlimit [-17.4444]
+                                  uvlimit [ 17.4444]
+                                  climit[50.55]
+                                  torqueConst 0.1
+                                  gearRatio 1000
+                                  rotorInertia 1.0e-6
+                                  children [
+                                    DEF LLEG_LINK7_MOV CylinderSensorY {
+                                      maxAngle 100
+                                      minAngle -100
+                                      children [
+                                        DEF LLEG_LINK7 Segment {
+                                          centerOfMass 0.0 -0.0387 0.0
+                                          mass 0.5072
+                                          momentsOfInertia [0.0011 0.0 0.0 0.0 0.0001 0.0 0.0 0.0 0.0011]
+                                          children [
+                                            DEF WHEEL_REAR_L WheelFront {}
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                } # End of LLEG_JOINT7
                               ]
                             } #Joint LLEG_JOINT5
                           ]
@@ -1553,6 +1795,72 @@ DEF JAXON_JVRC Humanoid {
                                     } #Sensor
                                   ]
                                 } #Segment RLEG_LINK5
+                                DEF RLEG_JOINT6 Joint { #wheel main
+                                  jointType "rotate"
+                                  jointId 37
+                                  jointAxis 0 1 0
+                                  translation 0.12 0.0 0.02
+                                  rotation 1 0 0 0
+                                  llimit [-100]
+                                  ulimit [ 100]
+                                  lvlimit [-38.0]
+                                  uvlimit [ 30.0]
+                                  # climit[50.55]
+                                  # torqueConst 0.1
+                                  # gearRatio 3.5
+                                  climit[80]
+                                  torqueConst 0.02
+                                  gearRatio 1000.0
+                                  rotorInertia 1.0e-6
+                                  children [
+                                    DEF RLEG_LINK6_MOV CylinderSensorY {
+                                      maxAngle 100
+                                      minAngle -100
+                                      children [
+                                        DEF RLEG_LINK6 Segment {
+                                          centerOfMass 0.0 0.0455 0.0
+                                          #mass 1.6718
+                                          mass 2.4689 # 1.6718 + 0.5072 + 0.2899
+                                          momentsOfInertia [0.0038 0.0 0.0 0.0 0.0041 0.0 0.0 0.0 0.0038]
+                                          children [
+                                            DEF WHEEL_FRONT_R WheelFront {}
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                } # End of RLEG_JOINT6
+                                DEF RLEG_JOINT7 Joint { #wheel center
+                                  jointType "rotate"
+                                  jointId 39
+                                  jointAxis 0 1 0
+                                  translation -0.11 0.0 0.02
+                                  rotation 1 0 0 0
+                                  llimit [-100]
+                                  ulimit [ 100]
+                                  lvlimit [-17.4444]
+                                  uvlimit [ 17.4444]
+                                  climit[50.55]
+                                  torqueConst 0.1
+                                  gearRatio 1000
+                                  rotorInertia 1.0e-6
+                                  children [
+                                    DEF RLEG_LINK7_MOV CylinderSensorY {
+                                      maxAngle 100
+                                      minAngle -100
+                                      children [
+                                        DEF RLEG_LINK7 Segment {
+                                          centerOfMass 0.0 -0.0387 0.0
+                                          mass 0.5072
+                                          momentsOfInertia [0.0011 0.0 0.0 0.0 0.0001 0.0 0.0 0.0 0.0011]
+                                          children [
+                                            DEF WHEEL_REAR_R WheelFront {}
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                } # End of RLEG_JOINT7
                               ]
                             } #Joint RLEG_JOINT5
                           ]
@@ -1597,12 +1905,16 @@ DEF JAXON_JVRC Humanoid {
     USE LLEG_JOINT3,
     USE LLEG_JOINT4,
     USE LLEG_JOINT5,
+    USE LLEG_JOINT6,
+    USE LLEG_JOINT7,
     USE RLEG_JOINT0,
     USE RLEG_JOINT1,
     USE RLEG_JOINT2,
     USE RLEG_JOINT3,
     USE RLEG_JOINT4,
     USE RLEG_JOINT5,
+    USE RLEG_JOINT6,
+    USE RLEG_JOINT7,
     USE LARM_F_JOINT0,
     USE LARM_F_JOINT1,
     USE RARM_F_JOINT0,
@@ -1638,12 +1950,16 @@ DEF JAXON_JVRC Humanoid {
     USE LLEG_LINK3,
     USE LLEG_LINK4,
     USE LLEG_LINK5,
+    USE LLEG_LINK6,
+    USE LLEG_LINK7,
     USE RLEG_LINK0,
     USE RLEG_LINK1,
     USE RLEG_LINK2,
     USE RLEG_LINK3,
     USE RLEG_LINK4,
     USE RLEG_LINK5,
+    USE RLEG_LINK6,
+    USE RLEG_LINK7,
     USE LARM_FINGER0,
     USE LARM_FINGER1,
     USE RARM_FINGER0,
