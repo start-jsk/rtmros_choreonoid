@@ -52,8 +52,8 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
         # Latter four 0.0 are for hands.
         self.seq_svc.setJointAngles(self.jaxonResetPose()+[0.0, 0.0, 0.0, 0.0] , 1.0)
         self.abc_svc.startAutoBalancer(['rleg','lleg'])
-        self.ic_svc.startImpedanceController("larm")
-        self.ic_svc.startImpedanceController("rarm")
+        # self.ic_svc.startImpedanceController("larm")
+        # self.ic_svc.startImpedanceController("rarm")
         self.startStabilizer()
 
 if __name__ == '__main__':
