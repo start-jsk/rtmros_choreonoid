@@ -42,7 +42,6 @@ class JAXON_RED_HrpsysConfigurator(ChoreonoidHrpsysConfiguratorOrg):
 
     def startABSTIMP (self):
         ### not used on hrpsys
-        self.el_svc.setServoErrorLimit("motor_joint",   sys.float_info.max)
         self.el_svc.setServoErrorLimit("RARM_F_JOINT0", sys.float_info.max)
         self.el_svc.setServoErrorLimit("RARM_F_JOINT1", sys.float_info.max)
         self.el_svc.setServoErrorLimit("LARM_F_JOINT0", sys.float_info.max)
