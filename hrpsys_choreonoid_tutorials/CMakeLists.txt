@@ -183,6 +183,7 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_STEPS.cnoid.in ${PROJECT_S
 ###
 if (${jsk_models_FOUND})
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_FLAT.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_BLUE_RH_LOAD_OBJ.cnoid @ONLY)
 endif()
 
 ###

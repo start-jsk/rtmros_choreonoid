@@ -4,6 +4,7 @@
   <arg name="USE_ROBOTHARDWARE" default="true" />
   <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/flat.yaml" />
   <arg name="LOAD_OBJECTS" default="false" />
+  <arg name="NO_SCENE" default="false" />
 
   <arg name="KILL_SERVERS" default="false" />
   <arg name="NOSIM" default="false" />
@@ -16,14 +17,19 @@
   <arg name="LAUNCH_FOOTCOORDS" default="true" />
 
   <!-- robot dependant settings -->
-  <arg if="$(arg USE_ROBOTHARDWARE)"
-       name="taskname" value="RH_$(arg TASK)" />
-  <arg unless="$(arg USE_ROBOTHARDWARE)"
-       name="taskname" value="$(arg TASK)" />
   <arg if="$(arg LOAD_OBJECTS)"
-       name="taskname_last" value="LOAD_OBJ" />
+       name="taskname" value="LOAD_OBJ" />
   <arg unless="$(arg LOAD_OBJECTS)"
-       name="taskname_last" value="$(arg taskname)" />
+       name="taskname" value="$(arg TASK)" />
+  <arg if="$(arg USE_ROBOTHARDWARE)"
+       name="taskname_obj" value="RH_$(arg taskname)" />
+  <arg unless="$(arg USE_ROBOTHARDWARE)"
+       name="taskname_obj" value="$(arg taskname)" />
+  <arg if="$(arg NO_SCENE)"
+       name="taskname_last" value="$(arg taskname_obj)_NW" />
+  <arg unless="$(arg NO_SCENE)"
+       name="taskname_last" value="$(arg taskname_obj)" />
+
   <env if="$(arg LOAD_OBJECTS)"
        name="EXTRA_CHOREONOID_OBJS" value="$(arg ENVIRONMENT_YAML)" />
 

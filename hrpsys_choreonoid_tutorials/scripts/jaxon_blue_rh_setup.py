@@ -13,16 +13,16 @@ class JAXON_BLUE_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
             ['kf', "KalmanFilter"],
             ['vs', "VirtualForceSensor"],
             ['rmfo', "RemoveForceSensorLinkOffset"],
+            ['octd', "ObjectContactTurnaroundDetector"],
             ['es', "EmergencyStopper"],
+            ['rfu', "ReferenceForceUpdater"],
             ['ic', "ImpedanceController"],
             ['abc', "AutoBalancer"],
-            ['st', "Stabilizer"],
-            ['co', "CollisionDetector"],
-            # ['tc', "TorqueController"],
-            # ['te', "ThermoEstimator"],
+            # ['st', "Stabilizer"],
             # ['tl', "ThermoLimiter"],
-            ['rfu', "ReferenceForceUpdater"],
-            ['octd', "ObjectContactTurnaroundDetector"],
+            # ['te', "ThermoEstimator"],
+            # ['tc', "TorqueController"],
+            ['co', "CollisionDetector"],
             ['hes', "EmergencyStopper"],
             ['el', "SoftErrorLimiter"],
             ['log', "DataLogger"]
@@ -42,18 +42,17 @@ class JAXON_BLUE_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
 
     def startABSTIMP (self):
         ### not used on hrpsys
-        # self.el_svc.setServoErrorLimit("motor_joint",   sys.float_info.max)
         # self.el_svc.setServoErrorLimit("RARM_F_JOINT0", sys.float_info.max)
         # self.el_svc.setServoErrorLimit("RARM_F_JOINT1", sys.float_info.max)
         # self.el_svc.setServoErrorLimit("LARM_F_JOINT0", sys.float_info.max)
         # self.el_svc.setServoErrorLimit("LARM_F_JOINT1", sys.float_info.max)
         ###
-        self.startAutoBalancer()
         # Suppress limit over message and behave like real robot that always angle-vector is in seq.
         # Latter four 0.0 are for hands.
         self.seq_svc.setJointAngles(self.jaxonResetPose(), 1.0)
-        self.ic_svc.startImpedanceController("larm")
-        self.ic_svc.startImpedanceController("rarm")
+        self.abc_svc.startAutoBalancer(['rleg','lleg'])
+        # self.ic_svc.startImpedanceController("larm")
+        # self.ic_svc.startImpedanceController("rarm")
         self.startStabilizer()
 
 if __name__ == '__main__':
