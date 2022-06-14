@@ -718,9 +718,9 @@ DEF JAXON_JVRC Humanoid {
                                                       momentsOfInertia [0.020752 -1.298590e-06 8.029880e-06 -1.298590e-06 0.0198 0.000501 8.029880e-06 0.000501 0.013089]
                                                       children [
                                                         Inline { url "LARM_LINK7_JVRC.wrl" }
-                                                        DEF lhsensor ForceSensor{ ##2021/10 leptorino
+                                                        DEF lhsensor ForceSensor{ ##2022/05 leptrino
                                                           translation 0 0 -0.076
-                                                          rotation 0.25881904510252074 -0.9659258262890683 0 3.14159
+                                                          rotation 0 1 0 3.14159
                                                           sensorId 3
                                                         } #Sensor
                                                       ]
@@ -1054,9 +1054,9 @@ DEF JAXON_JVRC Humanoid {
                                                       momentsOfInertia [0.020752 1.298590e-06 -8.029880e-06 1.298590e-06 0.0198 -0.000501 -8.029880e-06 -0.000501 0.013089]
                                                       children [
                                                         Inline { url "RARM_LINK7_JVRC.wrl" }
-                                                        DEF rhsensor ForceSensor{ ##2021/10 leptorino
+                                                        DEF rhsensor ForceSensor{ ##2022/05 leptrino
                                                           translation 0 0 -0.076
-                                                          rotation 0.9659258262890683 0.25881904510252074 0 3.14159
+                                                          rotation 1 0 0 3.14159
                                                           sensorId 2
                                                         } #Sensor
                                                       ]
