@@ -94,8 +94,8 @@
 
 (defun ball-is-goalq ()
   (let ((pos (send (get-coords-on-simulation :robot "BALL") :worldpos)))
-    (and (> (elt pos 0) 9600)
-         (> 1560 (elt pos 1) -1560)
+    (and (> (elt pos 1) 9600)
+         (> 1560 (elt pos 0) -1560)
          (> 2200 (elt pos 2) 0))
     ))
 

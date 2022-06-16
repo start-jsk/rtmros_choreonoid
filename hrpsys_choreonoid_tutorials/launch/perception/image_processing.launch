@@ -1,5 +1,6 @@
 <launch>
   <arg name="gui" default="false" />
+  <arg name="resized_gui" default="false" />
   <arg name="MANAGER" value="color_filter_nodelet_manager" />
   <arg name="INPUT_LEFT_IMAGE"  default="/multisense_local/left/image_rect_color" />
   <arg name="INPUT_RIGHT_IMAGE" default="/multisense_local/right/image_rect_color" />
@@ -65,6 +66,32 @@
     <node name="right_image_view"
           pkg="image_view2" type="image_view2">
       <remap from="image" to="right_hsv_color/image" />
+    </node>
+  </group>
+  <group if="$(arg resized_gui)">
+    <node name="left_resize"
+          pkg="nodelet" type="nodelet"
+          args="load image_proc/resize $(arg MANAGER)" >
+      <remap from="image" to="left_hsv_color/image" />
+      <param name="scale_width" value="0.5" />
+      <param name="scale_height" value="0.5" />
+    </node>
+    <node name="right_resize"
+          pkg="nodelet" type="nodelet"
+          args="load image_proc/resize $(arg MANAGER)" >
+      <remap from="image" to="right_hsv_color/image" />
+      <param name="scale_width" value="0.5" />
+      <param name="scale_height" value="0.5" />
+    </node>
+    <node name="left_image_view_resized"
+          pkg="image_view2" type="image_view2">
+      <remap from="image" to="left_resize/image" />
+      <param name="autosize" value="true" />
+    </node>
+    <node name="right_image_view_resized"
+          pkg="image_view2" type="image_view2">
+      <remap from="image" to="right_resize/image" />
+      <param name="autosize" value="true" />
     </node>
   </group>
 
