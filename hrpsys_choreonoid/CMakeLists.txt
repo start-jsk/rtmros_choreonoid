@@ -3,6 +3,9 @@ project(hrpsys_choreonoid)
 
 cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0057 NEW)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
 find_package(catkin REQUIRED COMPONENTS roscpp tf)
 
@@ -70,6 +73,24 @@ if(${cnoid-plugin_FOUND})
   ##
   add_executable(ImuROSBridge src/ImuROSBridge.cpp src/ImuROSBridgeComp.cpp)
   target_link_libraries(ImuROSBridge ${openrtm_aist_LIBRARIES} ${cnoid-plugin_LIBRARIES} ${Boost_LIBRARIES} ${hrpsys_LIBRARIES} ${catkin_LIBRARIES})
+  ##
+  add_library(CnoidHrpsysChoreonoidPlugin src/CnoidHrpsysChoreonoidPlugin.cpp src/ClockPublisherItem.cpp src/ClockShmItem.cpp src/OdometryPublisherItem.cpp src/DepthCameraPublisherItem.cpp)
+  target_link_libraries(CnoidHrpsysChoreonoidPlugin ${catkin_LIBRARIES} ${cnoid-plugin_LIBRARIES})
+  set_target_properties(CnoidHrpsysChoreonoidPlugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CHOREONOID_PLUGIN_DIR})
+  ##
+  find_package(trans_vm REQUIRED)
+  add_library(BridgeShmController src/BridgeShmController.cpp)
+  target_link_libraries(BridgeShmController ${catkin_LIBRARIES} ${cnoid-plugin_LIBRARIES})
+  target_include_directories(BridgeShmController PUBLIC ${trans_vm_SOURCE_PREFIX}/include)
+  set_target_properties(BridgeShmController PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CHOREONOID_PLUGIN_DIR}/simplecontroller
+    LIBRARY_OUTPUT_DIRECTORY ${CHOREONOID_PLUGIN_DIR}/simplecontroller
+    PREFIX "")
+  ##
+  add_library(ShmTimePeriodicExecutionContext src/ShmTimePeriodicExecutionContext.cpp)
+  target_link_libraries(ShmTimePeriodicExecutionContext ${openrtm_aist_LIBRARIES} ${catkin_LIBRARIES})
+  set_target_properties(ShmTimePeriodicExecutionContext PROPERTIES PREFIX "")
+  set_target_properties(ShmTimePeriodicExecutionContext PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 endif()
 
 ## Build only choreonoid iob

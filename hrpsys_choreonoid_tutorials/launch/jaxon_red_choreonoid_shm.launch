@@ -1,0 +1,50 @@
+<launch>
+  <!-- robot dependant settings -->
+  <arg name="COLLADA_FILE"  default="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_SENSORS.urdf"/>
+  <arg name="MODEL_FILE" default="$(find jvrc_models)/JAXON_JVRC/JAXON_JVRCmain_hrpsys.wrl"/>
+  <arg name="CONF_FILE" default="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC.conf"/>
+  <arg name="HRPSYS_PY_PKG"  default="hrpsys_ros_bridge_tutorials"/>
+  <arg name="HRPSYS_PY_NAME" default="jaxon_red_hrpsys_config.py" />
+  <arg name="CONTROLLER_CONFIG" default="$(find hrpsys_choreonoid_tutorials)/models/JAXON_JVRC_controller_config.yaml" />
+
+  <!-- hrpsys -->
+  <arg name="hrpsys_opt_rtc_config_args" default=""/>
+  <include file="$(find hrpsys_tools)/launch/hrpsys.launch" >
+    <arg name="CONF_FILE" value="$(arg CONF_FILE)"/>
+    <arg name="PROJECT_FILE" value=""/>
+    <arg name="USE_RTCD" value="true"/>
+    <arg name="SIMULATOR_NAME" value="RobotHardware0"/>
+    <arg name="MODEL_FILE" value="$(arg MODEL_FILE)"/>
+    <arg name="HRPSYS_PY_PKG" value="$(arg HRPSYS_PY_PKG)"/>
+    <arg name="HRPSYS_PY_NAME" default="$(arg HRPSYS_PY_NAME)"/>
+    <arg name="OUTPUT" default="screen"/>
+    <arg name="hrpsys_load_path" default="$(find hrpsys_choreonoid)/lib,$(find hrpsys_trans_bridge)/lib,$(find hrpsys)/lib"/>
+    <arg name="hrpsys_opt_rtc_config_args" value="$(arg hrpsys_opt_rtc_config_args)"/>
+    <arg name="hrpsys_periodic_rate" value="500"/>
+    <arg name="hrpsys_periodic_type" value="ShmTimePeriodicExecutionContext" />
+    <arg name="hrpsys_preload_rtc" value="RobotHardware.so,ShmTimePeriodicExecutionContext.so"/>
+  </include>
+
+  <!-- ros_bridge -->
+  <rosparam command="load" file="$(arg CONTROLLER_CONFIG)" />
+  <include file="$(find hrpsys_ros_bridge)/launch/hrpsys_ros_bridge.launch" >
+    <arg name="MODEL_FILE" default="$(arg MODEL_FILE)" />
+    <arg name="COLLADA_FILE" default="$(arg COLLADA_FILE)" />
+    <arg name="CONF_FILE" default="$(arg CONF_FILE)" />
+    <arg name="SIMULATOR_NAME" default="RobotHardware0" />
+    <arg name="USE_ROBOTHARDWARE" default="true" />
+    <arg name="USE_IMPEDANCECONTROLLER" default="true" />
+    <arg name="USE_WALKING" default="true" />
+    <arg name="USE_ROBOT_POSE_EKF" default="false" />
+    <arg name="USE_SOFTERRORLIMIT" default="true" />
+    <arg name="USE_VELOCITY_OUTPUT" value="true" />
+    <arg name="USE_EMERGENCYSTOPPER" default="true" />
+    <arg name="USE_COLLISIONCHECK" default="true" />
+    <arg name="USE_REFERENCEFORCEUPDATER" value="true" />
+    <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" default="true" />
+    <arg name="USE_DIAGNOSTICS" default="false" />
+    <arg name="periodic_rate" value="100" />
+    <env name="RTC_CONNECTION_CHECK_ONCE" value="true" />
+  </include>
+
+</launch>
