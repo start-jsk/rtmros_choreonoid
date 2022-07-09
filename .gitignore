@@ -1,0 +1,23 @@
+# Emacs
+*~
+\#*\#
+.\#*
+
+# generated files from hrpsys_choreonoid
+hrpsys_choreonoid/lib/
+hrpsys_choreonoid/*.so
+
+# generated files from jvrc_models
+jvrc_models/model
+
+# generated files from hrpsys_ros_bridge/cmake/compile_robot_model.cmake
+hrpsys_choreonoid_tutorials/models/*.conf
+hrpsys_choreonoid_tutorials/models/*.xml
+hrpsys_choreonoid_tutorials/models/*.l
+hrpsys_choreonoid_tutorials/models/*.dae
+hrpsys_choreonoid_tutorials/models/*/*.dae
+hrpsys_choreonoid_tutorials/models/*.urdf
+
+# generated files from hrpsys_choreonoid_tutorials configure_file
+hrpsys_choreonoid_tutorials/config/*.cnoid
+hrpsys_choreonoid_tutorials/config/*.yaml
