@@ -46,9 +46,9 @@
   <arg name="CONNECT_CONSTRAINT_FORCE_LOGGER_PORTS" default="false"/>
 
   <!-- unstable RTC -->
-  <arg name="USE_WALKING"               default="true" />
-  <arg name="USE_IMPEDANCECONTROLLER"   default="true" />
-  <arg name="USE_EMERGENCYSTOPPER"    default="true"  />
+  <arg name="USE_WALKING"               default="false" />
+  <arg name="USE_IMPEDANCECONTROLLER"   default="false" />
+  <arg name="USE_EMERGENCYSTOPPER"    default="false"  />
   <arg name="USE_REFERENCEFORCEUPDATER" default="false" />
   <arg name="USE_OBJECTCONTACTTURNAROUNDDETECTOR" default="false" />
 

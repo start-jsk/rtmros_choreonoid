@@ -3,10 +3,29 @@
 from hrpsys_choreonoid_tutorials.choreonoid_hrpsys_config import *
 
 class TABLIS_HrpsysConfigurator(ChoreonoidHrpsysConfigurator):
+    def getRTCList(self):
+        return [
+            ['seq', "SequencePlayer"],
+            ['sh', "StateHolder"],
+            ['fk', "ForwardKinematics"],
+            ['kf', "KalmanFilter"],
+            ['rmfo', "RemoveForceSensorLinkOffset"],
+            # ['octd', "ObjectContactTurnaroundDetector"],
+            # ['es', "EmergencyStopper"],
+            # ['rfu', "ReferenceForceUpdater"],
+            # ['ic', "ImpedanceController"],
+            # ['abc', "AutoBalancer"],
+            # ['st', "Stabilizer"],
+            # ['co', "CollisionDetector"],
+            # ['hes', "EmergencyStopper"],
+            # ['el', "SoftErrorLimiter"],
+            ['log', "DataLogger"]
+            ]
     def startABSTIMP (self):
-        self.startAutoBalancer()
-        self.setResetPose()
-        self.startStabilizer()
+        #self.startAutoBalancer()
+        #self.setResetPose()
+        #self.startStabilizer()
+        pass
 
 if __name__ == '__main__':
     hcf = TABLIS_HrpsysConfigurator("TABLIS")
