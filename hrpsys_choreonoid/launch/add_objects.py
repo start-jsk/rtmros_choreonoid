@@ -2,7 +2,7 @@ from __future__ import print_function ### for python2 compatible with python3
 
 from cnoid.Base import *
 from cnoid.BodyPlugin import *
-from cnoid.OpenRTMPlugin import *
+#from cnoid.OpenRTMPlugin import *
 from cnoid.PythonSimScriptPlugin import *
 import cnoid.Body
 
@@ -46,6 +46,9 @@ def parse_filename(filestr):
         pkgname = ret.group(1)
         #packagepath = commands.getoutput('rospack find %s'%(pkgname))
         packagepath = subprocess.check_output(['rospack', 'find', pkgname])
+        # From python3, bytes needs to be converted to str manually.
+        if not isinstance(packagepath, str):
+            packagepath = packagepath.decode()
         packagepath = packagepath.rstrip('\n')
         filestr = filestr[:ret.start(0)] + packagepath + filestr[ret.end(0):]
 
