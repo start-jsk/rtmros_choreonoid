@@ -24,6 +24,7 @@
   <run_depend>hrpsys</run_depend>
   <run_depend>openhrp3</run_depend>
   <run_depend>choreonoid</run_depend>
+  <run_depend>hrpsys_ros_bridge</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>openrtm_aist</run_depend>
