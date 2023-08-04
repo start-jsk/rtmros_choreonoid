@@ -1,0 +1,29 @@
+format: ChoreonoidBody
+formatVersion: 1.0
+name: GymPoleBox
+links:
+  -
+    name: GymPoleBox
+    translation: [ 0, 0, 0 ]
+    rotation: [ 0, 0, 1, 0 ]
+    jointType: fixed
+    material: { viscosity: 0.5 }
+    elements:
+      -
+        type: RigidBody
+        centerOfMass: [ 0, 0, 0 ]
+        mass: 0.5
+        inertia: [
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1 ]
+        elements:
+          Shape:
+            geometry:
+              type: Box
+              size: [ 0.04, 5.0, 0.04 ]
+            appearance: &BodyAppearance
+              material:
+                diffuseColor: [ 0.8, 0.8, 0.8 ]
+                specularColor: [ 0.2, 0.8, 0.2 ]
+                shininess: 0.6

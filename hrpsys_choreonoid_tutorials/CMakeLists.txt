@@ -178,6 +178,8 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJE
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_HILLS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_HILLS.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_STEPS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_STEPS.cnoid @ONLY)
 
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_GYM.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_GYM.cnoid @ONLY)
+
 ###
 #JAXON_BLUE cnoid
 ###
