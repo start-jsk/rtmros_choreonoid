@@ -57,3 +57,6 @@ Reset(sometimes work well)
 ```
 $ rtmlaunch hrpsys_choreonoid_tutorials chidori_choreonoid.launch
 ```
+
+### JAXON 引越しデモ
+https://gitlab.jsk.imi.i.u-tokyo.ac.jp/t-hiraoka/carry_demo_jaxon
