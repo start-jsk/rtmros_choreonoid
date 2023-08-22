@@ -4,6 +4,8 @@ project(hrpsys_choreonoid_tutorials)
 find_package(catkin REQUIRED COMPONENTS hrpsys_ros_bridge euscollada rostest rospy
   euslisp xacro control_msgs roseus hrpsys_ros_bridge_tutorials jvrc_models hrpsys_choreonoid)
 
+find_package(choreonoid)
+
 include(FindPkgConfig)
 pkg_check_modules(openhrp3 REQUIRED openhrp3.1)
 set(OPENHRP_SAMPLE_DIR ${openhrp3_PREFIX}/share/OpenHRP-3.1/sample)
@@ -173,6 +175,7 @@ configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_FLAT.cnoid.in ${PROJECT
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_LOAD_OBJ_NW.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_RH_LOAD_OBJ.cnoid @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_SHM_LOAD_OBJ.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_SHM_LOAD_OBJ.cnoid @ONLY)
 
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_TUTORIALS.cnoid @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/JAXON_RED_HILLS.cnoid.in ${PROJECT_SOURCE_DIR}/config/JAXON_RED_HILLS.cnoid @ONLY)
@@ -206,3 +209,4 @@ endif()
 configure_file(${PROJECT_SOURCE_DIR}/config/flat.yaml.in ${PROJECT_SOURCE_DIR}/config/flat.yaml @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/soccer.yaml.in ${PROJECT_SOURCE_DIR}/config/soccer.yaml @ONLY)
 configure_file(${PROJECT_SOURCE_DIR}/config/footsal.yaml.in ${PROJECT_SOURCE_DIR}/config/footsal.yaml @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/config/floor.yaml.in ${PROJECT_SOURCE_DIR}/config/floor.yaml @ONLY)

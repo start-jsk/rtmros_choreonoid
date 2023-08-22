@@ -1,0 +1,13 @@
+<launch>
+  <arg name="ENVIRONMENT_YAML" default="$(find hrpsys_choreonoid_tutorials)/config/floor.yaml" />
+  <env name="EXTRA_CHOREONOID_OBJS" value="$(arg ENVIRONMENT_YAML)" />
+
+  <!-- robot dependant settings -->
+  <arg name="PROJECT_FILE" default="$(find hrpsys_choreonoid_tutorials)/config/JAXON_RED_SHM_LOAD_OBJ.cnoid" />
+
+  <!-- choreonoid -->
+  <param name="use_sim_time" value="true"/>
+  <node pkg="hrpsys_choreonoid" type="run_choreonoid.sh" name="choreonoid" output="screen"
+        args="$(arg PROJECT_FILE) --start-simulation"/>
+
+</launch>
